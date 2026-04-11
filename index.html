@@ -270,6 +270,43 @@
       font-size: 22px;
     }
 
+    /* === Section Mouse Glow (generalized) === */
+    .section-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%),
+        rgba(139, 34, 82, 0.07), transparent 60%);
+      pointer-events: none;
+    }
+
+    /* === Tab Crossfade === */
+    .tab-panel { transition: opacity 0.35s var(--ease-out-quint), transform 0.35s var(--ease-out-quint); }
+
+    /* === Step Circle Pulse === */
+    @keyframes stepPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(139, 34, 82, 0.2); }
+      50% { box-shadow: 0 0 0 12px rgba(139, 34, 82, 0); }
+    }
+    .step-pulse { animation: stepPulse 3s ease-in-out infinite; }
+
+    /* === Logo Stagger Reveal === */
+    @keyframes logoSlideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .logo-item { opacity: 0; }
+    .logo-item.revealed { animation: logoSlideUp 0.5s var(--ease-out-quint) forwards; }
+
+    /* === Vacancy Filter Pills === */
+    .filter-pill {
+      padding: 6px 18px; border-radius: 9999px; font-size: 13px; font-weight: 600;
+      color: #8A8380; background: rgba(139,34,82,0.06);
+      transition: all 0.3s ease; border: none;
+    }
+    .filter-pill.active { background: var(--primary); color: white; }
+
+    /* === Vacancy Cards === */
+    .vacancy-card { transition: opacity 0.4s var(--ease-out-quint), transform 0.4s var(--ease-out-quint); }
+
     /* === Accessibility === */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -294,6 +331,7 @@
       <div class="hidden md:flex items-center gap-8">
         <a href="#about" class="text-sm text-muted hover:text-primary transition-colors duration-200">About</a>
         <a href="#services" class="text-sm text-muted hover:text-primary transition-colors duration-200">Services</a>
+        <a href="#vacancies" class="text-sm text-muted hover:text-primary transition-colors duration-200">Vacancies</a>
         <a href="#how-it-works" class="text-sm text-muted hover:text-primary transition-colors duration-200">Process</a>
         <a href="#contact" class="magnetic inline-flex items-center px-5 py-2 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 shadow-warm">
           Get Started
@@ -307,7 +345,7 @@
 
 
   <!-- ==================== HERO ==================== -->
-  <section id="hero" class="min-h-screen relative overflow-hidden bg-dark flex items-center">
+  <section id="hero" class="min-h-screen relative overflow-hidden bg-dark flex items-center" data-mouse-glow>
     <!-- Mouse-reactive glow -->
     <div class="hero-mouse-glow" id="hero-glow"></div>
 
@@ -389,8 +427,12 @@
 
 
   <!-- ==================== ANTI-PITCH ==================== -->
-  <section id="anti-pitch" class="py-20 lg:py-28 px-6 bg-warm">
-    <div class="max-w-5xl mx-auto">
+  <section id="anti-pitch" class="py-20 lg:py-28 px-6 bg-warm relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="floating w-48 h-48 rounded-full bg-primary/[0.03] absolute -top-10 right-10 blur-3xl" style="animation-delay:-5s"></div>
+      <div class="floating w-32 h-32 rounded-full bg-secondary/[0.04] absolute bottom-10 left-1/4 blur-3xl" style="animation-delay:-12s"></div>
+    </div>
+    <div class="max-w-5xl mx-auto relative z-10">
       <div class="text-center mb-14 reveal">
         <h2 class="font-accent text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">I'm not your usual recruiter.</h2>
         <p class="text-muted text-lg max-w-xl mx-auto">And that's exactly the point.</p>
@@ -430,13 +472,13 @@
         </div>
 
         <!-- Bio -->
-        <div class="reveal">
-          <h2 class="font-accent text-3xl md:text-4xl font-bold text-primary mb-6">Meet the Founder</h2>
-          <div class="space-y-4 text-lg leading-relaxed text-text-main/85">
-            <p>10+ years in HR and recruitment. From talent acquisition to senior HR leadership, across Jordan and the broader MENA region. Built teams from scratch. Coached executives. Reviewed thousands of CVs.</p>
-            <p>And then one day, I realized something.</p>
-            <p class="font-semibold text-primary">I wasn't meant to work in corporate HR. I was meant to connect people with where they belong.</p>
-            <p>That's why I built HireFound. Not just another recruitment agency. A boutique matchmaker for meaningful careers and lasting team success. Quality always comes before quantity.</p>
+        <div>
+          <h2 class="font-accent text-3xl md:text-4xl font-bold text-primary mb-6 reveal">Meet the Founder</h2>
+          <div class="space-y-4 text-lg leading-relaxed text-text-main/85 reveal-stagger">
+            <p class="reveal-child">10+ years in HR and recruitment. From talent acquisition to senior HR leadership, across Jordan and the broader MENA region. Built teams from scratch. Coached executives. Reviewed thousands of CVs.</p>
+            <p class="reveal-child">And then one day, I realized something.</p>
+            <p class="reveal-child font-semibold text-primary">I wasn't meant to work in corporate HR. I was meant to connect people with where they belong.</p>
+            <p class="reveal-child">That's why I built HireFound. Not just another recruitment agency. A boutique matchmaker for meaningful careers and lasting team success. Quality always comes before quantity.</p>
           </div>
 
           <!-- Stats -->
@@ -500,17 +542,17 @@
       <!-- Candidate services -->
       <div id="candidates" class="tab-panel hidden">
         <div class="grid md:grid-cols-3 gap-6 reveal-stagger">
-          <div class="reveal-child revealed premium-card p-8 shadow-card">
+          <div class="reveal-child premium-card p-8 shadow-card">
             <div class="icon-box mb-4">💫</div>
             <h3 class="text-lg font-bold mb-2">Career Matchmaking</h3>
             <p class="text-muted text-sm leading-relaxed">Tell me where you want to go. I'll find the opportunities that actually match - not just what's available, but what's right.</p>
           </div>
-          <div class="reveal-child revealed premium-card p-8 shadow-card">
+          <div class="reveal-child premium-card p-8 shadow-card">
             <div class="icon-box mb-4">✨</div>
             <h3 class="text-lg font-bold mb-2">CV Optimization</h3>
             <p class="text-muted text-sm leading-relaxed">Your CV should tell your story, not just list your jobs. I'll help you make it impossible to ignore.</p>
           </div>
-          <div class="reveal-child revealed premium-card p-8 shadow-card">
+          <div class="reveal-child premium-card p-8 shadow-card">
             <div class="icon-box mb-4">🎤</div>
             <h3 class="text-lg font-bold mb-2">Interview Preparation</h3>
             <p class="text-muted text-sm leading-relaxed">Nervous? Don't be. We'll practice until you walk in there owning the room. I know what they're looking for.</p>
@@ -531,28 +573,119 @@
 
       <div class="grid md:grid-cols-3 gap-8 md:gap-4 reveal-stagger" id="steps-grid">
         <div class="reveal-child text-center relative">
-          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-light text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
+          <div data-step-circle class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-light text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
             💬
           </div>
           <div class="hidden md:block step-connector" data-step-line="1"></div>
           <h3 class="text-xl font-bold mb-3">We Talk</h3>
           <p class="text-muted leading-relaxed px-2">Tell me everything. The role, the culture, the dream. I listen like it matters - because it does.</p>
         </div>
+        <!-- Mobile connector -->
+        <div class="md:hidden flex justify-center"><div class="w-0.5 h-8 bg-gradient-to-b from-primary to-secondary rounded-full"></div></div>
         <div class="reveal-child text-center relative">
-          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-secondary to-secondary-light text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
+          <div data-step-circle class="w-16 h-16 rounded-full bg-gradient-to-br from-secondary to-secondary-light text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
             🎯
           </div>
           <div class="hidden md:block step-connector" data-step-line="2"></div>
           <h3 class="text-xl font-bold mb-3">We Match</h3>
           <p class="text-muted leading-relaxed px-2">I go find your person. Not the most available - the most right.</p>
         </div>
+        <!-- Mobile connector -->
+        <div class="md:hidden flex justify-center"><div class="w-0.5 h-8 bg-gradient-to-b from-secondary to-success rounded-full"></div></div>
         <div class="reveal-child text-center">
-          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-success to-emerald-400 text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
+          <div data-step-circle class="w-16 h-16 rounded-full bg-gradient-to-br from-success to-emerald-400 text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
             🌱
           </div>
           <h3 class="text-xl font-bold mb-3">You Grow</h3>
           <p class="text-muted leading-relaxed px-2">The hire sticks. The career takes off. And I'm still just a message away.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== OPEN VACANCIES ==================== -->
+  <section id="vacancies" class="py-20 lg:py-28 px-6 bg-gradient-to-b from-warm to-warm-dark/40 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="floating w-40 h-40 rounded-full bg-secondary/[0.04] absolute top-10 right-20 blur-3xl" style="animation-delay:-8s"></div>
+    </div>
+    <div class="max-w-5xl mx-auto relative z-10">
+      <div class="text-center mb-6 reveal">
+        <h2 class="font-accent text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">Open Vacancies</h2>
+        <p class="text-muted text-lg max-w-xl mx-auto">Here's what I'm working on right now. Something catch your eye? Let's talk.</p>
+      </div>
+
+      <!-- Filter pills -->
+      <div class="flex flex-wrap justify-center gap-2 mb-10 reveal">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="hospitality">Hospitality</button>
+        <button class="filter-pill" data-filter="tech">Tech</button>
+        <button class="filter-pill" data-filter="fnb">F&B</button>
+        <button class="filter-pill" data-filter="aviation">Aviation</button>
+      </div>
+
+      <!-- Vacancy cards -->
+      <div class="grid md:grid-cols-2 gap-6 reveal-stagger" id="vacancy-grid">
+        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="hospitality">
+          <div class="flex items-start justify-between mb-3">
+            <div class="icon-box">🏨</div>
+            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Hospitality</span>
+          </div>
+          <h3 class="text-lg font-bold mb-1">Hotel Operations Manager</h3>
+          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مدير عمليات فندقية</p>
+          <p class="text-muted text-sm leading-relaxed mb-3">5-star property in Amman. 5+ years in hotel ops. Someone who lives and breathes hospitality.</p>
+          <div class="flex items-center gap-3 text-xs text-muted mb-4">
+            <span>📍 Amman, Jordan</span><span>&#x2022;</span><span>Full-time</span>
+          </div>
+          <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Hotel%20Operations%20Manager%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
+        </div>
+
+        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="tech">
+          <div class="flex items-start justify-between mb-3">
+            <div class="icon-box">💻</div>
+            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Tech</span>
+          </div>
+          <h3 class="text-lg font-bold mb-1">Senior Frontend Developer</h3>
+          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مطور واجهات أمامية أول</p>
+          <p class="text-muted text-sm leading-relaxed mb-3">React/Next.js. Fintech startup scaling fast. Remote-friendly for the right person.</p>
+          <div class="flex items-center gap-3 text-xs text-muted mb-4">
+            <span>📍 Amman / Remote</span><span>&#x2022;</span><span>Full-time</span>
+          </div>
+          <a href="mailto:yasmin@hirefound.com?subject=Application:%20Senior%20Frontend%20Developer" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Send CV &rarr;</a>
+        </div>
+
+        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="fnb">
+          <div class="flex items-start justify-between mb-3">
+            <div class="icon-box">🍽️</div>
+            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">F&B</span>
+          </div>
+          <h3 class="text-lg font-bold mb-1">Restaurant General Manager</h3>
+          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مدير عام مطعم</p>
+          <p class="text-muted text-sm leading-relaxed mb-3">Premium dining concept. Needs someone who knows service, not just management.</p>
+          <div class="flex items-center gap-3 text-xs text-muted mb-4">
+            <span>📍 Amman, Jordan</span><span>&#x2022;</span><span>Full-time</span>
+          </div>
+          <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Restaurant%20GM%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
+        </div>
+
+        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="aviation">
+          <div class="flex items-start justify-between mb-3">
+            <div class="icon-box">✈️</div>
+            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Aviation</span>
+          </div>
+          <h3 class="text-lg font-bold mb-1">Flight Services Supervisor</h3>
+          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مشرف خدمات الطيران</p>
+          <p class="text-muted text-sm leading-relaxed mb-3">Ground handling or cabin crew leadership. Regional airline, great growth path.</p>
+          <div class="flex items-center gap-3 text-xs text-muted mb-4">
+            <span>📍 MENA Region</span><span>&#x2022;</span><span>Full-time</span>
+          </div>
+          <a href="mailto:yasmin@hirefound.com?subject=Application:%20Flight%20Services%20Supervisor" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Send CV &rarr;</a>
+        </div>
+      </div>
+
+      <div class="text-center mt-10 reveal">
+        <p class="text-muted text-sm">Don't see your fit? I'm always looking for great people.</p>
+        <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I%20don't%20see%20a%20matching%20role%20but%20I'd%20love%20to%20connect." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 mt-3 px-6 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm">Send Me Your CV Anyway</a>
       </div>
     </div>
   </section>
@@ -566,10 +699,10 @@
       <div class="text-center mb-20 reveal">
         <p class="text-muted text-xs font-semibold uppercase tracking-[0.2em] mb-8">As Seen In</p>
         <div class="flex flex-wrap items-center justify-center gap-8 md:gap-14">
-          <span class="text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300">TEDx Zarqa University</span>
-          <span class="text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300">Leaders of Arabia</span>
-          <span class="text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300">Arab Icons</span>
-          <span class="text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300">Career Spotlight Jordan</span>
+          <span class="logo-item text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300" data-logo-index="0">TEDx Zarqa University</span>
+          <span class="logo-item text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300" data-logo-index="1">Leaders of Arabia</span>
+          <span class="logo-item text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300" data-logo-index="2">Arab Icons</span>
+          <span class="logo-item text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300" data-logo-index="3">Career Spotlight Jordan</span>
         </div>
       </div>
 
@@ -604,7 +737,8 @@
 
 
   <!-- ==================== CONTACT ==================== -->
-  <section id="contact" class="py-20 lg:py-28 px-6 bg-dark text-white relative overflow-hidden">
+  <section id="contact" class="py-20 lg:py-28 px-6 bg-dark text-white relative overflow-hidden" data-mouse-glow>
+    <div class="section-glow"></div>
     <div class="absolute inset-0 pointer-events-none">
       <div class="absolute inset-0 opacity-40" style="background: radial-gradient(circle at 30% 40%, rgba(139, 34, 82, 0.2), transparent 50%);"></div>
       <div class="absolute inset-0 opacity-30" style="background: radial-gradient(circle at 80% 70%, rgba(212, 165, 116, 0.15), transparent 50%);"></div>
@@ -616,9 +750,7 @@
         <p class="text-white/50 text-lg">Let's find them together.</p>
       </div>
 
-      <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
-        <!-- Left: WhatsApp + Social -->
-        <div class="flex-1 text-center lg:text-left reveal">
+      <div class="text-center reveal">
           <p class="text-white/70 text-lg mb-6">The fastest way to reach me? WhatsApp. I'm usually one message away.</p>
           <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I%20found%20you%20through%20your%20website." target="_blank" rel="noopener"
              class="magnetic inline-flex items-center gap-3 px-8 py-4 bg-whatsapp text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg mb-8">
@@ -626,7 +758,7 @@
             Chat on WhatsApp
           </a>
 
-          <div class="flex items-center justify-center lg:justify-start gap-4 mt-4">
+          <div class="flex items-center justify-center gap-4 mt-4">
             <a href="https://www.linkedin.com/in/yasminblasi" target="_blank" rel="noopener" class="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors duration-200" aria-label="LinkedIn">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             </a>
@@ -637,25 +769,13 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             </a>
           </div>
-        </div>
-
-        <!-- Right: Contact form -->
-        <div class="flex-1 reveal">
-          <form onsubmit="return false;" class="space-y-4">
-            <input type="text" placeholder="Your name" class="form-input w-full px-5 py-3.5 bg-white/8 border border-white/10 rounded-2xl text-white placeholder-white/35 transition-all duration-300">
-            <input type="email" placeholder="Your email" class="form-input w-full px-5 py-3.5 bg-white/8 border border-white/10 rounded-2xl text-white placeholder-white/35 transition-all duration-300">
-            <textarea rows="4" placeholder="Tell me what you're looking for..." class="form-input w-full px-5 py-3.5 bg-white/8 border border-white/10 rounded-2xl text-white placeholder-white/35 transition-all duration-300 resize-none"></textarea>
-            <button type="submit" class="magnetic w-full py-3.5 bg-gradient-to-r from-primary to-primary-light text-white font-semibold rounded-full transition-all duration-300 hover:shadow-glow">
-              Send Message
-            </button>
-          </form>
-        </div>
       </div>
 
       <!-- Footer -->
       <div class="mt-24 pt-10 border-t border-white/8 text-center reveal">
         <img src="assets/hirefound-logo-white.svg" alt="HireFound" class="h-10 md:h-12 mx-auto mb-4 opacity-70">
         <p class="text-white/30 text-sm mb-1">Looking for a Hire? We've got you Found.</p>
+        <p class="text-white/30 text-sm font-accent italic mt-4">Find your match. Find your future.</p>
         <p class="text-white/20 text-xs mt-6">Made with love in Amman, Jordan</p>
         <p class="text-white/15 text-xs mt-3">&copy; 2025 HireFound. All rights reserved.</p>
       </div>
@@ -715,16 +835,16 @@
       });
 
 
-      /* === Hero Mouse Gradient (desktop) === */
+      /* === Section Mouse Glow (generalized) === */
       if (window.matchMedia('(hover: hover)').matches) {
-        const heroSection = document.getElementById('hero');
-        const glow = document.getElementById('hero-glow');
-        heroSection.addEventListener('mousemove', e => {
-          const r = heroSection.getBoundingClientRect();
-          const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
-          const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
-          glow.style.setProperty('--mx', x + '%');
-          glow.style.setProperty('--my', y + '%');
+        document.querySelectorAll('[data-mouse-glow]').forEach(section => {
+          const glow = section.querySelector('.section-glow, .hero-mouse-glow');
+          if (!glow) return;
+          section.addEventListener('mousemove', e => {
+            const r = section.getBoundingClientRect();
+            glow.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+            glow.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+          });
         });
       }
 
@@ -797,8 +917,34 @@
         pillTabs.forEach(b => b.classList.remove('active'));
         const activeBtn = document.querySelector(`.pill-tab[data-tab="${target}"]`);
         if (activeBtn) activeBtn.classList.add('active');
-        tabPanels.forEach(p => p.classList.add('hidden'));
-        document.getElementById(target).classList.remove('hidden');
+
+        const current = document.querySelector('.tab-panel:not(.hidden)');
+        const next = document.getElementById(target);
+        if (current === next) return;
+
+        // Fade out current panel
+        current.style.opacity = '0';
+        current.style.transform = 'translateY(12px)';
+
+        setTimeout(() => {
+          current.classList.add('hidden');
+          current.style.opacity = '';
+          current.style.transform = '';
+
+          // Reset children and show next panel
+          next.querySelectorAll('.reveal-child').forEach(c => c.classList.remove('revealed'));
+          next.classList.remove('hidden');
+          next.style.opacity = '0';
+          next.style.transform = 'translateY(12px)';
+
+          requestAnimationFrame(() => {
+            next.style.opacity = '1';
+            next.style.transform = 'translateY(0)';
+            next.querySelectorAll('.reveal-child').forEach((c, i) => {
+              setTimeout(() => c.classList.add('revealed'), i * 100);
+            });
+          });
+        }, 300);
       }
 
       pillTabs.forEach(btn => {
@@ -869,6 +1015,60 @@
         currentT = (currentT + 1) % testimonials.length;
         showTestimonial(currentT);
       }, 6000);
+
+
+      /* === Step Circle Pulse === */
+      const stepsGrid = document.getElementById('steps-grid');
+      if (stepsGrid) {
+        const pulseObs = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            document.querySelectorAll('[data-step-circle]').forEach((c, i) => {
+              setTimeout(() => c.classList.add('step-pulse'), 800 + i * 200);
+            });
+            pulseObs.unobserve(entry.target);
+          }
+        }, { threshold: 0.3 });
+        pulseObs.observe(stepsGrid);
+      }
+
+
+      /* === Logo Stagger Reveal === */
+      const logoWrap = document.querySelector('#trust .reveal');
+      if (logoWrap) {
+        const logObs = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            document.querySelectorAll('.logo-item').forEach(el => {
+              el.style.animationDelay = (el.dataset.logoIndex * 0.15) + 's';
+              el.classList.add('revealed');
+            });
+            logObs.unobserve(entry.target);
+          }
+        }, { threshold: 0.2 });
+        logObs.observe(logoWrap);
+      }
+
+
+      /* === Vacancy Filter === */
+      const filterBtns = document.querySelectorAll('.filter-pill');
+      const vacancyCards = document.querySelectorAll('.vacancy-card');
+      if (filterBtns.length) {
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const cat = btn.dataset.filter;
+            vacancyCards.forEach((card, i) => {
+              const show = cat === 'all' || card.dataset.category === cat;
+              card.style.opacity = '0';
+              card.style.transform = 'translateY(12px)';
+              setTimeout(() => {
+                card.style.display = show ? '' : 'none';
+                if (show) requestAnimationFrame(() => { card.style.opacity = '1'; card.style.transform = ''; });
+              }, 150 + i * 50);
+            });
+          });
+        });
+      }
 
     });
   </script>
