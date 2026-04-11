@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" role="img" aria-labelledby="hfm-title">
+  <title id="hfm-title">HireFound Logo - Monochrome Rose</title>
+
+  <!-- Icon: Compass-Pin in single color -->
+  <g transform="translate(10, 8)">
+    <circle cx="62" cy="62" r="54" fill="none" stroke="#9B2C5E" stroke-width="5" opacity="0.9"/>
+    <circle cx="62" cy="62" r="42" fill="#9B2C5E" opacity="0.05"/>
+
+    <!-- Left figure -->
+    <path d="M 34 42 Q 34 28, 48 28 Q 58 28, 58 38" fill="none" stroke="#9B2C5E" stroke-width="4.5" stroke-linecap="round"/>
+    <circle cx="48" cy="22" r="6.5" fill="#9B2C5E"/>
+
+    <!-- Right figure -->
+    <path d="M 90 42 Q 90 28, 76 28 Q 66 28, 66 38" fill="none" stroke="#9B2C5E" stroke-width="4.5" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="76" cy="22" r="6.5" fill="#9B2C5E" opacity="0.6"/>
+
+    <!-- Convergence -->
+    <path d="M 58 38 Q 62 50, 62 58 Q 62 50, 66 38" fill="none" stroke="#9B2C5E" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+
+    <!-- Pin -->
+    <path d="M 62 58 L 62 78" stroke="#9B2C5E" stroke-width="3.5" stroke-linecap="round" opacity="0.8"/>
+    <circle cx="62" cy="82" r="4.5" fill="#9B2C5E" opacity="0.8"/>
+
+    <!-- Compass dots -->
+    <circle cx="62" cy="5" r="2.5" fill="#9B2C5E" opacity="0.35"/>
+    <circle cx="119" cy="62" r="2.5" fill="#9B2C5E" opacity="0.35"/>
+    <circle cx="62" cy="119" r="2.5" fill="#9B2C5E" opacity="0.35"/>
+    <circle cx="5" cy="62" r="2.5" fill="#9B2C5E" opacity="0.35"/>
+  </g>
+
+  <!-- Wordmark - monochrome -->
+  <g transform="translate(150, 0)">
+    <text x="0" y="82" font-family="'Georgia', 'Palatino', 'Times New Roman', serif" font-size="58" font-weight="700" fill="#9B2C5E" letter-spacing="-1">
+      Hire</text>
+    <text x="143" y="82" font-family="'Georgia', 'Palatino', 'Times New Roman', serif" font-size="58" font-weight="700" fill="#9B2C5E" letter-spacing="-1" opacity="0.6">
+      Found</text>
+
+    <text x="2" y="112" font-family="'Helvetica Neue', 'Arial', sans-serif" font-size="13" fill="#9B2C5E" letter-spacing="3.5" opacity="0.5">
+      YOU WANT A HIRE? WE GOT YOU FOUND.</text>
+  </g>
+</svg>

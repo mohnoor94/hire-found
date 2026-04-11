@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" role="img" aria-labelledby="hf-title hf-desc">
+  <title id="hf-title">HireFound Logo</title>
+  <desc id="hf-desc">HireFound recruitment brand logo - a stylized compass-pin icon with the brand name</desc>
+  <defs>
+    <linearGradient id="rose-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9B2C5E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C8956C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gold-shimmer" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#C8956C;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#D4A574;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C8956C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="rose-deep" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#B13468;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7A2048;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Icon: Compass-Pin Matchmaker Symbol -->
+  <g transform="translate(10, 8)">
+    <!-- Outer circle - the compass/search ring -->
+    <circle cx="62" cy="62" r="54" fill="none" stroke="url(#rose-gold-grad)" stroke-width="5" opacity="0.9"/>
+
+    <!-- Inner warm glow circle -->
+    <circle cx="62" cy="62" r="42" fill="#9B2C5E" opacity="0.08"/>
+
+    <!-- Two abstract people/paths converging - the matchmaking concept -->
+    <!-- Left figure arc - representing the candidate -->
+    <path d="M 34 42 Q 34 28, 48 28 Q 58 28, 58 38" fill="none" stroke="#9B2C5E" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- Left figure head -->
+    <circle cx="48" cy="22" r="6.5" fill="#9B2C5E"/>
+
+    <!-- Right figure arc - representing the company -->
+    <path d="M 90 42 Q 90 28, 76 28 Q 66 28, 66 38" fill="none" stroke="#C8956C" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- Right figure head -->
+    <circle cx="76" cy="22" r="6.5" fill="#C8956C"/>
+
+    <!-- The meeting point / connection - a heart-like convergence -->
+    <path d="M 58 38 Q 62 50, 62 58 Q 62 50, 66 38" fill="none" stroke="url(#rose-gold-grad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Location pin point at bottom - "Found" -->
+    <path d="M 62 58 L 62 78" stroke="url(#rose-gold-grad)" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="62" cy="82" r="4.5" fill="url(#rose-gold-grad)"/>
+
+    <!-- Small compass dots at cardinal points -->
+    <circle cx="62" cy="5" r="2.5" fill="#C8956C" opacity="0.6"/>
+    <circle cx="119" cy="62" r="2.5" fill="#C8956C" opacity="0.6"/>
+    <circle cx="62" cy="119" r="2.5" fill="#9B2C5E" opacity="0.6"/>
+    <circle cx="5" cy="62" r="2.5" fill="#9B2C5E" opacity="0.6"/>
+
+    <!-- Subtle arc connectors - compass feel -->
+    <path d="M 20 30 Q 10 45, 10 62" fill="none" stroke="#9B2C5E" stroke-width="1.5" opacity="0.25" stroke-linecap="round"/>
+    <path d="M 104 30 Q 114 45, 114 62" fill="none" stroke="#C8956C" stroke-width="1.5" opacity="0.25" stroke-linecap="round"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g transform="translate(150, 0)">
+    <!-- "Hire" in deep rose -->
+    <text x="0" y="82" font-family="'Georgia', 'Palatino', 'Times New Roman', serif" font-size="58" font-weight="700" fill="#9B2C5E" letter-spacing="-1">
+      Hire</text>
+    <!-- "Found" in warm gold -->
+    <text x="143" y="82" font-family="'Georgia', 'Palatino', 'Times New Roman', serif" font-size="58" font-weight="700" fill="#C8956C" letter-spacing="-1">
+      Found</text>
+
+    <!-- Tagline -->
+    <text x="2" y="112" font-family="'Helvetica Neue', 'Arial', sans-serif" font-size="13" fill="#9B2C5E" letter-spacing="3.5" opacity="0.7">
+      YOU WANT A HIRE? WE GOT YOU FOUND.</text>
+  </g>
+</svg>
