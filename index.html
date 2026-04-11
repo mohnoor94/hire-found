@@ -441,8 +441,7 @@
                     <span class="typing-dot"></span>
                   </div>
                   <p id="typing-text" class="text-[#E9EDEF] text-sm leading-relaxed hidden"></p>
-                  <span id="typing-cursor" class="typing-cursor hidden"></span>
-                  <p id="typing-time" class="text-[#8696A0] text-[10px] text-right mt-1 hidden">now</p>
+                      <p id="typing-time" class="text-[#8696A0] text-[10px] text-right mt-1 hidden">now</p>
                 </div>
               </div>
             </div>
@@ -979,7 +978,6 @@
       const heroChatEl = document.getElementById('hero-chat');
       const typingDots = document.getElementById('typing-dots');
       const typingText = document.getElementById('typing-text');
-      const typingCursor = document.getElementById('typing-cursor');
       const typingTime = document.getElementById('typing-time');
       const chatMsg = "Looking for your next game-changer? Or maybe\u2026 you ARE one? \u{1F60F}";
 
@@ -990,8 +988,6 @@
       setTimeout(() => {
         typingDots.classList.add('hidden');
         typingText.classList.remove('hidden');
-        typingCursor.classList.remove('hidden');
-
         let i = 0;
         function typeChar() {
           if (i < chatMsg.length) {
@@ -1003,10 +999,7 @@
             setTimeout(typeChar, d);
           } else {
             // Typing done - show timestamp, hide cursor
-            setTimeout(() => {
-              typingCursor.classList.add('hidden');
-              typingTime.classList.remove('hidden');
-            }, 600);
+            setTimeout(() => typingTime.classList.remove('hidden'), 400);
           }
         }
         typeChar();
