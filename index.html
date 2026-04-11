@@ -307,6 +307,43 @@
     /* === Vacancy Cards === */
     .vacancy-card { transition: opacity 0.4s var(--ease-out-quint), transform 0.4s var(--ease-out-quint); }
 
+    /* === Hero Chat Bubble === */
+    .hero-chat {
+      opacity: 0;
+      transform: scale(0.92) translateY(8px);
+      transition: opacity 0.5s var(--ease-out-quint), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .hero-chat.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--secondary);
+      margin-left: 1px;
+      vertical-align: text-bottom;
+      animation: blink 0.75s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .typing-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--secondary);
+      animation: dotBounce 1.4s ease-in-out infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dotBounce {
+      0%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-6px); }
+    }
+
     /* === Accessibility === */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -372,6 +409,19 @@
             <span class="text-reveal-wrap"><span class="text-reveal" data-hero="2">HireFound</span></span>
           </h1>
           <p class="fade-up text-secondary-light text-base md:text-lg font-medium mb-6" data-hero="3">by Yasmin Blasi</p>
+
+          <!-- Chat bubble -->
+          <div id="hero-chat" class="hero-chat mb-8 flex justify-center lg:justify-start" data-hero="chat">
+            <div class="bg-white/[0.07] backdrop-blur-md border border-white/10 rounded-[4px_18px_18px_18px] px-5 py-3.5 max-w-sm">
+              <div id="typing-dots" class="flex gap-1.5 py-0.5">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+              </div>
+              <p id="typing-text" class="text-white/80 text-sm md:text-base leading-relaxed hidden"></p>
+              <span id="typing-cursor" class="typing-cursor hidden"></span>
+            </div>
+          </div>
 
           <!-- Tagline -->
           <p class="fade-up text-white/70 text-lg md:text-xl lg:text-2xl leading-relaxed max-w-lg mx-auto lg:mx-0 mb-10" data-hero="4">
@@ -867,14 +917,43 @@
 
       heroEls.forEach(el => {
         const step = el.dataset.hero;
-        setTimeout(() => {
-          if (el.classList.contains('text-reveal')) {
-            el.classList.add('visible');
-          } else {
-            el.classList.add('visible');
-          }
-        }, delays[step] || 500);
+        if (step === 'chat') return; // handled separately
+        setTimeout(() => el.classList.add('visible'), delays[step] || 500);
       });
+
+
+      /* === Chat Bubble Typing === */
+      const heroChatEl = document.getElementById('hero-chat');
+      const typingDots = document.getElementById('typing-dots');
+      const typingText = document.getElementById('typing-text');
+      const typingCursor = document.getElementById('typing-cursor');
+      const chatMsg = "Looking for your next game-changer? Or maybe\u2026 you ARE one? \u{1F60F}";
+
+      // Show bubble with dots after name appears
+      setTimeout(() => heroChatEl.classList.add('visible'), 1100);
+
+      // Dots out, start typing
+      setTimeout(() => {
+        typingDots.classList.add('hidden');
+        typingText.classList.remove('hidden');
+        typingCursor.classList.remove('hidden');
+
+        let i = 0;
+        function typeChar() {
+          if (i < chatMsg.length) {
+            const cp = chatMsg.codePointAt(i);
+            const ch = String.fromCodePoint(cp);
+            typingText.textContent += ch;
+            i += ch.length;
+            const d = '.,!?\u2026'.includes(ch) ? 100 : ch === ' ' ? 40 : Math.random() * 30 + 20;
+            setTimeout(typeChar, d);
+          } else {
+            // Typing done - hide cursor after a beat
+            setTimeout(() => typingCursor.classList.add('hidden'), 800);
+          }
+        }
+        typeChar();
+      }, 2000);
 
 
       /* === Section Mouse Glow (generalized) === */
