@@ -193,14 +193,79 @@
       border-color: #9B2C5E;
       box-shadow: 0 0 0 3px rgba(155, 44, 94, 0.1);
     }
+
+    /* ---- Professional easing (from web-animation-design skill) ---- */
+    :root {
+      --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    /* ---- Floating background shapes ---- */
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(15px, -25px) rotate(3deg); }
+      66% { transform: translate(-10px, -15px) rotate(-2deg); }
+    }
+    .floating-shape { animation: float 20s ease-in-out infinite; }
+
+    /* ---- Animated hero gradient ---- */
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .animated-gradient {
+      background-size: 200% 200%;
+      animation: gradientShift 12s ease infinite;
+    }
+
+    /* ---- 3D card tilt ---- */
+    .tilt-card {
+      transition: transform 0.4s var(--ease-out-quint), box-shadow 0.4s var(--ease-out-quint);
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    /* ---- Photo glow ring ---- */
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(155, 44, 94, 0.15), 0 0 60px rgba(200, 149, 108, 0.08); }
+      50% { box-shadow: 0 0 30px rgba(155, 44, 94, 0.25), 0 0 80px rgba(200, 149, 108, 0.15); }
+    }
+    .photo-glow { animation: glowPulse 4s ease-in-out infinite; }
+
+    /* ---- Button press feedback ---- */
+    a[href], button { transition: transform 0.15s var(--ease-out-quint); }
+    a[href]:active, button:active { transform: scale(0.97); }
+
+    /* ---- Text gradient ---- */
+    .text-gradient {
+      background: linear-gradient(135deg, #9B2C5E 0%, #C8956C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ---- Accessibility: reduced motion ---- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
   </style>
 </head>
 
 <body class="bg-warm text-text-main font-sans antialiased overflow-x-hidden">
 
   <!-- ==================== HERO ==================== -->
-  <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-6 py-12 relative" style="background: linear-gradient(170deg, #FFFAF5 0%, #FEF0E7 40%, #FDF0F4 70%, #FFFAF5 100%);">
-    <div class="max-w-lg w-full flex flex-col items-center text-center">
+  <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-6 py-12 relative animated-gradient" style="background: linear-gradient(170deg, #FFFAF5, #FEF0E7, #FDF0F4, #FFF5ED, #FFFAF5);">
+    <!-- Floating shapes -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="floating-shape w-72 h-72 rounded-full bg-primary/[0.04] absolute -top-16 -right-24 blur-3xl"></div>
+      <div class="floating-shape w-56 h-56 rounded-full bg-secondary/[0.05] absolute bottom-24 -left-16 blur-3xl" style="animation-delay:-7s"></div>
+      <div class="floating-shape w-40 h-40 rounded-full bg-success/[0.04] absolute top-1/3 right-1/4 blur-2xl" style="animation-delay:-13s"></div>
+    </div>
+    <div class="max-w-lg w-full flex flex-col items-center text-center relative z-10">
 
       <!-- Brand -->
       <div id="hero-photo" class="hero-fade mb-6">
@@ -286,11 +351,8 @@
 
         <!-- Photo -->
         <div class="reveal flex-shrink-0">
-          <div class="w-64 h-72 md:w-72 md:h-80 rounded-[24px] bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center shadow-card">
-            <div class="text-center">
-              <span class="text-6xl font-accent font-bold text-primary/30">YB</span>
-              <p class="text-muted text-xs mt-2">Photo coming soon</p>
-            </div>
+          <div class="w-64 h-72 md:w-72 md:h-80 rounded-[24px] overflow-hidden shadow-card photo-glow">
+            <img src="assets/yasmin.png" alt="Yasmin Blasi, Founder of HireFound" class="w-full h-full object-cover">
           </div>
         </div>
 
@@ -662,6 +724,24 @@
       document.querySelectorAll('.hero-cta').forEach(cta => {
         cta.addEventListener('click', () => switchTab(cta.dataset.switchTab));
       });
+
+      // ---- 3D Card tilt effect (desktop only) ----
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        document.querySelectorAll('.card-hover').forEach(card => {
+          card.classList.add('tilt-card');
+          card.addEventListener('mousemove', (e) => {
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width - 0.5;
+            const y = (e.clientY - r.top) / r.height - 0.5;
+            card.style.transform = `perspective(800px) rotateX(${y * -8}deg) rotateY(${x * 8}deg) scale(1.02)`;
+            card.style.boxShadow = `${x * -15}px ${y * 15 + 12}px 36px rgba(45,41,38,0.12)`;
+          });
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+            card.style.boxShadow = '';
+          });
+        });
+      }
 
     });
   </script>
