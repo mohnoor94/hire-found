@@ -5,48 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HireFound - You want a hire? We got you found.</title>
   <meta name="description" content="HireFound by Yasmin Blasi - Connecting the right people with where they belong. Executive search, recruitment, and career matchmaking across MENA.">
-
-  <!-- Open Graph -->
   <meta property="og:title" content="HireFound - You want a hire? We got you found.">
   <meta property="og:description" content="Connecting the right people with where they belong.">
   <meta property="og:type" content="website">
-
-  <!-- Favicon -->
   <link rel="icon" href="assets/hirefound-favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            'warm': '#FFFAF5',
-            'warm-dark': '#FFF0E5',
-            'primary': '#9B2C5E',
-            'primary-light': '#B8447A',
-            'primary-dark': '#7A2149',
-            'secondary': '#C8956C',
-            'secondary-light': '#D4A882',
+            warm: '#FFFAF5',
+            'warm-dark': '#F8F0EA',
+            primary: '#8B2252',
+            'primary-light': '#A63B6B',
+            'primary-dark': '#6D1A3F',
+            secondary: '#D4A574',
+            'secondary-light': '#E0BA92',
+            dark: '#1A1A2E',
+            'dark-light': '#252540',
             'text-main': '#2D2926',
-            'muted': '#8A8380',
-            'success': '#7A9E7E',
-            'whatsapp': '#25D366',
+            muted: '#8A8380',
+            success: '#7A9E7E',
+            whatsapp: '#25D366',
           },
           fontFamily: {
-            'sans': ['Inter', 'system-ui', 'sans-serif'],
-            'accent': ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            accent: ['"DM Serif Display"', 'Georgia', 'serif'],
           },
           boxShadow: {
-            'card': '0 4px 24px rgba(45, 41, 38, 0.06)',
-            'card-hover': '0 12px 36px rgba(45, 41, 38, 0.12)',
-            'warm': '0 4px 20px rgba(155, 44, 94, 0.1)',
-            'glow': '0 0 40px rgba(155, 44, 94, 0.15)',
+            card: '0 4px 24px rgba(45, 41, 38, 0.06)',
+            'card-hover': '0 12px 40px rgba(45, 41, 38, 0.12)',
+            warm: '0 4px 20px rgba(139, 34, 82, 0.12)',
+            glow: '0 0 40px rgba(139, 34, 82, 0.2)',
+            glass: '0 8px 32px rgba(0, 0, 0, 0.06)',
           },
         }
       }
@@ -54,256 +53,325 @@
   </script>
 
   <style>
-    /* ---- Hero entrance animations ---- */
-    .hero-fade {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .hero-fade.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ---- Chat bubble ---- */
-    .chat-bubble {
-      opacity: 0;
-      transform: scale(0.9) translateY(10px);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .chat-bubble.visible {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-
-    /* ---- Typing cursor ---- */
-    .typing-cursor {
-      display: inline-block;
-      width: 2px;
-      height: 1.15em;
-      background: #9B2C5E;
-      margin-left: 1px;
-      vertical-align: text-bottom;
-      animation: blink 0.75s step-end infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    /* ---- Typing dots ---- */
-    .typing-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #C8956C;
-      animation: dotBounce 1.4s ease-in-out infinite;
-    }
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes dotBounce {
-      0%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(-8px); }
-    }
-
-    /* ---- Scroll reveal ---- */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.revealed {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-child {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .reveal-child.revealed {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ---- Scroll indicator ---- */
-    @keyframes scrollBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(8px); }
-    }
-    .scroll-indicator {
-      animation: scrollBounce 2s ease-in-out infinite;
-    }
-
-    /* ---- WhatsApp pulse ---- */
-    @keyframes waPulse {
-      0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
-      70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-    }
-    .wa-pulse {
-      animation: waPulse 2.5s ease-in-out infinite;
-    }
-
-    /* ---- Card hover ---- */
-    .card-hover {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card-hover:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 36px rgba(45, 41, 38, 0.12);
-    }
-
-    /* ---- Tab underline ---- */
-    .tab-btn {
-      position: relative;
-      transition: color 0.3s ease;
-    }
-    .tab-btn::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 50%;
-      transform: translateX(-50%) scaleX(0);
-      width: 80%;
-      height: 3px;
-      background: #9B2C5E;
-      border-radius: 2px;
-      transition: transform 0.3s ease;
-    }
-    .tab-btn.active::after {
-      transform: translateX(-50%) scaleX(1);
-    }
-
-    /* ---- Step connector line ---- */
-    .step-line {
-      position: absolute;
-      top: 28px;
-      left: calc(50% + 32px);
-      right: calc(-50% + 32px);
-      height: 2px;
-      background: linear-gradient(90deg, #C8956C, #9B2C5E);
-      opacity: 0.3;
-    }
-
-    /* ---- Form focus ---- */
-    .form-input:focus {
-      outline: none;
-      border-color: #9B2C5E;
-      box-shadow: 0 0 0 3px rgba(155, 44, 94, 0.1);
-    }
-
-    /* ---- Professional easing (from web-animation-design skill) ---- */
+    /* === Variables === */
     :root {
       --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
       --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+      --ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+      --primary: #8B2252;
+      --secondary: #D4A574;
+      --dark: #1A1A2E;
     }
 
-    /* ---- Floating background shapes ---- */
+    /* === Custom Cursor (desktop only) === */
+    @media (hover: hover) and (pointer: fine) {
+      * { cursor: none !important; }
+    }
+    .custom-cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 20px; height: 20px;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s var(--ease-out-quint), height 0.3s var(--ease-out-quint),
+                  background 0.3s var(--ease-out-quint), border-color 0.3s var(--ease-out-quint);
+      mix-blend-mode: difference;
+      display: none;
+    }
+    .custom-cursor.active {
+      display: block;
+    }
+    .custom-cursor.hovering {
+      width: 44px; height: 44px;
+      background: rgba(139, 34, 82, 0.15);
+      border-color: var(--secondary);
+    }
+
+    /* === Sticky Nav === */
+    .nav-glass {
+      background: rgba(255, 250, 245, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(139, 34, 82, 0.08);
+    }
+
+    /* === Hero === */
+    .hero-mouse-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%),
+        rgba(139, 34, 82, 0.12), transparent 60%);
+      pointer-events: none;
+      transition: background 0.3s ease;
+    }
+
+    /* === Text Reveal Animation === */
+    .text-reveal-wrap { overflow: hidden; display: inline-block; }
+    .text-reveal {
+      display: inline-block;
+      transform: translateY(110%);
+      transition: transform 0.8s var(--ease-out-quint);
+    }
+    .text-reveal.visible { transform: translateY(0); }
+
+    /* === Fade Slide Up === */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s var(--ease-out-quint), transform 0.7s var(--ease-out-quint);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* === Scroll Reveal === */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s var(--ease-out-quint), transform 0.6s var(--ease-out-quint);
+    }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+    .reveal-child {
+      opacity: 0;
+      transform: translateY(24px) scale(0.97);
+      transition: opacity 0.5s var(--ease-out-quint), transform 0.5s var(--ease-out-quint);
+    }
+    .reveal-child.revealed { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* === Cards === */
+    .premium-card {
+      position: relative;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.4s var(--ease-out-quint), box-shadow 0.4s var(--ease-out-quint);
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .premium-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 0 0 4px 4px;
+      transition: width 0.5s var(--ease-out-quint);
+    }
+    .premium-card:hover::after { width: 100%; }
+    .premium-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(139, 34, 82, 0.12);
+    }
+
+    /* === Pill Tabs === */
+    .pill-tabs {
+      display: inline-flex;
+      background: rgba(139, 34, 82, 0.06);
+      border-radius: 9999px;
+      padding: 4px;
+    }
+    .pill-tab {
+      position: relative; z-index: 1;
+      padding: 10px 28px;
+      border-radius: 9999px;
+      font-size: 14px; font-weight: 600;
+      color: #8A8380;
+      transition: color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .pill-tab.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    /* === Step Connector === */
+    .step-connector {
+      position: absolute;
+      top: 32px;
+      left: calc(50% + 36px);
+      right: calc(-50% + 36px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 1.2s var(--ease-out-quint);
+    }
+    .step-connector.animate { transform: scaleX(1); }
+
+    /* === Testimonial Fade === */
+    .testimonial-item {
+      transition: opacity 0.6s ease, transform 0.4s var(--ease-out-quint);
+    }
+
+    /* === Photo Glow === */
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 30px rgba(139, 34, 82, 0.15), 0 0 80px rgba(212, 165, 116, 0.08); }
+      50% { box-shadow: 0 0 50px rgba(139, 34, 82, 0.25), 0 0 100px rgba(212, 165, 116, 0.15); }
+    }
+    .photo-glow { animation: glowPulse 4s ease-in-out infinite; }
+
+    /* === Floating Shapes === */
     @keyframes float {
       0%, 100% { transform: translate(0, 0) rotate(0deg); }
       33% { transform: translate(15px, -25px) rotate(3deg); }
       66% { transform: translate(-10px, -15px) rotate(-2deg); }
     }
-    .floating-shape { animation: float 20s ease-in-out infinite; }
+    .floating { animation: float 20s ease-in-out infinite; }
 
-    /* ---- Animated hero gradient ---- */
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+    /* === Scroll Bounce === */
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
     }
-    .animated-gradient {
-      background-size: 200% 200%;
-      animation: gradientShift 12s ease infinite;
+    .scroll-bounce { animation: scrollBounce 2s ease-in-out infinite; }
+
+    /* === WhatsApp Pulse === */
+    @keyframes waPulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+      70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+    .wa-pulse { animation: waPulse 2.5s ease-in-out infinite; }
+
+    /* === Magnetic Button === */
+    .magnetic {
+      transition: transform 0.3s var(--ease-out-quint);
     }
 
-    /* ---- 3D card tilt ---- */
-    .tilt-card {
-      transition: transform 0.4s var(--ease-out-quint), box-shadow 0.4s var(--ease-out-quint);
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-
-    /* ---- Photo glow ring ---- */
-    @keyframes glowPulse {
-      0%, 100% { box-shadow: 0 0 20px rgba(155, 44, 94, 0.15), 0 0 60px rgba(200, 149, 108, 0.08); }
-      50% { box-shadow: 0 0 30px rgba(155, 44, 94, 0.25), 0 0 80px rgba(200, 149, 108, 0.15); }
-    }
-    .photo-glow { animation: glowPulse 4s ease-in-out infinite; }
-
-    /* ---- Button press feedback ---- */
-    a[href], button { transition: transform 0.15s var(--ease-out-quint); }
-    a[href]:active, button:active { transform: scale(0.97); }
-
-    /* ---- Text gradient ---- */
+    /* === Text Gradient === */
     .text-gradient {
-      background: linear-gradient(135deg, #9B2C5E 0%, #C8956C 100%);
+      background: linear-gradient(135deg, #8B2252 0%, #D4A574 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    /* ---- Accessibility: reduced motion ---- */
+    /* === Form Focus === */
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(139, 34, 82, 0.1);
+    }
+
+    /* === Button Press === */
+    a[href]:active, button:active { transform: scale(0.97) !important; }
+
+    /* === Icon Container === */
+    .icon-box {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(139,34,82,0.08), rgba(212,165,116,0.06));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+
+    /* === Accessibility === */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
       }
+      .custom-cursor { display: none !important; }
     }
   </style>
 </head>
 
 <body class="bg-warm text-text-main font-sans antialiased overflow-x-hidden">
 
-  <!-- ==================== HERO ==================== -->
-  <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-6 py-12 relative animated-gradient" style="background: linear-gradient(170deg, #FFFAF5, #FEF0E7, #FDF0F4, #FFF5ED, #FFFAF5);">
-    <!-- Floating shapes -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div class="floating-shape w-72 h-72 rounded-full bg-primary/[0.04] absolute -top-16 -right-24 blur-3xl"></div>
-      <div class="floating-shape w-56 h-56 rounded-full bg-secondary/[0.05] absolute bottom-24 -left-16 blur-3xl" style="animation-delay:-7s"></div>
-      <div class="floating-shape w-40 h-40 rounded-full bg-success/[0.04] absolute top-1/3 right-1/4 blur-2xl" style="animation-delay:-13s"></div>
+  <!-- Custom Cursor -->
+  <div id="custom-cursor" class="custom-cursor"></div>
+
+  <!-- ==================== STICKY NAV ==================== -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 nav-glass translate-y-[-100%] transition-transform duration-500">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+      <a href="#hero" class="font-accent text-xl font-bold text-primary">HireFound</a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#about" class="text-sm text-muted hover:text-primary transition-colors duration-200">About</a>
+        <a href="#services" class="text-sm text-muted hover:text-primary transition-colors duration-200">Services</a>
+        <a href="#how-it-works" class="text-sm text-muted hover:text-primary transition-colors duration-200">Process</a>
+        <a href="#contact" class="magnetic inline-flex items-center px-5 py-2 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 shadow-warm">
+          Get Started
+        </a>
+      </div>
+      <a href="#contact" class="md:hidden magnetic inline-flex items-center px-4 py-2 bg-primary text-white text-xs font-semibold rounded-full shadow-warm">
+        Get Started
+      </a>
     </div>
-    <div class="max-w-lg w-full flex flex-col items-center text-center relative z-10">
+  </nav>
 
-      <!-- Brand -->
-      <div id="hero-photo" class="hero-fade mb-6">
-        <img src="assets/hirefound-icon-only.svg" alt="HireFound" class="w-24 h-24 md:w-28 md:h-28 mx-auto mb-5 drop-shadow-lg">
-        <h1 class="font-accent text-4xl md:text-5xl font-bold text-primary">HireFound</h1>
-        <p class="text-muted text-sm md:text-base mt-1.5">by Yasmin Blasi</p>
-      </div>
 
-      <!-- Chat bubble -->
-      <div id="chat-bubble" class="chat-bubble bg-white rounded-[4px_20px_20px_20px] px-6 py-5 shadow-card max-w-sm md:max-w-md mb-8 text-left">
-        <div id="typing-dots" class="flex gap-1.5 py-1">
-          <span class="typing-dot"></span>
-          <span class="typing-dot"></span>
-          <span class="typing-dot"></span>
+  <!-- ==================== HERO ==================== -->
+  <section id="hero" class="min-h-screen relative overflow-hidden bg-dark flex items-center">
+    <!-- Mouse-reactive glow -->
+    <div class="hero-mouse-glow" id="hero-glow"></div>
+
+    <!-- Floating shapes -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="floating w-80 h-80 rounded-full bg-primary/[0.06] absolute -top-20 -left-20 blur-3xl"></div>
+      <div class="floating w-64 h-64 rounded-full bg-secondary/[0.05] absolute bottom-20 left-1/3 blur-3xl" style="animation-delay:-7s"></div>
+      <div class="floating w-48 h-48 rounded-full bg-primary/[0.04] absolute top-1/4 right-10 blur-2xl" style="animation-delay:-13s"></div>
+    </div>
+
+    <!-- Mobile: Photo Background -->
+    <div class="absolute inset-0 lg:hidden">
+      <img src="assets/yasmin.png" alt="" class="w-full h-full object-cover object-top" loading="eager">
+      <div class="absolute inset-0 bg-gradient-to-b from-dark/60 via-dark/70 to-dark/95"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 py-20 w-full relative z-10">
+      <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+
+        <!-- Left: Content -->
+        <div class="flex-1 text-center lg:text-left">
+          <!-- Brand -->
+          <div class="mb-3 fade-up" data-hero="1">
+            <img src="assets/hirefound-icon-only.svg" alt="" class="w-16 h-16 mx-auto lg:mx-0 mb-4 drop-shadow-lg invert brightness-200">
+          </div>
+
+          <!-- Title -->
+          <h1 class="font-accent text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 leading-[1.05]">
+            <span class="text-reveal-wrap"><span class="text-reveal" data-hero="2">HireFound</span></span>
+          </h1>
+          <p class="fade-up text-secondary-light text-base md:text-lg font-medium mb-6" data-hero="3">by Yasmin Blasi</p>
+
+          <!-- Tagline -->
+          <p class="fade-up text-white/70 text-lg md:text-xl lg:text-2xl leading-relaxed max-w-lg mx-auto lg:mx-0 mb-10" data-hero="4">
+            Matchmakers for meaningful careers.<br class="hidden md:block">
+            <span class="text-secondary">You want a hire? We got you found.</span>
+          </p>
+
+          <!-- CTAs -->
+          <div class="fade-up flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start" data-hero="5">
+            <a href="#services" data-switch-tab="employers"
+               class="magnetic hero-cta inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-primary to-primary-light text-white font-semibold rounded-full shadow-glow hover:shadow-[0_0_50px_rgba(139,34,82,0.35)] transition-all duration-300 text-sm md:text-base">
+              I'm Hiring
+            </a>
+            <a href="#services" data-switch-tab="candidates"
+               class="magnetic hero-cta inline-flex items-center justify-center px-8 py-3.5 bg-white/10 text-white font-semibold rounded-full border border-white/20 hover:bg-white/20 hover:border-white/30 backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
+              I Want to Be Found
+            </a>
+          </div>
         </div>
-        <p class="text-base md:text-lg leading-relaxed hidden" id="typing-text"></p>
-        <span class="typing-cursor hidden" id="typing-cursor"></span>
-      </div>
 
-      <!-- Tagline -->
-      <div id="hero-name" class="hero-fade mb-8">
-        <p class="text-lg md:text-xl font-medium text-text-main/80">Matchmakers for meaningful careers.</p>
-      </div>
-
-      <!-- CTA buttons -->
-      <div id="hero-ctas" class="hero-fade flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
-        <a href="#services" data-switch-tab="employers" class="hero-cta inline-flex items-center justify-center px-8 py-3.5 bg-primary text-white font-semibold rounded-full shadow-warm hover:bg-primary-light hover:shadow-glow transition-all duration-300 text-sm md:text-base">
-          I'm Hiring
-        </a>
-        <a href="#services" data-switch-tab="candidates" class="hero-cta inline-flex items-center justify-center px-8 py-3.5 bg-white text-primary font-semibold rounded-full shadow-card hover:shadow-card-hover border-2 border-primary/10 hover:border-primary/30 transition-all duration-300 text-sm md:text-base">
-          I Want to Be Found
-        </a>
+        <!-- Right: Photo (desktop only) -->
+        <div class="hidden lg:block flex-shrink-0 fade-up" data-hero="2">
+          <div class="w-80 h-[420px] rounded-3xl overflow-hidden photo-glow relative">
+            <img src="assets/yasmin.png" alt="Yasmin Blasi, Founder of HireFound" class="w-full h-full object-cover object-top" loading="eager">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent"></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Scroll indicator -->
-    <div id="scroll-indicator" class="hero-fade absolute bottom-8 left-1/2 -translate-x-1/2">
-      <a href="#anti-pitch" class="scroll-indicator block text-muted/50 hover:text-primary transition-colors">
+    <div class="fade-up absolute bottom-8 left-1/2 -translate-x-1/2" data-hero="6">
+      <a href="#anti-pitch" class="scroll-bounce block text-white/30 hover:text-white/60 transition-colors">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
         </svg>
@@ -312,8 +380,16 @@
   </section>
 
 
+  <!-- Wave: Dark to Warm -->
+  <div class="bg-dark -mb-px">
+    <svg class="block w-full h-16 md:h-20" viewBox="0 0 1440 80" preserveAspectRatio="none">
+      <path d="M0,40 C240,75 480,5 720,40 C960,75 1200,5 1440,40 L1440,80 L0,80 Z" fill="#FFFAF5"/>
+    </svg>
+  </div>
+
+
   <!-- ==================== ANTI-PITCH ==================== -->
-  <section id="anti-pitch" class="py-20 lg:py-28 px-6">
+  <section id="anti-pitch" class="py-20 lg:py-28 px-6 bg-warm">
     <div class="max-w-5xl mx-auto">
       <div class="text-center mb-14 reveal">
         <h2 class="font-accent text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">I'm not your usual recruiter.</h2>
@@ -321,21 +397,18 @@
       </div>
 
       <div class="grid md:grid-cols-3 gap-6 lg:gap-8 reveal-stagger">
-        <!-- Card 1 -->
-        <div class="reveal-child bg-white rounded-[20px] p-8 shadow-card card-hover">
-          <div class="text-4xl mb-4">🤝</div>
+        <div class="reveal-child premium-card p-8 shadow-card">
+          <div class="icon-box mb-5">🤝</div>
           <h3 class="text-xl font-bold mb-3">Matchmaking, Not Seat-Filling</h3>
           <p class="text-muted leading-relaxed">I find people who fit your culture, not just your job description.</p>
         </div>
-        <!-- Card 2 -->
-        <div class="reveal-child bg-white rounded-[20px] p-8 shadow-card card-hover">
-          <div class="text-4xl mb-4">📖</div>
+        <div class="reveal-child premium-card p-8 shadow-card">
+          <div class="icon-box mb-5">📖</div>
           <h3 class="text-xl font-bold mb-3">Your Story, Not Just Keywords</h3>
           <p class="text-muted leading-relaxed">Every candidate is more than a CV. Every company is more than a job post.</p>
         </div>
-        <!-- Card 3 -->
-        <div class="reveal-child bg-white rounded-[20px] p-8 shadow-card card-hover">
-          <div class="text-4xl mb-4">🚀</div>
+        <div class="reveal-child premium-card p-8 shadow-card">
+          <div class="icon-box mb-5">🚀</div>
           <h3 class="text-xl font-bold mb-3">From First Call to First Day</h3>
           <p class="text-muted leading-relaxed">I don't disappear after the offer letter. I'm here for the whole journey.</p>
         </div>
@@ -345,21 +418,21 @@
 
 
   <!-- ==================== ABOUT ==================== -->
-  <section id="about" class="py-20 lg:py-28 px-6" style="background: linear-gradient(180deg, #FFF5ED 0%, #FFFAF5 100%);">
+  <section id="about" class="py-20 lg:py-28 px-6 bg-gradient-to-b from-warm-dark/50 to-warm">
     <div class="max-w-5xl mx-auto">
       <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
 
         <!-- Photo -->
         <div class="reveal flex-shrink-0">
-          <div class="w-64 h-72 md:w-72 md:h-80 rounded-[24px] overflow-hidden shadow-card photo-glow">
-            <img src="assets/yasmin.png" alt="Yasmin Blasi, Founder of HireFound" class="w-full h-full object-cover">
+          <div class="w-64 h-72 md:w-72 md:h-80 rounded-3xl overflow-hidden shadow-card photo-glow">
+            <img src="assets/yasmin.png" alt="Yasmin Blasi, Founder of HireFound" class="w-full h-full object-cover" loading="lazy">
           </div>
         </div>
 
         <!-- Bio -->
         <div class="reveal">
           <h2 class="font-accent text-3xl md:text-4xl font-bold text-primary mb-6">Meet the Founder</h2>
-          <div class="space-y-4 text-lg leading-relaxed">
+          <div class="space-y-4 text-lg leading-relaxed text-text-main/85">
             <p>10+ years in HR and recruitment. From talent acquisition to senior HR leadership, across Jordan and the broader MENA region. Built teams from scratch. Coached executives. Reviewed thousands of CVs.</p>
             <p>And then one day, I realized something.</p>
             <p class="font-semibold text-primary">I wasn't meant to work in corporate HR. I was meant to connect people with where they belong.</p>
@@ -367,18 +440,18 @@
           </div>
 
           <!-- Stats -->
-          <div class="flex flex-wrap gap-3 mt-8">
-            <span class="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full shadow-card text-sm font-semibold">
-              <span class="text-primary">✦</span> 10+ Years in HR
+          <div class="flex flex-wrap gap-3 mt-8 reveal-stagger">
+            <span class="reveal-child inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full shadow-card text-sm font-semibold">
+              <span class="w-2 h-2 rounded-full bg-primary"></span> 10+ Years in HR
             </span>
-            <span class="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full shadow-card text-sm font-semibold">
-              <span class="text-primary">✦</span> MENA Region
+            <span class="reveal-child inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full shadow-card text-sm font-semibold">
+              <span class="w-2 h-2 rounded-full bg-secondary"></span> MENA Region
             </span>
-            <span class="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full shadow-card text-sm font-semibold">
-              <span class="text-primary">✦</span> Junior to C-Suite
+            <span class="reveal-child inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full shadow-card text-sm font-semibold">
+              <span class="w-2 h-2 rounded-full bg-success"></span> Junior to C-Suite
             </span>
-            <span class="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full shadow-card text-sm font-semibold">
-              <span class="text-primary">✦</span> TEDx Speaker
+            <span class="reveal-child inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full shadow-card text-sm font-semibold">
+              <span class="w-2 h-2 rounded-full bg-primary-light"></span> TEDx Speaker
             </span>
           </div>
         </div>
@@ -388,38 +461,36 @@
 
 
   <!-- ==================== SERVICES ==================== -->
-  <section id="services" class="py-20 lg:py-28 px-6">
+  <section id="services" class="py-20 lg:py-28 px-6 bg-warm">
     <div class="max-w-5xl mx-auto">
       <div class="text-center mb-12 reveal">
         <h2 class="font-accent text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">How Can I Help?</h2>
         <p class="text-muted text-lg">Whether you're building a team or building a career.</p>
       </div>
 
-      <!-- Tabs -->
-      <div class="flex justify-center gap-2 mb-12 reveal">
-        <button class="tab-btn active px-6 py-3 text-base font-semibold text-primary rounded-full transition-all" data-tab="employers">
-          For Employers
-        </button>
-        <button class="tab-btn px-6 py-3 text-base font-semibold text-muted rounded-full transition-all" data-tab="candidates">
-          For Candidates
-        </button>
+      <!-- Pill Tabs -->
+      <div class="flex justify-center mb-12 reveal">
+        <div class="pill-tabs">
+          <button class="pill-tab active" data-tab="employers">For Employers</button>
+          <button class="pill-tab" data-tab="candidates">For Candidates</button>
+        </div>
       </div>
 
       <!-- Employer services -->
       <div id="employers" class="tab-panel">
         <div class="grid md:grid-cols-3 gap-6 reveal-stagger">
-          <div class="reveal-child bg-white rounded-[20px] p-8 shadow-card card-hover">
-            <div class="text-3xl mb-3">🔍</div>
+          <div class="reveal-child premium-card p-8 shadow-card">
+            <div class="icon-box mb-4">🔍</div>
             <h3 class="text-lg font-bold mb-2">Executive Search & Headhunting</h3>
             <p class="text-muted text-sm leading-relaxed">I find leaders who don't just fill a seat - they transform your business. C-suite, directors, the people who move the needle.</p>
           </div>
-          <div class="reveal-child bg-white rounded-[20px] p-8 shadow-card card-hover">
-            <div class="text-3xl mb-3">🤝</div>
+          <div class="reveal-child premium-card p-8 shadow-card">
+            <div class="icon-box mb-4">🤝</div>
             <h3 class="text-lg font-bold mb-2">Recruitment & Job Matching</h3>
             <p class="text-muted text-sm leading-relaxed">From junior to senior, across industries. I handle sourcing, screening, and matching - you just meet the finalists.</p>
           </div>
-          <div class="reveal-child bg-white rounded-[20px] p-8 shadow-card card-hover">
-            <div class="text-3xl mb-3">🎯</div>
+          <div class="reveal-child premium-card p-8 shadow-card">
+            <div class="icon-box mb-4">🎯</div>
             <h3 class="text-lg font-bold mb-2">DISC Assessments</h3>
             <p class="text-muted text-sm leading-relaxed">Understand how your candidates think, communicate, and work. Better insights mean better hires that stick.</p>
           </div>
@@ -429,18 +500,18 @@
       <!-- Candidate services -->
       <div id="candidates" class="tab-panel hidden">
         <div class="grid md:grid-cols-3 gap-6 reveal-stagger">
-          <div class="reveal-child revealed bg-white rounded-[20px] p-8 shadow-card card-hover">
-            <div class="text-3xl mb-3">💫</div>
+          <div class="reveal-child revealed premium-card p-8 shadow-card">
+            <div class="icon-box mb-4">💫</div>
             <h3 class="text-lg font-bold mb-2">Career Matchmaking</h3>
             <p class="text-muted text-sm leading-relaxed">Tell me where you want to go. I'll find the opportunities that actually match - not just what's available, but what's right.</p>
           </div>
-          <div class="reveal-child revealed bg-white rounded-[20px] p-8 shadow-card card-hover">
-            <div class="text-3xl mb-3">✨</div>
+          <div class="reveal-child revealed premium-card p-8 shadow-card">
+            <div class="icon-box mb-4">✨</div>
             <h3 class="text-lg font-bold mb-2">CV Optimization</h3>
             <p class="text-muted text-sm leading-relaxed">Your CV should tell your story, not just list your jobs. I'll help you make it impossible to ignore.</p>
           </div>
-          <div class="reveal-child revealed bg-white rounded-[20px] p-8 shadow-card card-hover">
-            <div class="text-3xl mb-3">🎤</div>
+          <div class="reveal-child revealed premium-card p-8 shadow-card">
+            <div class="icon-box mb-4">🎤</div>
             <h3 class="text-lg font-bold mb-2">Interview Preparation</h3>
             <p class="text-muted text-sm leading-relaxed">Nervous? Don't be. We'll practice until you walk in there owning the room. I know what they're looking for.</p>
           </div>
@@ -451,35 +522,32 @@
 
 
   <!-- ==================== HOW IT WORKS ==================== -->
-  <section id="how-it-works" class="py-20 lg:py-28 px-6" style="background: linear-gradient(180deg, #FFF5ED 0%, #FFFAF5 100%);">
+  <section id="how-it-works" class="py-20 lg:py-28 px-6 bg-gradient-to-b from-warm-dark/40 to-warm">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-16 reveal">
         <h2 class="font-accent text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">How It Works</h2>
         <p class="text-muted text-lg">Three steps. One promise: I'll find your match.</p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-8 md:gap-4 reveal-stagger">
-        <!-- Step 1 -->
+      <div class="grid md:grid-cols-3 gap-8 md:gap-4 reveal-stagger" id="steps-grid">
         <div class="reveal-child text-center relative">
-          <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold mx-auto mb-5 shadow-warm">
+          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-light text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
             💬
           </div>
-          <div class="hidden md:block step-line"></div>
+          <div class="hidden md:block step-connector" data-step-line="1"></div>
           <h3 class="text-xl font-bold mb-3">We Talk</h3>
           <p class="text-muted leading-relaxed px-2">Tell me everything. The role, the culture, the dream. I listen like it matters - because it does.</p>
         </div>
-        <!-- Step 2 -->
         <div class="reveal-child text-center relative">
-          <div class="w-16 h-16 rounded-full bg-secondary text-white flex items-center justify-center text-2xl font-bold mx-auto mb-5 shadow-warm">
+          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-secondary to-secondary-light text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
             🎯
           </div>
-          <div class="hidden md:block step-line"></div>
+          <div class="hidden md:block step-connector" data-step-line="2"></div>
           <h3 class="text-xl font-bold mb-3">We Match</h3>
           <p class="text-muted leading-relaxed px-2">I go find your person. Not the most available - the most right.</p>
         </div>
-        <!-- Step 3 -->
         <div class="reveal-child text-center">
-          <div class="w-16 h-16 rounded-full bg-success text-white flex items-center justify-center text-2xl font-bold mx-auto mb-5 shadow-warm">
+          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-success to-emerald-400 text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
             🌱
           </div>
           <h3 class="text-xl font-bold mb-3">You Grow</h3>
@@ -490,93 +558,82 @@
   </section>
 
 
-  <!-- ==================== TRUST SIGNALS ==================== -->
-  <section id="trust" class="py-20 lg:py-28 px-6">
+  <!-- ==================== TRUST / TESTIMONIALS ==================== -->
+  <section id="trust" class="py-20 lg:py-28 px-6 bg-warm">
     <div class="max-w-5xl mx-auto">
 
-      <!-- Featured in -->
-      <div class="text-center mb-16 reveal">
-        <p class="text-muted text-sm font-semibold uppercase tracking-widest mb-8">As Seen In</p>
-        <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-          <span class="text-lg md:text-xl font-accent font-semibold text-muted/40 hover:text-primary/60 transition-colors">TEDx Zarqa University</span>
-          <span class="text-lg md:text-xl font-accent font-semibold text-muted/40 hover:text-primary/60 transition-colors">Leaders of Arabia</span>
-          <span class="text-lg md:text-xl font-accent font-semibold text-muted/40 hover:text-primary/60 transition-colors">Arab Icons</span>
-          <span class="text-lg md:text-xl font-accent font-semibold text-muted/40 hover:text-primary/60 transition-colors">Career Spotlight Jordan</span>
+      <!-- As Seen In -->
+      <div class="text-center mb-20 reveal">
+        <p class="text-muted text-xs font-semibold uppercase tracking-[0.2em] mb-8">As Seen In</p>
+        <div class="flex flex-wrap items-center justify-center gap-8 md:gap-14">
+          <span class="text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300">TEDx Zarqa University</span>
+          <span class="text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300">Leaders of Arabia</span>
+          <span class="text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300">Arab Icons</span>
+          <span class="text-lg md:text-xl font-accent font-semibold text-muted/30 hover:text-primary/60 transition-colors duration-300">Career Spotlight Jordan</span>
         </div>
       </div>
 
-      <!-- Testimonials -->
-      <div class="grid md:grid-cols-3 gap-6 reveal-stagger">
-        <div class="reveal-child bg-white rounded-[20px] p-8 shadow-card">
-          <div class="text-primary text-4xl font-accent leading-none mb-4">"</div>
-          <p class="text-text-main leading-relaxed mb-6">Yasmin didn't just find us a candidate - she found us a team member. Someone who gets our culture, our speed, our vision. That's rare.</p>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">SA</div>
-            <div>
-              <p class="font-semibold text-sm">Sarah A.</p>
-              <p class="text-muted text-xs">CEO, Tech Startup</p>
-            </div>
-          </div>
+      <!-- Testimonials (auto-rotating) -->
+      <div class="reveal max-w-2xl mx-auto text-center" id="testimonial-section">
+        <div class="text-primary text-5xl font-accent leading-none mb-6">"</div>
+        <p id="testimonial-quote" class="text-xl md:text-2xl leading-relaxed mb-8 text-text-main/85 font-light min-h-[120px] testimonial-item">
+          Yasmin didn't just find us a candidate - she found us a team member. Someone who gets our culture, our speed, our vision. That's rare.
+        </p>
+        <div id="testimonial-author" class="testimonial-item">
+          <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm mx-auto mb-3" id="testimonial-avatar">SA</div>
+          <p class="font-semibold" id="testimonial-name">Sarah A.</p>
+          <p class="text-muted text-sm" id="testimonial-title">CEO, Tech Startup</p>
         </div>
-        <div class="reveal-child bg-white rounded-[20px] p-8 shadow-card">
-          <div class="text-primary text-4xl font-accent leading-none mb-4">"</div>
-          <p class="text-text-main leading-relaxed mb-6">I was stuck in a career I hated. One conversation with Yasmin changed everything. She saw potential I didn't even know I had.</p>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary font-bold text-sm">KM</div>
-            <div>
-              <p class="font-semibold text-sm">Khaled M.</p>
-              <p class="text-muted text-xs">Marketing Director</p>
-            </div>
-          </div>
-        </div>
-        <div class="reveal-child bg-white rounded-[20px] p-8 shadow-card">
-          <div class="text-primary text-4xl font-accent leading-none mb-4">"</div>
-          <p class="text-text-main leading-relaxed mb-6">The most human recruiter I've ever worked with. She actually listens. And then she delivers exactly what you described - sometimes better.</p>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success font-bold text-sm">LH</div>
-            <div>
-              <p class="font-semibold text-sm">Lina H.</p>
-              <p class="text-muted text-xs">HR Director, Enterprise</p>
-            </div>
-          </div>
+        <!-- Dots -->
+        <div class="flex justify-center gap-2.5 mt-8">
+          <button class="testimonial-dot w-2.5 h-2.5 rounded-full bg-primary transition-all duration-300" data-testimonial="0"></button>
+          <button class="testimonial-dot w-2.5 h-2.5 rounded-full bg-muted/25 transition-all duration-300" data-testimonial="1"></button>
+          <button class="testimonial-dot w-2.5 h-2.5 rounded-full bg-muted/25 transition-all duration-300" data-testimonial="2"></button>
         </div>
       </div>
     </div>
   </section>
 
 
-  <!-- ==================== LET'S TALK ==================== -->
-  <section id="contact" class="py-20 lg:py-28 px-6 bg-text-main text-white relative overflow-hidden">
-    <!-- Subtle gradient overlay -->
-    <div class="absolute inset-0 opacity-50" style="background: radial-gradient(circle at 30% 50%, rgba(155, 44, 94, 0.15), transparent 60%);"></div>
+  <!-- Wave: Warm to Dark -->
+  <div class="bg-warm -mb-px">
+    <svg class="block w-full h-16 md:h-20" viewBox="0 0 1440 80" preserveAspectRatio="none">
+      <path d="M0,50 C360,10 720,70 1080,25 C1260,10 1380,35 1440,20 L1440,80 L0,80 Z" fill="#1A1A2E"/>
+    </svg>
+  </div>
+
+
+  <!-- ==================== CONTACT ==================== -->
+  <section id="contact" class="py-20 lg:py-28 px-6 bg-dark text-white relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute inset-0 opacity-40" style="background: radial-gradient(circle at 30% 40%, rgba(139, 34, 82, 0.2), transparent 50%);"></div>
+      <div class="absolute inset-0 opacity-30" style="background: radial-gradient(circle at 80% 70%, rgba(212, 165, 116, 0.15), transparent 50%);"></div>
+    </div>
 
     <div class="max-w-4xl mx-auto relative z-10">
       <div class="text-center mb-14 reveal">
-        <h2 class="font-accent text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Your next game-changer is just a conversation away.</h2>
-        <p class="text-white/60 text-lg">Let's find them together.</p>
+        <h2 class="font-accent text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Your next game-changer is<br>just a conversation away.</h2>
+        <p class="text-white/50 text-lg">Let's find them together.</p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
         <!-- Left: WhatsApp + Social -->
         <div class="flex-1 text-center lg:text-left reveal">
-          <p class="text-white/80 text-lg mb-6">The fastest way to reach me? WhatsApp. I'm usually one message away.</p>
-          <a href="https://wa.me/962XXXXXXXXX?text=Hi%20Yasmin!%20I%20found%20you%20through%20your%20website." target="_blank" rel="noopener"
-             class="inline-flex items-center gap-3 px-8 py-4 bg-whatsapp text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg mb-8">
+          <p class="text-white/70 text-lg mb-6">The fastest way to reach me? WhatsApp. I'm usually one message away.</p>
+          <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I%20found%20you%20through%20your%20website." target="_blank" rel="noopener"
+             class="magnetic inline-flex items-center gap-3 px-8 py-4 bg-whatsapp text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg mb-8">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             Chat on WhatsApp
           </a>
 
           <div class="flex items-center justify-center lg:justify-start gap-4 mt-4">
-            <!-- LinkedIn -->
-            <a href="https://www.linkedin.com/in/yasminblasi" target="_blank" rel="noopener" class="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/in/yasminblasi" target="_blank" rel="noopener" class="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors duration-200" aria-label="LinkedIn">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             </a>
-            <!-- Instagram -->
-            <a href="https://www.instagram.com/hirefound" target="_blank" rel="noopener" class="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors" aria-label="Instagram">
+            <a href="https://www.instagram.com/hirefound" target="_blank" rel="noopener" class="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors duration-200" aria-label="Instagram">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
-            <!-- Email -->
-            <a href="mailto:yasmin@hirefound.com" class="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors" aria-label="Email">
+            <a href="mailto:yasmin@hirefound.com" class="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors duration-200" aria-label="Email">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             </a>
           </div>
@@ -585,10 +642,10 @@
         <!-- Right: Contact form -->
         <div class="flex-1 reveal">
           <form onsubmit="return false;" class="space-y-4">
-            <input type="text" placeholder="Your name" class="form-input w-full px-5 py-3.5 bg-white/10 border border-white/10 rounded-2xl text-white placeholder-white/40 transition-all duration-300">
-            <input type="email" placeholder="Your email" class="form-input w-full px-5 py-3.5 bg-white/10 border border-white/10 rounded-2xl text-white placeholder-white/40 transition-all duration-300">
-            <textarea rows="4" placeholder="Tell me what you're looking for..." class="form-input w-full px-5 py-3.5 bg-white/10 border border-white/10 rounded-2xl text-white placeholder-white/40 transition-all duration-300 resize-none"></textarea>
-            <button type="submit" class="w-full py-3.5 bg-primary hover:bg-primary-light text-white font-semibold rounded-full transition-all duration-300 hover:shadow-glow">
+            <input type="text" placeholder="Your name" class="form-input w-full px-5 py-3.5 bg-white/8 border border-white/10 rounded-2xl text-white placeholder-white/35 transition-all duration-300">
+            <input type="email" placeholder="Your email" class="form-input w-full px-5 py-3.5 bg-white/8 border border-white/10 rounded-2xl text-white placeholder-white/35 transition-all duration-300">
+            <textarea rows="4" placeholder="Tell me what you're looking for..." class="form-input w-full px-5 py-3.5 bg-white/8 border border-white/10 rounded-2xl text-white placeholder-white/35 transition-all duration-300 resize-none"></textarea>
+            <button type="submit" class="magnetic w-full py-3.5 bg-gradient-to-r from-primary to-primary-light text-white font-semibold rounded-full transition-all duration-300 hover:shadow-glow">
               Send Message
             </button>
           </form>
@@ -596,18 +653,18 @@
       </div>
 
       <!-- Footer -->
-      <div class="mt-20 pt-8 border-t border-white/10 text-center reveal">
-        <img src="assets/hirefound-logo-white.svg" alt="HireFound" class="h-10 md:h-12 mx-auto mb-3 opacity-80">
-        <p class="text-white/40 text-sm">Looking for a Hire? We've got you Found. ✨</p>
-        <p class="text-white/20 text-xs mt-6">yasmin@hirefound.com</p>
-        <p class="text-white/20 text-xs mt-2">&copy; 2025 HireFound. All rights reserved.</p>
+      <div class="mt-24 pt-10 border-t border-white/8 text-center reveal">
+        <img src="assets/hirefound-logo-white.svg" alt="HireFound" class="h-10 md:h-12 mx-auto mb-4 opacity-70">
+        <p class="text-white/30 text-sm mb-1">Looking for a Hire? We've got you Found.</p>
+        <p class="text-white/20 text-xs mt-6">Made with love in Amman, Jordan</p>
+        <p class="text-white/15 text-xs mt-3">&copy; 2025 HireFound. All rights reserved.</p>
       </div>
     </div>
   </section>
 
 
   <!-- ==================== FLOATING WHATSAPP ==================== -->
-  <a href="https://wa.me/962XXXXXXXXX?text=Hi%20Yasmin!%20I%20found%20you%20through%20your%20website." target="_blank" rel="noopener"
+  <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I%20found%20you%20through%20your%20website." target="_blank" rel="noopener"
      class="wa-pulse fixed bottom-6 right-6 z-50 w-14 h-14 md:w-16 md:h-16 bg-whatsapp rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300"
      aria-label="Chat on WhatsApp">
     <svg class="w-7 h-7 md:w-8 md:h-8" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -618,130 +675,200 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-      // ---- Hero entrance sequence ----
-      const heroPhoto = document.getElementById('hero-photo');
-      const chatBubble = document.getElementById('chat-bubble');
-      const typingDots = document.getElementById('typing-dots');
-      const typingText = document.getElementById('typing-text');
-      const typingCursor = document.getElementById('typing-cursor');
-      const heroName = document.getElementById('hero-name');
-      const heroCtas = document.getElementById('hero-ctas');
-      const scrollIndicator = document.getElementById('scroll-indicator');
-
-      const message = "Hey! Looking for your next game-changer? Or maybe... you ARE one? \u{1F60F}";
-
-      // Phase 1: Photo fades in
-      setTimeout(() => heroPhoto.classList.add('visible'), 200);
-
-      // Phase 2: Chat bubble appears with typing dots
-      setTimeout(() => chatBubble.classList.add('visible'), 800);
-
-      // Phase 3: Dots out, text types in
-      setTimeout(() => {
-        typingDots.classList.add('hidden');
-        typingText.classList.remove('hidden');
-        typingCursor.classList.remove('hidden');
-
-        let i = 0;
-        function typeChar() {
-          if (i < message.length) {
-            // Handle multi-byte characters (emoji)
-            const codePoint = message.codePointAt(i);
-            const char = String.fromCodePoint(codePoint);
-            typingText.textContent += char;
-            i += char.length;
-
-            const delay = '.,!?'.includes(char) ? 120
-                        : char === ' ' ? 50
-                        : Math.random() * 35 + 25;
-            setTimeout(typeChar, delay);
-          } else {
-            // Typing done
-            setTimeout(() => {
-              heroName.classList.add('visible');
-              heroCtas.classList.add('visible');
-            }, 400);
-            setTimeout(() => scrollIndicator.classList.add('visible'), 900);
-          }
-        }
-        typeChar();
-      }, 1800);
-
-
-      // ---- Scroll reveal (single elements) ----
-      const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            revealObserver.unobserve(entry.target);
-          }
+      /* === Custom Cursor (desktop only) === */
+      const cursor = document.getElementById('custom-cursor');
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && cursor) {
+        cursor.classList.add('active');
+        document.addEventListener('mousemove', e => {
+          cursor.style.left = e.clientX + 'px';
+          cursor.style.top = e.clientY + 'px';
         });
-      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('a, button, .pill-tab, .testimonial-dot').forEach(el => {
+          el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+          el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+        });
+      }
 
-      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+      /* === Sticky Nav === */
+      const navbar = document.getElementById('navbar');
+      const hero = document.getElementById('hero');
+      const navObserver = new IntersectionObserver(([entry]) => {
+        navbar.style.transform = entry.isIntersecting ? 'translateY(-100%)' : 'translateY(0)';
+      }, { threshold: 0.1 });
+      navObserver.observe(hero);
 
 
-      // ---- Staggered reveal (card groups) ----
-      document.querySelectorAll('.reveal-stagger').forEach(group => {
-        const children = group.querySelectorAll('.reveal-child');
-        const groupObserver = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              children.forEach((child, i) => {
-                setTimeout(() => child.classList.add('revealed'), i * 150);
-              });
-              groupObserver.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
-        groupObserver.observe(group);
+      /* === Hero Entrance Sequence === */
+      const heroEls = document.querySelectorAll('[data-hero]');
+      const delays = { '1': 200, '2': 600, '3': 1000, '4': 1200, '5': 1500, '6': 2200 };
+
+      heroEls.forEach(el => {
+        const step = el.dataset.hero;
+        setTimeout(() => {
+          if (el.classList.contains('text-reveal')) {
+            el.classList.add('visible');
+          } else {
+            el.classList.add('visible');
+          }
+        }, delays[step] || 500);
       });
 
 
-      // ---- Services tab toggle ----
-      const tabBtns = document.querySelectorAll('.tab-btn');
+      /* === Hero Mouse Gradient (desktop) === */
+      if (window.matchMedia('(hover: hover)').matches) {
+        const heroSection = document.getElementById('hero');
+        const glow = document.getElementById('hero-glow');
+        heroSection.addEventListener('mousemove', e => {
+          const r = heroSection.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+          const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+          glow.style.setProperty('--mx', x + '%');
+          glow.style.setProperty('--my', y + '%');
+        });
+      }
+
+
+      /* === Magnetic Buttons (desktop) === */
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        document.querySelectorAll('.magnetic').forEach(btn => {
+          btn.addEventListener('mousemove', e => {
+            const r = btn.getBoundingClientRect();
+            const x = (e.clientX - r.left - r.width / 2) * 0.15;
+            const y = (e.clientY - r.top - r.height / 2) * 0.15;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+          });
+          btn.addEventListener('mouseleave', () => {
+            btn.style.transform = '';
+          });
+        });
+      }
+
+
+      /* === Scroll Reveal (single elements) === */
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+
+      /* === Staggered Reveal (card groups) === */
+      document.querySelectorAll('.reveal-stagger').forEach(group => {
+        const children = group.querySelectorAll('.reveal-child');
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              children.forEach((child, i) => {
+                setTimeout(() => child.classList.add('revealed'), i * 120);
+              });
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+        obs.observe(group);
+      });
+
+
+      /* === Step Connectors === */
+      const stepsGrid = document.getElementById('steps-grid');
+      if (stepsGrid) {
+        const stepObs = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            document.querySelectorAll('.step-connector').forEach((line, i) => {
+              setTimeout(() => line.classList.add('animate'), 400 + i * 300);
+            });
+            stepObs.unobserve(entry.target);
+          }
+        }, { threshold: 0.2 });
+        stepObs.observe(stepsGrid);
+      }
+
+
+      /* === Services Tab Toggle === */
+      const pillTabs = document.querySelectorAll('.pill-tab');
       const tabPanels = document.querySelectorAll('.tab-panel');
 
       function switchTab(target) {
-        tabBtns.forEach(b => {
-          b.classList.remove('active', 'text-primary');
-          b.classList.add('text-muted');
-        });
-        const activeBtn = document.querySelector(`.tab-btn[data-tab="${target}"]`);
-        if (activeBtn) {
-          activeBtn.classList.add('active', 'text-primary');
-          activeBtn.classList.remove('text-muted');
-        }
+        pillTabs.forEach(b => b.classList.remove('active'));
+        const activeBtn = document.querySelector(`.pill-tab[data-tab="${target}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
         tabPanels.forEach(p => p.classList.add('hidden'));
         document.getElementById(target).classList.remove('hidden');
       }
 
-      tabBtns.forEach(btn => {
+      pillTabs.forEach(btn => {
         btn.addEventListener('click', () => switchTab(btn.dataset.tab));
       });
 
-      // Hero CTA buttons switch the correct tab on click
       document.querySelectorAll('.hero-cta').forEach(cta => {
         cta.addEventListener('click', () => switchTab(cta.dataset.switchTab));
       });
 
-      // ---- 3D Card tilt effect (desktop only) ----
+
+      /* === 3D Card Tilt (desktop) === */
       if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-        document.querySelectorAll('.card-hover').forEach(card => {
-          card.classList.add('tilt-card');
-          card.addEventListener('mousemove', (e) => {
+        document.querySelectorAll('.premium-card').forEach(card => {
+          card.addEventListener('mousemove', e => {
             const r = card.getBoundingClientRect();
             const x = (e.clientX - r.left) / r.width - 0.5;
             const y = (e.clientY - r.top) / r.height - 0.5;
-            card.style.transform = `perspective(800px) rotateX(${y * -8}deg) rotateY(${x * 8}deg) scale(1.02)`;
-            card.style.boxShadow = `${x * -15}px ${y * 15 + 12}px 36px rgba(45,41,38,0.12)`;
+            card.style.transform = `perspective(800px) rotateX(${y * -6}deg) rotateY(${x * 6}deg) translateY(-6px) scale(1.01)`;
           });
           card.addEventListener('mouseleave', () => {
             card.style.transform = '';
-            card.style.boxShadow = '';
           });
         });
       }
+
+
+      /* === Testimonial Rotation === */
+      const testimonials = [
+        { quote: "Yasmin didn't just find us a candidate - she found us a team member. Someone who gets our culture, our speed, our vision. That's rare.", name: "Sarah A.", title: "CEO, Tech Startup", initials: "SA", color: "bg-primary/10 text-primary" },
+        { quote: "I was stuck in a career I hated. One conversation with Yasmin changed everything. She saw potential I didn't even know I had.", name: "Khaled M.", title: "Marketing Director", initials: "KM", color: "bg-secondary/10 text-secondary" },
+        { quote: "The most human recruiter I've ever worked with. She actually listens. And then she delivers exactly what you described - sometimes better.", name: "Lina H.", title: "HR Director, Enterprise", initials: "LH", color: "bg-success/10 text-success" }
+      ];
+
+      let currentT = 0;
+      const tQuote = document.getElementById('testimonial-quote');
+      const tName = document.getElementById('testimonial-name');
+      const tTitle = document.getElementById('testimonial-title');
+      const tAvatar = document.getElementById('testimonial-avatar');
+      const tDots = document.querySelectorAll('.testimonial-dot');
+
+      function showTestimonial(index) {
+        tQuote.style.opacity = '0';
+        tQuote.style.transform = 'translateY(8px)';
+        setTimeout(() => {
+          const t = testimonials[index];
+          tQuote.textContent = t.quote;
+          tName.textContent = t.name;
+          tTitle.textContent = t.title;
+          tAvatar.textContent = t.initials;
+          tAvatar.className = `w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm mx-auto mb-3 ${t.color}`;
+          tDots.forEach((d, i) => {
+            d.className = `testimonial-dot w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === index ? 'bg-primary scale-125' : 'bg-muted/25'}`;
+          });
+          tQuote.style.opacity = '1';
+          tQuote.style.transform = 'translateY(0)';
+        }, 400);
+      }
+
+      tDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          currentT = parseInt(dot.dataset.testimonial);
+          showTestimonial(currentT);
+        });
+      });
+
+      setInterval(() => {
+        currentT = (currentT + 1) % testimonials.length;
+        showTestimonial(currentT);
+      }, 6000);
 
     });
   </script>
