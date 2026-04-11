@@ -1018,8 +1018,8 @@
 
 
       /* === Step Circle Pulse === */
-      const stepsGrid = document.getElementById('steps-grid');
-      if (stepsGrid) {
+      const stepsGridPulse = document.getElementById('steps-grid');
+      if (stepsGridPulse) {
         const pulseObs = new IntersectionObserver(([entry]) => {
           if (entry.isIntersecting) {
             document.querySelectorAll('[data-step-circle]').forEach((c, i) => {
@@ -1028,7 +1028,7 @@
             pulseObs.unobserve(entry.target);
           }
         }, { threshold: 0.3 });
-        pulseObs.observe(stepsGrid);
+        pulseObs.observe(stepsGridPulse);
       }
 
 
