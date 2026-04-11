@@ -5,57 +5,39 @@
       <stop offset="0%" style="stop-color:#C44B80;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#E0BA92;stop-opacity:1" />
     </linearGradient>
-    <linearGradient id="hrg2" x1="100%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#E0BA92;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#C44B80;stop-opacity:1" />
-    </linearGradient>
-    <filter id="hglow">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    <filter id="hglow-soft">
-      <feGaussianBlur stdDeviation="8" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
 
   <!-- Outer aura -->
-  <circle cx="100" cy="100" r="96" fill="none" stroke="url(#hrg)" stroke-width="1.5" opacity="0.25"/>
+  <circle cx="100" cy="100" r="96" fill="none" stroke="url(#hrg)" stroke-width="1.5" opacity="0.2"/>
 
-  <!-- Compass ring - brighter for dark bg -->
-  <circle cx="100" cy="100" r="88" fill="none" stroke="url(#hrg)" stroke-width="7" opacity="1" filter="url(#hglow)"/>
+  <!-- Compass ring -->
+  <circle cx="100" cy="100" r="88" fill="none" stroke="url(#hrg)" stroke-width="7"/>
 
-  <!-- Inner warm glow - visible on dark -->
-  <circle cx="100" cy="100" r="68" fill="#C44B80" opacity="0.1"/>
+  <!-- Inner warm fill -->
+  <circle cx="100" cy="100" r="68" fill="#C44B80" opacity="0.08"/>
 
   <!-- Left figure - candidate -->
-  <path d="M 56 68 Q 56 46, 78 46 Q 94 46, 94 62" fill="none" stroke="#C44B80" stroke-width="6.5" stroke-linecap="round" filter="url(#hglow)"/>
-  <circle cx="78" cy="36" r="10" fill="#C44B80" filter="url(#hglow)"/>
+  <path d="M 56 68 Q 56 46, 78 46 Q 94 46, 94 62" fill="none" stroke="#C44B80" stroke-width="6.5" stroke-linecap="round"/>
+  <circle cx="78" cy="36" r="10" fill="#C44B80"/>
 
   <!-- Right figure - company -->
-  <path d="M 144 68 Q 144 46, 122 46 Q 106 46, 106 62" fill="none" stroke="#E0BA92" stroke-width="6.5" stroke-linecap="round" filter="url(#hglow)"/>
-  <circle cx="122" cy="36" r="10" fill="#E0BA92" filter="url(#hglow)"/>
+  <path d="M 144 68 Q 144 46, 122 46 Q 106 46, 106 62" fill="none" stroke="#E0BA92" stroke-width="6.5" stroke-linecap="round"/>
+  <circle cx="122" cy="36" r="10" fill="#E0BA92"/>
 
   <!-- Convergence point -->
-  <path d="M 94 62 Q 100 80, 100 94 Q 100 80, 106 62" fill="none" stroke="url(#hrg)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#hglow)"/>
+  <path d="M 94 62 Q 100 80, 100 94 Q 100 80, 106 62" fill="none" stroke="url(#hrg)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
 
   <!-- Pin drop - "Found" -->
-  <path d="M 100 94 L 100 126" stroke="url(#hrg)" stroke-width="5" stroke-linecap="round" filter="url(#hglow)"/>
-  <circle cx="100" cy="134" r="7" fill="url(#hrg)" filter="url(#hglow)"/>
+  <path d="M 100 94 L 100 126" stroke="url(#hrg)" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="100" cy="134" r="7" fill="url(#hrg)"/>
 
-  <!-- Compass cardinal dots - bright -->
-  <circle cx="100" cy="8" r="4" fill="#E0BA92" opacity="0.8" filter="url(#hglow-soft)"/>
-  <circle cx="192" cy="100" r="4" fill="#E0BA92" opacity="0.8" filter="url(#hglow-soft)"/>
-  <circle cx="100" cy="192" r="4" fill="#C44B80" opacity="0.8" filter="url(#hglow-soft)"/>
-  <circle cx="8" cy="100" r="4" fill="#C44B80" opacity="0.8" filter="url(#hglow-soft)"/>
+  <!-- Compass cardinal dots -->
+  <circle cx="100" cy="8" r="4" fill="#E0BA92" opacity="0.7"/>
+  <circle cx="192" cy="100" r="4" fill="#E0BA92" opacity="0.7"/>
+  <circle cx="100" cy="192" r="4" fill="#C44B80" opacity="0.7"/>
+  <circle cx="8" cy="100" r="4" fill="#C44B80" opacity="0.7"/>
 
-  <!-- Compass arcs - visible -->
-  <path d="M 32 48 Q 16 72, 16 100" fill="none" stroke="#C44B80" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
-  <path d="M 168 48 Q 184 72, 184 100" fill="none" stroke="#E0BA92" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+  <!-- Compass arcs -->
+  <path d="M 32 48 Q 16 72, 16 100" fill="none" stroke="#C44B80" stroke-width="2" opacity="0.35" stroke-linecap="round"/>
+  <path d="M 168 48 Q 184 72, 184 100" fill="none" stroke="#E0BA92" stroke-width="2" opacity="0.35" stroke-linecap="round"/>
 </svg>
