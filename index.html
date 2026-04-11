@@ -330,8 +330,8 @@
       <a href="#hero" class="font-accent text-xl font-bold text-primary">HireFound</a>
       <div class="hidden md:flex items-center gap-8">
         <a href="#about" class="text-sm text-muted hover:text-primary transition-colors duration-200">About</a>
+        <a href="#vacancies" class="text-sm text-muted hover:text-primary transition-colors duration-200">Open Roles</a>
         <a href="#services" class="text-sm text-muted hover:text-primary transition-colors duration-200">Services</a>
-        <a href="#vacancies" class="text-sm text-muted hover:text-primary transition-colors duration-200">Vacancies</a>
         <a href="#how-it-works" class="text-sm text-muted hover:text-primary transition-colors duration-200">Process</a>
         <a href="#contact" class="magnetic inline-flex items-center px-5 py-2 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 shadow-warm">
           Get Started
@@ -356,11 +356,6 @@
       <div class="floating w-48 h-48 rounded-full bg-primary/[0.04] absolute top-1/4 right-10 blur-2xl" style="animation-delay:-13s"></div>
     </div>
 
-    <!-- Mobile: Photo Background -->
-    <div class="absolute inset-0 lg:hidden">
-      <img src="assets/yasmin.png" alt="" class="w-full h-full object-cover object-top" loading="eager">
-      <div class="absolute inset-0 bg-gradient-to-b from-dark/60 via-dark/70 to-dark/95"></div>
-    </div>
 
     <div class="max-w-6xl mx-auto px-6 py-20 w-full relative z-10">
       <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
@@ -369,7 +364,7 @@
         <div class="flex-1 text-center lg:text-left">
           <!-- Brand -->
           <div class="mb-3 fade-up" data-hero="1">
-            <img src="assets/hirefound-icon-only.svg" alt="" class="w-16 h-16 mx-auto lg:mx-0 mb-4 drop-shadow-lg invert brightness-200">
+            <img src="assets/hirefound-icon-only.svg" alt="" class="w-20 h-20 lg:w-16 lg:h-16 mx-auto lg:mx-0 mb-4 drop-shadow-lg invert brightness-200">
           </div>
 
           <!-- Title -->
@@ -390,7 +385,7 @@
                class="magnetic hero-cta inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-primary to-primary-light text-white font-semibold rounded-full shadow-glow hover:shadow-[0_0_50px_rgba(139,34,82,0.35)] transition-all duration-300 text-sm md:text-base">
               I'm Hiring
             </a>
-            <a href="#services" data-switch-tab="candidates"
+            <a href="#vacancies"
                class="magnetic hero-cta inline-flex items-center justify-center px-8 py-3.5 bg-white/10 text-white font-semibold rounded-full border border-white/20 hover:bg-white/20 hover:border-white/30 backdrop-blur-sm transition-all duration-300 text-sm md:text-base">
               I Want to Be Found
             </a>
@@ -454,6 +449,133 @@
           <h3 class="text-xl font-bold mb-3">From First Call to First Day</h3>
           <p class="text-muted leading-relaxed">I don't disappear after the offer letter. I'm here for the whole journey.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== OPEN VACANCIES ==================== -->
+  <section id="vacancies" class="py-20 lg:py-28 px-6 bg-gradient-to-b from-warm to-warm-dark/40 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="floating w-40 h-40 rounded-full bg-secondary/[0.04] absolute top-10 right-20 blur-3xl" style="animation-delay:-8s"></div>
+    </div>
+    <div class="max-w-5xl mx-auto relative z-10">
+      <div class="text-center mb-6 reveal">
+        <h2 class="font-accent text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">Open Vacancies</h2>
+        <p class="text-muted text-lg max-w-xl mx-auto">Here's what I'm working on right now. Something catch your eye? Let's talk.</p>
+      </div>
+
+      <!-- Filter pills -->
+      <div class="flex flex-wrap justify-center gap-2 mb-10 reveal">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="hospitality">Hospitality</button>
+        <button class="filter-pill" data-filter="tech">Tech</button>
+        <button class="filter-pill" data-filter="fnb">F&B</button>
+        <button class="filter-pill" data-filter="aviation">Aviation</button>
+      </div>
+
+      <!-- Vacancy cards -->
+      <div class="grid md:grid-cols-2 gap-6 reveal-stagger" id="vacancy-grid">
+        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="hospitality">
+          <div class="flex items-start justify-between mb-3">
+            <div class="icon-box">🏨</div>
+            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Hospitality</span>
+          </div>
+          <h3 class="text-lg font-bold mb-1">Hotel Operations Manager</h3>
+          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مدير عمليات فندقية</p>
+          <p class="text-muted text-sm leading-relaxed mb-3">5-star property in Amman. 5+ years in hotel ops. Someone who lives and breathes hospitality.</p>
+          <ul class="text-muted text-xs space-y-1 mb-4">
+            <li>5+ years in hotel operations management</li>
+            <li>Fluent Arabic & English</li>
+            <li>Someone who lives hospitality, not just manages it</li>
+          </ul>
+          <div class="flex items-center gap-3 text-xs text-muted mb-4">
+            <span>📍 Amman, Jordan</span><span>&#x2022;</span><span>Full-time</span>
+          </div>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+            <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Hotel%20Operations%20Manager%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
+            <a href="mailto:yasmin@hirefound.com?subject=Application:%20Hotel%20Operations%20Manager" class="text-muted text-xs hover:text-primary transition-colors">or send CV via email</a>
+          </div>
+        </div>
+
+        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="tech">
+          <div class="flex items-start justify-between mb-3">
+            <div class="icon-box">💻</div>
+            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Tech</span>
+          </div>
+          <h3 class="text-lg font-bold mb-1">Senior Frontend Developer</h3>
+          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مطور واجهات أمامية أول</p>
+          <p class="text-muted text-sm leading-relaxed mb-3">React/Next.js. Fintech startup scaling fast. Remote-friendly for the right person.</p>
+          <ul class="text-muted text-xs space-y-1 mb-4">
+            <li>3+ years React/Next.js</li>
+            <li>Eye for design, not just code</li>
+            <li>Startup mindset - move fast, own your work</li>
+          </ul>
+          <div class="flex items-center gap-3 text-xs text-muted mb-4">
+            <span>📍 Amman / Remote</span><span>&#x2022;</span><span>Full-time</span>
+          </div>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+            <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Senior%20Frontend%20Developer%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
+            <a href="mailto:yasmin@hirefound.com?subject=Application:%20Senior%20Frontend%20Developer" class="text-muted text-xs hover:text-primary transition-colors">or send CV via email</a>
+          </div>
+        </div>
+
+        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="fnb">
+          <div class="flex items-start justify-between mb-3">
+            <div class="icon-box">🍽️</div>
+            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">F&B</span>
+          </div>
+          <h3 class="text-lg font-bold mb-1">Restaurant General Manager</h3>
+          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مدير عام مطعم</p>
+          <p class="text-muted text-sm leading-relaxed mb-3">Premium dining concept. Needs someone who knows service, not just management.</p>
+          <ul class="text-muted text-xs space-y-1 mb-4">
+            <li>Fine dining or premium casual background</li>
+            <li>Team builder, not just a manager</li>
+            <li>Passion for service excellence</li>
+          </ul>
+          <div class="flex items-center gap-3 text-xs text-muted mb-4">
+            <span>📍 Amman, Jordan</span><span>&#x2022;</span><span>Full-time</span>
+          </div>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+            <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Restaurant%20GM%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
+            <a href="mailto:yasmin@hirefound.com?subject=Application:%20Restaurant%20General%20Manager" class="text-muted text-xs hover:text-primary transition-colors">or send CV via email</a>
+          </div>
+        </div>
+
+        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="aviation">
+          <div class="flex items-start justify-between mb-3">
+            <div class="icon-box">✈️</div>
+            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Aviation</span>
+          </div>
+          <h3 class="text-lg font-bold mb-1">Flight Services Supervisor</h3>
+          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مشرف خدمات الطيران</p>
+          <p class="text-muted text-sm leading-relaxed mb-3">Ground handling or cabin crew leadership. Regional airline, great growth path.</p>
+          <ul class="text-muted text-xs space-y-1 mb-4">
+            <li>Ground handling or cabin crew experience</li>
+            <li>Leadership in high-pressure environments</li>
+            <li>Willing to travel across the region</li>
+          </ul>
+          <div class="flex items-center gap-3 text-xs text-muted mb-4">
+            <span>📍 MENA Region</span><span>&#x2022;</span><span>Full-time</span>
+          </div>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+            <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Flight%20Services%20Supervisor%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
+            <a href="mailto:yasmin@hirefound.com?subject=Application:%20Flight%20Services%20Supervisor" class="text-muted text-xs hover:text-primary transition-colors">or send CV via email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-10 reveal">
+        <p class="text-muted text-sm">Don't see your fit? I'm always looking for great people.</p>
+        <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I%20don't%20see%20a%20matching%20role%20but%20I'd%20love%20to%20connect." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 mt-3 px-6 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm">Send Me Your CV Anyway</a>
+      </div>
+
+      <!-- Career bridge -->
+      <div class="text-center mt-12 pt-8 border-t border-primary/10">
+        <p class="text-muted text-sm mb-2">Looking for more than just a job listing?</p>
+        <a href="#services" data-switch-tab="candidates" class="career-bridge text-primary font-semibold text-sm hover:underline">
+          Explore our career services: CV optimization, interview prep & more &rarr;
+        </a>
       </div>
     </div>
   </section>
@@ -599,93 +721,6 @@
           <h3 class="text-xl font-bold mb-3">You Grow</h3>
           <p class="text-muted leading-relaxed px-2">The hire sticks. The career takes off. And I'm still just a message away.</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ==================== OPEN VACANCIES ==================== -->
-  <section id="vacancies" class="py-20 lg:py-28 px-6 bg-gradient-to-b from-warm to-warm-dark/40 relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none">
-      <div class="floating w-40 h-40 rounded-full bg-secondary/[0.04] absolute top-10 right-20 blur-3xl" style="animation-delay:-8s"></div>
-    </div>
-    <div class="max-w-5xl mx-auto relative z-10">
-      <div class="text-center mb-6 reveal">
-        <h2 class="font-accent text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">Open Vacancies</h2>
-        <p class="text-muted text-lg max-w-xl mx-auto">Here's what I'm working on right now. Something catch your eye? Let's talk.</p>
-      </div>
-
-      <!-- Filter pills -->
-      <div class="flex flex-wrap justify-center gap-2 mb-10 reveal">
-        <button class="filter-pill active" data-filter="all">All</button>
-        <button class="filter-pill" data-filter="hospitality">Hospitality</button>
-        <button class="filter-pill" data-filter="tech">Tech</button>
-        <button class="filter-pill" data-filter="fnb">F&B</button>
-        <button class="filter-pill" data-filter="aviation">Aviation</button>
-      </div>
-
-      <!-- Vacancy cards -->
-      <div class="grid md:grid-cols-2 gap-6 reveal-stagger" id="vacancy-grid">
-        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="hospitality">
-          <div class="flex items-start justify-between mb-3">
-            <div class="icon-box">🏨</div>
-            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Hospitality</span>
-          </div>
-          <h3 class="text-lg font-bold mb-1">Hotel Operations Manager</h3>
-          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مدير عمليات فندقية</p>
-          <p class="text-muted text-sm leading-relaxed mb-3">5-star property in Amman. 5+ years in hotel ops. Someone who lives and breathes hospitality.</p>
-          <div class="flex items-center gap-3 text-xs text-muted mb-4">
-            <span>📍 Amman, Jordan</span><span>&#x2022;</span><span>Full-time</span>
-          </div>
-          <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Hotel%20Operations%20Manager%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
-        </div>
-
-        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="tech">
-          <div class="flex items-start justify-between mb-3">
-            <div class="icon-box">💻</div>
-            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Tech</span>
-          </div>
-          <h3 class="text-lg font-bold mb-1">Senior Frontend Developer</h3>
-          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مطور واجهات أمامية أول</p>
-          <p class="text-muted text-sm leading-relaxed mb-3">React/Next.js. Fintech startup scaling fast. Remote-friendly for the right person.</p>
-          <div class="flex items-center gap-3 text-xs text-muted mb-4">
-            <span>📍 Amman / Remote</span><span>&#x2022;</span><span>Full-time</span>
-          </div>
-          <a href="mailto:yasmin@hirefound.com?subject=Application:%20Senior%20Frontend%20Developer" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Send CV &rarr;</a>
-        </div>
-
-        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="fnb">
-          <div class="flex items-start justify-between mb-3">
-            <div class="icon-box">🍽️</div>
-            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">F&B</span>
-          </div>
-          <h3 class="text-lg font-bold mb-1">Restaurant General Manager</h3>
-          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مدير عام مطعم</p>
-          <p class="text-muted text-sm leading-relaxed mb-3">Premium dining concept. Needs someone who knows service, not just management.</p>
-          <div class="flex items-center gap-3 text-xs text-muted mb-4">
-            <span>📍 Amman, Jordan</span><span>&#x2022;</span><span>Full-time</span>
-          </div>
-          <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Restaurant%20GM%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
-        </div>
-
-        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="aviation">
-          <div class="flex items-start justify-between mb-3">
-            <div class="icon-box">✈️</div>
-            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Aviation</span>
-          </div>
-          <h3 class="text-lg font-bold mb-1">Flight Services Supervisor</h3>
-          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مشرف خدمات الطيران</p>
-          <p class="text-muted text-sm leading-relaxed mb-3">Ground handling or cabin crew leadership. Regional airline, great growth path.</p>
-          <div class="flex items-center gap-3 text-xs text-muted mb-4">
-            <span>📍 MENA Region</span><span>&#x2022;</span><span>Full-time</span>
-          </div>
-          <a href="mailto:yasmin@hirefound.com?subject=Application:%20Flight%20Services%20Supervisor" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Send CV &rarr;</a>
-        </div>
-      </div>
-
-      <div class="text-center mt-10 reveal">
-        <p class="text-muted text-sm">Don't see your fit? I'm always looking for great people.</p>
-        <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I%20don't%20see%20a%20matching%20role%20but%20I'd%20love%20to%20connect." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 mt-3 px-6 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm">Send Me Your CV Anyway</a>
       </div>
     </div>
   </section>
@@ -951,8 +986,8 @@
         btn.addEventListener('click', () => switchTab(btn.dataset.tab));
       });
 
-      document.querySelectorAll('.hero-cta').forEach(cta => {
-        cta.addEventListener('click', () => switchTab(cta.dataset.switchTab));
+      document.querySelectorAll('[data-switch-tab]').forEach(el => {
+        el.addEventListener('click', () => switchTab(el.dataset.switchTab));
       });
 
 
