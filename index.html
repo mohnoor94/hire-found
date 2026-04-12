@@ -66,6 +66,7 @@
     /* === Custom Cursor (desktop only) === */
     @media (hover: hover) and (pointer: fine) {
       * { cursor: none !important; }
+      input, textarea, [contenteditable] { cursor: text !important; }
     }
     .custom-cursor {
       position: fixed;
@@ -439,14 +440,6 @@
     }
     .wa-send-btn:hover { background: #20BD5A; }
     .wa-send-btn:active { transform: scale(0.92); }
-    .wa-send-btn .icon-mic,
-    .wa-send-btn .icon-send {
-      position: absolute;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-    .wa-send-btn .icon-send { opacity: 0; transform: scale(0.5) rotate(-30deg); }
-    .wa-send-btn.has-text .icon-mic { opacity: 0; transform: scale(0.5); }
-    .wa-send-btn.has-text .icon-send { opacity: 1; transform: scale(1) rotate(0deg); }
 
     /* === Accessibility === */
     @media (prefers-reduced-motion: reduce) {
@@ -548,9 +541,8 @@
                 <div class="wa-reply-input-wrap">
                   <input id="hero-reply-input" type="text" placeholder="Type a message" class="bg-transparent text-[#E9EDEF] text-sm w-full outline-none placeholder-[#8696A0]" style="font-family: 'Inter', system-ui, sans-serif;">
                 </div>
-                <button id="hero-reply-send" class="wa-send-btn">
-                  <svg class="icon-mic w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/></svg>
-                  <svg class="icon-send w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                <button id="hero-reply-send" class="wa-send-btn opacity-40 pointer-events-none" disabled>
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
               </div>
             </div>
@@ -1059,6 +1051,10 @@
           el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
           el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
         });
+        document.querySelectorAll('input, textarea, [contenteditable]').forEach(el => {
+          el.addEventListener('mouseenter', () => { cursor.style.opacity = '0'; });
+          el.addEventListener('mouseleave', () => { cursor.style.opacity = ''; });
+        });
       }
 
 
@@ -1086,7 +1082,7 @@
       const heroChatEl = document.getElementById('hero-chat');
       const typingDots = document.getElementById('typing-dots');
       const typingText = document.getElementById('typing-text');
-      const chatMsg = "Looking for your next game-changer? Or maybe\u2026 you ARE one? \u{1F60F}";
+      const chatMsg = "Hiring or job hunting? Either way, you just found the right person \u{2728}";
 
       // Show bubble with dots after name appears
       setTimeout(() => heroChatEl.classList.add('visible'), 1100);
@@ -1125,7 +1121,10 @@
       replySend.addEventListener('click', sendToWhatsApp);
       replyInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendToWhatsApp(); });
       replyInput.addEventListener('input', () => {
-        replySend.classList.toggle('has-text', replyInput.value.trim().length > 0);
+        const hasText = replyInput.value.trim().length > 0;
+        replySend.disabled = !hasText;
+        replySend.classList.toggle('opacity-40', !hasText);
+        replySend.classList.toggle('pointer-events-none', !hasText);
       });
 
 
