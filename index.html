@@ -274,6 +274,12 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 22px;
     }
+    .icon-box-sm {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(139,34,82,0.08), rgba(212,165,116,0.06));
+      display: flex; align-items: center; justify-content: center;
+    }
 
     /* === Section Mouse Glow (generalized) === */
     .section-glow {
@@ -364,6 +370,84 @@
       40% { transform: translateY(-6px); }
     }
 
+    /* === WhatsApp Chat Window === */
+    .wa-chat-window {
+      background: #0B141A;
+      border-radius: 12px;
+      border: 1px solid rgba(134, 150, 160, 0.12);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      max-width: 24rem;
+      width: 100%;
+    }
+    .wa-chat-header {
+      background: #1F2C33;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(134, 150, 160, 0.06);
+    }
+    .wa-chat-body {
+      padding: 16px 12px;
+      background: #0B141A;
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(37, 211, 102, 0.015) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(83, 189, 235, 0.01) 0%, transparent 40%);
+      min-height: 60px;
+    }
+    .wa-reply-bar {
+      background: #1F2C33;
+      padding: 8px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-top: 1px solid rgba(134, 150, 160, 0.06);
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    .wa-reply-bar.visible {
+      animation: replyBarSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    @keyframes replyBarSlideUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .wa-reply-input-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: #2A3942;
+      border-radius: 24px;
+      padding: 8px 12px;
+      gap: 8px;
+      transition: box-shadow 0.2s ease;
+    }
+    .wa-reply-input-wrap:focus-within {
+      box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.2);
+    }
+    .wa-send-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      cursor: pointer;
+      border: none;
+      position: relative;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .wa-send-btn:hover { background: #20BD5A; }
+    .wa-send-btn:active { transform: scale(0.92); }
+    .wa-send-btn .icon-mic,
+    .wa-send-btn .icon-send {
+      position: absolute;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .wa-send-btn .icon-send { opacity: 0; transform: scale(0.5) rotate(-30deg); }
+    .wa-send-btn.has-text .icon-mic { opacity: 0; transform: scale(0.5); }
+    .wa-send-btn.has-text .icon-send { opacity: 1; transform: scale(1) rotate(0deg); }
+
     /* === Accessibility === */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -432,22 +516,42 @@
 
           <!-- Chat bubble (WhatsApp style) -->
           <div id="hero-chat" class="hero-chat mb-8 flex justify-center lg:justify-start" data-hero="chat">
-            <div class="flex items-start gap-2.5 max-w-sm">
-              <img src="assets/yasmin-blasi.png" alt="" class="w-9 h-9 rounded-full object-cover flex-shrink-0 ring-2 ring-whatsapp/30">
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="text-whatsapp text-xs font-semibold">Yasmin</span>
-                  <svg class="w-3.5 h-3.5 text-[#53BDEB]" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/><path d="M15 7l-1.41-1.41L9 10.17l1.41 1.41z" opacity="0.5"/></svg>
+            <div class="wa-chat-window">
+              <!-- Header -->
+              <div class="wa-chat-header">
+                <svg class="w-5 h-5 text-[#AEBAC1] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                <img src="assets/yasmin-blasi.png" alt="" class="w-8 h-8 rounded-full object-cover flex-shrink-0">
+                <div class="flex-1 min-w-0">
+                  <p class="text-[#E9EDEF] text-sm font-medium leading-tight">Yasmin</p>
+                  <p class="text-[#25D366] text-[11px] leading-tight">online</p>
                 </div>
-                <div class="wa-bubble px-3.5 py-2.5 shadow-lg">
+                <div class="flex items-center gap-4">
+                  <svg class="w-[18px] h-[18px] text-[#AEBAC1]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"/></svg>
+                  <svg class="w-[18px] h-[18px] text-[#AEBAC1]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+                </div>
+              </div>
+
+              <!-- Chat body -->
+              <div class="wa-chat-body">
+                <div class="wa-bubble px-3.5 py-2.5 shadow-lg inline-block">
                   <div id="typing-dots" class="flex gap-1.5 py-1">
                     <span class="typing-dot"></span>
                     <span class="typing-dot"></span>
                     <span class="typing-dot"></span>
                   </div>
                   <p id="typing-text" class="text-[#E9EDEF] text-[15px] md:text-base leading-relaxed tracking-wide hidden" style="font-family: 'Inter', system-ui, sans-serif; font-weight: 300;"></p>
-                      <p id="typing-time" class="text-[#8696A0] text-[10px] text-right mt-1 hidden">now</p>
                 </div>
+              </div>
+
+              <!-- Reply bar -->
+              <div class="wa-reply-bar" id="hero-reply">
+                <div class="wa-reply-input-wrap">
+                  <input id="hero-reply-input" type="text" placeholder="Type a message" class="bg-transparent text-[#E9EDEF] text-sm w-full outline-none placeholder-[#8696A0]" style="font-family: 'Inter', system-ui, sans-serif;">
+                </div>
+                <button id="hero-reply-send" class="wa-send-btn">
+                  <svg class="icon-mic w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/></svg>
+                  <svg class="icon-send w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
               </div>
             </div>
           </div>
@@ -513,17 +617,17 @@
 
       <div class="grid md:grid-cols-3 gap-6 lg:gap-8 reveal-stagger">
         <div class="reveal-child premium-card p-8 shadow-card">
-          <div class="icon-box mb-5">🤝</div>
+          <div class="icon-box-sm mb-5"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg></div>
           <h3 class="text-xl font-bold mb-3">Matchmaking, Not Seat-Filling</h3>
           <p class="text-muted leading-relaxed">I find people who fit your culture, not just your job description.</p>
         </div>
         <div class="reveal-child premium-card p-8 shadow-card">
-          <div class="icon-box mb-5">📖</div>
+          <div class="icon-box-sm mb-5"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg></div>
           <h3 class="text-xl font-bold mb-3">Your Story, Not Just Keywords</h3>
           <p class="text-muted leading-relaxed">Every candidate is more than a CV. Every company is more than a job post.</p>
         </div>
         <div class="reveal-child premium-card p-8 shadow-card">
-          <div class="icon-box mb-5">🚀</div>
+          <div class="icon-box-sm mb-5"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-6.25 0 2.247 2.247 0 002.247 2.247 4.493 4.493 0 003.003-.75z"/></svg></div>
           <h3 class="text-xl font-bold mb-3">From First Call to First Day</h3>
           <p class="text-muted leading-relaxed">I don't disappear after the offer letter. I'm here for the whole journey.</p>
         </div>
@@ -556,7 +660,7 @@
       <div class="grid md:grid-cols-2 gap-6 reveal-stagger" id="vacancy-grid">
         <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="hospitality">
           <div class="flex items-start justify-between mb-3">
-            <div class="icon-box">🏨</div>
+            <div class="icon-box-sm"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 21h20M6 21V9l6-4 6 4v12M10 21v-5h4v5"/></svg></div>
             <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Hospitality</span>
           </div>
           <h3 class="text-lg font-bold mb-1">Hotel Operations Manager</h3>
@@ -578,7 +682,7 @@
 
         <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="tech">
           <div class="flex items-start justify-between mb-3">
-            <div class="icon-box">💻</div>
+            <div class="icon-box-sm"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
             <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Tech</span>
           </div>
           <h3 class="text-lg font-bold mb-1">Senior Frontend Developer</h3>
@@ -600,7 +704,7 @@
 
         <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="fnb">
           <div class="flex items-start justify-between mb-3">
-            <div class="icon-box">🍽️</div>
+            <div class="icon-box-sm"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v8a4 4 0 004 4h1v6m10-18v18m0-18a3 3 0 00-3 3v3a3 3 0 003 3"/></svg></div>
             <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">F&B</span>
           </div>
           <h3 class="text-lg font-bold mb-1">Restaurant General Manager</h3>
@@ -622,7 +726,7 @@
 
         <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="aviation">
           <div class="flex items-start justify-between mb-3">
-            <div class="icon-box">✈️</div>
+            <div class="icon-box-sm"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
             <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Aviation</span>
           </div>
           <h3 class="text-lg font-bold mb-1">Flight Services Supervisor</h3>
@@ -653,7 +757,7 @@
         <div class="relative bg-gradient-to-br from-primary/[0.06] to-secondary/[0.06] rounded-2xl p-8 md:p-10 text-center border border-primary/10 overflow-hidden">
           <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/[0.08] rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
           <div class="relative z-10">
-            <div class="icon-box mx-auto mb-4">💡</div>
+            <div class="icon-box-sm mx-auto mb-4"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg></div>
             <h3 class="font-accent text-xl md:text-2xl font-bold text-primary mb-2">Looking for more than a job listing?</h3>
             <p class="text-muted text-sm leading-relaxed mb-5 max-w-md mx-auto">Get your CV rewritten, nail your next interview, or let me personally match you with your dream role.</p>
             <a href="#services" data-switch-tab="candidates" class="career-bridge magnetic inline-flex items-center gap-2 px-6 py-2.5 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">
@@ -729,17 +833,17 @@
       <div id="employers" class="tab-panel">
         <div class="grid md:grid-cols-3 gap-6 reveal-stagger">
           <div class="reveal-child premium-card p-8 shadow-card">
-            <div class="icon-box mb-4">🔍</div>
+            <div class="icon-box-sm mb-4"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg></div>
             <h3 class="text-lg font-bold mb-2">Executive Search & Headhunting</h3>
             <p class="text-muted text-sm leading-relaxed">I find leaders who don't just fill a seat - they transform your business. C-suite, directors, the people who move the needle.</p>
           </div>
           <div class="reveal-child premium-card p-8 shadow-card">
-            <div class="icon-box mb-4">🤝</div>
+            <div class="icon-box-sm mb-4"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg></div>
             <h3 class="text-lg font-bold mb-2">Recruitment & Job Matching</h3>
             <p class="text-muted text-sm leading-relaxed">From junior to senior, across industries. I handle sourcing, screening, and matching - you just meet the finalists.</p>
           </div>
           <div class="reveal-child premium-card p-8 shadow-card">
-            <div class="icon-box mb-4">🎯</div>
+            <div class="icon-box-sm mb-4"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/></svg></div>
             <h3 class="text-lg font-bold mb-2">DISC Assessments</h3>
             <p class="text-muted text-sm leading-relaxed">Understand how your candidates think, communicate, and work. Better insights mean better hires that stick.</p>
           </div>
@@ -750,17 +854,17 @@
       <div id="candidates" class="tab-panel hidden">
         <div class="grid md:grid-cols-3 gap-6 reveal-stagger">
           <div class="reveal-child premium-card p-8 shadow-card">
-            <div class="icon-box mb-4">💫</div>
+            <div class="icon-box-sm mb-4"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"/></svg></div>
             <h3 class="text-lg font-bold mb-2">Career Matchmaking</h3>
             <p class="text-muted text-sm leading-relaxed">Tell me where you want to go. I'll find the opportunities that actually match - not just what's available, but what's right.</p>
           </div>
           <div class="reveal-child premium-card p-8 shadow-card">
-            <div class="icon-box mb-4">✨</div>
+            <div class="icon-box-sm mb-4"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
             <h3 class="text-lg font-bold mb-2">CV Optimization</h3>
             <p class="text-muted text-sm leading-relaxed">Your CV should tell your story, not just list your jobs. I'll help you make it impossible to ignore.</p>
           </div>
           <div class="reveal-child premium-card p-8 shadow-card">
-            <div class="icon-box mb-4">🎤</div>
+            <div class="icon-box-sm mb-4"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/></svg></div>
             <h3 class="text-lg font-bold mb-2">Interview Preparation</h3>
             <p class="text-muted text-sm leading-relaxed">Nervous? Don't be. We'll practice until you walk in there owning the room. I know what they're looking for.</p>
           </div>
@@ -808,8 +912,8 @@
 
       <div class="grid md:grid-cols-3 gap-8 md:gap-4 reveal-stagger" id="steps-grid">
         <div class="reveal-child text-center relative">
-          <div data-step-circle class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-light text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
-            💬
+          <div data-step-circle class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-light text-white flex items-center justify-center mx-auto mb-5 shadow-warm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75c1.44 0 2.808-.312 4.04-.874l3.96.874-.874-3.96A9.713 9.713 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75z"/></svg>
           </div>
           <div class="hidden md:block step-connector" data-step-line="1"></div>
           <h3 class="text-xl font-bold mb-3">We Talk</h3>
@@ -818,8 +922,8 @@
         <!-- Mobile connector -->
         <div class="md:hidden flex justify-center"><div class="w-0.5 h-8 bg-gradient-to-b from-primary to-secondary rounded-full"></div></div>
         <div class="reveal-child text-center relative">
-          <div data-step-circle class="w-16 h-16 rounded-full bg-gradient-to-br from-secondary to-secondary-light text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
-            🎯
+          <div data-step-circle class="w-16 h-16 rounded-full bg-gradient-to-br from-secondary to-secondary-light text-white flex items-center justify-center mx-auto mb-5 shadow-warm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
           </div>
           <div class="hidden md:block step-connector" data-step-line="2"></div>
           <h3 class="text-xl font-bold mb-3">We Match</h3>
@@ -828,8 +932,8 @@
         <!-- Mobile connector -->
         <div class="md:hidden flex justify-center"><div class="w-0.5 h-8 bg-gradient-to-b from-secondary to-success rounded-full"></div></div>
         <div class="reveal-child text-center">
-          <div data-step-circle class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-600 to-amber-400 text-white flex items-center justify-center text-2xl mx-auto mb-5 shadow-warm">
-            🌱
+          <div data-step-circle class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-600 to-amber-400 text-white flex items-center justify-center mx-auto mb-5 shadow-warm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
           </div>
           <h3 class="text-xl font-bold mb-3">You Grow</h3>
           <p class="text-muted leading-relaxed px-2">The hire sticks. The career takes off. And I'm still just a message away.</p>
@@ -982,7 +1086,6 @@
       const heroChatEl = document.getElementById('hero-chat');
       const typingDots = document.getElementById('typing-dots');
       const typingText = document.getElementById('typing-text');
-      const typingTime = document.getElementById('typing-time');
       const chatMsg = "Looking for your next game-changer? Or maybe\u2026 you ARE one? \u{1F60F}";
 
       // Show bubble with dots after name appears
@@ -1002,12 +1105,28 @@
             const d = '.,!?\u2026'.includes(ch) ? 100 : ch === ' ' ? 40 : Math.random() * 30 + 20;
             setTimeout(typeChar, d);
           } else {
-            // Typing done - show timestamp, hide cursor
-            setTimeout(() => typingTime.classList.remove('hidden'), 400);
+            // Show reply bar after typing finishes
+            setTimeout(() => {
+              document.getElementById('hero-reply').classList.add('visible');
+            }, 600);
           }
         }
         typeChar();
       }, 2000);
+
+      // Reply box -> WhatsApp redirect
+      const replyInput = document.getElementById('hero-reply-input');
+      const replySend = document.getElementById('hero-reply-send');
+      function sendToWhatsApp() {
+        const msg = replyInput.value.trim();
+        if (!msg) return;
+        window.open('https://wa.me/962793001043?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+      }
+      replySend.addEventListener('click', sendToWhatsApp);
+      replyInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendToWhatsApp(); });
+      replyInput.addEventListener('input', () => {
+        replySend.classList.toggle('has-text', replyInput.value.trim().length > 0);
+      });
 
 
       /* === Section Mouse Glow (generalized) === */
