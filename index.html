@@ -213,7 +213,12 @@
       0%, 100% { box-shadow: 0 0 30px rgba(139, 34, 82, 0.15), 0 0 80px rgba(212, 165, 116, 0.08); }
       50% { box-shadow: 0 0 50px rgba(139, 34, 82, 0.25), 0 0 100px rgba(212, 165, 116, 0.15); }
     }
+    @keyframes glowPulseCircle {
+      0%, 100% { box-shadow: 0 0 35px rgba(160, 120, 210, 0.2), 0 0 80px rgba(139, 92, 196, 0.1); }
+      50% { box-shadow: 0 0 55px rgba(160, 120, 210, 0.35), 0 0 110px rgba(139, 92, 196, 0.18); }
+    }
     .photo-glow { animation: glowPulse 4s ease-in-out infinite; }
+    .photo-glow-circle { animation: glowPulseCircle 4s ease-in-out infinite; }
 
     /* === Floating Shapes === */
     @keyframes float {
@@ -428,7 +433,7 @@
           <!-- Chat bubble (WhatsApp style) -->
           <div id="hero-chat" class="hero-chat mb-8 flex justify-center lg:justify-start" data-hero="chat">
             <div class="flex items-start gap-2.5 max-w-sm">
-              <img src="assets/yasmin.png" alt="" class="w-9 h-9 rounded-full object-cover flex-shrink-0 ring-2 ring-whatsapp/30">
+              <img src="assets/yasmin-blasi.png" alt="" class="w-9 h-9 rounded-full object-cover flex-shrink-0 ring-2 ring-whatsapp/30">
               <div>
                 <div class="flex items-center gap-2 mb-1">
                   <span class="text-whatsapp text-xs font-semibold">Yasmin</span>
@@ -468,9 +473,8 @@
 
         <!-- Right: Photo (desktop only) -->
         <div class="hidden lg:block flex-shrink-0 fade-up" data-hero="2">
-          <div class="w-80 h-[420px] rounded-3xl overflow-hidden photo-glow relative">
-            <img src="assets/yasmin.png" alt="Yasmin Blasi, Founder of HireFound" class="w-full h-full object-cover object-top" loading="eager">
-            <div class="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent"></div>
+          <div class="w-80 h-80 rounded-full overflow-hidden photo-glow-circle relative" style="background: radial-gradient(circle, rgba(192, 162, 236, 0.3) 0%, rgba(139, 92, 196, 0.15) 50%, transparent 70%);">
+            <img src="assets/yasmin-blasi.png" alt="Yasmin Blasi, Founder of HireFound" class="w-full h-full object-cover" loading="eager">
           </div>
         </div>
       </div>
@@ -669,8 +673,8 @@
 
         <!-- Photo -->
         <div class="reveal flex-shrink-0">
-          <div class="w-64 h-72 md:w-72 md:h-80 rounded-3xl overflow-hidden shadow-card photo-glow">
-            <img src="assets/yasmin.png" alt="Yasmin Blasi, Founder of HireFound" class="w-full h-full object-cover" loading="lazy">
+          <div class="w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden shadow-card photo-glow-circle" style="background: radial-gradient(circle, rgba(192, 162, 236, 0.3) 0%, rgba(139, 92, 196, 0.15) 50%, transparent 70%);">
+            <img src="assets/yasmin-blasi.png" alt="Yasmin Blasi, Founder of HireFound" class="w-full h-full object-cover" loading="lazy">
           </div>
         </div>
 
