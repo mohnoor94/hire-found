@@ -1039,6 +1039,20 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
+      /* === WhatsApp URL Helper (dynamic page source) === */
+      const waPhone = '962793001043';
+      function buildWaUrl(message) {
+        const pageUrl = window.location.href.replace(/[#?].*$/, '').replace(/\/$/, '');
+        return 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(message + '\n\n- Sent via ' + pageUrl);
+      }
+      document.querySelectorAll('a[href*="wa.me/"]').forEach(a => {
+        try {
+          const orig = decodeURIComponent(new URL(a.href).searchParams.get('text') || '');
+          if (orig) a.href = buildWaUrl(orig);
+        } catch (e) {}
+      });
+
+
       /* === Custom Cursor (desktop only) === */
       const cursor = document.getElementById('custom-cursor');
       if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && cursor) {
@@ -1116,7 +1130,7 @@
       function sendToWhatsApp() {
         const msg = replyInput.value.trim();
         if (!msg) return;
-        window.open('https://wa.me/962793001043?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+        window.open(buildWaUrl(msg), '_blank', 'noopener');
       }
       replySend.addEventListener('click', sendToWhatsApp);
       replyInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendToWhatsApp(); });
