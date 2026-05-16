@@ -1622,6 +1622,18 @@
             this.el.classList.add('hidden');
             this.el.setAttribute('data-state', 'closed');
 
+            // Destroy the Cal.com embed so next open starts fresh
+            this.calContainer.innerHTML = '';
+            this.calContainer.classList.add('hidden');
+            this.calContainer.style.position = '';
+            this.calContainer.style.opacity = '';
+            this.calContainer.style.pointerEvents = '';
+            this.calReady = false;
+
+            // Reset to loading state for next open
+            if (this.loadingEl) this.loadingEl.classList.remove('hidden');
+            if (this.errorEl) this.errorEl.classList.add('hidden');
+
             // Restore body scroll
             document.body.style.overflow = '';
 
@@ -1680,12 +1692,6 @@
         },
 
         initCalEmbed() {
-          // If already initialized, just show the embed container
-          if (this.calReady) {
-            this.showEmbed();
-            return;
-          }
-
           var self = this;
 
           // Register event listeners BEFORE initializing the embed to avoid race conditions
