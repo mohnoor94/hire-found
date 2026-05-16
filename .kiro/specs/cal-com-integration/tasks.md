@@ -6,7 +6,7 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
 
 ## Tasks
 
-- [-] 1. Add Cal.com Embed SDK and Booking Modal HTML
+- [x] 1. Add Cal.com Embed SDK and Booking Modal HTML
   - [x] 1.1 Add the Cal.com embed SDK loader script at the bottom of `<body>` (async, non-blocking) with namespace initialization, brand theme colors, and preload call for "yasminblasi"
     - Add the IIFE script that loads `https://app.cal.com/embed/embed.js`
     - Initialize namespace `Cal("init", "booking", { origin: "https://cal.com" })`
@@ -51,7 +51,7 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
 - [x] 4. Checkpoint - Verify HTML structure
   - Ensure all tests pass, ask the user if questions arise.
 
-- [-] 5. Implement Modal Controller JavaScript
+- [x] 5. Implement Modal Controller JavaScript
   - [x] 5.1 Write the BookingModal controller object with open/close methods, animation logic, scroll lock, and focus return
     - Implement `BookingModal.init()` to bind all DOM elements
     - Implement `BookingModal.open(triggerElement)`: store trigger, show modal, animate in (opacity 0→1, scale 0.95→1.0 over 200-400ms), disable body scroll (`overflow: hidden`), start 8-second load timeout
@@ -79,7 +79,7 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
     - If SDK not loaded when any booking trigger is activated: `window.open("https://cal.com/yasminblasi", "_blank")` instead of opening modal
     - _Requirements: 6.2_
 
-- [-] 6. Wire All Booking Triggers to Modal Controller
+- [x] 6. Wire All Booking Triggers to Modal Controller
   - [x] 6.1 Attach click handlers to `#fab-book`, `#contact-book-btn`, and both nav "Get Started" buttons to call `BookingModal.open()`
     - `#fab-book` click → `BookingModal.open(fabBookBtn)`
     - `#contact-book-btn` click → `BookingModal.open(contactBookBtn)`
@@ -97,8 +97,8 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
 - [x] 7. Checkpoint - Verify full integration
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 8. Mobile Responsiveness and Polish
-  - [ ] 8.1 Verify and adjust mobile styles: full-screen modal on <768px, icon-only FAB buttons, minimum touch targets, and no horizontal overflow
+- [x] 8. Mobile Responsiveness and Polish
+  - [x] 8.1 Verify and adjust mobile styles: full-screen modal on <768px, icon-only FAB buttons, minimum touch targets, and no horizontal overflow
     - Confirm modal uses `max-md:!w-full max-md:!h-full max-md:!max-h-full max-md:!rounded-none` for full-screen on mobile
     - Confirm FAB buttons use `max-md:px-0 max-md:w-12 max-md:h-12` for icon-only on mobile
     - Confirm all interactive elements have min 44×44px touch targets
@@ -106,13 +106,13 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
     - Test Cal.com embed fills 100% container width without horizontal scrollbar from 320px to 1440px
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-  - [ ] 8.2 Add CSS for modal open/close animations and ensure `prefers-reduced-motion` is respected
+  - [x] 8.2 Add CSS for modal open/close animations and ensure `prefers-reduced-motion` is respected
     - Add transition classes for backdrop opacity and card scale/opacity
     - Ensure existing `prefers-reduced-motion` media query covers the new modal animations
     - Verify the 500ms fade duration on the Floating Action Stack
     - _Requirements: 4.4, 4.5, 2.4, 2.9_
 
-- [ ] 9. Final Checkpoint - Full feature validation
+- [x] 9. Final Checkpoint - Full feature validation
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
