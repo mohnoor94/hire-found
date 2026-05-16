@@ -40,8 +40,8 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
     - Replace any existing scroll-based show/hide logic that was tied to the old WhatsApp FAB
     - _Requirements: 2.3, 2.4, 2.9_
 
-- [ ] 3. Add Contact Section Booking Button
-  - [ ] 3.1 Add a "Book a Call" button in the contact section alongside the existing WhatsApp CTA with matching visual weight
+- [x] 3. Add Contact Section Booking Button
+  - [x] 3.1 Add a "Book a Call" button in the contact section alongside the existing WhatsApp CTA with matching visual weight
     - Add `#contact-book-btn` with classes: `px-8 py-4 bg-primary text-white font-bold rounded-full shadow-lg text-lg`
     - Include calendar icon (w-6 h-6) + "Book a Call" text
     - Position above or beside the existing WhatsApp button in the same container
