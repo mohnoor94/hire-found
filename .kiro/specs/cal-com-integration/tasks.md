@@ -6,15 +6,15 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
 
 ## Tasks
 
-- [ ] 1. Add Cal.com Embed SDK and Booking Modal HTML
-  - [ ] 1.1 Add the Cal.com embed SDK loader script at the bottom of `<body>` (async, non-blocking) with namespace initialization, brand theme colors, and preload call for "yasminblasi"
+- [-] 1. Add Cal.com Embed SDK and Booking Modal HTML
+  - [x] 1.1 Add the Cal.com embed SDK loader script at the bottom of `<body>` (async, non-blocking) with namespace initialization, brand theme colors, and preload call for "yasminblasi"
     - Add the IIFE script that loads `https://app.cal.com/embed/embed.js`
     - Initialize namespace `Cal("init", "booking", { origin: "https://cal.com" })`
     - Configure `Cal.ns.booking("ui", {...})` with HireFound brand colors (primary #8B2252, bg #FFFAF5)
     - Call `Cal.ns.booking("preload", { calLink: "yasminblasi" })`
     - _Requirements: 1.1, 1.3, 1.6, 1.8, 1.9, 6.1, 6.3_
 
-  - [ ] 1.2 Add the Booking Modal HTML structure with header, loading state, Cal.com embed container, and error state
+  - [x] 1.2 Add the Booking Modal HTML structure with header, loading state, Cal.com embed container, and error state
     - Add `#booking-modal` with `role="dialog"`, `aria-modal="true"`, `aria-labelledby="booking-modal-title"`
     - Include backdrop (`#booking-backdrop`) with dark overlay (bg-dark/60)
     - Include modal card (`#booking-card`) with branded header (Yasmin's photo, title, close button)

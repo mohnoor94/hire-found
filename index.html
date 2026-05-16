@@ -1035,6 +1035,70 @@
   </a>
 
 
+  <!-- ==================== BOOKING MODAL ==================== -->
+  <div id="booking-modal" 
+       role="dialog" 
+       aria-modal="true" 
+       aria-labelledby="booking-modal-title"
+       class="fixed inset-0 z-[60] hidden"
+       data-state="closed">
+    
+    <!-- Backdrop -->
+    <div id="booking-backdrop" 
+         class="absolute inset-0 bg-dark/60 transition-opacity duration-300 opacity-0"></div>
+    
+    <!-- Modal Content -->
+    <div id="booking-content"
+         class="absolute inset-0 flex items-center justify-center p-4 md:p-6">
+      <div id="booking-card"
+           class="relative bg-warm rounded-xl md:rounded-2xl w-full max-w-[480px] max-h-[90vh] overflow-hidden shadow-2xl
+                  transform scale-95 opacity-0 transition-all duration-300
+                  max-md:!max-w-none max-md:!w-full max-md:!h-full max-md:!max-h-full max-md:!rounded-none">
+        
+        <!-- Header (max 64px) -->
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-primary/10 h-16 flex-shrink-0">
+          <img src="assets/yasmin-blasi.png" alt="" class="w-10 h-10 rounded-full object-cover">
+          <h2 id="booking-modal-title" class="font-accent text-lg font-bold text-primary flex-1">Book a Call with Yasmin</h2>
+          <button id="booking-close-btn" 
+                  class="w-11 h-11 flex items-center justify-center rounded-full hover:bg-primary/10 transition-colors"
+                  aria-label="Close booking modal">
+            <svg class="w-5 h-5 text-text-main" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Body -->
+        <div id="booking-body" class="overflow-y-auto flex-1" style="min-height: 400px;">
+          <!-- Loading State -->
+          <div id="booking-loading" class="flex flex-col items-center justify-center py-16">
+            <div class="w-10 h-10 border-3 border-primary/20 border-t-primary rounded-full animate-spin mb-4"></div>
+            <p class="text-muted text-sm">Loading calendar...</p>
+          </div>
+          
+          <!-- Cal.com Embed Container -->
+          <div id="booking-cal-container" class="hidden w-full"></div>
+          
+          <!-- Error State -->
+          <div id="booking-error" class="hidden flex flex-col items-center justify-center py-16 px-6 text-center">
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+              </svg>
+            </div>
+            <p class="text-text-main font-semibold mb-2">Calendar unavailable</p>
+            <p class="text-muted text-sm mb-6">The scheduling service couldn't be loaded right now.</p>
+            <a href="https://cal.com/yasminblasi" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors">
+              Book on Cal.com →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ==================== JAVASCRIPT ==================== -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -1381,6 +1445,48 @@
       }
 
     });
+  </script>
+
+  <!-- Cal.com Embed SDK (async, non-blocking) -->
+  <script>
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal;
+        let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {}; cal.q = cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    Cal("init", "booking", { origin: "https://cal.com" });
+
+    Cal.ns.booking("ui", {
+      theme: "light",
+      cssVarsPerTheme: {
+        light: {
+          "cal-brand": "#8B2252",
+          "cal-brand-emphasis": "#A63B6B",
+          "cal-brand-text": "#FFFFFF",
+          "cal-bg": "#FFFAF5",
+          "cal-bg-emphasis": "#F8F0EA",
+          "cal-text": "#2D2926",
+          "cal-text-emphasis": "#1A1A2E",
+          "cal-text-subtle": "#8A8380",
+          "cal-border": "rgba(139, 34, 82, 0.15)",
+          "cal-border-booker": "transparent",
+          "cal-border-booker-width": "0px"
+        }
+      }
+    });
+
+    Cal.ns.booking("preload", { calLink: "yasminblasi" });
   </script>
 
 </body>
