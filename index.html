@@ -449,6 +449,19 @@
         animation-iteration-count: 1 !important;
       }
       .custom-cursor { display: none !important; }
+      /* Ensure modal and floating action stack animations are disabled */
+      #booking-backdrop,
+      #booking-card,
+      #action-stack {
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* === Cal.com Embed Responsive === */
+    #booking-cal-container iframe {
+      width: 100% !important;
+      max-width: 100% !important;
+      border: none;
     }
   </style>
 </head>
@@ -471,7 +484,7 @@
           Get Started
         </a>
       </div>
-      <a id="nav-get-started-mobile" role="button" tabindex="0" class="md:hidden magnetic inline-flex items-center px-4 py-2 bg-primary text-white text-xs font-semibold rounded-full shadow-warm cursor-pointer">
+      <a id="nav-get-started-mobile" role="button" tabindex="0" class="md:hidden magnetic inline-flex items-center px-4 py-2 min-h-[44px] bg-primary text-white text-base font-semibold rounded-full shadow-warm cursor-pointer">
         Get Started
       </a>
     </div>
@@ -1087,10 +1100,10 @@
     
     <!-- Modal Content -->
     <div id="booking-content"
-         class="absolute inset-0 flex items-center justify-center p-4 md:p-6">
+         class="absolute inset-0 flex items-center justify-center max-md:p-0 p-4 md:p-6">
       <div id="booking-card"
            class="relative bg-warm rounded-xl md:rounded-2xl w-full max-w-[480px] max-h-[90vh] overflow-hidden shadow-2xl
-                  transform scale-95 opacity-0 transition-all duration-300
+                  flex flex-col transform scale-95 opacity-0 transition-all duration-300
                   max-md:!max-w-none max-md:!w-full max-md:!h-full max-md:!max-h-full max-md:!rounded-none">
         
         <!-- Header (max 64px) -->
@@ -1107,7 +1120,7 @@
         </div>
         
         <!-- Body -->
-        <div id="booking-body" class="overflow-y-auto flex-1" style="min-height: 400px;">
+        <div id="booking-body" class="overflow-y-auto overflow-x-hidden flex-1" style="min-height: 400px;">
           <!-- Loading State -->
           <div id="booking-loading" class="flex flex-col items-center justify-center py-16">
             <div class="w-10 h-10 border-3 border-primary/20 border-t-primary rounded-full animate-spin mb-4"></div>
@@ -1115,7 +1128,7 @@
           </div>
           
           <!-- Cal.com Embed Container -->
-          <div id="booking-cal-container" class="hidden w-full"></div>
+          <div id="booking-cal-container" class="hidden w-full overflow-x-hidden"></div>
           
           <!-- Error State -->
           <div id="booking-error" class="hidden flex flex-col items-center justify-center py-16 px-6 text-center">
@@ -1127,7 +1140,7 @@
             <p class="text-text-main font-semibold mb-2">Calendar unavailable</p>
             <p class="text-muted text-sm mb-6">The scheduling service couldn't be loaded right now.</p>
             <a href="https://cal.com/yasminblasi" target="_blank" rel="noopener"
-               class="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors">
+               class="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] bg-primary text-white text-base font-semibold rounded-full hover:bg-primary-light transition-colors">
               Book on Cal.com →
             </a>
           </div>
@@ -1604,7 +1617,7 @@
           this.card.style.transform = 'scale(0.95)';
           this.backdrop.style.opacity = '0';
 
-          // After animation completes (use 250ms to match 150-300ms range)
+          // After animation completes (300ms matches CSS transition-all duration-300)
           setTimeout(() => {
             this.el.classList.add('hidden');
             this.el.setAttribute('data-state', 'closed');
@@ -1620,7 +1633,7 @@
             }
 
             this.isOpen = false;
-          }, 250);
+          }, 300);
         },
 
         trapFocus(e) {
