@@ -51,22 +51,22 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
 - [x] 4. Checkpoint - Verify HTML structure
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Implement Modal Controller JavaScript
-  - [ ] 5.1 Write the BookingModal controller object with open/close methods, animation logic, scroll lock, and focus return
+- [-] 5. Implement Modal Controller JavaScript
+  - [x] 5.1 Write the BookingModal controller object with open/close methods, animation logic, scroll lock, and focus return
     - Implement `BookingModal.init()` to bind all DOM elements
     - Implement `BookingModal.open(triggerElement)`: store trigger, show modal, animate in (opacity 0→1, scale 0.95→1.0 over 200-400ms), disable body scroll (`overflow: hidden`), start 8-second load timeout
     - Implement `BookingModal.close()`: animate out (opacity 1→0, scale 1.0→0.95 over 150-300ms), restore body scroll, return focus to stored trigger element (fallback to `document.body` if trigger removed)
     - Handle `data-state` attribute for open/closed tracking
     - _Requirements: 1.4, 1.5, 4.4, 4.5, 4.6, 4.8, 4.9, 4.10, 8.2, 8.3, 8.4_
 
-  - [ ] 5.2 Implement focus trap logic that cycles Tab/Shift+Tab within the modal while open
+  - [x] 5.2 Implement focus trap logic that cycles Tab/Shift+Tab within the modal while open
     - Query all focusable elements within `#booking-modal` (buttons, links, inputs)
     - On Tab at last element: move focus to first element
     - On Shift+Tab at first element: move focus to last element
     - Attach on modal open, detach on modal close
     - _Requirements: 1.4, 4.8_
 
-  - [ ] 5.3 Implement Cal.com embed initialization inside the modal and loading/error state transitions
+  - [x] 5.3 Implement Cal.com embed initialization inside the modal and loading/error state transitions
     - On first modal open: call `Cal.ns.booking("inline", { elementOrSelector: "#booking-cal-container", calLink: "yasminblasi" })`
     - Listen for Cal.com `linkReady` event: hide loading spinner, show embed container
     - Listen for Cal.com `linkFailed` event: hide loading spinner, show error state
@@ -74,13 +74,13 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
     - On subsequent opens: skip re-initialization if embed already loaded
     - _Requirements: 1.2, 1.7, 6.4, 6.5_
 
-  - [ ] 5.4 Implement SDK load failure detection and fallback redirect behavior
+  - [x] 5.4 Implement SDK load failure detection and fallback redirect behavior
     - Track whether the Cal.com SDK script loaded successfully (10-second timeout)
     - If SDK not loaded when any booking trigger is activated: `window.open("https://cal.com/yasminblasi", "_blank")` instead of opening modal
     - _Requirements: 6.2_
 
-- [ ] 6. Wire All Booking Triggers to Modal Controller
-  - [ ] 6.1 Attach click handlers to `#fab-book`, `#contact-book-btn`, and both nav "Get Started" buttons to call `BookingModal.open()`
+- [-] 6. Wire All Booking Triggers to Modal Controller
+  - [x] 6.1 Attach click handlers to `#fab-book`, `#contact-book-btn`, and both nav "Get Started" buttons to call `BookingModal.open()`
     - `#fab-book` click → `BookingModal.open(fabBookBtn)`
     - `#contact-book-btn` click → `BookingModal.open(contactBookBtn)`
     - Desktop nav "Get Started" → change `href="#contact"` to `role="button"`, attach click handler → `BookingModal.open(navBtn)`
@@ -88,13 +88,13 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
     - Prevent default anchor behavior on nav buttons
     - _Requirements: 2.7, 3.4, 7.1, 7.2, 7.3, 7.4_
 
-  - [ ] 6.2 Attach close handlers: close button click, Escape key, and backdrop click
+  - [x] 6.2 Attach close handlers: close button click, Escape key, and backdrop click
     - `#booking-close-btn` click → `BookingModal.close()`
     - `document` keydown Escape (only when modal open) → `BookingModal.close()`
     - `#booking-backdrop` click → `BookingModal.close()`
     - _Requirements: 1.5, 4.6, 4.10_
 
-- [ ] 7. Checkpoint - Verify full integration
+- [x] 7. Checkpoint - Verify full integration
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 8. Mobile Responsiveness and Polish
