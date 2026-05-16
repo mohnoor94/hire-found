@@ -23,8 +23,8 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
     - On mobile (<768px), modal should be full-screen; on desktop (≥768px), centered card with max-w-[480px] and rounded-xl
     - _Requirements: 1.2, 1.7, 4.1, 4.2, 4.3, 4.7, 5.1, 5.4_
 
-- [ ] 2. Replace WhatsApp FAB with Floating Action Stack
-  - [ ] 2.1 Remove the existing `#wa-fab` element and its associated styles/scripts, then add the new `#action-stack` HTML with Book a Call and WhatsApp pill buttons
+- [x] 2. Replace WhatsApp FAB with Floating Action Stack
+  - [x] 2.1 Remove the existing `#wa-fab` element and its associated styles/scripts, then add the new `#action-stack` HTML with Book a Call and WhatsApp pill buttons
     - Remove the old `#wa-fab` anchor element from the HTML
     - Add `#action-stack` fixed bottom-6 right-6 z-50 with two buttons stacked vertically (gap-3)
     - Book a Call button (`#fab-book`): primary bg, calendar icon + text, icon-only on mobile
@@ -33,7 +33,7 @@ This plan integrates Cal.com booking functionality into the HireFound single-pag
     - Start hidden (opacity-0, pointer-events-none)
     - _Requirements: 2.1, 2.2, 2.5, 2.6, 2.8, 2.10, 5.2, 5.5_
 
-  - [ ] 2.2 Implement IntersectionObserver logic to show/hide the Floating Action Stack based on hero section visibility
+  - [x] 2.2 Implement IntersectionObserver logic to show/hide the Floating Action Stack based on hero section visibility
     - Observe `#hero` section with threshold 0
     - When hero is not intersecting: set opacity-1, pointer-events-auto (fade in over 500ms)
     - When hero is intersecting: set opacity-0, pointer-events-none (fade out over 500ms)
