@@ -1671,7 +1671,12 @@
         showEmbed() {
           if (this.loadingEl) this.loadingEl.classList.add('hidden');
           if (this.errorEl) this.errorEl.classList.add('hidden');
-          if (this.calContainer) this.calContainer.classList.remove('hidden');
+          if (this.calContainer) {
+            this.calContainer.classList.remove('hidden');
+            this.calContainer.style.position = '';
+            this.calContainer.style.opacity = '';
+            this.calContainer.style.pointerEvents = '';
+          }
         },
 
         initCalEmbed() {
@@ -1681,32 +1686,57 @@
             return;
           }
 
-          // Initialize Cal.com inline embed
+          var self = this;
+
+          // Register event listeners BEFORE initializing the embed to avoid race conditions
+          Cal.ns.booking("on", {
+            action: "linkReady",
+            callback: function() {
+              self.calReady = true;
+              self.showEmbed();
+              if (self.loadTimeout) {
+                clearTimeout(self.loadTimeout);
+                self.loadTimeout = null;
+              }
+            }
+          });
+
+          Cal.ns.booking("on", {
+            action: "linkFailed",
+            callback: function() {
+              self.showError();
+            }
+          });
+
+          // Make container visible (but empty) so Cal.com can render into it
+          this.calContainer.classList.remove('hidden');
+          this.calContainer.style.position = 'absolute';
+          this.calContainer.style.opacity = '0';
+          this.calContainer.style.pointerEvents = 'none';
+
+          // Initialize Cal.com inline embed after listeners are attached
           Cal.ns.booking("inline", {
             elementOrSelector: "#booking-cal-container",
             calLink: "yasminblasi"
           });
 
-          // Listen for linkReady event
-          Cal.ns.booking("on", {
-            action: "linkReady",
-            callback: () => {
-              this.calReady = true;
-              this.showEmbed();
-              if (this.loadTimeout) {
-                clearTimeout(this.loadTimeout);
-                this.loadTimeout = null;
+          // Fallback: poll for iframe presence in case linkReady event is missed
+          var pollCount = 0;
+          var pollForIframe = setInterval(function() {
+            pollCount++;
+            var iframe = self.calContainer.querySelector('iframe');
+            if (iframe && !self.calReady) {
+              self.calReady = true;
+              self.showEmbed();
+              if (self.loadTimeout) {
+                clearTimeout(self.loadTimeout);
+                self.loadTimeout = null;
               }
+              clearInterval(pollForIframe);
+            } else if (pollCount >= 40 || self.calReady) {
+              clearInterval(pollForIframe);
             }
-          });
-
-          // Listen for linkFailed event
-          Cal.ns.booking("on", {
-            action: "linkFailed",
-            callback: () => {
-              this.showError();
-            }
-          });
+          }, 200);
         }
       };
 
