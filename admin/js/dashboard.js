@@ -498,19 +498,39 @@ function createJobCardElement(job) {
   // Wire up edit button
   const editBtn = card.querySelector('.job-edit-btn');
   if (editBtn && dashboardCallbacks?.onEdit) {
-    editBtn.addEventListener('click', () => dashboardCallbacks.onEdit(job));
+    editBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dashboardCallbacks.onEdit(job);
+    });
   }
 
   // Wire up delete button
   const deleteBtn = card.querySelector('.job-delete-btn');
   if (deleteBtn && dashboardCallbacks?.onDelete) {
-    deleteBtn.addEventListener('click', () => dashboardCallbacks.onDelete(job));
+    deleteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dashboardCallbacks.onDelete(job);
+    });
   }
 
   // Wire up toggle
   const toggle = card.querySelector('.job-toggle');
   if (toggle && dashboardCallbacks?.onToggleActive) {
-    toggle.addEventListener('change', () => dashboardCallbacks.onToggleActive(job));
+    toggle.addEventListener('change', (e) => {
+      e.stopPropagation();
+      dashboardCallbacks.onToggleActive(job);
+    });
+    // Prevent click on the toggle label from bubbling to card
+    const toggleLabel = toggle.closest('label');
+    if (toggleLabel) {
+      toggleLabel.addEventListener('click', (e) => e.stopPropagation());
+    }
+  }
+
+  // Wire up card click to open edit
+  if (dashboardCallbacks?.onEdit) {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => dashboardCallbacks.onEdit(job));
   }
 
   return card;

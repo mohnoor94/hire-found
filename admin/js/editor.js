@@ -6,6 +6,12 @@
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
+// Default contact details (Yasmin's)
+const DEFAULT_CONTACT = {
+  contactWhatsApp: '962793001043',
+  contactEmail: 'yasmin@hirefound.com',
+};
+
 const CATEGORIES = ['hospitality', 'tech', 'fnb', 'aviation', 'other'];
 const EMPLOYMENT_TYPES = ['full-time', 'part-time', 'contract', 'freelance'];
 
@@ -267,6 +273,9 @@ function renderEditor(container, jobData, jobId, callbacks) {
 
   // Wire up collapsible section toggles
   setupCollapsibleSections(container);
+
+  // Wire up contact field override buttons
+  setupContactOverrides(container);
 }
 
 /**
@@ -330,7 +339,7 @@ function renderField(fieldName, jobData) {
       });
 
     case 'slug':
-      return textInput({
+      return slugInput({
         name: 'slug',
         label: 'Slug',
         value,
@@ -418,19 +427,21 @@ function renderField(fieldName, jobData) {
       });
 
     case 'contactWhatsApp':
-      return textInput({
+      return lockedContactInput({
         name: 'contactWhatsApp',
         label: 'WhatsApp Number',
         value,
+        defaultValue: DEFAULT_CONTACT.contactWhatsApp,
         placeholder: 'e.g. 971501234567',
         helpText: 'Digits only, 7–15 characters.',
       });
 
     case 'contactEmail':
-      return textInput({
+      return lockedContactInput({
         name: 'contactEmail',
         label: 'Contact Email',
         value,
+        defaultValue: DEFAULT_CONTACT.contactEmail,
         placeholder: 'e.g. hr@company.com',
         type: 'email',
       });
@@ -479,6 +490,93 @@ function textInput({ name, label, value = '', required = false, maxLength, place
         class="w-full px-4 py-3 min-h-[44px] text-sm text-text-main bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200 ${textAlignClass}"
       >
       ${helpText ? `<p class="text-xs text-muted mt-1">${helpText}</p>` : ''}
+      <p class="field-error text-xs text-red-500 mt-1 hidden" aria-live="polite"></p>
+    </div>
+  `;
+}
+
+/**
+ * Renders the slug field with a regenerate button.
+ * @param {Object} opts
+ * @returns {string} HTML string
+ */
+function slugInput({ name, label, value = '', required = false, maxLength, placeholder = '', helpText = '' }) {
+  const requiredMark = required ? '<span class="text-red-500 ml-0.5">*</span>' : '';
+  const maxLengthAttr = maxLength ? `maxlength="${maxLength}"` : '';
+
+  return `
+    <div class="field-group">
+      <label for="field-${name}" class="block text-sm font-medium text-text-main mb-1.5">
+        ${label}${requiredMark}
+      </label>
+      <div class="flex items-center gap-2">
+        <input
+          type="text"
+          id="field-${name}"
+          name="${name}"
+          value="${escapeHtml(String(value))}"
+          placeholder="${placeholder}"
+          ${maxLengthAttr}
+          ${required ? 'required' : ''}
+          class="flex-1 px-4 py-3 min-h-[44px] text-sm text-text-main bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
+        >
+        <button
+          type="button"
+          id="slug-regenerate-btn"
+          title="Regenerate slug from title"
+          class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-primary bg-primary/10 rounded-xl hover:bg-primary/20 transition-all duration-200"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+        </button>
+      </div>
+      ${helpText ? `<p class="text-xs text-muted mt-1">${helpText}</p>` : ''}
+      <p class="field-error text-xs text-red-500 mt-1 hidden" aria-live="polite"></p>
+    </div>
+  `;
+}
+
+/**
+ * Renders a contact field that's pre-filled and disabled by default (Yasmin's details).
+ * Includes an "Override" button to unlock the field for custom values.
+ * @param {Object} opts
+ * @returns {string} HTML string
+ */
+function lockedContactInput({ name, label, value = '', defaultValue = '', placeholder = '', helpText = '', type = 'text' }) {
+  // Use the existing value if it differs from default (custom override), otherwise use default
+  const displayValue = value || defaultValue;
+  const isCustom = value && value !== defaultValue;
+  const disabledAttr = isCustom ? '' : 'disabled';
+  const disabledClass = isCustom ? '' : 'bg-gray-50 text-muted cursor-not-allowed';
+  const btnLabel = isCustom ? 'Reset to default' : 'Use custom';
+
+  return `
+    <div class="field-group" data-locked-field="${name}">
+      <div class="flex items-center justify-between mb-1.5">
+        <label for="field-${name}" class="block text-sm font-medium text-text-main">
+          ${label}
+        </label>
+        <button
+          type="button"
+          class="contact-override-btn text-xs font-medium text-primary hover:text-primary-light transition-colors duration-200"
+          data-field="${name}"
+          data-default="${escapeHtml(defaultValue)}"
+        >
+          ${btnLabel}
+        </button>
+      </div>
+      <input
+        type="${type}"
+        id="field-${name}"
+        name="${name}"
+        value="${escapeHtml(String(displayValue))}"
+        placeholder="${placeholder}"
+        ${disabledAttr}
+        class="w-full px-4 py-3 min-h-[44px] text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200 ${disabledClass}"
+      >
+      ${!isCustom ? `<p class="text-xs text-muted mt-1">Using Yasmin's default. Click "Use custom" to override.</p>` : ''}
+      ${helpText && isCustom ? `<p class="text-xs text-muted mt-1">${helpText}</p>` : ''}
       <p class="field-error text-xs text-red-500 mt-1 hidden" aria-live="polite"></p>
     </div>
   `;
@@ -555,6 +653,7 @@ function textareaInput({ name, label, value = '', maxLength, rows = 6, placehold
 function setupSlugAutoGeneration(container) {
   const titleField = container.querySelector('#field-title');
   const slugField = container.querySelector('#field-slug');
+  const regenerateBtn = container.querySelector('#slug-regenerate-btn');
 
   if (!titleField || !slugField) return;
 
@@ -576,6 +675,14 @@ function setupSlugAutoGeneration(container) {
       slugField.value = generateSlug(titleField.value);
     }
   });
+
+  // Regenerate button — resets slug from current title and re-enables auto-generation
+  if (regenerateBtn) {
+    regenerateBtn.addEventListener('click', () => {
+      slugField.value = generateSlug(titleField.value);
+      slugManuallyEdited = false;
+    });
+  }
 }
 
 /**
@@ -609,6 +716,63 @@ function setupCollapsibleSections(container) {
 }
 
 /**
+ * Sets up the contact field override toggle buttons.
+ * Clicking "Use custom" unlocks the field; clicking "Reset to default" locks it back.
+ * @param {HTMLElement} container
+ */
+function setupContactOverrides(container) {
+  const overrideBtns = container.querySelectorAll('.contact-override-btn');
+
+  overrideBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const fieldName = btn.getAttribute('data-field');
+      const defaultValue = btn.getAttribute('data-default');
+      const input = container.querySelector(`#field-${fieldName}`);
+      if (!input) return;
+
+      const isCurrentlyLocked = input.disabled;
+
+      if (isCurrentlyLocked) {
+        // Unlock: enable field, clear value for custom entry
+        input.disabled = false;
+        input.value = '';
+        input.classList.remove('bg-gray-50', 'text-muted', 'cursor-not-allowed');
+        input.focus();
+        btn.textContent = 'Reset to default';
+
+        // Update help text
+        const helpEl = input.parentElement?.querySelector('p:not(.field-error)');
+        if (helpEl && helpEl.textContent.includes('default')) {
+          helpEl.textContent = '';
+        }
+      } else {
+        // Lock: disable field, restore default value
+        input.disabled = true;
+        input.value = defaultValue;
+        input.classList.add('bg-gray-50', 'text-muted', 'cursor-not-allowed');
+        btn.textContent = 'Use custom';
+
+        // Restore help text
+        const fieldGroup = input.closest('.field-group');
+        const helpEl = fieldGroup?.querySelector('p:not(.field-error)');
+        if (helpEl) {
+          helpEl.textContent = 'Using Yasmin\'s default. Click "Use custom" to override.';
+        }
+
+        // Clear any validation error
+        const errorEl = fieldGroup?.querySelector('.field-error');
+        if (errorEl) {
+          errorEl.textContent = '';
+          errorEl.classList.add('hidden');
+        }
+        input.classList.remove('border-red-500');
+        input.classList.add('border-gray-200');
+      }
+    });
+  });
+}
+
+/**
  * Collects all form field values into an object.
  * @param {HTMLFormElement} form
  * @returns {Object}
@@ -619,6 +783,16 @@ function collectFormData(form) {
 
   for (const [key, val] of formData.entries()) {
     data[key] = val.trim();
+  }
+
+  // Include disabled contact fields (they use defaults when locked)
+  for (const [field, defaultVal] of Object.entries(DEFAULT_CONTACT)) {
+    if (!(field in data)) {
+      const input = form.querySelector(`#field-${field}`);
+      if (input && input.disabled) {
+        data[field] = input.value.trim() || defaultVal;
+      }
+    }
   }
 
   return data;
