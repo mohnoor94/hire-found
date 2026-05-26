@@ -133,3 +133,43 @@ button:focus-visible,
 [lang="ar"], [dir="rtl"] {
   font-family: 'Noto Sans Arabic', 'Inter', system-ui, sans-serif;
 }
+
+
+/* === Rich Text Content (Job Descriptions) === */
+.prose a,
+.job-description a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+.prose a:hover,
+.job-description a:hover {
+  color: #1d4ed8;
+}
+.prose h2, .job-description h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose h3, .job-description h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.4rem;
+}
+.prose ul, .job-description ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.prose ol, .job-description ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.prose li, .job-description li {
+  margin-bottom: 0.25rem;
+}

@@ -318,6 +318,9 @@ function renderEditor(container, jobData, jobId, callbacks) {
 
   // Wire up category chip selection
   setupCategoryChips(container);
+
+  // Initialize Quill WYSIWYG editors
+  setupQuillEditors(container);
 }
 
 /**
@@ -452,20 +455,18 @@ function renderField(fieldName, jobData) {
       });
 
     case 'fullDescription':
-      return textareaInput({
+      return quillEditorHtml({
         name: 'fullDescription',
         label: 'Full Description',
         value,
-        rows: 12,
         placeholder: 'Detailed job description, responsibilities, requirements...',
       });
 
     case 'fullDescriptionAr':
-      return textareaInput({
+      return quillEditorHtml({
         name: 'fullDescriptionAr',
         label: 'Full Description (Arabic)',
         value,
-        rows: 12,
         placeholder: 'الوصف الكامل بالعربية...',
         dir: 'rtl',
       });
@@ -731,6 +732,74 @@ function textareaInput({ name, label, value = '', maxLength, rows = 6, placehold
   `;
 }
 
+/**
+ * Renders a Quill WYSIWYG editor container.
+ * @param {Object} opts
+ * @returns {string} HTML string
+ */
+function quillEditorHtml({ name, label, value = '', placeholder = '', dir = '' }) {
+  const rtlClass = dir === 'rtl' ? 'quill-rtl' : '';
+
+  return `
+    <div class="field-group">
+      <label class="block text-sm font-medium text-text-main mb-1.5">
+        ${label}
+      </label>
+      <div id="quill-${name}" class="${rtlClass}" data-quill-field="${name}" data-quill-placeholder="${escapeHtml(placeholder)}">
+        ${value || ''}
+      </div>
+      <input type="hidden" id="field-${name}" name="${name}" value="${escapeHtml(String(value))}">
+      <p class="field-error text-xs text-red-500 mt-1 hidden" aria-live="polite"></p>
+    </div>
+  `;
+}
+
+/** @type {Object<string, Quill>} */
+const quillInstances = {};
+
+/**
+ * Initializes Quill editors for fullDescription and fullDescriptionAr fields.
+ * @param {HTMLElement} container
+ */
+function setupQuillEditors(container) {
+  if (typeof Quill === 'undefined') {
+    console.warn('Quill not loaded — falling back to plain text');
+    return;
+  }
+
+  const quillContainers = container.querySelectorAll('[data-quill-field]');
+  quillContainers.forEach((el) => {
+    const fieldName = el.getAttribute('data-quill-field');
+    const placeholder = el.getAttribute('data-quill-placeholder') || '';
+    const hiddenInput = container.querySelector(`#field-${fieldName}`);
+
+    const quill = new Quill(el, {
+      theme: 'snow',
+      placeholder,
+      modules: {
+        toolbar: [
+          [{ header: [2, 3, false] }],
+          ['bold', 'italic', 'underline'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['link'],
+          ['clean'],
+        ],
+      },
+    });
+
+    // Sync Quill content to hidden input on every change
+    quill.on('text-change', () => {
+      const html = quill.root.innerHTML;
+      if (hiddenInput) {
+        hiddenInput.value = html === '<p><br></p>' ? '' : html;
+      }
+    });
+
+    // Store instance for later access
+    quillInstances[fieldName] = quill;
+  });
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 /**
@@ -947,6 +1016,15 @@ function collectFormData(form) {
   for (const [key, val] of formData.entries()) {
     data[key] = val.trim();
   }
+
+  // Ensure chip-based fields are captured (their values are set programmatically)
+  const chipFields = ['category', 'location'];
+  chipFields.forEach((field) => {
+    const input = form.querySelector(`#field-${field}`);
+    if (input && input.value.trim()) {
+      data[field] = input.value.trim();
+    }
+  });
 
   // Include disabled contact fields (they use defaults when locked)
   for (const [field, defaultVal] of Object.entries(DEFAULT_CONTACT)) {

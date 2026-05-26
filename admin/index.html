@@ -15,6 +15,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../js/tailwind-config.js"></script>
 
+  <!-- Quill WYSIWYG Editor -->
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
   <!-- Shared Styles -->
   <link rel="stylesheet" href="../css/shared.css">
 
@@ -22,6 +26,101 @@
     /* ============================================
        Admin Panel — Micro-interactions & Polish
        ============================================ */
+
+    /* === Quill Editor Overrides === */
+    .ql-container {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.875rem;
+      border-bottom-left-radius: 0.75rem;
+      border-bottom-right-radius: 0.75rem;
+      border-color: #e5e7eb;
+      min-height: 180px;
+    }
+    .ql-toolbar {
+      border-top-left-radius: 0.75rem;
+      border-top-right-radius: 0.75rem;
+      border-color: #e5e7eb;
+      background: #fafafa;
+      padding: 4px 8px !important;
+    }
+    .ql-toolbar .ql-formats {
+      margin-right: 8px !important;
+    }
+    .ql-toolbar button {
+      width: 24px !important;
+      height: 24px !important;
+      padding: 2px !important;
+    }
+    .ql-toolbar button svg {
+      width: 14px !important;
+      height: 14px !important;
+    }
+    .ql-toolbar .ql-picker {
+      height: 24px !important;
+      font-size: 11px !important;
+    }
+    .ql-toolbar .ql-picker-label {
+      padding: 0 4px !important;
+      border: none !important;
+      line-height: 24px !important;
+    }
+    .ql-toolbar .ql-picker-label svg {
+      width: 12px !important;
+      height: 12px !important;
+    }
+    .ql-toolbar .ql-picker-options {
+      font-size: 12px !important;
+      padding: 4px 0 !important;
+    }
+    .ql-toolbar .ql-picker-options .ql-picker-item {
+      padding: 4px 8px !important;
+    }
+    .ql-editor {
+      min-height: 180px;
+      padding: 12px 16px;
+      line-height: 1.6;
+    }
+    .ql-editor h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .ql-editor h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .ql-editor a {
+      color: #2563eb;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 500;
+    }
+    .ql-editor a:hover {
+      color: #1d4ed8;
+    }
+    .ql-editor ul, .ql-editor ol {
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .ql-editor.ql-blank::before {
+      font-style: normal;
+      color: #8A8380;
+      font-size: 0.875rem;
+      left: 16px;
+    }
+    .quill-rtl .ql-editor {
+      direction: rtl;
+      text-align: right;
+    }
+    .quill-rtl .ql-editor.ql-blank::before {
+      left: auto;
+      right: 16px;
+    }
+    .quill-rtl .ql-editor ul, .quill-rtl .ql-editor ol {
+      padding-left: 0;
+      padding-right: 1.5rem;
+    }
 
     /* === Loading Spinner === */
     .admin-loading-spinner {
