@@ -98,16 +98,16 @@ function handleAuthenticated(user) {
     navBar.classList.remove('hidden');
   }
 
-  // Render greeting above dashboard
-  renderGreeting(user);
-
-  // Initialize dashboard with callbacks
+  // Initialize dashboard with callbacks (this replaces container innerHTML)
   initDashboard(viewDashboard, {
     onNewJob: handleNewJob,
     onEdit: handleEdit,
     onDelete: handleDelete,
     onToggleActive: handleToggleActive,
   });
+
+  // Render greeting above dashboard (after initDashboard so it doesn't get wiped)
+  renderGreeting(user);
 
   // Ensure dashboard view is visible
   showDashboardView();
@@ -154,19 +154,34 @@ function renderGreeting(user) {
   const greeting = getGreeting(hour);
   const displayName = user.displayName || 'Yasmin';
   const firstName = displayName.split(' ')[0];
+  const photoURL = user.photoURL || '';
 
-  // Check if greeting already exists
-  let greetingEl = viewDashboard.querySelector('#admin-greeting');
-  if (!greetingEl) {
-    greetingEl = document.createElement('div');
-    greetingEl.id = 'admin-greeting';
-    greetingEl.className = 'mb-8';
-    viewDashboard.prepend(greetingEl);
-  }
+  const greetingEl = viewDashboard.querySelector('#admin-greeting');
+  if (!greetingEl) return;
+
+  // Curated subtitles that rotate
+  const subtitles = [
+    'Your next great hire is one click away.',
+    'Ready to find someone amazing?',
+    "Let's connect talent with opportunity.",
+    'Time to make magic happen.',
+  ];
+  const subtitle = subtitles[Math.floor(Math.random() * subtitles.length)];
 
   greetingEl.innerHTML = `
-    <h1 class="font-accent text-3xl font-bold text-primary">${greeting}, ${escapeHtml(firstName)}</h1>
-    <p class="text-muted text-sm mt-1">Manage your job listings from here.</p>
+    <div class="flex items-center gap-4 sm:gap-5">
+      ${photoURL ? `
+        <img src="${escapeHtml(photoURL)}" alt="" class="w-12 h-12 rounded-full shadow-sm ring-2 ring-primary/15 ring-offset-2 object-cover flex-shrink-0">
+      ` : `
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-sm ring-2 ring-primary/15 ring-offset-2 flex-shrink-0">
+          <span class="text-white text-lg font-bold">${escapeHtml(firstName.charAt(0).toUpperCase())}</span>
+        </div>
+      `}
+      <div class="min-w-0">
+        <h1 class="font-accent text-xl sm:text-2xl font-bold text-text-main truncate">${greeting}, ${escapeHtml(firstName)}</h1>
+        <p class="text-muted text-xs sm:text-sm mt-0.5 italic">${subtitle}</p>
+      </div>
+    </div>
   `;
 }
 

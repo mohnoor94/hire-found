@@ -299,14 +299,22 @@
   <nav id="admin-nav" class="fixed top-0 left-0 right-0 z-50 nav-glass hidden" aria-label="Admin navigation">
     <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
       <a href="/admin/" class="font-accent text-xl font-bold text-primary">HireFound Admin</a>
-      <button
-        id="sign-out-btn"
-        type="button"
-        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-4 py-2 text-sm font-semibold text-primary bg-primary/10 rounded-full hover:bg-primary hover:text-white transition-all duration-300"
-        aria-label="Sign out"
-      >
-        Sign Out
-      </button>
+      <div class="flex items-center gap-3">
+        <a href="/" class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-muted hover:text-primary transition-colors duration-200" aria-label="Go to main site">
+          Main Site
+        </a>
+        <a href="/jobs/" class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-muted hover:text-primary transition-colors duration-200" aria-label="Go to jobs page">
+          Jobs Page
+        </a>
+        <button
+          id="sign-out-btn"
+          type="button"
+          class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-4 py-2 text-sm font-semibold text-primary bg-primary/10 rounded-full hover:bg-primary hover:text-white transition-all duration-300"
+          aria-label="Sign out"
+        >
+          Sign Out
+        </button>
+      </div>
     </div>
   </nav>
 

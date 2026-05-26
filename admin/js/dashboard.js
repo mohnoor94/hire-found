@@ -222,7 +222,32 @@ function applyFilters() {
     category: categoryFilter,
     status: statusFilter,
   });
+  updateCategoryFilterOptions();
   renderJobList();
+}
+
+/**
+ * Dynamically populates the category filter dropdown from loaded jobs.
+ */
+function updateCategoryFilterOptions() {
+  const categorySelect = dashboardContainer?.querySelector('#dashboard-category-filter');
+  if (!categorySelect) return;
+
+  // Collect unique categories from all jobs
+  const categories = [...new Set(allJobs.map((j) => j.category).filter(Boolean))].sort();
+
+  // Preserve current selection
+  const currentValue = categorySelect.value;
+
+  // Rebuild options
+  categorySelect.innerHTML = '<option value="all">All Categories</option>';
+  categories.forEach((cat) => {
+    const option = document.createElement('option');
+    option.value = cat;
+    option.textContent = formatCategoryLabel(cat);
+    if (cat === currentValue) option.selected = true;
+    categorySelect.appendChild(option);
+  });
 }
 
 /**
@@ -252,11 +277,6 @@ function renderFiltersUI() {
         aria-label="Filter by category"
       >
         <option value="all">All Categories</option>
-        <option value="hospitality">Hospitality</option>
-        <option value="tech">Tech</option>
-        <option value="fnb">F&B</option>
-        <option value="aviation">Aviation</option>
-        <option value="other">Other</option>
       </select>
       <select
         id="dashboard-status-filter"
@@ -347,9 +367,13 @@ function renderDashboardShell() {
   if (!dashboardContainer) return;
 
   dashboardContainer.innerHTML = `
+    <div id="admin-greeting" class="mb-8 pb-6 border-b border-gray-100">
+      <!-- Greeting rendered by app.js -->
+    </div>
+
     <div class="dashboard-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
       <div>
-        <h2 class="font-accent text-2xl font-bold text-primary mb-1">Job Posts</h2>
+        <h2 class="font-accent text-xl font-bold text-text-main mb-0.5">Your Listings</h2>
         <p class="text-muted text-sm">
           <span id="dashboard-job-count">Loading...</span>
         </p>
@@ -368,7 +392,7 @@ function renderDashboardShell() {
     </div>
 
     <div id="dashboard-filters" class="mb-6">
-      <!-- Filters will be rendered by task 5.2 -->
+      <!-- Filters rendered here -->
     </div>
 
     <div id="dashboard-job-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -413,7 +437,8 @@ function renderJobList() {
 function createJobCardElement(job) {
   const card = document.createElement('div');
   card.setAttribute('data-job-id', job.id);
-  card.className = 'job-card bg-white rounded-2xl border border-gray-100 p-5 shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col';
+  card.className = 'job-card rounded-2xl border border-pink-200/60 p-5 shadow-card hover:shadow-warm hover:border-pink-300/80 hover:-translate-y-0.5 transition-all duration-300 flex flex-col';
+  card.style.background = 'linear-gradient(135deg, #ffffff 0%, #fff5f9 100%)';
 
   const categoryColors = CATEGORY_COLORS[job.category] || CATEGORY_COLORS.other;
   const isActive = job.isActive !== false;
@@ -469,7 +494,22 @@ function createJobCardElement(job) {
       ` : ''}
     </div>
 
-    <div class="flex items-center gap-2 pt-3 border-t border-gray-100">
+    <div class="flex items-center gap-2 pt-3 border-t border-primary/10">
+      ${job.slug ? `
+        <a
+          href="/jobs/?id=${escapeHtml(job.slug)}"
+          target="_blank"
+          rel="noopener"
+          class="job-view-btn inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-muted bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-200"
+          aria-label="View ${escapeHtml(job.title || 'this job')} on site"
+          onclick="event.stopPropagation()"
+        >
+          <svg class="w-3.5 h-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          </svg>
+          View
+        </a>
+      ` : ''}
       <button
         type="button"
         class="job-edit-btn inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-primary bg-primary/10 rounded-lg hover:bg-primary/20 transition-all duration-200"
@@ -683,9 +723,21 @@ function formatCategoryLabel(category) {
     tech: 'Tech',
     fnb: 'F&B',
     aviation: 'Aviation',
+    retail: 'Retail',
+    healthcare: 'Healthcare',
+    education: 'Education',
+    finance: 'Finance',
+    marketing: 'Marketing',
+    engineering: 'Engineering',
+    design: 'Design',
+    'customer-service': 'Customer Service',
+    logistics: 'Logistics',
+    'real-estate': 'Real Estate',
+    media: 'Media',
     other: 'Other',
   };
-  return labels[category] || 'Other';
+  // Return known label or capitalize the first letter of unknown categories
+  return labels[category] || category.charAt(0).toUpperCase() + category.slice(1);
 }
 
 /**

@@ -21,7 +21,7 @@ const validFormData = () =>
     slug: fc
       .stringMatching(/^[a-z0-9]+(-[a-z0-9]+)*$/)
       .filter((s) => s.length >= 1 && s.length <= 80),
-    category: fc.constantFrom(...CATEGORIES),
+    category: fc.string({ minLength: 1, maxLength: 50 }).filter((s) => s.trim().length >= 1),
     location: fc.string({ minLength: 1, maxLength: 100 }).filter((s) => s.trim().length >= 1),
     employmentType: fc.constantFrom(...EMPLOYMENT_TYPES),
   });
@@ -39,9 +39,8 @@ const tooLongTitle = () =>
 const tooLongLocation = () =>
   fc.string({ minLength: 101, maxLength: 200 }).filter((s) => s.trim().length > 100);
 
-/** Generates a category value not in the allowed enum */
-const invalidCategory = () =>
-  fc.string({ minLength: 1 }).filter((s) => !CATEGORIES.includes(s.trim()));
+/** Generates a category value that's empty (the only invalid case now — free text allowed) */
+const invalidCategory = () => emptyOrWhitespace();
 
 /** Generates an employment type not in the allowed enum */
 const invalidEmploymentType = () =>
@@ -116,7 +115,7 @@ describe('Feature: admin-job-panel, Property 4: Form validation rejects invalid 
     );
   });
 
-  it('rejects form data when category is not in the allowed enum', () => {
+  it('rejects form data when category is missing or empty', () => {
     fc.assert(
       fc.property(validFormData(), invalidCategory(), (base, badCategory) => {
         const formData = { ...base, category: badCategory };
@@ -204,7 +203,7 @@ describe('Feature: admin-job-panel, Property 4: Form validation rejects invalid 
     fc.assert(
       fc.property(
         emptyOrWhitespace(),
-        invalidCategory(),
+        emptyOrWhitespace(),
         emptyOrWhitespace(),
         invalidEmploymentType(),
         (badTitle, badCategory, badLocation, badType) => {

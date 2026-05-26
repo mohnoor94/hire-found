@@ -12,8 +12,36 @@ const DEFAULT_CONTACT = {
   contactEmail: 'yasmin@hirefound.com',
 };
 
-const CATEGORIES = ['hospitality', 'tech', 'fnb', 'aviation', 'other'];
+const CATEGORIES = [
+  'hospitality',
+  'tech',
+  'fnb',
+  'aviation',
+  'retail',
+  'healthcare',
+  'education',
+  'finance',
+  'marketing',
+  'engineering',
+  'design',
+  'customer-service',
+  'logistics',
+  'real-estate',
+  'media',
+];
 const EMPLOYMENT_TYPES = ['full-time', 'part-time', 'contract', 'freelance'];
+
+const LOCATIONS = [
+  'Jordan',
+  'UAE',
+  'Saudi Arabia',
+  'Qatar',
+  'Kuwait',
+  'Bahrain',
+  'Oman',
+  'Egypt',
+  'Remote',
+];
 
 const SECTIONS = [
   {
@@ -102,7 +130,7 @@ const VALIDATION_RULES = {
   title:            { required: true, minLength: 1, maxLength: 120 },
   titleAr:          { required: false, maxLength: 120 },
   slug:             { required: true, pattern: /^[a-z0-9]+(-[a-z0-9]+)*$/, maxLength: 80 },
-  category:         { required: true, enum: CATEGORIES },
+  category:         { required: true, minLength: 1, maxLength: 50 },
   location:         { required: true, minLength: 1, maxLength: 100 },
   employmentType:   { required: true, enum: EMPLOYMENT_TYPES },
   shortDescription: { required: false, maxLength: 300 },
@@ -276,6 +304,9 @@ function renderEditor(container, jobData, jobId, callbacks) {
 
   // Wire up contact field override buttons
   setupContactOverrides(container);
+
+  // Wire up category chip selection
+  setupCategoryChips(container);
 }
 
 /**
@@ -350,23 +381,25 @@ function renderField(fieldName, jobData) {
       });
 
     case 'category':
-      return selectInput({
+      return datalistInput({
         name: 'category',
         label: 'Category',
         value,
         required: true,
         options: CATEGORIES,
-        placeholder: 'Select a category',
+        placeholder: 'Type or pick a category...',
+        helpText: 'Choose from suggestions or type your own.',
       });
 
     case 'location':
-      return textInput({
+      return datalistInput({
         name: 'location',
         label: 'Location',
         value,
         required: true,
-        maxLength: 100,
-        placeholder: 'e.g. Dubai, UAE',
+        options: LOCATIONS,
+        placeholder: 'Type a location or pick below...',
+        helpText: 'Choose a country or type a specific city/region.',
       });
 
     case 'employmentType':
@@ -532,6 +565,50 @@ function slugInput({ name, label, value = '', required = false, maxLength, place
         </button>
       </div>
       ${helpText ? `<p class="text-xs text-muted mt-1">${helpText}</p>` : ''}
+      <p class="field-error text-xs text-red-500 mt-1 hidden" aria-live="polite"></p>
+    </div>
+  `;
+}
+
+/**
+ * Renders a text input with clickable chip suggestions below.
+ * Allows free-text entry while showing predefined options as selectable chips.
+ * @param {Object} opts
+ * @returns {string} HTML string
+ */
+function datalistInput({ name, label, value = '', required = false, options = [], placeholder = '', helpText = '' }) {
+  const requiredMark = required ? '<span class="text-red-500 ml-0.5">*</span>' : '';
+  const chipsHtml = options
+    .map((opt) => {
+      const isSelected = opt.toLowerCase() === (value || '').toLowerCase();
+      const selectedClass = isSelected ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 text-text-main';
+      return `<button type="button" class="chip-option px-3 py-1.5 text-xs font-medium rounded-full border ${selectedClass} hover:border-primary hover:bg-primary/10 hover:text-primary transition-all duration-150 whitespace-nowrap" data-value="${escapeHtml(opt)}" data-field="${name}">${formatOptionLabel(opt)}</button>`;
+    })
+    .join('');
+
+  // "Custom..." chip — clears field and focuses it
+  const customChip = `<button type="button" class="chip-custom px-3 py-1.5 text-xs font-medium rounded-full border border-dashed border-gray-300 text-muted hover:border-primary hover:text-primary transition-all duration-150 whitespace-nowrap" data-field="${name}">✏️ Custom...</button>`;
+
+  return `
+    <div class="field-group">
+      <label for="field-${name}" class="block text-sm font-medium text-text-main mb-1.5">
+        ${label}${requiredMark}
+      </label>
+      <input
+        type="text"
+        id="field-${name}"
+        name="${name}"
+        value="${escapeHtml(String(value))}"
+        placeholder="${placeholder}"
+        ${required ? 'required' : ''}
+        autocomplete="off"
+        class="w-full px-4 py-3 min-h-[44px] text-sm text-text-main bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200 mb-2"
+      >
+      <div class="flex flex-wrap gap-1.5" data-chips-for="${name}">
+        ${chipsHtml}
+        ${customChip}
+      </div>
+      ${helpText ? `<p class="text-xs text-muted mt-2">${helpText}</p>` : ''}
       <p class="field-error text-xs text-red-500 mt-1 hidden" aria-live="polite"></p>
     </div>
   `;
@@ -768,6 +845,81 @@ function setupContactOverrides(container) {
         input.classList.remove('border-red-500');
         input.classList.add('border-gray-200');
       }
+    });
+  });
+}
+
+/**
+ * Sets up chip click handlers for all datalist-style fields (category, location, etc.).
+ * Clicking a chip sets the input value and highlights it.
+ * Clicking "Custom..." clears the field and focuses it for free-text entry.
+ * @param {HTMLElement} container
+ */
+function setupCategoryChips(container) {
+  // Handle option chips
+  const chips = container.querySelectorAll('.chip-option');
+  chips.forEach((chip) => {
+    chip.addEventListener('click', (e) => {
+      e.preventDefault();
+      const fieldName = chip.getAttribute('data-field');
+      const value = chip.getAttribute('data-value');
+      const input = container.querySelector(`#field-${fieldName}`);
+      if (!input) return;
+
+      input.value = value;
+
+      // Update chip styles for this field
+      const siblings = container.querySelectorAll(`.chip-option[data-field="${fieldName}"]`);
+      siblings.forEach((c) => {
+        c.classList.remove('border-primary', 'bg-primary/10', 'text-primary');
+        c.classList.add('border-gray-200', 'text-text-main');
+      });
+      chip.classList.remove('border-gray-200', 'text-text-main');
+      chip.classList.add('border-primary', 'bg-primary/10', 'text-primary');
+    });
+  });
+
+  // Handle "Custom..." chips
+  const customChips = container.querySelectorAll('.chip-custom');
+  customChips.forEach((chip) => {
+    chip.addEventListener('click', (e) => {
+      e.preventDefault();
+      const fieldName = chip.getAttribute('data-field');
+      const input = container.querySelector(`#field-${fieldName}`);
+      if (!input) return;
+
+      // Clear the field and focus it
+      input.value = '';
+      input.focus();
+
+      // Deselect all option chips for this field
+      const siblings = container.querySelectorAll(`.chip-option[data-field="${fieldName}"]`);
+      siblings.forEach((c) => {
+        c.classList.remove('border-primary', 'bg-primary/10', 'text-primary');
+        c.classList.add('border-gray-200', 'text-text-main');
+      });
+    });
+  });
+
+  // Sync chip highlighting when user types
+  const datalistInputs = container.querySelectorAll('[data-chips-for]');
+  datalistInputs.forEach((chipsContainer) => {
+    const fieldName = chipsContainer.getAttribute('data-chips-for');
+    const input = container.querySelector(`#field-${fieldName}`);
+    if (!input) return;
+
+    input.addEventListener('input', () => {
+      const val = input.value.trim().toLowerCase();
+      const fieldChips = chipsContainer.querySelectorAll('.chip-option');
+      fieldChips.forEach((c) => {
+        if (c.getAttribute('data-value').toLowerCase() === val) {
+          c.classList.remove('border-gray-200', 'text-text-main');
+          c.classList.add('border-primary', 'bg-primary/10', 'text-primary');
+        } else {
+          c.classList.remove('border-primary', 'bg-primary/10', 'text-primary');
+          c.classList.add('border-gray-200', 'text-text-main');
+        }
+      });
     });
   });
 }
