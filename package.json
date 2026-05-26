@@ -3,6 +3,8 @@
     "firebase-admin": "^13.10.0"
   },
   "devDependencies": {
-    "firebase-tools": "^15.18.0"
+    "fast-check": "^4.8.0",
+    "firebase-tools": "^15.18.0",
+    "vitest": "^4.1.7"
   }
 }

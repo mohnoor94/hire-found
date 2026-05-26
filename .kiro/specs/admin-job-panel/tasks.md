@@ -55,7 +55,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - File: `admin/__tests__/auth.property.test.js`
     - **Validates: Requirements 1.2**
 
-- [ ] 3. Implement editor module with form validation and slug generation
+- [x] 3. Implement editor module with form validation and slug generation
   - [x] 3.1 Create `admin/js/editor.js` — form rendering and section layout
     - Implement `openCreateEditor(container, callbacks)` with empty form
     - Implement `openEditEditor(container, jobData, jobId, callbacks)` with pre-populated fields
@@ -68,7 +68,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Add cancel button that calls `onCancel` callback
     - _Requirements: 3.1, 4.1, 8.1, 8.2, 8.3, 8.7, 8.8_
 
-  - [ ] 3.2 Implement form validation logic in `admin/js/editor.js`
+  - [x] 3.2 Implement form validation logic in `admin/js/editor.js`
     - Implement `validateForm(formData)` returning `{ valid, errors }`
     - Validate required fields: title (1–120 chars), category (enum), location (1–100 chars), employmentType (enum)
     - Validate optional fields when present: contactWhatsApp (digits only, 7–15 chars), contactEmail (email format)
@@ -78,7 +78,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Block form submission when any field is invalid
     - _Requirements: 3.2, 3.8, 4.2, 4.3, 8.4_
 
-  - [ ] 3.3 Implement slug generation in `admin/js/editor.js`
+  - [x] 3.3 Implement slug generation in `admin/js/editor.js`
     - Implement `generateSlug(title)` function
     - Lowercase input, replace spaces/non-alphanumeric with hyphens
     - Collapse consecutive hyphens, strip leading/trailing hyphens
@@ -87,7 +87,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Stop auto-generation if user edits slug field directly
     - _Requirements: 3.5, 8.5, 8.6_
 
-  - [ ]* 3.4 Write property test for slug generation (Property 5)
+  - [x] 3.4 Write property test for slug generation (Property 5)
     - **Property 5: Slug generation structural invariants**
     - Generate random non-empty title strings
     - Verify slug contains only lowercase alphanumeric + hyphens
@@ -97,14 +97,14 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - File: `admin/__tests__/slug.property.test.js`
     - **Validates: Requirements 3.5, 8.5**
 
-  - [ ]* 3.5 Write property test for form validation (Property 4)
+  - [x] 3.5 Write property test for form validation (Property 4)
     - **Property 4: Form validation rejects invalid data**
     - Generate random form data with at least one invalid required field or invalid optional field format
     - Verify `validateForm` returns `valid: false` with error entries for each invalid field
     - File: `admin/__tests__/validation.property.test.js`
     - **Validates: Requirements 3.2, 3.8, 4.2, 4.3, 8.4**
 
-  - [ ]* 3.6 Write property test for slug deduplication (Property 6)
+  - [-] 3.6 Write property test for slug deduplication (Property 6)
     - **Property 6: Slug deduplication uniqueness**
     - Generate random base slugs and sets of existing slugs
     - Verify the deduplication function returns a slug not in the existing set
@@ -112,11 +112,11 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - File: `admin/__tests__/slug.property.test.js`
     - **Validates: Requirements 3.7**
 
-- [ ] 4. Checkpoint — Ensure core modules work
+- [x] 4. Checkpoint — Ensure core modules work
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Implement dashboard module
-  - [ ] 5.1 Create `admin/js/dashboard.js` — job list rendering
+- [x] 5. Implement dashboard module
+  - [x] 5.1 Create `admin/js/dashboard.js` — job list rendering
     - Implement `initDashboard(container, callbacks)` to set up the dashboard view
     - Implement `refreshJobs()` to fetch all jobs from Firestore ordered by `createdAt` descending
     - Render each job as a card with: title, category badge (using CATEGORY_COLORS), location, employmentType, companyName, active/inactive toggle
@@ -128,7 +128,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Add edit and delete action buttons on each card
     - _Requirements: 2.1, 2.2, 2.7, 2.8, 2.9, 2.10, 7.4, 7.6_
 
-  - [ ] 5.2 Implement search and filter logic in `admin/js/dashboard.js`
+  - [x] 5.2 Implement search and filter logic in `admin/js/dashboard.js`
     - Add search input that filters by title, companyName, or location
     - Debounce search to 300ms after last keystroke
     - Add category dropdown filter
@@ -137,7 +137,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Update visible count when filters change
     - _Requirements: 2.3, 2.4, 2.5, 2.6, 2.7_
 
-  - [ ] 5.3 Implement card update and removal helpers in `admin/js/dashboard.js`
+  - [x] 5.3 Implement card update and removal helpers in `admin/js/dashboard.js`
     - Implement `updateJobCard(jobId, data)` to update a single card in-place
     - Implement `removeJobCard(jobId)` with exit animation (300ms)
     - _Requirements: 4.5, 5.2, 6.2, 6.5_
@@ -158,7 +158,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - **Validates: Requirements 2.2**
 
 - [ ] 6. Implement app coordinator and CRUD operations
-  - [ ] 6.1 Create `admin/js/app.js` — view routing and state coordination
+  - [-] 6.1 Create `admin/js/app.js` — view routing and state coordination
     - Implement `initApp()` as entry point
     - Initialize auth, then dashboard on successful authentication
     - Implement view switching between dashboard and editor
