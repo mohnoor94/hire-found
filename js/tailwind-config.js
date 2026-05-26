@@ -1,6 +1,6 @@
 // Shared Tailwind configuration for HireFound
 // This is a side-effect script — sets tailwind.config on the global scope.
-// Must be loaded via <script src="/js/tailwind-config.js"></script> BEFORE the Tailwind CDN script.
+// Must be loaded via <script> AFTER the Tailwind CDN script.
 tailwind.config = {
   theme: {
     extend: {
