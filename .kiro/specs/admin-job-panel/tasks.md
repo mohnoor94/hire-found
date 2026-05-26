@@ -48,7 +48,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Set persistence to LOCAL for session survival across browser restarts
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8_
 
-  - [ ]* 2.2 Write property test for auth email rejection (Property 1)
+  - [x]* 2.2 Write property test for auth email rejection (Property 1)
     - **Property 1: Auth email rejection**
     - Generate random email strings that are not the allowed email
     - Verify the auth check function returns "denied" for all generated emails
@@ -56,7 +56,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - **Validates: Requirements 1.2**
 
 - [ ] 3. Implement editor module with form validation and slug generation
-  - [ ] 3.1 Create `admin/js/editor.js` — form rendering and section layout
+  - [x] 3.1 Create `admin/js/editor.js` — form rendering and section layout
     - Implement `openCreateEditor(container, callbacks)` with empty form
     - Implement `openEditEditor(container, jobData, jobId, callbacks)` with pre-populated fields
     - Organize fields into collapsible sections: Basic Info, Company Details, Description, Contact
