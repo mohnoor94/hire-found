@@ -25,14 +25,14 @@ let authConfig = null;
 let unsubscribeAuthListener = null;
 
 const AUTH_CONFIG = {
-  allowedEmail: 'yasmin@hirefound.com',
+  allowedEmails: ['moh.noor94@gmail.com'],
   autoSignOutDelay: 3000,
 };
 
 /**
  * Initializes auth state listener and renders appropriate view.
  * @param {Object} config
- * @param {string} config.allowedEmail - The single permitted email address
+ * @param {string[]} config.allowedEmails - Array of permitted email addresses
  * @param {HTMLElement} config.signInContainer - Element for sign-in UI
  * @param {HTMLElement} config.appContainer - Element for authenticated content
  * @param {HTMLElement} config.loadingContainer - Element for loading state
@@ -52,15 +52,13 @@ export function initAuth(config) {
   showView('loading');
 
   // Set persistence to LOCAL so session survives browser restarts
-  setPersistence(auth, browserLocalPersistence)
-    .then(() => {
-      setupAuthListener();
-    })
-    .catch((error) => {
-      console.error('Failed to set auth persistence:', error);
-      // Still set up the listener even if persistence setting fails
-      setupAuthListener();
-    });
+  // This is fire-and-forget — it only affects future sign-ins
+  setPersistence(auth, browserLocalPersistence).catch((error) => {
+    console.error('Failed to set auth persistence:', error);
+  });
+
+  // Set up auth listener immediately to catch the restored session
+  setupAuthListener();
 
   // Wire up the Google sign-in button
   setupSignInButton();
@@ -85,6 +83,20 @@ export async function signOut() {
  */
 export function getCurrentUser() {
   return currentUser;
+}
+
+/**
+ * Checks if an email is in the allowed list.
+ * @param {string} email - Email to check
+ * @param {string[]} allowedEmails - Array of allowed emails
+ * @returns {boolean}
+ */
+export function isEmailAllowed(email, allowedEmails) {
+  if (!email) return false;
+  const normalizedEmail = email.toLowerCase();
+  return allowedEmails.some(
+    (allowed) => allowed.toLowerCase() === normalizedEmail
+  );
 }
 
 /**
@@ -113,9 +125,9 @@ function setupAuthListener() {
  * @param {import('firebase/auth').User} user
  */
 function handleUserSignedIn(user) {
-  const allowedEmail = authConfig?.allowedEmail || AUTH_CONFIG.allowedEmail;
+  const allowedEmails = authConfig?.allowedEmails || AUTH_CONFIG.allowedEmails;
 
-  if (user.email && user.email.toLowerCase() === allowedEmail.toLowerCase()) {
+  if (isEmailAllowed(user.email, allowedEmails)) {
     // Authorized user
     currentUser = user;
     showView('app');

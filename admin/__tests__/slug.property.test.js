@@ -7,7 +7,7 @@
 
 import { describe, it, expect } from 'vitest';
 import * as fc from 'fast-check';
-import { generateSlug } from '../js/editor.js';
+import { generateSlug, deduplicateSlug } from '../js/editor.js';
 
 describe('Feature: admin-job-panel, Property 5: Slug generation structural invariants', () => {
   it('slug contains only lowercase alphanumeric characters and hyphens', () => {
@@ -62,6 +62,55 @@ describe('Feature: admin-job-panel, Property 5: Slug generation structural invar
         (title) => {
           const slug = generateSlug(title);
           expect(slug.length).toBeLessThanOrEqual(80);
+        }
+      ),
+      { numRuns: 100 }
+    );
+  });
+});
+
+/**
+ * Property-Based Tests for Slug Deduplication
+ * Feature: admin-job-panel, Property 6: Slug deduplication uniqueness
+ *
+ * **Validates: Requirements 3.7**
+ */
+describe('Feature: admin-job-panel, Property 6: Slug deduplication uniqueness', () => {
+  // Generator for valid base slugs (lowercase alphanumeric + hyphens, no leading/trailing hyphens)
+  const baseSlugArb = fc
+    .stringMatching(/^[a-z0-9]+(-[a-z0-9]+)*$/)
+    .filter((s) => s.length >= 1 && s.length <= 80);
+
+  // Generator for a set of existing slugs that includes the base slug and some suffixed variants
+  const existingSlugsArb = (baseSlug) =>
+    fc
+      .uniqueArray(fc.integer({ min: 2, max: 100 }), { minLength: 0, maxLength: 20 })
+      .map((suffixes) => [baseSlug, ...suffixes.map((n) => `${baseSlug}-${n}`)]);
+
+  it('returned slug is not in the existing slugs set', () => {
+    fc.assert(
+      fc.property(
+        baseSlugArb.chain((baseSlug) =>
+          existingSlugsArb(baseSlug).map((existingSlugs) => ({ baseSlug, existingSlugs }))
+        ),
+        ({ baseSlug, existingSlugs }) => {
+          const result = deduplicateSlug(baseSlug, existingSlugs);
+          expect(existingSlugs).not.toContain(result);
+        }
+      ),
+      { numRuns: 100 }
+    );
+  });
+
+  it('returned slug preserves the base slug as a prefix', () => {
+    fc.assert(
+      fc.property(
+        baseSlugArb.chain((baseSlug) =>
+          existingSlugsArb(baseSlug).map((existingSlugs) => ({ baseSlug, existingSlugs }))
+        ),
+        ({ baseSlug, existingSlugs }) => {
+          const result = deduplicateSlug(baseSlug, existingSlugs);
+          expect(result.startsWith(baseSlug)).toBe(true);
         }
       ),
       { numRuns: 100 }

@@ -104,7 +104,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - File: `admin/__tests__/validation.property.test.js`
     - **Validates: Requirements 3.2, 3.8, 4.2, 4.3, 8.4**
 
-  - [-] 3.6 Write property test for slug deduplication (Property 6)
+  - [x] 3.6 Write property test for slug deduplication (Property 6)
     - **Property 6: Slug deduplication uniqueness**
     - Generate random base slugs and sets of existing slugs
     - Verify the deduplication function returns a slug not in the existing set
@@ -142,7 +142,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Implement `removeJobCard(jobId)` with exit animation (300ms)
     - _Requirements: 4.5, 5.2, 6.2, 6.5_
 
-  - [ ]* 5.4 Write property test for combined filter correctness (Property 3)
+  - [x]* 5.4 Write property test for combined filter correctness (Property 3)
     - **Property 3: Combined filter correctness**
     - Generate random lists of job objects and random filter combinations
     - Verify filtered result contains only jobs satisfying ALL active conditions
@@ -150,15 +150,15 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - File: `admin/__tests__/filters.property.test.js`
     - **Validates: Requirements 2.3, 2.4, 2.5, 2.6, 2.7**
 
-  - [ ]* 5.5 Write property test for job card rendering completeness (Property 2)
+  - [x]* 5.5 Write property test for job card rendering completeness (Property 2)
     - **Property 2: Job card rendering completeness**
     - Generate random valid Job_Post objects
     - Verify rendered card HTML contains title, category badge, location, employmentType, companyName, and status indicator
     - File: `admin/__tests__/card-render.property.test.js`
     - **Validates: Requirements 2.2**
 
-- [ ] 6. Implement app coordinator and CRUD operations
-  - [-] 6.1 Create `admin/js/app.js` — view routing and state coordination
+- [x] 6. Implement app coordinator and CRUD operations
+  - [x] 6.1 Create `admin/js/app.js` — view routing and state coordination
     - Implement `initApp()` as entry point
     - Initialize auth, then dashboard on successful authentication
     - Implement view switching between dashboard and editor
@@ -167,28 +167,28 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Wire edit action to open edit editor with job data
     - _Requirements: 1.3, 7.3_
 
-  - [ ] 6.2 Implement create job flow in `admin/js/app.js`
+  - [x] 6.2 Implement create job flow in `admin/js/app.js`
     - On editor save: validate form, check slug uniqueness (append suffix if needed)
     - Write document to Firestore with server-generated `createdAt` and `isActive: true`
     - Show success toast, add new card to top of job list
     - On failure: show error toast, preserve form data
     - _Requirements: 3.3, 3.4, 3.6, 3.7_
 
-  - [ ] 6.3 Implement edit job flow in `admin/js/app.js`
+  - [x] 6.3 Implement edit job flow in `admin/js/app.js`
     - On editor save: validate form, disable submit button, show loading indicator
     - Update Firestore document with changed fields
     - Show success toast, refresh card in job list
     - On failure: show error toast, re-enable submit, preserve form data
     - _Requirements: 4.4, 4.5, 4.6_
 
-  - [ ] 6.4 Implement toggle active status in `admin/js/app.js`
+  - [x] 6.4 Implement toggle active status in `admin/js/app.js`
     - Disable toggle switch on click
     - Send Firestore update to flip `isActive` boolean
     - On success: update toggle position and card indicator with 200–300ms transition
     - On failure or timeout (>10s): revert toggle, show error toast
     - _Requirements: 5.1, 5.2, 5.3_
 
-  - [ ] 6.5 Implement delete job flow in `admin/js/app.js`
+  - [x] 6.5 Implement delete job flow in `admin/js/app.js`
     - Show confirmation modal with job title, warning message, confirm/cancel buttons
     - Apply glassmorphism to modal overlay
     - On confirm: disable confirm button, delete Firestore document
@@ -197,24 +197,24 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - On cancel: close dialog without changes
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
 
-  - [ ]* 6.6 Write property test for time-of-day greeting (Property 7)
+  - [x]* 6.6 Write property test for time-of-day greeting (Property 7)
     - **Property 7: Time-of-day greeting correctness**
     - Generate random hour values 0–23
     - Verify "Good morning" for 5–11, "Good afternoon" for 12–16, "Good evening" for 17–23 and 0–4
     - File: `admin/__tests__/greeting.property.test.js`
     - **Validates: Requirements 7.3**
 
-- [ ] 7. Checkpoint — Ensure all modules integrate correctly
+- [x] 7. Checkpoint — Ensure all modules integrate correctly
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 8. Firestore security rules and UI polish
-  - [ ] 8.1 Configure Firestore Security Rules for the `jobs` collection
+- [x] 8. Firestore security rules and UI polish
+  - [x] 8.1 Configure Firestore Security Rules for the `jobs` collection
     - Allow public read for active jobs (`isActive == true`)
     - Allow full read/write only for authenticated user with allowed email
     - Deploy rules to Firebase project
     - _Requirements: 1.2, 3.3, 4.4_
 
-  - [ ] 8.2 Apply micro-interactions and responsive polish to `admin/index.html`
+  - [x] 8.2 Apply micro-interactions and responsive polish to `admin/index.html`
     - Add CSS transitions (300–500ms) with `--ease-out-quint` / `--ease-out-expo` for card hovers, page transitions, form reveals
     - Ensure all interactive elements have minimum 44x44px touch targets
     - Implement single-column layout below 768px, multi-column at 768px+
@@ -222,7 +222,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Ensure loading indicators appear within 200ms of operation start
     - _Requirements: 7.2, 7.6, 7.7, 7.8_
 
-- [ ] 9. Final checkpoint — Ensure all tests pass
+- [x] 9. Final checkpoint — Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

@@ -1,0 +1,12 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /jobs/{jobId} {
+      // Anyone can read active jobs (public site)
+      allow read: if resource.data.isActive == true;
+      // Only the allowed user can read all jobs and write
+      allow read, write: if request.auth != null 
+        && request.auth.token.email == 'moh.noor94@gmail.com';
+    }
+  }
+}
