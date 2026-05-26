@@ -6,8 +6,8 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
 
 ## Tasks
 
-- [ ] 1. Create shared utilities and configuration files
-  - [ ] 1.1 Create `/js/utils.js` with the `getBasePath()` path resolution utility
+- [x] 1. Create shared utilities and configuration files
+  - [x] 1.1 Create `/js/utils.js` with the `getBasePath()` path resolution utility
     - Implement the `getBasePath()` function as an ES module export
     - Function computes relative path prefix from current page to project root
     - Returns empty string for root pages, `"../"` for one level deep, etc.
@@ -20,22 +20,22 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - For any valid URL pathname and asset filename, `getBasePath() + "assets/" + filename` resolves to `/assets/{filename}`
     - **Validates: Requirements 7.1, 7.2, 7.4, 4.4**
 
-  - [ ] 1.3 Create `/js/tailwind-config.js` with the shared Tailwind configuration
+  - [x] 1.3 Create `/js/tailwind-config.js` with the shared Tailwind configuration
     - Define `tailwind.config` object with all color tokens, font families, and box-shadow values from the homepage
     - This is a side-effect script (no exports), sets `tailwind.config` on global scope
     - _Requirements: 1.1, 1.2, 1.3, 1.5_
 
-  - [ ] 1.4 Create `/css/shared.css` with extracted shared styles
+  - [x] 1.4 Create `/css/shared.css` with extracted shared styles
     - Extract from homepage: CSS custom properties (`:root`), `.nav-glass`, `.reveal`/`.revealed`, `.premium-card`, `.filter-pill`, `.skip-link`, focus indicator rules, `prefers-reduced-motion` media query
     - Add Arabic font rule (`[lang="ar"], [dir="rtl"]`) from Jobs_Page
     - Use homepage versions as source of truth for all shared rules
     - _Requirements: 2.1, 2.2, 2.3, 8.3_
 
-- [ ] 2. Checkpoint - Ensure shared files are correct
+- [~] 2. Checkpoint - Ensure shared files are correct
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 3. Implement navigation component
-  - [ ] 3.1 Create `/js/nav.js` ES module with `initNav()` function
+  - [~] 3.1 Create `/js/nav.js` ES module with `initNav()` function
     - Import `getBasePath` from `./utils.js`
     - Detect current page via `window.location.pathname`
     - Render nav with canonical menu labels: About, Find Your Match, Services, Process, Get Started
@@ -60,7 +60,7 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - _Requirements: 3.2, 3.3, 3.4, 3.5, 5.1–5.6_
 
 - [ ] 4. Implement footer component
-  - [ ] 4.1 Create `/js/footer.js` ES module with `initFooter()` function
+  - [~] 4.1 Create `/js/footer.js` ES module with `initFooter()` function
     - Import `getBasePath` from `./utils.js`
     - Render footer with: contact CTA (heading, subtext, WhatsApp button, Book a Call button), social links row (LinkedIn, Instagram, Email), logo image, tagline, italic tagline, credit line, copyright
     - Use homepage contact section as source of truth for all text content
@@ -75,11 +75,11 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - Test asset paths use correct prefix for different page depths
     - _Requirements: 4.2, 4.3, 4.4, 4.6_
 
-- [ ] 5. Checkpoint - Ensure components work in isolation
+- [~] 5. Checkpoint - Ensure components work in isolation
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 6. Integrate shared files into pages and remove duplicates
-  - [ ] 6.1 Update `/index.html` to use shared config, CSS, and components
+  - [~] 6.1 Update `/index.html` to use shared config, CSS, and components
     - Add Google Fonts link including Noto Sans Arabic (weights 400, 500, 600, 700)
     - Replace inline `tailwind.config` with `<script src="/js/tailwind-config.js"></script>` before Tailwind CDN
     - Add `<link rel="stylesheet" href="/css/shared.css">` before the page-specific `<style>` block
@@ -90,7 +90,7 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - Add `<script type="module">` to import and call `initNav` and `initFooter`
     - _Requirements: 1.1, 1.5, 2.1, 2.5, 3.1, 4.1, 6.1, 6.3, 6.5, 6.7, 8.1, 8.3, 9.1, 9.2, 9.3_
 
-  - [ ] 6.2 Update `/jobs/index.html` to use shared config, CSS, and components
+  - [~] 6.2 Update `/jobs/index.html` to use shared config, CSS, and components
     - Ensure Google Fonts link includes Noto Sans Arabic (weights 400, 500, 600, 700)
     - Replace inline `tailwind.config` with `<script src="../js/tailwind-config.js"></script>` before Tailwind CDN
     - Add `<link rel="stylesheet" href="../css/shared.css">` before the page-specific `<style>` block
@@ -102,7 +102,7 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - _Requirements: 1.1, 1.3, 1.5, 2.1, 2.2, 2.5, 3.1, 4.1, 6.2, 6.4, 6.6, 6.7, 8.2, 8.4, 9.1, 9.2, 9.3_
 
 - [ ] 7. Final verification and cleanup
-  - [ ] 7.1 Verify no inline `tailwind.config` remains in HTML files
+  - [~] 7.1 Verify no inline `tailwind.config` remains in HTML files
     - Confirm both pages load shared config and have no duplicate config objects
     - Confirm no duplicated CSS class definitions between shared file and inline styles
     - Confirm `<link>` for shared CSS precedes `<style>` block in each page's `<head>`
@@ -113,7 +113,7 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - Test on both root-level and subdirectory pages
     - _Requirements: 7.3, 7.4_
 
-- [ ] 8. Final checkpoint - Ensure all tests pass
+- [~] 8. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
