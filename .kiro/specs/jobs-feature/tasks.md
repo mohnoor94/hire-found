@@ -118,11 +118,11 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - Use job-specific contactWhatsApp/contactEmail when non-null, fall back to DEFAULTS
     - _Requirements: 7.2, 7.3, 7.4_
 
-- [~] 6. Checkpoint - Jobs page verification
+- [x] 6. Checkpoint - Jobs page verification
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Update homepage vacancies integration
-  - [~] 7.1 Modify `/index.html` #vacancies section for dynamic loading
+- [x] 7. Update homepage vacancies integration
+  - [x] 7.1 Modify `/index.html` #vacancies section for dynamic loading
     - Remove all hardcoded vacancy card markup from HTML source
     - Add ES module script importing firebase-config.js and jobs.js
     - On load: show skeleton loaders → fetch 4 latest active jobs → render cards
@@ -130,26 +130,26 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - Add "View All Open Roles →" link below cards navigating to /jobs/
     - _Requirements: 8.1, 8.2, 8.3, 8.6, 11.4_
 
-  - [~] 7.2 Handle homepage empty and error states
+  - [x] 7.2 Handle homepage empty and error states
     - If zero jobs after fetch+filter: replace cards area with message + Contact CTAs (WhatsApp, Book a Call), hide filter pills, keep #vacancies section visible
     - If fetch fails/timeout: hide cards area, show "temporarily unavailable" + WhatsApp/Book a Call CTAs
     - _Requirements: 2.5, 8.4, 8.5_
 
-  - [~] 7.3 Update homepage filter pills to be dynamic
+  - [x] 7.3 Update homepage filter pills to be dynamic
     - Generate filter pills from fetched job categories (instead of hardcoded)
     - Wire client-side filtering for homepage cards
     - Apply same active/inactive pill styling
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-- [ ] 8. Responsive design and accessibility polish
-  - [~] 8.1 Ensure responsive layout across all views
+- [x] 8. Responsive design and accessibility polish
+  - [x] 8.1 Ensure responsive layout across all views
     - Job cards: 1 column < 768px, 2 columns >= 768px
     - Filter pills: wrap to multiple lines on mobile, no horizontal scroll
     - Detail view: single column, max-width 65ch, min padding 16px
     - Touch targets: minimum 44×44px on mobile for all interactive elements
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
-  - [~] 8.2 Ensure accessibility compliance
+  - [x] 8.2 Ensure accessibility compliance
     - Verify aria-labels on all interactive elements
     - Verify visible focus indicators on all focusable elements
     - Verify skip-to-content link functionality

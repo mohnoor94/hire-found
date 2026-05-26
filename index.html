@@ -310,11 +310,15 @@
 
     /* === Vacancy Filter Pills === */
     .filter-pill {
-      padding: 6px 18px; border-radius: 9999px; font-size: 13px; font-weight: 600;
+      padding: 8px 20px; border-radius: 9999px; font-size: 14px; font-weight: 600;
       color: #8A8380; background: rgba(139,34,82,0.06);
-      transition: all 0.3s ease; border: none;
+      border: 2px solid transparent;
+      transition: all 0.3s ease; cursor: pointer;
+      min-height: 44px; display: inline-flex; align-items: center;
     }
-    .filter-pill.active { background: var(--primary); color: white; }
+    .filter-pill:hover { background: rgba(139,34,82,0.1); color: var(--primary); }
+    .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .filter-pill:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
 
     /* === Vacancy Cards === */
     .vacancy-card { transition: opacity 0.4s var(--ease-out-quint), transform 0.4s var(--ease-out-quint); }
@@ -441,6 +445,33 @@
     .wa-send-btn:hover { background: #20BD5A; }
     .wa-send-btn:active { transform: scale(0.92); }
 
+    /* === Focus Indicators === */
+    a:focus-visible,
+    button:focus-visible,
+    [tabindex="0"]:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    /* === Skip to Content === */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 16px;
+      z-index: 100;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: top 0.2s ease;
+    }
+    .skip-link:focus {
+      top: 16px;
+    }
+
     /* === Accessibility === */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -468,23 +499,26 @@
 
 <body class="bg-warm text-text-main font-sans antialiased overflow-x-hidden">
 
+  <!-- Skip to Content -->
+  <a href="#hero" class="skip-link">Skip to content</a>
+
   <!-- Custom Cursor -->
   <div id="custom-cursor" class="custom-cursor"></div>
 
   <!-- ==================== STICKY NAV ==================== -->
-  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 nav-glass translate-y-[-100%] transition-transform duration-500">
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 nav-glass translate-y-[-100%] transition-transform duration-500" aria-label="Main navigation">
     <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-      <a href="#hero" class="font-accent text-xl font-bold text-primary">HireFound</a>
+      <a href="#hero" class="font-accent text-xl font-bold text-primary" aria-label="HireFound - Go to top">HireFound</a>
       <div class="hidden md:flex items-center gap-8">
         <a href="#about" class="text-sm text-muted hover:text-primary transition-colors duration-200">About</a>
         <a href="#vacancies" class="text-sm text-muted hover:text-primary transition-colors duration-200">Find Your Match</a>
         <a href="#services" class="text-sm text-muted hover:text-primary transition-colors duration-200">Services</a>
         <a href="#how-it-works" class="text-sm text-muted hover:text-primary transition-colors duration-200">Process</a>
-        <a id="nav-get-started-desktop" role="button" tabindex="0" class="magnetic inline-flex items-center px-5 py-2 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 shadow-warm cursor-pointer">
+        <a id="nav-get-started-desktop" role="button" tabindex="0" class="magnetic inline-flex items-center px-5 py-2 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 shadow-warm cursor-pointer" aria-label="Get Started - Contact us">
           Get Started
         </a>
       </div>
-      <a id="nav-get-started-mobile" role="button" tabindex="0" class="md:hidden magnetic inline-flex items-center px-4 py-2 min-h-[44px] bg-primary text-white text-base font-semibold rounded-full shadow-warm cursor-pointer">
+      <a id="nav-get-started-mobile" role="button" tabindex="0" class="md:hidden magnetic inline-flex items-center px-4 py-2 min-h-[44px] bg-primary text-white text-base font-semibold rounded-full shadow-warm cursor-pointer" aria-label="Get Started - Contact us">
         Get Started
       </a>
     </div>
@@ -647,114 +681,22 @@
       <div class="floating w-40 h-40 rounded-full bg-secondary/[0.04] absolute top-10 right-20 blur-3xl" style="animation-delay:-8s"></div>
     </div>
     <div class="max-w-5xl mx-auto relative z-10">
-      <div class="text-center mb-6 reveal">
+      <div class="text-center mb-10 reveal">
         <h2 class="font-accent text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">Find Your Match</h2>
         <p class="text-muted text-lg max-w-xl mx-auto">Open roles I'm hiring for right now. Something catch your eye? Let's talk.</p>
       </div>
 
-      <!-- Filter pills -->
-      <div class="flex flex-wrap justify-center gap-2 mb-10 reveal">
-        <button class="filter-pill active" data-filter="all">All</button>
-        <button class="filter-pill" data-filter="hospitality">Hospitality</button>
-        <button class="filter-pill" data-filter="tech">Tech</button>
-        <button class="filter-pill" data-filter="fnb">F&B</button>
-        <button class="filter-pill" data-filter="aviation">Aviation</button>
-      </div>
+      <!-- Filter pills (dynamically populated, hidden when zero jobs) -->
+      <div id="vacancy-filters" class="flex flex-wrap justify-center gap-2 mb-8" role="group" aria-label="Filter jobs by category" style="display:none;"></div>
 
-      <!-- Vacancy cards -->
-      <div class="grid md:grid-cols-2 gap-6 reveal-stagger" id="vacancy-grid">
-        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="hospitality">
-          <div class="flex items-start justify-between mb-3">
-            <div class="icon-box-sm"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 21h20M6 21V9l6-4 6 4v12M10 21v-5h4v5"/></svg></div>
-            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Hospitality</span>
-          </div>
-          <h3 class="text-lg font-bold mb-1">Hotel Operations Manager</h3>
-          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مدير عمليات فندقية</p>
-          <p class="text-muted text-sm leading-relaxed mb-3">5-star property in Amman. 5+ years in hotel ops. Someone who lives and breathes hospitality.</p>
-          <ul class="text-muted text-xs space-y-1 mb-4">
-            <li>5+ years in hotel operations management</li>
-            <li>Fluent Arabic & English</li>
-            <li>Someone who lives hospitality, not just manages it</li>
-          </ul>
-          <div class="flex items-center gap-3 text-xs text-muted mb-4">
-            <span>📍 Amman, Jordan</span><span>&#x2022;</span><span>Full-time</span>
-          </div>
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-            <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Hotel%20Operations%20Manager%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
-            <a href="mailto:yasmin@hirefound.com?subject=Application:%20Hotel%20Operations%20Manager" class="text-muted text-xs hover:text-primary transition-colors">or send CV via email</a>
-          </div>
-        </div>
+      <!-- Dynamic vacancy cards container (populated by JS) -->
+      <div id="vacancy-grid"></div>
 
-        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="tech">
-          <div class="flex items-start justify-between mb-3">
-            <div class="icon-box-sm"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
-            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Tech</span>
-          </div>
-          <h3 class="text-lg font-bold mb-1">Senior Frontend Developer</h3>
-          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مطور واجهات أمامية أول</p>
-          <p class="text-muted text-sm leading-relaxed mb-3">React/Next.js. Fintech startup scaling fast. Remote-friendly for the right person.</p>
-          <ul class="text-muted text-xs space-y-1 mb-4">
-            <li>3+ years React/Next.js</li>
-            <li>Eye for design, not just code</li>
-            <li>Startup mindset - move fast, own your work</li>
-          </ul>
-          <div class="flex items-center gap-3 text-xs text-muted mb-4">
-            <span>📍 Amman / Remote</span><span>&#x2022;</span><span>Full-time</span>
-          </div>
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-            <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Senior%20Frontend%20Developer%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
-            <a href="mailto:yasmin@hirefound.com?subject=Application:%20Senior%20Frontend%20Developer" class="text-muted text-xs hover:text-primary transition-colors">or send CV via email</a>
-          </div>
-        </div>
-
-        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="fnb">
-          <div class="flex items-start justify-between mb-3">
-            <div class="icon-box-sm"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v8a4 4 0 004 4h1v6m10-18v18m0-18a3 3 0 00-3 3v3a3 3 0 003 3"/></svg></div>
-            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">F&B</span>
-          </div>
-          <h3 class="text-lg font-bold mb-1">Restaurant General Manager</h3>
-          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مدير عام مطعم</p>
-          <p class="text-muted text-sm leading-relaxed mb-3">Premium dining concept. Needs someone who knows service, not just management.</p>
-          <ul class="text-muted text-xs space-y-1 mb-4">
-            <li>Fine dining or premium casual background</li>
-            <li>Team builder, not just a manager</li>
-            <li>Passion for service excellence</li>
-          </ul>
-          <div class="flex items-center gap-3 text-xs text-muted mb-4">
-            <span>📍 Amman, Jordan</span><span>&#x2022;</span><span>Full-time</span>
-          </div>
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-            <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Restaurant%20GM%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
-            <a href="mailto:yasmin@hirefound.com?subject=Application:%20Restaurant%20General%20Manager" class="text-muted text-xs hover:text-primary transition-colors">or send CV via email</a>
-          </div>
-        </div>
-
-        <div class="reveal-child premium-card p-7 shadow-card vacancy-card" data-category="aviation">
-          <div class="flex items-start justify-between mb-3">
-            <div class="icon-box-sm"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-            <span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">Aviation</span>
-          </div>
-          <h3 class="text-lg font-bold mb-1">Flight Services Supervisor</h3>
-          <p class="text-sm font-semibold text-secondary mb-2" dir="rtl" lang="ar">مشرف خدمات الطيران</p>
-          <p class="text-muted text-sm leading-relaxed mb-3">Ground handling or cabin crew leadership. Regional airline, great growth path.</p>
-          <ul class="text-muted text-xs space-y-1 mb-4">
-            <li>Ground handling or cabin crew experience</li>
-            <li>Leadership in high-pressure environments</li>
-            <li>Willing to travel across the region</li>
-          </ul>
-          <div class="flex items-center gap-3 text-xs text-muted mb-4">
-            <span>📍 MENA Region</span><span>&#x2022;</span><span>Full-time</span>
-          </div>
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-            <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20the%20Flight%20Services%20Supervisor%20role." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">Apply via WhatsApp &rarr;</a>
-            <a href="mailto:yasmin@hirefound.com?subject=Application:%20Flight%20Services%20Supervisor" class="text-muted text-xs hover:text-primary transition-colors">or send CV via email</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="text-center mt-10 reveal">
-        <p class="text-muted text-sm">Don't see your fit? I'm always looking for great people.</p>
-        <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I%20don't%20see%20a%20matching%20role%20but%20I'd%20love%20to%20connect." target="_blank" rel="noopener" class="magnetic inline-flex items-center gap-2 mt-3 px-6 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm">Send Me Your CV Anyway</a>
+      <!-- View all link + fallback CTA (shown/hidden by JS) -->
+      <div id="vacancy-footer" class="text-center mt-10" style="display:none;">
+        <a href="/jobs/" class="magnetic inline-flex items-center gap-2 px-6 py-2.5 min-h-[44px] bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm">
+          View All Open Roles &rarr;
+        </a>
       </div>
 
       <!-- Career bridge -->
@@ -765,7 +707,7 @@
             <div class="icon-box-sm mx-auto mb-4"><svg class="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg></div>
             <h3 class="font-accent text-xl md:text-2xl font-bold text-primary mb-2">Looking for more than a job listing?</h3>
             <p class="text-muted text-sm leading-relaxed mb-5 max-w-md mx-auto">Get your CV rewritten, nail your next interview, or let me personally match you with your dream role.</p>
-            <a href="#services" data-switch-tab="candidates" class="career-bridge magnetic inline-flex items-center gap-2 px-6 py-2.5 bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">
+            <a href="#services" data-switch-tab="candidates" class="career-bridge magnetic inline-flex items-center gap-2 px-6 py-2.5 min-h-[44px] bg-primary/10 text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300">
               Explore Career Services &rarr;
             </a>
           </div>
@@ -773,6 +715,160 @@
       </div>
     </div>
   </section>
+
+  <!-- Homepage vacancies dynamic loader (ES module) -->
+  <script type="module">
+    import { fetchJobs, renderJobCards, renderSkeletons, renderEmpty, getCategories, filterByCategory, DEFAULTS } from './js/jobs.js';
+
+    const container = document.getElementById('vacancy-grid');
+    const footer = document.getElementById('vacancy-footer');
+    const filtersContainer = document.getElementById('vacancy-filters');
+
+    // Re-observe dynamically added .reveal elements so they become visible
+    function revealNewCards() {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      container.querySelectorAll('.reveal:not(.revealed)').forEach(el => obs.observe(el));
+    }
+
+    async function loadHomepageJobs() {
+      // Show skeleton loaders while fetching
+      renderSkeletons(4, container);
+      // Hide filters during loading
+      filtersContainer.style.display = 'none';
+
+      try {
+        const jobs = await fetchJobs({ limit: 4 });
+
+        if (!jobs || jobs.length === 0) {
+          // Empty state (Req 8.4): replace cards area with message + Contact CTAs
+          renderEmpty(container, 'No open roles right now');
+          // Req 8.5: hide filter pills when zero jobs displayed
+          filtersContainer.style.display = 'none';
+          footer.style.display = 'none';
+          // #vacancies section remains visible (Req 8.4)
+        } else {
+          // Render job cards using shared renderer
+          renderJobCards(jobs, container);
+          revealNewCards();
+          // Show filter pills from dynamic categories (Req 5.1)
+          const categories = getCategories(jobs);
+          renderHomepageFilters(categories, jobs);
+          filtersContainer.style.display = '';
+          // Show "View All Open Roles" link
+          footer.style.display = '';
+        }
+      } catch (error) {
+        console.error('Homepage jobs fetch failed:', error);
+        // Error state (Req 2.5): hide cards area, show "temporarily unavailable" + CTAs
+        container.innerHTML = '';
+        container.className = '';
+        // Hide filter pills on error
+        filtersContainer.style.display = 'none';
+        footer.style.display = 'none';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'flex flex-col items-center justify-center text-center py-12 px-4';
+
+        const msg = document.createElement('p');
+        msg.className = 'text-text-main text-lg font-semibold mb-2';
+        msg.textContent = 'Jobs temporarily unavailable';
+
+        const subMsg = document.createElement('p');
+        subMsg.className = 'text-muted text-sm mb-6 max-w-md';
+        subMsg.textContent = "We're having trouble loading jobs right now. Reach out directly — I'd love to hear from you.";
+
+        const ctaContainer = document.createElement('div');
+        ctaContainer.className = 'flex flex-col sm:flex-row items-center gap-3';
+
+        const whatsAppLink = document.createElement('a');
+        whatsAppLink.href = `https://wa.me/${DEFAULTS.whatsApp}?text=${encodeURIComponent("Hi Yasmin! I'm interested in job opportunities.")}`;
+        whatsAppLink.target = '_blank';
+        whatsAppLink.rel = 'noopener';
+        whatsAppLink.className = 'magnetic inline-flex items-center gap-2 px-6 py-3 min-h-[44px] min-w-[44px] bg-whatsapp text-white text-sm font-semibold rounded-full hover:brightness-110 transition-all duration-200 shadow-md';
+        whatsAppLink.setAttribute('aria-label', 'Contact via WhatsApp');
+        whatsAppLink.innerHTML = `<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> WhatsApp`;
+
+        const calLink = document.createElement('a');
+        calLink.href = DEFAULTS.calLink;
+        calLink.target = '_blank';
+        calLink.rel = 'noopener';
+        calLink.className = 'magnetic inline-flex items-center gap-2 px-6 py-3 min-h-[44px] min-w-[44px] bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 shadow-warm';
+        calLink.setAttribute('aria-label', 'Book a call with Yasmin');
+        calLink.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg> Book a Call`;
+
+        ctaContainer.appendChild(whatsAppLink);
+        ctaContainer.appendChild(calLink);
+
+        wrapper.appendChild(msg);
+        wrapper.appendChild(subMsg);
+        wrapper.appendChild(ctaContainer);
+        container.appendChild(wrapper);
+        // #vacancies section remains visible (Req 2.5)
+      }
+    }
+
+    function renderHomepageFilters(categories, jobs) {
+      filtersContainer.innerHTML = '';
+
+      // "All" pill
+      const allPill = document.createElement('button');
+      allPill.className = 'filter-pill active';
+      allPill.textContent = 'All';
+      allPill.setAttribute('aria-label', 'Show all jobs');
+      allPill.setAttribute('aria-pressed', 'true');
+      allPill.addEventListener('click', () => handleHomepageFilter('all', jobs));
+      filtersContainer.appendChild(allPill);
+
+      // Category pills
+      categories.forEach(category => {
+        const pill = document.createElement('button');
+        pill.className = 'filter-pill';
+        pill.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+        pill.setAttribute('aria-label', `Filter by ${category}`);
+        pill.setAttribute('aria-pressed', 'false');
+        pill.addEventListener('click', () => handleHomepageFilter(category, jobs));
+        filtersContainer.appendChild(pill);
+      });
+    }
+
+    function handleHomepageFilter(category, allJobs) {
+      const filtered = filterByCategory(allJobs, category);
+
+      // Update pill active states (Req 5.5: active = filled, inactive = outlined)
+      const pills = filtersContainer.querySelectorAll('.filter-pill');
+      pills.forEach(pill => {
+        const pillCat = pill.textContent.toLowerCase();
+        if (pillCat === category || (category === 'all' && pill.textContent === 'All')) {
+          pill.classList.add('active');
+          pill.setAttribute('aria-pressed', 'true');
+        } else {
+          pill.classList.remove('active');
+          pill.setAttribute('aria-pressed', 'false');
+        }
+      });
+
+      if (filtered.length === 0) {
+        // Zero matches: show empty state message but keep pills visible
+        const message = category === 'all'
+          ? 'No open roles right now.'
+          : `No jobs available in ${category.charAt(0).toUpperCase() + category.slice(1)}.`;
+        renderEmpty(container, message);
+      } else {
+        renderJobCards(filtered, container);
+        revealNewCards();
+      }
+    }
+
+    // Load jobs on page ready
+    loadHomepageJobs();
+  </script>
 
 
   <!-- ==================== ABOUT ==================== -->
@@ -1478,27 +1574,7 @@
       }
 
 
-      /* === Vacancy Filter === */
-      const filterBtns = document.querySelectorAll('.filter-pill');
-      const vacancyCards = document.querySelectorAll('.vacancy-card');
-      if (filterBtns.length) {
-        filterBtns.forEach(btn => {
-          btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const cat = btn.dataset.filter;
-            vacancyCards.forEach((card, i) => {
-              const show = cat === 'all' || card.dataset.category === cat;
-              card.style.opacity = '0';
-              card.style.transform = 'translateY(12px)';
-              setTimeout(() => {
-                card.style.display = show ? '' : 'none';
-                if (show) requestAnimationFrame(() => { card.style.opacity = '1'; card.style.transform = ''; });
-              }, 150 + i * 50);
-            });
-          });
-        });
-      }
+      /* === Vacancy Filter (removed — now handled by dynamic module) === */
 
 
       /* === Booking Modal Controller === */
