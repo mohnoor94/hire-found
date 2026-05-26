@@ -1,11 +1,12 @@
 /**
  * firebase-config.js — Firebase initialization module.
  * Initializes Firebase v9+ modular SDK via CDN ESM imports.
- * Exports the Firestore database instance for use by other modules.
+ * Exports the Firebase app, Firestore database, and Auth instances for use by other modules.
  */
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBYBL38_wVPeNmjl4C0ci22Np5Tw7YaNzw",
@@ -17,13 +18,18 @@ const firebaseConfig = {
   measurementId: "G-F5CWDK4XEK"
 };
 
+let app;
 let db;
+let auth;
 try {
-  const app = initializeApp(firebaseConfig);
+  app = initializeApp(firebaseConfig);
   db = getFirestore(app);
+  auth = getAuth(app);
 } catch (error) {
   console.error('Firebase initialization failed:', error);
+  app = undefined;
   db = undefined;
+  auth = undefined;
 }
 
-export { db };
+export { app, db, auth };

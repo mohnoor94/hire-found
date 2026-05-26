@@ -6,14 +6,14 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
 
 ## Tasks
 
-- [ ] 1. Set up project structure and extend Firebase config
-  - [ ] 1.1 Extend `js/firebase-config.js` to export `auth` and `app`
+- [x] 1. Set up project structure and extend Firebase config
+  - [x] 1.1 Extend `js/firebase-config.js` to export `auth` and `app`
     - Import `getAuth` from Firebase Auth CDN
     - Export `app`, `db`, and `auth` from the module
     - Maintain backward compatibility with existing `db` import consumers
     - _Requirements: 1.1, 1.4_
 
-  - [ ] 1.2 Create `admin/index.html` with page shell and view containers
+  - [x] 1.2 Create `admin/index.html` with page shell and view containers
     - Include Tailwind CDN, shared CSS, tailwind-config.js
     - Add view containers: loading, sign-in, app (dashboard + editor)
     - Add glassmorphism nav bar with sign-out button
@@ -22,7 +22,7 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Import `admin/js/app.js` as ES module entry point
     - _Requirements: 7.1, 7.5, 7.7_
 
-  - [ ] 1.3 Create `admin/js/toast.js` notification module
+  - [x] 1.3 Create `admin/js/toast.js` notification module
     - Implement `showToast({ type, message, duration })` function
     - Support 'success' and 'error' variants with appropriate colors
     - Auto-dismiss after duration (default 5000ms)

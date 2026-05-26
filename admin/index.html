@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireFound Admin</title>
+  <link rel="icon" href="../assets/hirefound-favicon.svg" type="image/svg+xml">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/tailwind-config.js"></script>
+
+  <!-- Shared Styles -->
+  <link rel="stylesheet" href="../css/shared.css">
+
+  <style>
+    /* Admin-specific styles */
+    .admin-loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(139, 34, 82, 0.15);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      .admin-loading-spinner {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-warm text-text-main font-sans antialiased overflow-x-hidden min-h-screen">
+
+  <!-- ==================== NAV BAR ==================== -->
+  <nav id="admin-nav" class="fixed top-0 left-0 right-0 z-50 nav-glass hidden" aria-label="Admin navigation">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+      <a href="/admin/" class="font-accent text-xl font-bold text-primary">HireFound Admin</a>
+      <button
+        id="sign-out-btn"
+        type="button"
+        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-4 py-2 text-sm font-semibold text-primary bg-primary/10 rounded-full hover:bg-primary hover:text-white transition-all duration-300"
+        aria-label="Sign out"
+      >
+        Sign Out
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==================== LOADING VIEW ==================== -->
+  <div id="view-loading" class="flex items-center justify-center min-h-screen">
+    <div class="text-center">
+      <div class="admin-loading-spinner mx-auto mb-4"></div>
+      <p class="text-muted text-sm">Loading...</p>
+    </div>
+  </div>
+
+  <!-- ==================== SIGN-IN VIEW ==================== -->
+  <div id="view-sign-in" class="flex items-center justify-center min-h-screen hidden">
+    <div class="w-full max-w-sm mx-auto px-6 text-center">
+      <img src="../assets/hirefound-favicon.svg" alt="HireFound" class="w-16 h-16 mx-auto mb-6">
+      <h1 class="font-accent text-3xl font-bold text-primary mb-2">Admin Panel</h1>
+      <p class="text-muted text-sm mb-8">Sign in to manage job posts</p>
+      <button
+        id="google-sign-in-btn"
+        type="button"
+        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] w-full px-6 py-3 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm"
+      >
+        Sign in with Google
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== APP VIEW (Dashboard + Editor) ==================== -->
+  <div id="view-app" class="hidden pt-16">
+    <!-- Dashboard View -->
+    <div id="view-dashboard" class="max-w-6xl mx-auto px-6 py-8">
+      <!-- Dashboard content rendered by JS -->
+    </div>
+
+    <!-- Editor View -->
+    <div id="view-editor" class="max-w-4xl mx-auto px-6 py-8 hidden">
+      <!-- Editor content rendered by JS -->
+    </div>
+  </div>
+
+  <!-- ==================== TOAST CONTAINER ==================== -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- Admin App Entry Point -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
