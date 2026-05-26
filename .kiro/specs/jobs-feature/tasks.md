@@ -106,14 +106,14 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - **Property 9: Contact info fallback to defaults**
     - **Validates: Requirements 4.2, 6.3, 7.1, 7.2, 7.3, 7.4**
 
-- [ ] 5. Implement application methods
-  - [~] 5.1 Implement Tally form embed in job detail view
+- [x] 5. Implement application methods
+  - [x] 5.1 Implement Tally form embed in job detail view
     - When job has `tallyFormId`: embed Tally form in "How to Apply" section
     - Use widget params: `transparentBackground=1`, `dynamicHeight=1`, `hideTitle=1`, `alignLeft=1`
     - Pass URL-encoded job title as parameter
     - _Requirements: 7.1_
 
-  - [~] 5.2 Implement Contact CTAs fallback in job detail view
+  - [x] 5.2 Implement Contact CTAs fallback in job detail view
     - When job has no `tallyFormId`: show WhatsApp button (pre-filled message with job title), Book a Call button (cal.com/yasminblasi), Email button (subject with job title)
     - Use job-specific contactWhatsApp/contactEmail when non-null, fall back to DEFAULTS
     - _Requirements: 7.2, 7.3, 7.4_
