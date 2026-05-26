@@ -55,7 +55,7 @@ A private, beautifully designed admin control panel for Yasmin to manage HireFou
 #### Acceptance Criteria
 
 1. WHEN Yasmin clicks the "New Job" button, THE Job_Editor SHALL open a form with all Job_Post fields grouped into sections: identity (title, titleAr, slug), classification (category, employmentType), location, descriptions (shortDescription, fullDescription, fullDescriptionAr), company details (companyName, salary), and contact (contactWhatsApp, contactEmail, tallyFormId)
-2. THE Job_Editor SHALL validate that title (between 1 and 120 characters), category (one of hospitality, tech, fnb, aviation, other), location (between 1 and 100 characters), and employmentType (one of full-time, part-time, contract, freelance) are provided before allowing submission
+2. THE Job_Editor SHALL validate that title (between 1 and 120 characters), category (one of hospitality, tech, fnb, aviation, other), location (between 1 and 100 characters), and employmentType (one of full-time, part-time, contract, freelance) are provided, and SHALL explicitly block form submission when any required field is invalid
 3. WHEN Yasmin submits a valid new Job_Post form, THE Job_Editor SHALL write the document to Firestore with a server-generated createdAt timestamp and isActive set to true
 4. WHEN a Job_Post is successfully created, THE Admin_Panel SHALL display a success Toast_Notification and add the new post to the top of the Job_List
 5. WHEN the title field value changes, THE Job_Editor SHALL auto-generate a slug by lowercasing the English title, replacing spaces and non-alphanumeric characters with hyphens, removing consecutive hyphens, stripping leading and trailing hyphens, and truncating to a maximum of 80 characters
@@ -84,7 +84,7 @@ A private, beautifully designed admin control panel for Yasmin to manage HireFou
 
 1. WHEN Yasmin clicks the toggle switch on a Job_Post card, THE Admin_Panel SHALL disable the toggle switch, send a Firestore update to set the isActive field to the opposite boolean value, and re-enable the toggle switch upon receiving a success or failure response within 10 seconds
 2. WHEN the Firestore isActive update succeeds, THE Job_List SHALL update the toggle switch position and the Job_Post card's visual active/inactive indicator within 1 second of receiving the success response, using a transition of 200–300ms duration
-3. IF the Firestore isActive update fails or does not respond within 10 seconds, THEN THE Admin_Panel SHALL revert the toggle switch to its previous position and display an error Toast_Notification for 5 seconds indicating that the status change was unsuccessful
+3. IF the Firestore isActive update fails, does not respond within 10 seconds, or receives conflicting success and failure responses, THEN THE Admin_Panel SHALL treat the operation as failed, revert the toggle switch to its previous position, and display an error Toast_Notification for 5 seconds indicating that the status change was unsuccessful
 
 ### Requirement 6: Delete Job Post
 
@@ -95,7 +95,7 @@ A private, beautifully designed admin control panel for Yasmin to manage HireFou
 1. WHEN Yasmin clicks the delete action on a Job_Post card, THE Admin_Panel SHALL display a confirmation dialog as a modal overlay containing the job title, a warning message indicating that deletion is permanent and cannot be undone, a confirm button, and a cancel button
 2. WHEN Yasmin confirms deletion, THE Admin_Panel SHALL disable the confirm button to prevent duplicate submissions, delete the Firestore document, close the confirmation dialog, and remove the card from the Job_List with an exit animation within 300ms
 3. WHEN Yasmin cancels deletion, THE Admin_Panel SHALL close the confirmation dialog without changes
-4. IF Firestore deletion fails, THEN THE Admin_Panel SHALL close the confirmation dialog, display an error Toast_Notification for 5 seconds indicating the deletion failed, and keep the Job_Post card in the Job_List in its original position
+4. IF the Firestore deletion operation fails, THEN THE Admin_Panel SHALL close the confirmation dialog, display an error Toast_Notification for 5 seconds indicating the deletion failed, and keep the Job_Post card in the Job_List in its original position; UI-only failures (animation or count update errors) after a successful Firestore deletion SHALL NOT trigger error handling
 5. WHEN a Job_Post is successfully deleted, THE Admin_Panel SHALL update the displayed total job count and filtered job count in the Job_List to reflect the removal
 
 ### Requirement 7: Delightful UI and Micro-Interactions
@@ -111,7 +111,7 @@ A private, beautifully designed admin control panel for Yasmin to manage HireFou
 5. THE Admin_Panel SHALL apply glassmorphism effects to the navigation bar and modal overlays using the nav-glass style (rgba(255, 250, 245, 0.8) background, 16px backdrop blur, and 1px bottom border at rgba(139, 34, 82, 0.08))
 6. WHILE a Firestore operation is in progress, THE Admin_Panel SHALL display an animated loading indicator (opacity pulse or spinner) on the affected element within 200ms of operation start, without disabling interaction with unaffected elements
 7. THE Admin_Panel SHALL render all views in a single-column layout on viewports below 768px and a multi-column layout at 768px and above, with all interactive elements maintaining a minimum touch target of 44x44px
-8. IF the user has enabled prefers-reduced-motion in their operating system, THEN THE Admin_Panel SHALL disable all CSS transitions and animations by reducing their duration to near-zero
+8. IF the user has enabled prefers-reduced-motion in their operating system, THEN THE Admin_Panel SHALL disable motion-based CSS transitions and animations by reducing their duration to near-zero, while preserving non-movement visual feedback such as color changes and opacity shifts, and keeping other visual effects like backdrop blur and loading indicator pulses active
 
 ### Requirement 8: Form UX and Rich Editing
 
