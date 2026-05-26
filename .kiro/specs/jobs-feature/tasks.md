@@ -32,20 +32,20 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - Handle undefined `db` gracefully (immediate error)
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-- [ ] 2. Implement job card rendering and loading states
-  - [ ] 2.1 Implement `renderSkeletons(count, container)` in `/js/jobs.js`
+- [x] 2. Implement job card rendering and loading states
+  - [x] 2.1 Implement `renderSkeletons(count, container)` in `/js/jobs.js`
     - Render shimmer-animated placeholder cards matching Job_Card dimensions
     - Support responsive grid layout (1 col < 768px, 2 cols >= 768px)
     - _Requirements: 4.5, 11.1_
 
-  - [ ] 2.2 Implement `renderJobCards(jobs, container)` in `/js/jobs.js`
+  - [x] 2.2 Implement `renderJobCards(jobs, container)` in `/js/jobs.js`
     - Render cards with: category badge (colored per CATEGORY_COLORS), title, Arabic title (with dir="rtl" lang="ar" if titleAr exists), location, truncated shortDescription (120 chars), relative posted date, employment type badge
     - Make cards clickable — navigate to `?id={slug}`
     - Apply `premium-card` styling, hover lift effect, scroll-reveal animations
     - Handle RTL for Arabic fields — skip empty RTL elements for null/empty titleAr
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 9.1, 9.2, 9.3_
 
-  - [ ] 2.3 Implement `renderError(container, onRetry)` and `renderEmpty(container, message)` in `/js/jobs.js`
+  - [x] 2.3 Implement `renderError(container, onRetry)` and `renderEmpty(container, message)` in `/js/jobs.js`
     - Error state: user-friendly message + retry button that re-triggers fetch with skeletons
     - Empty state: message + WhatsApp and Book a Call CTAs using DEFAULTS
     - _Requirements: 2.4, 2.5, 4.6, 11.2, 11.3_
