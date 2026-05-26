@@ -58,11 +58,11 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - **Property 10: Text truncation correctness**
     - **Validates: Requirements 2.3, 4.2, 4.3, 5.1, 5.3, 5.4, 9.1, 9.2, 9.3**
 
-- [ ] 3. Checkpoint - Core module verification
+- [x] 3. Checkpoint - Core module verification
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 4. Build the Jobs listing page
-  - [ ] 4.1 Create `/jobs/index.html` with page structure
+- [x] 4. Build the Jobs listing page
+  - [x] 4.1 Create `/jobs/index.html` with page structure
     - Sticky nav with HireFound logo (link to homepage), nav links (About, Jobs active, Services, Process, Get Started CTA)
     - Skip-to-content link as first focusable element
     - Page header: h1 "Find Your Match" + subtitle (≤150 chars)
@@ -73,7 +73,7 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - Import firebase-config.js and jobs.js as ES modules
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 12.1, 12.2_
 
-  - [ ] 4.2 Implement listing view controller in `/jobs/index.html` inline script
+  - [x] 4.2 Implement listing view controller in `/jobs/index.html` inline script
     - On load: check URL for `?id=` param → determine LISTING or DETAIL state
     - LISTING state: show skeletons → fetch all jobs → render cards + filter pills
     - Generate filter pills dynamically from fetched job categories (All + distinct categories)
@@ -82,7 +82,7 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - Show empty state if no jobs match selected filter
     - _Requirements: 4.5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 11.1_
 
-  - [ ] 4.3 Implement detail view controller and `renderJobDetail(job, container)` in `/js/jobs.js`
+  - [x] 4.3 Implement detail view controller and `renderJobDetail(job, container)` in `/js/jobs.js`
     - DETAIL state: fetch jobs → find by slug → render detail or NOT_FOUND
     - Detail view: back link "← All Jobs", title, Arabic title (RTL), category badge, location, employment type, company name (if exists), salary (if exists), relative posted date
     - Render fullDescription as rich text (paragraphs, bullets, bold)
@@ -92,7 +92,7 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - Handle expired/inactive jobs accessed via direct URL as NOT_FOUND
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 9.1, 9.2_
 
-  - [ ] 4.4 Implement URL routing and history navigation
+  - [x] 4.4 Implement URL routing and history navigation
     - Use `history.pushState` for card click → detail and back link → listing
     - Handle `popstate` event for browser back/forward
     - If pushState unavailable, prevent navigation and keep current view
@@ -107,22 +107,22 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - **Validates: Requirements 4.2, 6.3, 7.1, 7.2, 7.3, 7.4**
 
 - [ ] 5. Implement application methods
-  - [ ] 5.1 Implement Tally form embed in job detail view
+  - [~] 5.1 Implement Tally form embed in job detail view
     - When job has `tallyFormId`: embed Tally form in "How to Apply" section
     - Use widget params: `transparentBackground=1`, `dynamicHeight=1`, `hideTitle=1`, `alignLeft=1`
     - Pass URL-encoded job title as parameter
     - _Requirements: 7.1_
 
-  - [ ] 5.2 Implement Contact CTAs fallback in job detail view
+  - [~] 5.2 Implement Contact CTAs fallback in job detail view
     - When job has no `tallyFormId`: show WhatsApp button (pre-filled message with job title), Book a Call button (cal.com/yasminblasi), Email button (subject with job title)
     - Use job-specific contactWhatsApp/contactEmail when non-null, fall back to DEFAULTS
     - _Requirements: 7.2, 7.3, 7.4_
 
-- [ ] 6. Checkpoint - Jobs page verification
+- [~] 6. Checkpoint - Jobs page verification
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 7. Update homepage vacancies integration
-  - [ ] 7.1 Modify `/index.html` #vacancies section for dynamic loading
+  - [~] 7.1 Modify `/index.html` #vacancies section for dynamic loading
     - Remove all hardcoded vacancy card markup from HTML source
     - Add ES module script importing firebase-config.js and jobs.js
     - On load: show skeleton loaders → fetch 4 latest active jobs → render cards
@@ -130,33 +130,33 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - Add "View All Open Roles →" link below cards navigating to /jobs/
     - _Requirements: 8.1, 8.2, 8.3, 8.6, 11.4_
 
-  - [ ] 7.2 Handle homepage empty and error states
+  - [~] 7.2 Handle homepage empty and error states
     - If zero jobs after fetch+filter: replace cards area with message + Contact CTAs (WhatsApp, Book a Call), hide filter pills, keep #vacancies section visible
     - If fetch fails/timeout: hide cards area, show "temporarily unavailable" + WhatsApp/Book a Call CTAs
     - _Requirements: 2.5, 8.4, 8.5_
 
-  - [ ] 7.3 Update homepage filter pills to be dynamic
+  - [~] 7.3 Update homepage filter pills to be dynamic
     - Generate filter pills from fetched job categories (instead of hardcoded)
     - Wire client-side filtering for homepage cards
     - Apply same active/inactive pill styling
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
 - [ ] 8. Responsive design and accessibility polish
-  - [ ] 8.1 Ensure responsive layout across all views
+  - [~] 8.1 Ensure responsive layout across all views
     - Job cards: 1 column < 768px, 2 columns >= 768px
     - Filter pills: wrap to multiple lines on mobile, no horizontal scroll
     - Detail view: single column, max-width 65ch, min padding 16px
     - Touch targets: minimum 44×44px on mobile for all interactive elements
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
-  - [ ] 8.2 Ensure accessibility compliance
+  - [~] 8.2 Ensure accessibility compliance
     - Verify aria-labels on all interactive elements
     - Verify visible focus indicators on all focusable elements
     - Verify skip-to-content link functionality
     - Verify RTL attributes applied correctly to Arabic content on both pages
     - _Requirements: 3.5, 3.6, 9.1, 9.2, 9.3, 9.4_
 
-- [ ] 9. Final checkpoint - Full integration verification
+- [~] 9. Final checkpoint - Full integration verification
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

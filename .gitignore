@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Firebase service account key (sensitive)
+scripts/serviceAccountKey.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+
+# Logs
+*.log

@@ -209,16 +209,26 @@ export function renderJobCards(jobs, container) {
       </div>
     `;
 
-    // Make card clickable — navigate to ?id={slug}
+    // Make card clickable — navigate to ?id={slug} using pushState
     card.addEventListener('click', () => {
-      window.location.href = `?id=${job.slug}`;
+      try {
+        history.pushState({}, '', `?id=${job.slug}`);
+        window.dispatchEvent(new CustomEvent('jobNavigate', { detail: { slug: job.slug } }));
+      } catch (err) {
+        // pushState unavailable — prevent navigation and keep current view
+      }
     });
 
     // Support keyboard activation
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        window.location.href = `?id=${job.slug}`;
+        try {
+          history.pushState({}, '', `?id=${job.slug}`);
+          window.dispatchEvent(new CustomEvent('jobNavigate', { detail: { slug: job.slug } }));
+        } catch (err) {
+          // pushState unavailable — prevent navigation and keep current view
+        }
       }
     });
 
@@ -238,6 +248,7 @@ export function renderJobCards(jobs, container) {
  */
 export function renderError(container, onRetry) {
   container.innerHTML = '';
+  container.className = '';
 
   const wrapper = document.createElement('div');
   wrapper.className = 'flex flex-col items-center justify-center text-center py-16 px-4';
@@ -283,6 +294,7 @@ export function renderError(container, onRetry) {
  */
 export function renderEmpty(container, message) {
   container.innerHTML = '';
+  container.className = '';
 
   const wrapper = document.createElement('div');
   wrapper.className = 'flex flex-col items-center justify-center text-center py-16 px-4';
@@ -331,6 +343,283 @@ export function renderEmpty(container, message) {
   wrapper.appendChild(subMsg);
   wrapper.appendChild(ctaContainer);
   container.appendChild(wrapper);
+}
+
+// ─── Detail View Rendering ────────────────────────────────────────────────────
+
+/**
+ * Renders the "Job Not Found" state into the given container.
+ * Displays a message indicating the role is no longer available and a link
+ * back to the jobs listing page.
+ *
+ * @param {HTMLElement} container - The DOM element to render the not-found state into.
+ */
+export function renderNotFound(container) {
+  if (!container) return;
+  container.innerHTML = '';
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'flex flex-col items-center justify-center text-center py-16 px-4';
+
+  // Not found icon
+  const icon = document.createElement('div');
+  icon.className = 'w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6';
+  icon.innerHTML = `<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>`;
+
+  // Not found message
+  const title = document.createElement('h2');
+  title.className = 'text-text-main text-2xl font-bold mb-2';
+  title.textContent = 'Job Not Found';
+
+  const message = document.createElement('p');
+  message.className = 'text-muted text-sm mb-8 max-w-md';
+  message.textContent = 'This role is no longer available or may have been removed. Browse our current openings below.';
+
+  // Back link
+  const backLink = document.createElement('a');
+  backLink.href = '/jobs/';
+  backLink.className = 'magnetic inline-flex items-center gap-2 px-6 py-3 min-h-[44px] min-w-[44px] bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 shadow-warm';
+  backLink.setAttribute('aria-label', 'Back to all job listings');
+  backLink.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg> View All Jobs`;
+
+  wrapper.appendChild(icon);
+  wrapper.appendChild(title);
+  wrapper.appendChild(message);
+  wrapper.appendChild(backLink);
+  container.appendChild(wrapper);
+}
+
+/**
+ * Renders the full job detail view into the given container.
+ * Includes: back link, title, Arabic title (RTL), category badge, location,
+ * employment type, company name (if exists), salary (if exists), relative posted date,
+ * full description as rich text, and a share button.
+ *
+ * @param {Object} job - The job object to render.
+ * @param {HTMLElement} container - The DOM element to render the detail view into.
+ */
+export function renderJobDetail(job, container) {
+  if (!container || !job) return;
+  container.innerHTML = '';
+
+  const colors = CATEGORY_COLORS[job.category] || CATEGORY_COLORS.other;
+  const categoryLabel = job.category
+    ? job.category.charAt(0).toUpperCase() + job.category.slice(1)
+    : 'Other';
+  const postedDate = getRelativeTime(job.createdAt);
+
+  // === Back Link ===
+  const backLink = document.createElement('a');
+  backLink.href = '/jobs/';
+  backLink.className = 'inline-flex items-center gap-1 text-sm text-primary font-semibold hover:text-primary-light transition-colors duration-200 mb-8 min-h-[44px]';
+  backLink.setAttribute('aria-label', 'Back to all job listings');
+  backLink.setAttribute('data-back-link', 'true');
+  backLink.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg> All Jobs`;
+
+  // === Header Section ===
+  const header = document.createElement('header');
+  header.className = 'mb-8';
+
+  // Title
+  const title = document.createElement('h1');
+  title.className = 'font-accent text-3xl md:text-4xl font-bold text-text-main mb-2';
+  title.textContent = job.title;
+
+  header.appendChild(title);
+
+  // Arabic title (if exists)
+  if (job.titleAr && job.titleAr.trim() !== '') {
+    const arabicTitle = document.createElement('p');
+    arabicTitle.className = 'text-xl font-semibold text-secondary mb-3';
+    arabicTitle.setAttribute('dir', 'rtl');
+    arabicTitle.setAttribute('lang', 'ar');
+    arabicTitle.textContent = job.titleAr;
+    header.appendChild(arabicTitle);
+  }
+
+  // Metadata row
+  const metaRow = document.createElement('div');
+  metaRow.className = 'flex flex-wrap items-center gap-3 text-sm text-muted mt-4';
+
+  // Category badge
+  const categoryBadge = document.createElement('span');
+  categoryBadge.className = `inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${colors.bg} ${colors.text}`;
+  categoryBadge.textContent = categoryLabel;
+  metaRow.appendChild(categoryBadge);
+
+  // Location
+  if (job.location) {
+    const locationEl = document.createElement('span');
+    locationEl.className = 'inline-flex items-center gap-1';
+    locationEl.innerHTML = `📍 ${job.location}`;
+    metaRow.appendChild(locationEl);
+  }
+
+  // Employment type
+  if (job.employmentType) {
+    const typeEl = document.createElement('span');
+    typeEl.className = `inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full ${colors.bg} ${colors.text}`;
+    typeEl.textContent = job.employmentType;
+    metaRow.appendChild(typeEl);
+  }
+
+  // Company name
+  if (job.companyName && job.companyName.trim() !== '') {
+    const companyEl = document.createElement('span');
+    companyEl.className = 'inline-flex items-center gap-1';
+    companyEl.innerHTML = `🏢 ${job.companyName}`;
+    metaRow.appendChild(companyEl);
+  }
+
+  // Salary
+  if (job.salary && job.salary.trim() !== '') {
+    const salaryEl = document.createElement('span');
+    salaryEl.className = 'inline-flex items-center gap-1';
+    salaryEl.innerHTML = `💰 ${job.salary}`;
+    metaRow.appendChild(salaryEl);
+  }
+
+  // Posted date
+  if (postedDate) {
+    const dateEl = document.createElement('span');
+    dateEl.className = 'inline-flex items-center gap-1';
+    dateEl.innerHTML = `🕐 ${postedDate}`;
+    metaRow.appendChild(dateEl);
+  }
+
+  header.appendChild(metaRow);
+
+  // === Share Button ===
+  const shareContainer = document.createElement('div');
+  shareContainer.className = 'mt-6 flex items-center gap-3';
+
+  const shareBtn = document.createElement('button');
+  shareBtn.className = 'magnetic inline-flex items-center gap-2 px-4 py-2 min-h-[44px] min-w-[44px] text-sm font-semibold text-primary border-2 border-primary/20 rounded-full hover:bg-primary/5 transition-colors duration-200';
+  shareBtn.setAttribute('aria-label', 'Share this job - copy URL to clipboard');
+  shareBtn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg> Share`;
+
+  const shareConfirmation = document.createElement('span');
+  shareConfirmation.className = 'text-sm text-success font-medium opacity-0 transition-opacity duration-200';
+  shareConfirmation.textContent = '✓ Link copied!';
+  shareConfirmation.setAttribute('aria-live', 'polite');
+
+  shareBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      shareConfirmation.style.opacity = '1';
+      setTimeout(() => {
+        shareConfirmation.style.opacity = '0';
+      }, 2000);
+    } catch (err) {
+      // Fallback: silently fail if clipboard API is unavailable
+      console.warn('Clipboard API unavailable:', err);
+    }
+  });
+
+  shareContainer.appendChild(shareBtn);
+  shareContainer.appendChild(shareConfirmation);
+  header.appendChild(shareContainer);
+
+  // === Full Description ===
+  const descriptionSection = document.createElement('section');
+  descriptionSection.className = 'mt-10';
+
+  const descHeading = document.createElement('h2');
+  descHeading.className = 'text-xl font-bold text-text-main mb-4';
+  descHeading.textContent = 'About This Role';
+  descriptionSection.appendChild(descHeading);
+
+  // Render full description as rich text
+  const descContent = document.createElement('div');
+  descContent.className = 'prose prose-sm max-w-none text-text-main leading-relaxed space-y-4';
+
+  // Determine which description to use (Arabic or English)
+  let descriptionHtml = job.fullDescription || '';
+
+  // If there's an Arabic full description, render it in an RTL block
+  if (job.fullDescriptionAr && job.fullDescriptionAr.trim() !== '') {
+    const arabicDescBlock = document.createElement('div');
+    arabicDescBlock.setAttribute('dir', 'rtl');
+    arabicDescBlock.setAttribute('lang', 'ar');
+    arabicDescBlock.className = 'prose prose-sm max-w-none text-text-main leading-relaxed space-y-4 mb-8';
+    arabicDescBlock.innerHTML = formatRichText(job.fullDescriptionAr);
+    descriptionSection.appendChild(arabicDescBlock);
+  }
+
+  // Apply RTL to English description blocks that contain Arabic
+  if (containsArabic(descriptionHtml)) {
+    descContent.setAttribute('dir', 'rtl');
+    descContent.setAttribute('lang', 'ar');
+  }
+
+  descContent.innerHTML = formatRichText(descriptionHtml);
+  descriptionSection.appendChild(descContent);
+
+  // === Assemble the detail view ===
+  container.appendChild(backLink);
+  container.appendChild(header);
+  container.appendChild(descriptionSection);
+}
+
+/**
+ * Formats a text/HTML string as rich text supporting paragraphs, bullet lists, and bold.
+ * If the input is already HTML (contains tags), it passes through with sanitization.
+ * If it's plain text, it converts newlines to paragraphs and recognizes basic patterns.
+ *
+ * @param {string} text - The text or HTML to format.
+ * @returns {string} Formatted HTML string.
+ */
+function formatRichText(text) {
+  if (!text) return '';
+
+  // If text already contains HTML tags, return as-is (it's pre-formatted from Firestore)
+  if (/<[a-z][\s\S]*>/i.test(text)) {
+    return text;
+  }
+
+  // Plain text formatting:
+  // Split by double newlines for paragraphs
+  const blocks = text.split(/\n\n+/);
+  let html = '';
+
+  for (const block of blocks) {
+    const trimmed = block.trim();
+    if (!trimmed) continue;
+
+    // Check if block is a bullet list (lines starting with - or •)
+    const lines = trimmed.split('\n');
+    const isList = lines.every(line => /^\s*[-•*]\s/.test(line) || line.trim() === '');
+
+    if (isList) {
+      html += '<ul class="list-disc list-inside space-y-1">';
+      for (const line of lines) {
+        const content = line.replace(/^\s*[-•*]\s*/, '').trim();
+        if (content) {
+          html += `<li>${applyInlineFormatting(content)}</li>`;
+        }
+      }
+      html += '</ul>';
+    } else {
+      html += `<p>${applyInlineFormatting(trimmed.replace(/\n/g, '<br>'))}</p>`;
+    }
+  }
+
+  return html;
+}
+
+/**
+ * Applies inline formatting (bold) to text.
+ * Converts **text** or __text__ to <strong>text</strong>.
+ *
+ * @param {string} text - The text to apply inline formatting to.
+ * @returns {string} Text with inline formatting applied.
+ */
+function applyInlineFormatting(text) {
+  if (!text) return '';
+  // Bold: **text** or __text__
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/__(.+?)__/g, '<strong>$1</strong>');
 }
 
 // ─── Data Fetching ───────────────────────────────────────────────────────────
