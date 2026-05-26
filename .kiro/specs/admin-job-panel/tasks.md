@@ -32,8 +32,8 @@ Build a private admin panel at `/admin/index.html` for managing HireFound job po
     - Respect `prefers-reduced-motion` by reducing animation duration
     - _Requirements: 3.4, 3.6, 4.5, 4.6, 5.2, 5.3, 6.4, 7.2, 7.8_
 
-- [ ] 2. Implement authentication guard
-  - [ ] 2.1 Create `admin/js/auth.js` module
+- [x] 2. Implement authentication guard
+  - [x] 2.1 Create `admin/js/auth.js` module
     - Import Firebase Auth SDK (signInWithPopup, GoogleAuthProvider, onAuthStateChanged, setPersistence, browserLocalPersistence)
     - Implement `initAuth(config)` with auth state listener
     - Show loading indicator during auth state verification
