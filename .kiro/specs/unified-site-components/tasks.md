@@ -78,7 +78,7 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
 - [x] 5. Checkpoint - Ensure components work in isolation
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 6. Integrate shared files into pages and remove duplicates
+- [x] 6. Integrate shared files into pages and remove duplicates
   - [~] 6.1 Update `/index.html` to use shared config, CSS, and components
     - Add Google Fonts link including Noto Sans Arabic (weights 400, 500, 600, 700)
     - Replace inline `tailwind.config` with `<script src="/js/tailwind-config.js"></script>` before Tailwind CDN

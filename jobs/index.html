@@ -16,123 +16,13 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind -->
+  <script src="../js/tailwind-config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            warm: '#FFFAF5',
-            'warm-dark': '#F8F0EA',
-            primary: '#8B2252',
-            'primary-light': '#A63B6B',
-            'primary-dark': '#6D1A3F',
-            secondary: '#D4A574',
-            'secondary-light': '#E0BA92',
-            dark: '#1A1A2E',
-            'dark-light': '#252540',
-            'text-main': '#2D2926',
-            muted: '#8A8380',
-            success: '#7A9E7E',
-            whatsapp: '#25D366',
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-            accent: ['"DM Serif Display"', 'Georgia', 'serif'],
-          },
-          boxShadow: {
-            card: '0 4px 24px rgba(45, 41, 38, 0.06)',
-            'card-hover': '0 12px 40px rgba(45, 41, 38, 0.12)',
-            warm: '0 4px 20px rgba(139, 34, 82, 0.12)',
-            glow: '0 0 40px rgba(139, 34, 82, 0.2)',
-            glass: '0 8px 32px rgba(0, 0, 0, 0.06)',
-          },
-        }
-      }
-    }
-  </script>
+
+  <!-- Shared Styles -->
+  <link rel="stylesheet" href="../css/shared.css">
 
   <style>
-    /* === Variables === */
-    :root {
-      --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
-      --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-      --primary: #8B2252;
-      --secondary: #D4A574;
-      --dark: #1A1A2E;
-    }
-
-    /* === Sticky Nav === */
-    .nav-glass {
-      background: rgba(255, 250, 245, 0.8);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(139, 34, 82, 0.08);
-    }
-
-    /* === Scroll Reveal === */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s var(--ease-out-quint), transform 0.6s var(--ease-out-quint);
-    }
-    .reveal.revealed { opacity: 1; transform: translateY(0); }
-
-    /* === Cards === */
-    .premium-card {
-      position: relative;
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-      transition: transform 0.4s var(--ease-out-quint), box-shadow 0.4s var(--ease-out-quint);
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-    .premium-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 0; height: 3px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      border-radius: 0 0 4px 4px;
-      transition: width 0.5s var(--ease-out-quint);
-    }
-    .premium-card:hover::after { width: 100%; }
-    .premium-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 48px rgba(139, 34, 82, 0.12);
-    }
-
-    /* === Filter Pills === */
-    .filter-pill {
-      padding: 8px 20px;
-      border-radius: 9999px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #8A8380;
-      background: rgba(139, 34, 82, 0.06);
-      border: 2px solid transparent;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-    }
-    .filter-pill:hover {
-      background: rgba(139, 34, 82, 0.1);
-      color: var(--primary);
-    }
-    .filter-pill.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-    .filter-pill:focus-visible {
-      outline: 3px solid var(--primary);
-      outline-offset: 2px;
-    }
-
     /* === Skeleton Loader === */
     @keyframes shimmer {
       0% { background-position: -200% 0; }
@@ -144,47 +34,6 @@
       animation: shimmer 1.5s ease-in-out infinite;
       border-radius: 8px;
     }
-
-    /* === Focus Indicators === */
-    a:focus-visible,
-    button:focus-visible,
-    [tabindex="0"]:focus-visible {
-      outline: 3px solid var(--primary);
-      outline-offset: 2px;
-      border-radius: 4px;
-    }
-
-    /* === Skip to Content === */
-    .skip-link {
-      position: absolute;
-      top: -100%;
-      left: 16px;
-      z-index: 100;
-      padding: 12px 24px;
-      background: var(--primary);
-      color: white;
-      font-weight: 600;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: top 0.2s ease;
-    }
-    .skip-link:focus {
-      top: 16px;
-    }
-
-    /* === Arabic Font === */
-    [lang="ar"], [dir="rtl"] {
-      font-family: 'Noto Sans Arabic', 'Inter', system-ui, sans-serif;
-    }
-
-    /* === Accessibility === */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-      }
-    }
   </style>
 </head>
 
@@ -195,21 +44,11 @@
 
   <!-- ==================== STICKY NAV ==================== -->
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 nav-glass" aria-label="Main navigation">
-    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-      <a href="/" class="font-accent text-xl font-bold text-primary" aria-label="HireFound - Go to homepage">HireFound</a>
-      <div class="hidden md:flex items-center gap-8">
-        <a href="/#about" class="text-sm text-muted hover:text-primary transition-colors duration-200">About</a>
-        <a href="/jobs/" class="text-sm text-primary font-semibold border-b-2 border-primary pb-0.5" aria-current="page">Jobs</a>
-        <a href="/#services" class="text-sm text-muted hover:text-primary transition-colors duration-200">Services</a>
-        <a href="/#how-it-works" class="text-sm text-muted hover:text-primary transition-colors duration-200">Process</a>
-        <a href="/#contact" class="magnetic inline-flex items-center px-5 py-2 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 shadow-warm" aria-label="Get Started - Contact us">
-          Get Started
-        </a>
+    <noscript>
+      <div class="max-w-6xl mx-auto px-6 py-3">
+        <a href="/" class="font-accent text-xl font-bold text-primary">HireFound</a>
       </div>
-      <a href="/#contact" class="md:hidden magnetic inline-flex items-center px-4 py-2 min-h-[44px] bg-primary text-white text-base font-semibold rounded-full shadow-warm" aria-label="Get Started - Contact us">
-        Get Started
-      </a>
-    </div>
+    </noscript>
   </nav>
 
   <!-- ==================== MAIN CONTENT ==================== -->
@@ -256,47 +95,22 @@
   </main>
 
   <!-- ==================== FOOTER ==================== -->
-  <footer class="py-20 lg:py-28 px-6 bg-dark text-white relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute inset-0 opacity-40" style="background: radial-gradient(circle at 30% 40%, rgba(139, 34, 82, 0.2), transparent 50%);"></div>
-      <div class="absolute inset-0 opacity-30" style="background: radial-gradient(circle at 80% 70%, rgba(212, 165, 116, 0.15), transparent 50%);"></div>
-    </div>
-
-    <div class="max-w-4xl mx-auto relative z-10">
-      <!-- Contact CTA -->
-      <div class="text-center mb-16">
-        <h2 class="font-accent text-2xl md:text-3xl font-bold mb-4">Don't see your fit?</h2>
-        <p class="text-white/50 text-base mb-6">I'm always looking for great people. Let's connect.</p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I%20saw%20your%20jobs%20page%20and%20would%20love%20to%20connect." target="_blank" rel="noopener"
-             class="inline-flex items-center gap-2 px-6 py-3 bg-whatsapp text-white text-sm font-semibold rounded-full hover:brightness-110 transition-all duration-300 shadow-md min-h-[44px]"
-             aria-label="Chat on WhatsApp">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Chat on WhatsApp
-          </a>
-          <a href="https://cal.com/yasminblasi" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-all duration-300 shadow-md min-h-[44px]"
-             aria-label="Book a call with Yasmin">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
-            </svg>
-            Book a Call
-          </a>
-        </div>
+  <div id="footer">
+    <noscript>
+      <div class="mt-24 pt-10 border-t border-white/8 text-center">
+        <p class="text-white/30 text-sm">HireFound &copy; 2026</p>
       </div>
-
-      <!-- Footer Bottom -->
-      <div class="pt-10 border-t border-white/8 text-center">
-        <img src="../assets/hirefound-logo-white.svg" alt="HireFound" class="h-10 md:h-12 mx-auto mb-4 opacity-70">
-        <p class="text-white/30 text-sm mb-1">Looking for a Hire? We've got you Found.</p>
-        <p class="text-white/30 text-sm font-accent italic mt-4">Find your match. Find your future.</p>
-        <p class="text-white/20 text-xs mt-6">Made with &#x2764; by <a href="https://noor.sh" target="_blank" rel="noopener" class="text-white/30 hover:text-white/50 transition-colors">Mohammad Noor</a></p>
-        <p class="text-white/15 text-xs mt-3">&copy; 2026 HireFound. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+    </noscript>
+  </div>
 
   <!-- ==================== SCRIPTS ==================== -->
+  <script type="module">
+    import { initNav } from '../js/nav.js';
+    import { initFooter } from '../js/footer.js';
+    initNav(document.getElementById('navbar'));
+    initFooter(document.getElementById('footer'));
+  </script>
+
   <script type="module">
     import { fetchJobs, renderJobCards, renderSkeletons, renderError, renderEmpty, renderJobDetail, renderNotFound, getCategories, filterByCategory } from '../js/jobs.js';
 
