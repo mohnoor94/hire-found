@@ -31,11 +31,11 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - Use homepage versions as source of truth for all shared rules
     - _Requirements: 2.1, 2.2, 2.3, 8.3_
 
-- [~] 2. Checkpoint - Ensure shared files are correct
+- [x] 2. Checkpoint - Ensure shared files are correct
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 3. Implement navigation component
-  - [~] 3.1 Create `/js/nav.js` ES module with `initNav()` function
+- [x] 3. Implement navigation component
+  - [x] 3.1 Create `/js/nav.js` ES module with `initNav()` function
     - Import `getBasePath` from `./utils.js`
     - Detect current page via `window.location.pathname`
     - Render nav with canonical menu labels: About, Find Your Match, Services, Process, Get Started
