@@ -6,14 +6,14 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
 
 ## Tasks
 
-- [ ] 1. Set up Firebase configuration and shared jobs module
-  - [ ] 1.1 Create `/js/firebase-config.js` module
+- [x] 1. Set up Firebase configuration and shared jobs module
+  - [x] 1.1 Create `/js/firebase-config.js` module
     - Initialize Firebase v9+ modular SDK via CDN ESM imports
     - Export configured Firestore `db` instance
     - Handle initialization errors gracefully (log to console, export undefined on failure)
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 12.4, 12.5_
 
-  - [ ] 1.2 Create `/js/jobs.js` shared module with core utility functions
+  - [x] 1.2 Create `/js/jobs.js` shared module with core utility functions
     - Implement `containsArabic(text)` — detects Arabic Unicode range \u0600-\u06FF
     - Implement `truncateText(text, maxLength)` — truncates with ellipsis character
     - Implement `getRelativeTime(timestamp)` — converts Date to "X days ago" format
@@ -23,7 +23,7 @@ This plan implements the dynamic jobs feature for HireFound — replacing hardco
     - Define `CATEGORY_COLORS` map
     - _Requirements: 4.2, 4.3, 5.1, 5.3, 7.3, 9.1_
 
-  - [ ] 1.3 Implement `fetchJobs(options)` in `/js/jobs.js`
+  - [x] 1.3 Implement `fetchJobs(options)` in `/js/jobs.js`
     - Query Firestore `jobs` collection where `isActive === true`, ordered by `createdAt` desc
     - Support `limit` option for homepage (4 jobs)
     - Filter out expired jobs client-side (`expiresAt < now`)
