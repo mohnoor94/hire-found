@@ -234,7 +234,7 @@ function renderEditor(container, jobData, jobId, callbacks) {
   const isEdit = jobId !== null;
   const heading = isEdit ? 'Edit Job Post' : 'Create New Job Post';
   const viewLink = isEdit && jobData.slug
-    ? `<a href="/jobs/?id=${escapeHtml(jobData.slug)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-xs font-medium text-primary hover:text-primary-light transition-colors duration-200">
+    ? `<a href="../jobs/?id=${escapeHtml(jobData.slug)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-xs font-medium text-primary hover:text-primary-light transition-colors duration-200">
         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
         </svg>

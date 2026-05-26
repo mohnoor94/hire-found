@@ -497,7 +497,7 @@ function createJobCardElement(job) {
     <div class="flex items-center gap-2 pt-3 border-t border-primary/10">
       ${job.slug ? `
         <a
-          href="/jobs/?id=${escapeHtml(job.slug)}"
+          href="../jobs/?id=${escapeHtml(job.slug)}"
           target="_blank"
           rel="noopener"
           class="job-view-btn inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-muted bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-200"
