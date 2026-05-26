@@ -59,8 +59,8 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - Test "Get Started" behavior differences between homepage and other pages
     - _Requirements: 3.2, 3.3, 3.4, 3.5, 5.1–5.6_
 
-- [ ] 4. Implement footer component
-  - [~] 4.1 Create `/js/footer.js` ES module with `initFooter()` function
+- [x] 4. Implement footer component
+  - [x] 4.1 Create `/js/footer.js` ES module with `initFooter()` function
     - Import `getBasePath` from `./utils.js`
     - Render footer with: contact CTA (heading, subtext, WhatsApp button, Book a Call button), social links row (LinkedIn, Instagram, Email), logo image, tagline, italic tagline, credit line, copyright
     - Use homepage contact section as source of truth for all text content
@@ -75,7 +75,7 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - Test asset paths use correct prefix for different page depths
     - _Requirements: 4.2, 4.3, 4.4, 4.6_
 
-- [~] 5. Checkpoint - Ensure components work in isolation
+- [x] 5. Checkpoint - Ensure components work in isolation
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 6. Integrate shared files into pages and remove duplicates
