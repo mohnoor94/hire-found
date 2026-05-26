@@ -233,10 +233,21 @@ function formatFieldLabel(field) {
 function renderEditor(container, jobData, jobId, callbacks) {
   const isEdit = jobId !== null;
   const heading = isEdit ? 'Edit Job Post' : 'Create New Job Post';
+  const viewLink = isEdit && jobData.slug
+    ? `<a href="/jobs/?id=${escapeHtml(jobData.slug)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-xs font-medium text-primary hover:text-primary-light transition-colors duration-200">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+        </svg>
+        View on site
+      </a>`
+    : '';
 
   container.innerHTML = `
     <div class="mb-8">
-      <h2 class="font-accent text-2xl font-bold text-primary mb-1">${heading}</h2>
+      <div class="flex items-center justify-between">
+        <h2 class="font-accent text-2xl font-bold text-primary mb-1">${heading}</h2>
+        ${viewLink}
+      </div>
       <p class="text-muted text-sm">${isEdit ? 'Update the job listing details below.' : 'Fill in the details to publish a new job listing.'}</p>
     </div>
     <form id="job-editor-form" novalidate>

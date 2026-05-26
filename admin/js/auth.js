@@ -160,6 +160,10 @@ function handleUserSignedIn(user) {
  */
 function handleUserSignedOut() {
   currentUser = null;
+
+  // Restore the sign-in screen content (may have been replaced by Access Denied)
+  restoreSignInScreen();
+
   showView('sign-in');
 
   if (authConfig?.onSignedOut) {
@@ -213,6 +217,32 @@ function showView(view) {
   if (signInEl) signInEl.classList.toggle('hidden', view !== 'sign-in');
   if (appEl) appEl.classList.toggle('hidden', view !== 'app');
   if (navEl) navEl.classList.toggle('hidden', view !== 'app');
+}
+
+/**
+ * Restores the sign-in screen to its original state (after Access Denied was shown).
+ */
+function restoreSignInScreen() {
+  const signInEl = authConfig?.signInContainer || document.getElementById('view-sign-in');
+  if (!signInEl) return;
+
+  const content = signInEl.querySelector('.w-full');
+  if (content) {
+    content.innerHTML = `
+      <img src="../assets/hirefound-favicon.svg" alt="HireFound" class="w-16 h-16 mx-auto mb-6">
+      <h1 class="font-accent text-3xl font-bold text-primary mb-2">Admin Panel</h1>
+      <p class="text-muted text-sm mb-8">Sign in to manage job posts</p>
+      <button
+        id="google-sign-in-btn"
+        type="button"
+        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] w-full px-6 py-3 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm"
+      >
+        Sign in with Google
+      </button>
+    `;
+    // Re-wire the sign-in button
+    setupSignInButton();
+  }
 }
 
 /**

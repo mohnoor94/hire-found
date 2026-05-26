@@ -79,7 +79,7 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 6. Integrate shared files into pages and remove duplicates
-  - [~] 6.1 Update `/index.html` to use shared config, CSS, and components
+  - [ ] 6.1 Update `/index.html` to use shared config, CSS, and components
     - Add Google Fonts link including Noto Sans Arabic (weights 400, 500, 600, 700)
     - Replace inline `tailwind.config` with `<script src="/js/tailwind-config.js"></script>` before Tailwind CDN
     - Add `<link rel="stylesheet" href="/css/shared.css">` before the page-specific `<style>` block
@@ -90,7 +90,7 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - Add `<script type="module">` to import and call `initNav` and `initFooter`
     - _Requirements: 1.1, 1.5, 2.1, 2.5, 3.1, 4.1, 6.1, 6.3, 6.5, 6.7, 8.1, 8.3, 9.1, 9.2, 9.3_
 
-  - [~] 6.2 Update `/jobs/index.html` to use shared config, CSS, and components
+  - [ ] 6.2 Update `/jobs/index.html` to use shared config, CSS, and components
     - Ensure Google Fonts link includes Noto Sans Arabic (weights 400, 500, 600, 700)
     - Replace inline `tailwind.config` with `<script src="../js/tailwind-config.js"></script>` before Tailwind CDN
     - Add `<link rel="stylesheet" href="../css/shared.css">` before the page-specific `<style>` block
@@ -102,7 +102,7 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - _Requirements: 1.1, 1.3, 1.5, 2.1, 2.2, 2.5, 3.1, 4.1, 6.2, 6.4, 6.6, 6.7, 8.2, 8.4, 9.1, 9.2, 9.3_
 
 - [ ] 7. Final verification and cleanup
-  - [~] 7.1 Verify no inline `tailwind.config` remains in HTML files
+  - [ ] 7.1 Verify no inline `tailwind.config` remains in HTML files
     - Confirm both pages load shared config and have no duplicate config objects
     - Confirm no duplicated CSS class definitions between shared file and inline styles
     - Confirm `<link>` for shared CSS precedes `<style>` block in each page's `<head>`
@@ -113,7 +113,7 @@ Extract shared UI elements (Tailwind config, CSS, navigation, footer) from the H
     - Test on both root-level and subdirectory pages
     - _Requirements: 7.3, 7.4_
 
-- [~] 8. Final checkpoint - Ensure all tests pass
+- [ ] 8. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
