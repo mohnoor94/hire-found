@@ -278,12 +278,12 @@
     // ─── Back Link Wiring ────────────────────────────────────────────────────────
     function wireBackLinks() {
       // Wire all back links in the detail content to use pushState
-      const backLinks = jobDetailContent.querySelectorAll('a[data-back-link], a[href="/jobs/"]');
+      const backLinks = jobDetailContent.querySelectorAll('a[data-back-link]');
       backLinks.forEach(link => {
         link.addEventListener('click', (e) => {
           e.preventDefault();
           try {
-            history.pushState({}, '', '/jobs/');
+            history.pushState({}, '', window.location.pathname);
             loadListingView();
           } catch (err) {
             // pushState unavailable — prevent navigation and keep current view
