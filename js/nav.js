@@ -38,15 +38,14 @@ const NAV_ITEMS = [
  */
 function isHomepage() {
   const path = window.location.pathname;
-  // Custom domain: / or /index.html
-  // GitHub Pages: /repo-name/ or /repo-name/index.html
-  if (path === '/' || path === '/index.html') return true;
-  // GitHub Pages: check if path is just the repo root
   const segments = path.split('/').filter(Boolean);
-  if (segments.length === 0) return true;
-  if (segments.length === 1 && !segments[0].includes('.')) return true; // /repo-name/
-  if (segments.length === 1 && segments[0] === 'index.html') return true;
-  return false;
+  // Remove filename
+  if (segments.length > 0 && segments[segments.length - 1].includes('.')) {
+    segments.pop();
+  }
+  // Homepage = no known subdirectory in the path
+  const knownSubDirs = ['jobs', 'admin'];
+  return !segments.some(s => knownSubDirs.includes(s));
 }
 
 /**
