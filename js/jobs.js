@@ -7,6 +7,7 @@
 
 import { collection, query, where, orderBy, limit as firestoreLimit, getDocs } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js';
 import { db } from './firebase-config.js';
+import { getBasePath } from './utils.js';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -209,10 +210,10 @@ export function renderJobCards(jobs, container) {
       </div>
     `;
 
-    // Make card clickable — navigate to /jobs/?id={slug}
-    // If already on the jobs page, use relative ?id=; otherwise use absolute /jobs/?id=
-    const isOnJobsPage = window.location.pathname.startsWith('/jobs');
-    const cardUrl = isOnJobsPage ? `?id=${job.slug}` : `/jobs/?id=${job.slug}`;
+    // Make card clickable — navigate to jobs page with slug
+    // If already on the jobs page, use relative ?id=; otherwise use basePath + jobs/?id=
+    const isOnJobsPage = window.location.pathname.endsWith('/jobs/') || window.location.pathname.endsWith('/jobs/index.html');
+    const cardUrl = isOnJobsPage ? `?id=${job.slug}` : `${getBasePath()}jobs/?id=${job.slug}`;
 
     card.addEventListener('click', () => {
       if (isOnJobsPage) {
@@ -389,7 +390,7 @@ export function renderNotFound(container) {
 
   // Back link
   const backLink = document.createElement('a');
-  backLink.href = '/jobs/';
+  backLink.href = `${getBasePath()}jobs/`;
   backLink.className = 'magnetic inline-flex items-center gap-2 px-6 py-3 min-h-[44px] min-w-[44px] bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 shadow-warm';
   backLink.setAttribute('aria-label', 'Back to all job listings');
   backLink.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg> View All Jobs`;
@@ -422,7 +423,7 @@ export function renderJobDetail(job, container) {
 
   // === Back Link ===
   const backLink = document.createElement('a');
-  backLink.href = '/jobs/';
+  backLink.href = `${getBasePath()}jobs/`;
   backLink.className = 'inline-flex items-center gap-1 text-sm text-primary font-semibold hover:text-primary-light transition-colors duration-200 mb-8 min-h-[44px]';
   backLink.setAttribute('aria-label', 'Back to all job listings');
   backLink.setAttribute('data-back-link', 'true');
