@@ -360,7 +360,7 @@ export function renderGreeting(user) {
           <img src="${escapeHtml(photoURL)}" alt="" class="greeting-avatar w-14 h-14 rounded-full shadow-lg ring-3 ring-white/60 ring-offset-2 ring-offset-transparent object-cover flex-shrink-0" style="width:56px;height:56px;">
         ` : butterflySvgAvatar}
         <div class="min-w-0 flex-1">
-          <h1 class="greeting-text font-accent text-2xl sm:text-3xl lg:text-4xl font-bold text-text-main truncate">${escapeHtml(greeting)}</h1>
+          <h1 class="greeting-text font-accent text-2xl sm:text-3xl lg:text-4xl font-bold text-text-main">${escapeHtml(greeting)}</h1>
           <p class="greeting-subtitle mt-3 text-lg sm:text-xl lg:text-2xl font-bold tracking-wide" style="font-family: 'Caveat', cursive;"><span class="bg-gradient-to-r from-[#7C3AED] via-[#E879A8] to-[#F59E0B] bg-clip-text text-transparent">${escapeHtml(subtitleText)}</span>${subtitleEmoji ? ` <span class="inline-block">${subtitleEmoji}</span>` : ''}</p>
         </div>
       </div>
