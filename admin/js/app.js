@@ -131,6 +131,20 @@ export function initApp() {
   }
 }
 
+// ─── Nav Bar User Indicator ──────────────────────────────────────────────────
+
+/**
+ * Returns the user's display name (or email fallback), truncated to 30 characters
+ * with an ellipsis appended if the identifier exceeds 30 characters.
+ * @param {Object} user - Firebase Auth user object
+ * @returns {string}
+ */
+export function truncateUserIdentifier(user) {
+  const identifier = user.displayName || user.email || '';
+  if (identifier.length <= 30) return identifier;
+  return identifier.substring(0, 30) + '…';
+}
+
 // ─── Internal: Auth Callbacks ────────────────────────────────────────────────
 
 /** @type {boolean} */
@@ -146,6 +160,9 @@ function handleAuthenticated(user) {
   if (navBar) {
     navBar.classList.remove('hidden');
   }
+
+  // Render user identifier in nav bar (before Sign Out button)
+  renderNavUserIdentifier(user);
 
   // Only initialize dashboard once — subsequent auth events just show the view
   if (!dashboardInitialized) {
@@ -525,6 +542,33 @@ async function handleEditSave(formData, jobId) {
  */
 function handleEditorCancel() {
   showDashboardView();
+}
+
+// ─── Internal: Nav User Identifier ───────────────────────────────────────────
+
+/**
+ * Renders the authenticated user's identifier (display name or email) in the nav bar,
+ * positioned before the Sign Out button in the right-aligned flex group.
+ * @param {Object} user - Firebase Auth user object
+ */
+function renderNavUserIdentifier(user) {
+  const signOutBtn = document.getElementById('sign-out-btn');
+  if (!signOutBtn) return;
+
+  // Remove any existing user identifier span
+  const existing = document.getElementById('nav-user-identifier');
+  if (existing) existing.remove();
+
+  const identifier = truncateUserIdentifier(user);
+  if (!identifier) return;
+
+  const span = document.createElement('span');
+  span.id = 'nav-user-identifier';
+  span.className = 'text-muted text-xs';
+  span.textContent = identifier;
+
+  // Insert before the Sign Out button
+  signOutBtn.parentNode.insertBefore(span, signOutBtn);
 }
 
 // ─── Internal: Helpers ───────────────────────────────────────────────────────

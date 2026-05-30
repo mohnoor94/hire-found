@@ -86,8 +86,8 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - In `handleAuthenticated` in app.js, inject a butterfly SVG element with `.butterfly-entrance` class on auth success, remove from DOM after animation completes (1.5s timeout)
     - _Requirements: 3.2, 3.3, 3.5, 3.6_
 
-- [ ] 6. Implement nav bar user indicator and butterfly styling
-  - [ ] 6.1 Add user identifier display in nav bar in `/admin/js/app.js`
+- [x] 6. Implement nav bar user indicator and butterfly styling
+  - [x] 6.1 Add user identifier display in nav bar in `/admin/js/app.js`
     - Implement `truncateUserIdentifier(user)` that returns displayName (or email fallback), truncated to 30 chars + ellipsis if exceeded
     - In `handleAuthenticated`, render a `<span class="text-muted text-xs">` with the truncated identifier, positioned before the Sign Out button in the nav's right-aligned flex group
     - Export `truncateUserIdentifier` for testability
@@ -102,7 +102,7 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - Assert strings ≤ 30 chars returned unmodified
     - Assert displayName preferred over email
 
-  - [ ] 6.3 Update nav bar styling with butterfly theme colors in `/admin/index.html` and `/css/shared.css`
+  - [x] 6.3 Update nav bar styling with butterfly theme colors in `/admin/index.html` and `/css/shared.css`
     - Update `.nav-glass` border-bottom to use butterfly-rose color
     - Update nav background tint to use butterfly-lavender
     - Retain Sign Out button styling with butterfly-theme tokens

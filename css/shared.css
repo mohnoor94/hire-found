@@ -15,10 +15,10 @@
 
 /* === Sticky Nav === */
 .nav-glass {
-  background: rgba(255, 250, 245, 0.8);
+  background: rgba(196, 181, 253, 0.12);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(139, 34, 82, 0.08);
+  border-bottom: 1px solid #FDA4AF;
 }
 
 /* === Nav Logo (pre-colored primary SVG, no filter needed) === */
