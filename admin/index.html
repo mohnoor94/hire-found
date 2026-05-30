@@ -439,7 +439,15 @@
 
   <!-- ==================== SIGN-IN VIEW ==================== -->
   <div id="view-sign-in" class="flex items-center justify-center min-h-screen hidden">
-    <div class="w-full max-w-sm mx-auto px-6 text-center">
+    <div class="w-full max-w-sm mx-auto px-6 text-center relative">
+      <!-- Decorative butterfly SVG — visible on md+ viewports, does not interfere with touch targets -->
+      <svg class="hidden md:block absolute -top-6 -right-6 w-10 h-10 opacity-40 pointer-events-none" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M20 20C17 17 12 12 9 14C6 16 7 22 10 23C13 24 17 23 20 20Z" fill="#C4B5FD"/>
+        <path d="M20 20C18 23 15 28 12 29C9 30 8 27 9 24C10 21 15 21 20 20Z" fill="#FDA4AF"/>
+        <path d="M20 20C23 17 28 12 31 14C34 16 33 22 30 23C27 24 23 23 20 20Z" fill="#C4B5FD"/>
+        <path d="M20 20C22 23 25 28 28 29C31 30 32 27 31 24C30 21 25 21 20 20Z" fill="#FDA4AF"/>
+        <ellipse cx="20" cy="20" rx="1" ry="4" fill="#7C3AED"/>
+      </svg>
       <svg class="w-16 h-16 mx-auto mb-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="min-width: 48px; min-height: 48px;">
         <!-- Left wing -->
         <path d="M24 24C20 20 14 14 10 16C6 18 8 26 12 28C16 30 20 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>

@@ -139,14 +139,14 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - Retain existing functionality: hover transform, click actions, status toggle
     - _Requirements: 4.4_
 
-- [ ] 10. Add decorative butterfly SVG to sign-in view
-  - [ ] 10.1 Add a decorative butterfly SVG element to the sign-in card in `/admin/index.html`
+- [x] 10. Add decorative butterfly SVG to sign-in view
+  - [x] 10.1 Add a decorative butterfly SVG element to the sign-in card in `/admin/index.html`
     - Position within the sign-in card area, visible without scrolling on viewports ≥768px
     - Use butterfly-theme accent colors (lavender/rose)
     - Ensure it does not interfere with sign-in button touch targets
     - _Requirements: 3.1_
 
-- [ ] 11. Final checkpoint - Ensure all tests pass
+- [-] 11. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
