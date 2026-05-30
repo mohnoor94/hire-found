@@ -162,7 +162,8 @@ function handleAuthenticated(user) {
   }
 
   // Render user identifier in nav bar (before Sign Out button)
-  renderNavUserIdentifier(user);
+  // Disabled: full name in nav looked cluttered for a single-user panel
+  // renderNavUserIdentifier(user);
 
   // Only initialize dashboard once — subsequent auth events just show the view
   if (!dashboardInitialized) {
