@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Left wing (lavender) -->
+  <path d="M16 16 C14 12 10 8 6 7 C3 6.5 1 8 1 11 C1 14 3 17 6 18 C9 19 13 18 16 16 Z" fill="#C4B5FD"/>
+  <!-- Left lower wing (rose) -->
+  <path d="M16 16 C14 18 11 22 8 24 C5 26 2 25 2 22 C2 19 4 17 7 17 C10 17 14 16 16 16 Z" fill="#FDA4AF"/>
+  <!-- Right wing (lavender) -->
+  <path d="M16 16 C18 12 22 8 26 7 C29 6.5 31 8 31 11 C31 14 29 17 26 18 C23 19 19 18 16 16 Z" fill="#C4B5FD"/>
+  <!-- Right lower wing (rose) -->
+  <path d="M16 16 C18 18 21 22 24 24 C27 26 30 25 30 22 C30 19 28 17 25 17 C22 17 18 16 16 16 Z" fill="#FDA4AF"/>
+  <!-- Body -->
+  <ellipse cx="16" cy="16" rx="1" ry="5" fill="#7C3AED"/>
+  <!-- Antennae -->
+  <path d="M15.5 11 C14 8 12 6 11 5" stroke="#7C3AED" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+  <path d="M16.5 11 C18 8 20 6 21 5" stroke="#7C3AED" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+  <!-- Antenna tips -->
+  <circle cx="11" cy="5" r="0.8" fill="#7C3AED"/>
+  <circle cx="21" cy="5" r="0.8" fill="#7C3AED"/>
+</svg>
