@@ -222,7 +222,7 @@ function restoreSignInScreen() {
   const content = signInEl.querySelector('.w-full');
   if (content) {
     content.innerHTML = `
-      <img src="../assets/hirefound-favicon.svg" alt="HireFound" class="w-16 h-16 mx-auto mb-6">
+      <img src="../assets/hirefound-signature.svg" alt="HireFound" class="w-16 h-16 mx-auto mb-6 nav-logo">
       <h1 class="font-accent text-3xl font-bold text-primary mb-2">Admin Panel</h1>
       <p class="text-muted text-sm mb-8">Sign in to manage job posts</p>
       <button
@@ -250,7 +250,7 @@ function showAccessDenied() {
   const content = signInEl.querySelector('.w-full');
   if (content) {
     content.innerHTML = `
-      <img src="../assets/hirefound-favicon.svg" alt="HireFound" class="w-16 h-16 mx-auto mb-6">
+      <img src="../assets/hirefound-signature.svg" alt="HireFound" class="w-16 h-16 mx-auto mb-6 nav-logo">
       <h1 class="font-accent text-3xl font-bold text-red-600 mb-2">Access Denied</h1>
       <p class="text-muted text-sm mb-4">This account is not authorized to access the admin panel.</p>
       <p class="text-muted text-xs">Signing out automatically...</p>

@@ -7,7 +7,7 @@ const FOOTER_CONFIG = {
   linkedIn: 'https://www.linkedin.com/in/yasminblasi',
   instagram: 'https://www.instagram.com/hirefound',
   email: 'yasmin@hirefound.com',
-  logoFile: 'hirefound-logo-white.svg',
+  logoFile: 'hirefound-signature.svg',
   tagline: "Looking for a Hire? We've got you Found.",
   italicTagline: "Find your match. Find your future.",
   credit: { text: 'Mohammad Noor', url: 'https://noor.sh' },
@@ -73,7 +73,7 @@ export function initFooter(container) {
 
         <!-- Footer branding -->
         <div class="mt-24 pt-12 border-t border-white/10 text-center">
-          <img src="${basePath}assets/${FOOTER_CONFIG.logoFile}" alt="HireFound" class="h-12 md:h-14 mx-auto mb-6 opacity-80">
+          <img src="${basePath}assets/${FOOTER_CONFIG.logoFile}" alt="HireFound" class="h-12 md:h-14 mx-auto mb-6 opacity-80 footer-logo">
           <p class="text-white/50 text-lg md:text-xl font-medium mb-2">${FOOTER_CONFIG.tagline}</p>
           <p class="text-white/40 text-base md:text-lg font-accent italic">${FOOTER_CONFIG.italicTagline}</p>
           <div class="mt-10 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6">

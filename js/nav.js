@@ -102,11 +102,14 @@ export function initNav(container) {
   // Logo href: homepage scrolls to top, other pages navigate home
   const logoHref = onHomepage ? '#hero' : basePath;
   const logoLabel = onHomepage ? 'HireFound - Go to top' : 'HireFound - Go to homepage';
+  const logoSrc = `${basePath}assets/hirefound-signature.svg`;
 
   // Render nav HTML
   container.innerHTML = `
     <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-      <a href="${logoHref}" class="font-accent text-xl font-bold text-primary" aria-label="${logoLabel}">HireFound</a>
+      <a href="${logoHref}" class="inline-flex items-center" aria-label="${logoLabel}">
+        <img src="${logoSrc}" alt="HireFound" class="h-8 w-auto nav-logo">
+      </a>
       <div class="hidden md:flex items-center gap-8">
         ${desktopLinks}
         ${ctaDesktop}
