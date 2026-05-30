@@ -18,6 +18,9 @@ tailwind.config = {
         muted: '#8A8380',
         success: '#7A9E7E',
         whatsapp: '#25D366',
+        'butterfly-lavender': '#C4B5FD',
+        'butterfly-rose': '#FDA4AF',
+        'butterfly-gold': '#FCD34D',
       },
       fontFamily: {
         sans: ['Inter', '"Noto Sans Arabic"', 'system-ui', 'sans-serif'],

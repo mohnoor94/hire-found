@@ -6,13 +6,13 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
 
 ## Tasks
 
-- [ ] 1. Extend Tailwind config with butterfly color tokens
-  - [ ] 1.1 Add butterfly-lavender, butterfly-rose, and butterfly-gold color tokens to `/js/tailwind-config.js`
+- [x] 1. Extend Tailwind config with butterfly color tokens
+  - [x] 1.1 Add butterfly-lavender, butterfly-rose, and butterfly-gold color tokens to `/js/tailwind-config.js`
     - Add `'butterfly-lavender': '#C4B5FD'`, `'butterfly-rose': '#FDA4AF'`, `'butterfly-gold': '#FCD34D'` inside `theme.extend.colors`
     - Preserve all existing color tokens (primary, primary-light, primary-dark, secondary, secondary-light, warm, warm-dark, dark, dark-light, text-main, muted, success, whatsapp)
     - _Requirements: 4.1, 4.5_
 
-  - [ ]* 1.2 Write property test for Tailwind config preservation (Property 4)
+  - [x] 1.2 Write property test for Tailwind config preservation (Property 4)
     - **Property 4: Original Tailwind color tokens are preserved alongside butterfly tokens**
     - **Validates: Requirements 4.5, 4.1**
     - Create `admin/__tests__/tailwind-config.property.test.js`
@@ -20,7 +20,7 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - Verify butterfly-lavender, butterfly-rose, butterfly-gold are present
     - Use fast-check to enumerate all original token names and assert presence
 
-- [ ] 2. Update page identity and create butterfly favicon
+- [-] 2. Update page identity and create butterfly favicon
   - [ ] 2.1 Create butterfly favicon SVG asset at `/assets/butterfly-favicon.svg`
     - Design a butterfly silhouette/outline recognizable at 32x32 pixels
     - Use butterfly-lavender and butterfly-rose colors
