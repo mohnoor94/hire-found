@@ -355,8 +355,11 @@
 
     .greeting-subtitle {
       animation: textReveal 700ms var(--ease-out-quint) 450ms both;
+    }
+
+    .greeting-subtitle span.bg-gradient-to-r {
       background-size: 200% auto;
-      animation: textReveal 700ms var(--ease-out-quint) 450ms both, subtitleShimmer 4s linear infinite 1.2s;
+      animation: subtitleShimmer 4s linear infinite 1.2s;
     }
 
     @keyframes subtitleShimmer {
@@ -528,6 +531,11 @@
       }
 
       .greeting-subtitle {
+        background-size: 100% auto !important;
+      }
+
+      .greeting-subtitle span.bg-gradient-to-r {
+        animation: none !important;
         background-size: 100% auto !important;
       }
 

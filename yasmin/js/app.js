@@ -53,6 +53,20 @@ export const GREETING_TEMPLATES = [
   (name) => `Ready to shine, ${name}? ✨`,
   (name) => `Here comes the magic, ${name} 🪄`,
   (name) => `You light up this space, ${name} 💛`,
+  (name) => `Hey beautiful soul, ${name} 🌺`,
+  (name) => `The vibe just shifted, ${name} 💃`,
+  (name) => `Oh hey, ${name}! 🌻`,
+  (name) => `${name}, you absolute gem 💎`,
+  (name) => `There's my favorite person, ${name} 🥰`,
+  (name) => `${name} in the house 🏡`,
+  (name) => `Hiii ${name} 🧚‍♀️`,
+  (name) => `${name}, the legend herself 🏆`,
+  (name) => `Welcome to your happy place, ${name} 🎀`,
+  (name) => `${name}! Let's do this 🚀`,
+  (name) => `Hey sunshine, ${name} 🌞`,
+  (name) => `${name}, you're a whole mood 💅`,
+  (name) => `Look at you showing up, ${name} 🌈`,
+  (name) => `${name}, the world is better with you 🌍`,
 ];
 
 /**
@@ -79,6 +93,26 @@ export const SUBTITLES = [
   'Confidence looks good on you 👑',
   'Small steps, big impact — always 🌱',
   "Let's turn dreams into careers 🚀",
+  'Every listing tells a story 📖',
+  'You bring the spark, we bring the tools 🔧',
+  'Making connections, one post at a time 🤝',
+  'Your taste in talent? Impeccable 💎',
+  'The right person is waiting for this 🌟',
+  "Someone's career is about to change 🎯",
+  'Keep going, you\'re doing amazing 💪',
+  'Today feels like a breakthrough day ⚡',
+  'Trust the process, trust yourself 🧘',
+  'Creating opportunities like nobody else 🏆',
+  'Your dashboard, your kingdom 👑',
+  'Hire with heart, lead with soul 💜',
+  'Big things have small beginnings 🌱',
+  'You turn chaos into clarity ✨',
+  'The talent market loves you back 💕',
+  'Another masterpiece in the making 🎨',
+  'Stay golden, stay brilliant 🌻',
+  'Your next success story starts now 📝',
+  'Curating careers with grace 🦢',
+  'Making the job world a better place 🌈',
 ];
 
 /**
@@ -91,6 +125,23 @@ export const SUBTITLES = [
 export function extractFirstName(displayName) {
   if (!displayName || !displayName.trim()) return 'Yasmin';
   return displayName.trim().split(' ')[0];
+}
+
+/**
+ * Splits trailing emoji from a string so emoji can be rendered outside gradient text.
+ * Returns { text, emoji } where emoji is the trailing emoji characters (or empty string).
+ * @param {string} str
+ * @returns {{ text: string, emoji: string }}
+ */
+export function splitTrailingEmoji(str) {
+  const emojiRegex = /(\s*(?:[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}]+\s*)*)$/u;
+  const match = str.match(emojiRegex);
+  if (match && match[0].trim()) {
+    const emoji = match[0].trimStart();
+    const text = str.slice(0, str.length - match[0].length);
+    return { text: text.trimEnd(), emoji };
+  }
+  return { text: str, emoji: '' };
 }
 
 // ─── DOM References ──────────────────────────────────────────────────────────
@@ -272,6 +323,7 @@ export function renderGreeting(user) {
 
   // Pick random subtitle from subtitle pool
   const subtitle = SUBTITLES[Math.floor(Math.random() * SUBTITLES.length)];
+  const { text: subtitleText, emoji: subtitleEmoji } = splitTrailingEmoji(subtitle);
 
   // Butterfly SVG fallback avatar (56×56px)
   const butterflySvgAvatar = `
@@ -309,7 +361,7 @@ export function renderGreeting(user) {
         ` : butterflySvgAvatar}
         <div class="min-w-0 flex-1">
           <h1 class="greeting-text font-accent text-2xl sm:text-3xl lg:text-4xl font-bold text-text-main truncate">${escapeHtml(greeting)}</h1>
-          <p class="greeting-subtitle mt-3 text-lg sm:text-xl lg:text-2xl font-bold tracking-wide bg-gradient-to-r from-[#7C3AED] via-[#E879A8] to-[#F59E0B] bg-clip-text text-transparent" style="font-family: 'Caveat', cursive;">${escapeHtml(subtitle)}</p>
+          <p class="greeting-subtitle mt-3 text-lg sm:text-xl lg:text-2xl font-bold tracking-wide" style="font-family: 'Caveat', cursive;"><span class="bg-gradient-to-r from-[#7C3AED] via-[#E879A8] to-[#F59E0B] bg-clip-text text-transparent">${escapeHtml(subtitleText)}</span>${subtitleEmoji ? ` <span class="inline-block">${subtitleEmoji}</span>` : ''}</p>
         </div>
       </div>
     </div>
