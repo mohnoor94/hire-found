@@ -108,11 +108,11 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - Retain Sign Out button styling with butterfly-theme tokens
     - _Requirements: 4.3, 5.3_
 
-- [ ] 7. Checkpoint - Verify greeting, animation, and nav indicator
+- [x] 7. Checkpoint - Verify greeting, animation, and nav indicator
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 8. Update auth module with butterfly theming
-  - [ ] 8.1 Update sign-in error display in `/admin/js/auth.js`
+- [x] 8. Update auth module with butterfly theming
+  - [x] 8.1 Update sign-in error display in `/admin/js/auth.js`
     - Modify `showSignInError` to use `text-butterfly-rose` instead of `text-red-600`
     - Add `role="alert"` attribute to the error element for ARIA accessibility
     - _Requirements: 6.4_
@@ -125,15 +125,15 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - Assert error element has `role="alert"` attribute
     - Assert error element class list contains butterfly-theme color reference
 
-  - [ ] 8.3 Update `restoreSignInScreen` in `/admin/js/auth.js` with Yasmin branding
+  - [x] 8.3 Update `restoreSignInScreen` in `/admin/js/auth.js` with Yasmin branding
     - Replace HireFound logo with butterfly SVG element (matching sign-in view)
     - Change heading to "Yasmin's Space"
     - Change subtext to "Welcome back, beautiful ✨"
     - Ensure sign-in button uses butterfly-theme accent color and pill shape
     - _Requirements: 1.6, 6.1, 6.2, 6.3_
 
-- [ ] 9. Update job card styling with butterfly colors
-  - [ ] 9.1 Apply butterfly color tokens to job cards in `/admin/js/dashboard.js` or `/admin/index.html`
+- [x] 9. Update job card styling with butterfly colors
+  - [x] 9.1 Apply butterfly color tokens to job cards in `/admin/js/dashboard.js` or `/admin/index.html`
     - Apply `border-butterfly-lavender` as the border color on `.job-card` elements
     - Apply `butterfly-rose` with reduced opacity as the box-shadow color
     - Retain existing functionality: hover transform, click actions, status toggle

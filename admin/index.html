@@ -157,6 +157,7 @@
 
     /* === Card Hover Effects === */
     .job-card {
+      box-shadow: 0 4px 24px rgba(253, 164, 175, 0.15);
       transition: transform 400ms var(--ease-out-quint),
                   box-shadow 400ms var(--ease-out-quint),
                   border-color 300ms var(--ease-out-expo);
@@ -164,12 +165,12 @@
 
     .job-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(139, 34, 82, 0.10);
+      box-shadow: 0 12px 40px rgba(253, 164, 175, 0.25);
     }
 
     .job-card:active {
       transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(139, 34, 82, 0.08);
+      box-shadow: 0 4px 16px rgba(253, 164, 175, 0.20);
     }
 
     /* === Form Reveal Animation === */
@@ -391,7 +392,7 @@
   </style>
 </head>
 
-<body class="text-text-main font-sans antialiased overflow-x-hidden min-h-screen" style="background: linear-gradient(to bottom, #FFFAF5, #FEE2E8);">
+<body class="text-text-main font-sans antialiased overflow-x-hidden min-h-screen" style="background: linear-gradient(to bottom, #FFFAF5, #FFF5F7);">
 
   <!-- ==================== NAV BAR ==================== -->
   <nav id="admin-nav" class="fixed top-0 left-0 right-0 z-50 nav-glass hidden" aria-label="Admin navigation">

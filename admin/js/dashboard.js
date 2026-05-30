@@ -16,7 +16,7 @@ import { db } from '../../js/firebase-config.js';
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const CATEGORY_COLORS = {
-  hospitality: { bg: 'bg-primary/10', text: 'text-primary' },
+  hospitality: { bg: 'bg-butterfly-lavender/10', text: 'text-butterfly-lavender' },
   tech: { bg: 'bg-blue-50', text: 'text-blue-700' },
   fnb: { bg: 'bg-amber-50', text: 'text-amber-700' },
   aviation: { bg: 'bg-indigo-50', text: 'text-indigo-700' },
@@ -267,20 +267,20 @@ function renderFiltersUI() {
           type="text"
           id="dashboard-search"
           placeholder="Search by title, company, or location..."
-          class="w-full pl-10 pr-4 py-2.5 min-h-[44px] text-sm border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
+          class="w-full pl-10 pr-4 py-2.5 min-h-[44px] text-sm border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-butterfly-lavender/30 focus:border-butterfly-lavender transition-all duration-200"
           aria-label="Search jobs"
         >
       </div>
       <select
         id="dashboard-category-filter"
-        class="min-w-[44px] min-h-[44px] px-4 py-2.5 text-sm border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200 cursor-pointer"
+        class="min-w-[44px] min-h-[44px] px-4 py-2.5 text-sm border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-butterfly-lavender/30 focus:border-butterfly-lavender transition-all duration-200 cursor-pointer"
         aria-label="Filter by category"
       >
         <option value="all">All Categories</option>
       </select>
       <select
         id="dashboard-status-filter"
-        class="min-w-[44px] min-h-[44px] px-4 py-2.5 text-sm border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200 cursor-pointer"
+        class="min-w-[44px] min-h-[44px] px-4 py-2.5 text-sm border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-butterfly-lavender/30 focus:border-butterfly-lavender transition-all duration-200 cursor-pointer"
         aria-label="Filter by status"
       >
         <option value="all">All Status</option>
@@ -381,7 +381,7 @@ function renderDashboardShell() {
       <button
         type="button"
         id="new-job-btn"
-        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-6 py-3 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm"
+        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-6 py-3 text-sm font-semibold text-white bg-butterfly-lavender rounded-full hover:bg-butterfly-rose transition-all duration-300 shadow-warm"
         aria-label="Create new job post"
       >
         <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -437,7 +437,7 @@ function renderJobList() {
 function createJobCardElement(job) {
   const card = document.createElement('div');
   card.setAttribute('data-job-id', job.id);
-  card.className = 'job-card rounded-2xl border border-pink-200/60 p-5 shadow-card hover:shadow-warm hover:border-pink-300/80 hover:-translate-y-0.5 transition-all duration-300 flex flex-col';
+  card.className = 'job-card rounded-2xl border border-butterfly-lavender p-5 shadow-card hover:shadow-warm hover:border-butterfly-lavender hover:-translate-y-0.5 transition-all duration-300 flex flex-col';
   card.style.background = 'linear-gradient(135deg, #ffffff 0%, #fff5f9 100%)';
 
   const categoryColors = CATEGORY_COLORS[job.category] || CATEGORY_COLORS.other;
@@ -453,7 +453,7 @@ function createJobCardElement(job) {
           ${isActive ? 'checked' : ''}
           data-job-id="${job.id}"
         >
-        <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-success"></div>
+        <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-butterfly-lavender/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-butterfly-lavender"></div>
       </label>
     </div>
 
@@ -461,7 +461,7 @@ function createJobCardElement(job) {
       <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${categoryColors.bg} ${categoryColors.text}">
         ${escapeHtml(formatCategoryLabel(job.category))}
       </span>
-      <span class="text-xs text-muted ${isActive ? '' : 'text-red-400'}">
+      <span class="text-xs text-muted ${isActive ? '' : 'text-butterfly-rose'}">
         ${isActive ? '● Active' : '○ Inactive'}
       </span>
     </div>
@@ -494,7 +494,7 @@ function createJobCardElement(job) {
       ` : ''}
     </div>
 
-    <div class="flex items-center gap-2 pt-3 border-t border-primary/10">
+    <div class="flex items-center gap-2 pt-3 border-t border-butterfly-lavender/10">
       ${job.slug ? `
         <a
           href="../jobs/?id=${escapeHtml(job.slug)}"
@@ -512,7 +512,7 @@ function createJobCardElement(job) {
       ` : ''}
       <button
         type="button"
-        class="job-edit-btn inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-primary bg-primary/10 rounded-lg hover:bg-primary/20 transition-all duration-200"
+        class="job-edit-btn inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-butterfly-lavender bg-butterfly-lavender/10 rounded-lg hover:bg-butterfly-lavender/20 transition-all duration-200"
         data-job-id="${job.id}"
         aria-label="Edit ${escapeHtml(job.title || 'this job')}"
       >
@@ -640,7 +640,7 @@ function showErrorState() {
       <button
         type="button"
         id="dashboard-retry-btn"
-        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-6 py-3 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm"
+        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-6 py-3 text-sm font-semibold text-white bg-butterfly-lavender rounded-full hover:bg-butterfly-rose transition-all duration-300 shadow-warm"
       >
         <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -667,7 +667,7 @@ function showEmptyState() {
   grid.innerHTML = `
     <div class="col-span-full flex flex-col items-center justify-center py-16 text-center">
       <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center rounded-full bg-warm-dark">
-        <svg class="w-10 h-10 text-primary/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <svg class="w-10 h-10 text-butterfly-lavender/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
         </svg>
       </div>
@@ -676,7 +676,7 @@ function showEmptyState() {
       <button
         type="button"
         id="empty-new-job-btn"
-        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-6 py-3 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm"
+        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-6 py-3 text-sm font-semibold text-white bg-butterfly-lavender rounded-full hover:bg-butterfly-rose transition-all duration-300 shadow-warm"
       >
         <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
