@@ -1389,370 +1389,35 @@
 
       /* === Vacancy Filter (removed — now handled by dynamic module) === */
 
-
-      /* === Booking Modal Controller === */
-      const BookingModal = {
-        el: null,
-        backdrop: null,
-        card: null,
-        calContainer: null,
-        loadingEl: null,
-        errorEl: null,
-        closeBtn: null,
-        triggerEl: null,
-        isOpen: false,
-        calReady: false,
-        loadTimeout: null,
-        sdkLoaded: false,
-        _boundTrapFocus: null,
-
-        init() {
-          this.el = document.getElementById('booking-modal');
-          this.backdrop = document.getElementById('booking-backdrop');
-          this.card = document.getElementById('booking-card');
-          this.calContainer = document.getElementById('booking-cal-container');
-          this.loadingEl = document.getElementById('booking-loading');
-          this.errorEl = document.getElementById('booking-error');
-          this.closeBtn = document.getElementById('booking-close-btn');
-
-          // SDK load detection
-          this._detectSdk();
-        },
-
-        _detectSdk() {
-          // Check if SDK is already available
-          if (window.Cal && window.Cal.ns && window.Cal.ns.booking) {
-            this.sdkLoaded = true;
-            return;
-          }
-
-          // Poll every 500ms for up to 10 seconds
-          var self = this;
-          var elapsed = 0;
-          var pollInterval = setInterval(function() {
-            elapsed += 500;
-            if (window.Cal && window.Cal.ns && window.Cal.ns.booking) {
-              self.sdkLoaded = true;
-              clearInterval(pollInterval);
-            } else if (elapsed >= 10000) {
-              // 10-second timeout reached, SDK failed to load
-              self.sdkLoaded = false;
-              clearInterval(pollInterval);
-            }
-          }, 500);
-        },
-
-        open(triggerElement) {
-          if (this.isOpen) return;
-
-          // If SDK failed to load, redirect to Cal.com in a new tab
-          if (!this.sdkLoaded) {
-            window.open("https://cal.com/yasminblasi", "_blank");
-            return;
-          }
-
-          // Store trigger element for focus return
-          this.triggerEl = triggerElement || null;
-
-          // Show modal
-          this.el.classList.remove('hidden');
-          this.el.setAttribute('data-state', 'open');
-
-          // Animate in: backdrop opacity 0→1, card scale 0.95→1.0 and opacity 0→1
-          requestAnimationFrame(() => {
-            this.backdrop.style.opacity = '1';
-            this.card.style.opacity = '1';
-            this.card.style.transform = 'scale(1)';
-          });
-
-          // Lock body scroll
-          document.body.style.overflow = 'hidden';
-
-          this.isOpen = true;
-
-          // Attach focus trap
-          if (!this._boundTrapFocus) {
-            this._boundTrapFocus = this.trapFocus.bind(this);
-          }
-          this.el.addEventListener('keydown', this._boundTrapFocus);
-
-          // Initialize Cal.com embed
-          this.initCalEmbed();
-
-          // Start 8-second load timeout
-          this.loadTimeout = setTimeout(() => {
-            if (this.loadingEl && !this.loadingEl.classList.contains('hidden')) {
-              this.showError();
-            }
-          }, 8000);
-        },
-
-        close() {
-          if (!this.isOpen) return;
-
-          // Clear any pending load timeout
-          if (this.loadTimeout) {
-            clearTimeout(this.loadTimeout);
-            this.loadTimeout = null;
-          }
-
-          // Detach focus trap
-          if (this._boundTrapFocus) {
-            this.el.removeEventListener('keydown', this._boundTrapFocus);
-          }
-
-          // Animate out: card scale 1.0→0.95 and opacity 1→0, backdrop opacity 1→0
-          this.card.style.opacity = '0';
-          this.card.style.transform = 'scale(0.95)';
-          this.backdrop.style.opacity = '0';
-
-          // After animation completes (300ms matches CSS transition-all duration-300)
-          setTimeout(() => {
-            this.el.classList.add('hidden');
-            this.el.setAttribute('data-state', 'closed');
-
-            // Destroy the Cal.com embed so next open starts fresh
-            this.calContainer.innerHTML = '';
-            this.calContainer.classList.add('hidden');
-            this.calContainer.style.position = '';
-            this.calContainer.style.opacity = '';
-            this.calContainer.style.pointerEvents = '';
-            this.calReady = false;
-
-            // Reset to loading state for next open
-            if (this.loadingEl) this.loadingEl.classList.remove('hidden');
-            if (this.errorEl) this.errorEl.classList.add('hidden');
-
-            // Restore body scroll
-            document.body.style.overflow = '';
-
-            // Return focus to trigger element (fallback to document.body)
-            if (this.triggerEl && document.body.contains(this.triggerEl)) {
-              this.triggerEl.focus();
-            } else {
-              document.body.focus();
-            }
-
-            this.isOpen = false;
-          }, 300);
-        },
-
-        trapFocus(e) {
-          if (e.key !== 'Tab') return;
-
-          const focusableEls = this.el.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-          );
-          if (focusableEls.length === 0) return;
-
-          const firstEl = focusableEls[0];
-          const lastEl = focusableEls[focusableEls.length - 1];
-
-          if (e.shiftKey) {
-            // Shift+Tab: if on first element, wrap to last
-            if (document.activeElement === firstEl) {
-              e.preventDefault();
-              lastEl.focus();
-            }
-          } else {
-            // Tab: if on last element, wrap to first
-            if (document.activeElement === lastEl) {
-              e.preventDefault();
-              firstEl.focus();
-            }
-          }
-        },
-
-        showError() {
-          if (this.loadingEl) this.loadingEl.classList.add('hidden');
-          if (this.calContainer) this.calContainer.classList.add('hidden');
-          if (this.errorEl) this.errorEl.classList.remove('hidden');
-        },
-
-        showEmbed() {
-          if (this.loadingEl) this.loadingEl.classList.add('hidden');
-          if (this.errorEl) this.errorEl.classList.add('hidden');
-          if (this.calContainer) {
-            this.calContainer.classList.remove('hidden');
-            this.calContainer.style.position = '';
-            this.calContainer.style.opacity = '';
-            this.calContainer.style.pointerEvents = '';
-          }
-        },
-
-        initCalEmbed() {
-          var self = this;
-
-          // Register event listeners BEFORE initializing the embed to avoid race conditions
-          Cal.ns.booking("on", {
-            action: "linkReady",
-            callback: function() {
-              self.calReady = true;
-              self.showEmbed();
-              if (self.loadTimeout) {
-                clearTimeout(self.loadTimeout);
-                self.loadTimeout = null;
-              }
-            }
-          });
-
-          Cal.ns.booking("on", {
-            action: "linkFailed",
-            callback: function() {
-              self.showError();
-            }
-          });
-
-          // Make container visible (but empty) so Cal.com can render into it
-          this.calContainer.classList.remove('hidden');
-          this.calContainer.style.position = 'absolute';
-          this.calContainer.style.opacity = '0';
-          this.calContainer.style.pointerEvents = 'none';
-
-          // Initialize Cal.com inline embed after listeners are attached
-          Cal.ns.booking("inline", {
-            elementOrSelector: "#booking-cal-container",
-            calLink: "yasminblasi"
-          });
-
-          // Fallback: poll for iframe presence in case linkReady event is missed
-          var pollCount = 0;
-          var pollForIframe = setInterval(function() {
-            pollCount++;
-            var iframe = self.calContainer.querySelector('iframe');
-            if (iframe && !self.calReady) {
-              self.calReady = true;
-              self.showEmbed();
-              if (self.loadTimeout) {
-                clearTimeout(self.loadTimeout);
-                self.loadTimeout = null;
-              }
-              clearInterval(pollForIframe);
-            } else if (pollCount >= 40 || self.calReady) {
-              clearInterval(pollForIframe);
-            }
-          }, 200);
-        }
-      };
-
-      // Initialize BookingModal
-      BookingModal.init();
-
-      // === Booking Trigger Handlers (Task 6.1) ===
-
-      // #fab-book click → open modal
-      var fabBookBtn = document.getElementById('fab-book');
-      if (fabBookBtn) {
-        fabBookBtn.addEventListener('click', function() {
-          BookingModal.open(fabBookBtn);
-        });
-      }
-
-      // #contact-book-btn click → open modal
-      var contactBookBtn = document.getElementById('contact-book-btn');
-      if (contactBookBtn) {
-        contactBookBtn.addEventListener('click', function() {
-          BookingModal.open(contactBookBtn);
-        });
-      }
-
-      // Desktop nav "Get Started" → open modal
-      var navGetStartedDesktop = document.getElementById('nav-get-started-desktop');
-      if (navGetStartedDesktop) {
-        navGetStartedDesktop.addEventListener('click', function(e) {
-          e.preventDefault();
-          BookingModal.open(navGetStartedDesktop);
-        });
-        navGetStartedDesktop.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            BookingModal.open(navGetStartedDesktop);
-          }
-        });
-      }
-
-      // Mobile nav "Get Started" → open modal
-      var navGetStartedMobile = document.getElementById('nav-get-started-mobile');
-      if (navGetStartedMobile) {
-        navGetStartedMobile.addEventListener('click', function(e) {
-          e.preventDefault();
-          BookingModal.open(navGetStartedMobile);
-        });
-        navGetStartedMobile.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            BookingModal.open(navGetStartedMobile);
-          }
-        });
-      }
-
-      // === Close Handlers (Task 6.2) ===
-
-      // Close button click
-      document.getElementById('booking-close-btn').addEventListener('click', function() {
-        BookingModal.close();
-      });
-
-      // Escape key (only when modal is open)
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && BookingModal.isOpen) {
-          BookingModal.close();
-        }
-      });
-
-      // Backdrop click (only if click target is the backdrop itself)
-      document.getElementById('booking-backdrop').addEventListener('click', function(e) {
-        if (e.target === this) {
-          BookingModal.close();
-        }
-      });
-
-      // Expose globally for other scripts/tasks to use
-      window.BookingModal = BookingModal;
-
     });
   </script>
 
-  <!-- Cal.com Embed SDK (async, non-blocking) -->
-  <script>
-    (function (C, A, L) {
-      let p = function (a, ar) { a.q.push(ar); };
-      let d = C.document;
-      C.Cal = C.Cal || function () {
-        let cal = C.Cal;
-        let ar = arguments;
-        if (!cal.loaded) {
-          cal.ns = {}; cal.q = cal.q || [];
-          d.head.appendChild(d.createElement("script")).src = A;
-          cal.loaded = true;
-        }
-        if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; }
-        p(cal, ar);
-      };
-    })(window, "https://app.cal.com/embed/embed.js", "init");
+  <!-- Booking Modal: shared module (replaces inline controller + Cal.com SDK) -->
+  <script type="module">
+    import { initBookingModal } from './js/booking-modal.js';
 
-    Cal("init", "booking", { origin: "https://cal.com" });
+    // Initialize the shared booking modal module.
+    // It detects the existing #booking-modal HTML and reuses it (idempotent).
+    // Cal.com SDK is loaded lazily on first open() call.
+    initBookingModal();
 
-    Cal.ns.booking("ui", {
-      theme: "light",
-      cssVarsPerTheme: {
-        light: {
-          "cal-brand": "#8B2252",
-          "cal-brand-emphasis": "#A63B6B",
-          "cal-brand-text": "#FFFFFF",
-          "cal-bg": "#FFFAF5",
-          "cal-bg-emphasis": "#F8F0EA",
-          "cal-text": "#2D2926",
-          "cal-text-emphasis": "#1A1A2E",
-          "cal-text-subtle": "#8A8380",
-          "cal-border": "rgba(139, 34, 82, 0.15)",
-          "cal-border-booker": "transparent",
-          "cal-border-booker-width": "0px"
-        }
+    // Wire up homepage-specific booking triggers
+    document.addEventListener('DOMContentLoaded', () => {
+      // FAB "Book a Call" button
+      const fabBookBtn = document.getElementById('fab-book');
+      if (fabBookBtn) {
+        fabBookBtn.addEventListener('click', function() {
+          window.BookingModal.open(fabBookBtn);
+        });
       }
-    });
 
-    Cal.ns.booking("preload", { calLink: "yasminblasi" });
+      // Services section "Book a Call" buttons (.booking-trigger)
+      document.querySelectorAll('.booking-trigger').forEach(btn => {
+        btn.addEventListener('click', function() {
+          window.BookingModal.open(btn);
+        });
+      });
+    });
   </script>
 
   <script type="module">
@@ -1761,6 +1426,7 @@
     initNav(document.getElementById('navbar'));
     initFooter(document.getElementById('footer'));
   </script>
+
 
 </body>
 </html>
