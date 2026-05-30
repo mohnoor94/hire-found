@@ -582,7 +582,8 @@ export function renderJobDetail(job, container) {
   const whatsAppNumber = job.contactWhatsApp || DEFAULTS.whatsApp;
   const emailAddress = job.contactEmail || DEFAULTS.email;
   const jobTitle = job.title || '';
-  const encodedMessage = encodeURIComponent(`Hi! I'm interested in the "${jobTitle}" position.`);
+  const jobUrl = `${window.location.origin}${getBasePath()}jobs/?id=${job.slug || ''}`;
+  const encodedMessage = encodeURIComponent(`Hi! I'm interested in the "${jobTitle}" position.\n\n${jobUrl}`);
   const encodedSubject = encodeURIComponent(`Interest in: ${jobTitle}`);
 
   if (job.tallyFormId && job.tallyFormId.trim() !== '') {

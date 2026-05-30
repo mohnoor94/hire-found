@@ -159,6 +159,9 @@ function handleUserSignedOut() {
 
   showView('sign-in');
 
+  // Add a "check again" link in case auth state was slow to resolve
+  addCheckAgainHint();
+
   if (authConfig?.onSignedOut) {
     authConfig.onSignedOut();
   }
@@ -194,6 +197,33 @@ function setupSignInButton() {
       }
     }
   });
+}
+
+/**
+ * Adds a subtle "Already signed in?" link below the sign-in button
+ * that re-checks auth state (effectively reloads the auth listener).
+ */
+function addCheckAgainHint() {
+  const signInEl = authConfig?.signInContainer || document.getElementById('view-sign-in');
+  if (!signInEl) return;
+
+  // Don't add if already present
+  if (signInEl.querySelector('#check-again-btn')) return;
+
+  const btn = signInEl.querySelector('#google-sign-in-btn');
+  if (!btn || !btn.parentNode) return;
+
+  const hint = document.createElement('button');
+  hint.id = 'check-again-btn';
+  hint.type = 'button';
+  hint.className = 'mt-4 text-xs text-muted hover:text-primary transition-colors duration-200 underline underline-offset-2';
+  hint.textContent = 'Already signed in? Tap to refresh';
+  hint.style.minHeight = '44px';
+  hint.addEventListener('click', () => {
+    window.location.reload();
+  });
+
+  btn.parentNode.appendChild(hint);
 }
 
 /**
