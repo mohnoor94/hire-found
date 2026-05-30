@@ -87,6 +87,9 @@ export function initApp() {
 
 // ─── Internal: Auth Callbacks ────────────────────────────────────────────────
 
+/** @type {boolean} */
+let dashboardInitialized = false;
+
 /**
  * Called when the user is successfully authenticated.
  * Shows the nav bar, renders the greeting, and initializes the dashboard.
@@ -98,16 +101,21 @@ function handleAuthenticated(user) {
     navBar.classList.remove('hidden');
   }
 
-  // Initialize dashboard with callbacks (this replaces container innerHTML)
-  initDashboard(viewDashboard, {
-    onNewJob: handleNewJob,
-    onEdit: handleEdit,
-    onDelete: handleDelete,
-    onToggleActive: handleToggleActive,
-  });
+  // Only initialize dashboard once — subsequent auth events just show the view
+  if (!dashboardInitialized) {
+    dashboardInitialized = true;
 
-  // Render greeting above dashboard (after initDashboard so it doesn't get wiped)
-  renderGreeting(user);
+    // Initialize dashboard with callbacks (this replaces container innerHTML)
+    initDashboard(viewDashboard, {
+      onNewJob: handleNewJob,
+      onEdit: handleEdit,
+      onDelete: handleDelete,
+      onToggleActive: handleToggleActive,
+    });
+
+    // Render greeting above dashboard (after initDashboard so it doesn't get wiped)
+    renderGreeting(user);
+  }
 
   // Ensure dashboard view is visible
   showDashboardView();
@@ -118,6 +126,7 @@ function handleAuthenticated(user) {
  * Hides the nav bar.
  */
 function handleSignedOut() {
+  dashboardInitialized = false;
   if (navBar) {
     navBar.classList.add('hidden');
   }

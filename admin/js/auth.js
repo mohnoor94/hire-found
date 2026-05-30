@@ -60,13 +60,6 @@ export function initAuth(config) {
   // Set up auth listener immediately to catch the restored session
   setupAuthListener();
 
-  // Safety timeout: if auth doesn't resolve in 5s, show sign-in
-  setTimeout(() => {
-    if (!currentUser) {
-      showView('sign-in');
-    }
-  }, 5000);
-
   // Wire up the Google sign-in button
   setupSignInButton();
 }
