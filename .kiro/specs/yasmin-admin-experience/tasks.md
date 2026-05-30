@@ -40,11 +40,11 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - Add gradient background to body using warm-to-butterfly-rose top-to-bottom linear gradient
     - _Requirements: 4.2, 6.2, 6.3_
 
-- [ ] 3. Checkpoint - Verify static changes
+- [x] 3. Checkpoint - Verify static changes
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 4. Implement personalized greeting logic
-  - [ ] 4.1 Rewrite `renderGreeting` in `/admin/js/app.js` with affectionate templates
+- [x] 4. Implement personalized greeting logic
+  - [x] 4.1 Rewrite `renderGreeting` in `/admin/js/app.js` with affectionate templates
     - Define `GREETING_TEMPLATES` array with ≥3 templates using first name and emoji (e.g., "Hey ${name} ✨", "Welcome back, ${name} 🦋", "Hi ${name}, lovely to see you 💜", "Hello ${name} 🌸")
     - Define `SUBTITLES` array with ≥4 phrases, each ≤60 characters, no brand name references
     - Implement `extractFirstName(displayName)` that returns first space-delimited segment or "Yasmin" fallback for null/empty/whitespace

@@ -26,7 +26,53 @@ import { showToast } from './toast.js';
 
 const ALLOWED_EMAILS = [
   'moh.noor94@gmail.com',
+  "yasmin@hirefound.com"
 ];
+
+// ─── Greeting Constants ──────────────────────────────────────────────────────
+
+/**
+ * Pool of affectionate greeting templates using first name and emoji.
+ * Each template is a function that takes a name and returns a greeting string.
+ */
+export const GREETING_TEMPLATES = [
+  (name) => `Hey ${name} ✨`,
+  (name) => `Welcome back, ${name} 🦋`,
+  (name) => `Hi ${name}, lovely to see you 💜`,
+  (name) => `Hello ${name} 🌸`,
+  (name) => `There she is, ${name} 💫`,
+  (name) => `Good to see you, ${name} 🌷`,
+  (name) => `Hey gorgeous, ${name} 💕`,
+  (name) => `Look who's here, ${name} 🦋`,
+];
+
+/**
+ * Pool of short motivational/playful subtitles (each ≤60 chars, no brand name).
+ */
+export const SUBTITLES = [
+  'Your next great hire is one click away.',
+  'Ready to find someone amazing?',
+  "Let's connect talent with opportunity.",
+  'Time to make magic happen ✨',
+  'The perfect candidate is out there 🦋',
+  "Let's build something beautiful today 🌸",
+  'Great things are about to happen.',
+  'You make hiring look effortless 💜',
+  'Another day, another perfect match.',
+  "Today's going to be a good one 🌷",
+];
+
+/**
+ * Extracts the first name from a display name string.
+ * Returns the first space-delimited segment, or "Yasmin" as fallback
+ * for null, empty, or whitespace-only input.
+ * @param {string|null|undefined} displayName
+ * @returns {string}
+ */
+export function extractFirstName(displayName) {
+  if (!displayName || !displayName.trim()) return 'Yasmin';
+  return displayName.trim().split(' ')[0];
+}
 
 // ─── DOM References ──────────────────────────────────────────────────────────
 
@@ -154,41 +200,42 @@ function showEditorView() {
 
 /**
  * Renders the personalized greeting section above the dashboard content.
+ * Uses affectionate templates with emoji and a butterfly SVG fallback avatar.
  * @param {Object} user - Firebase Auth user object
  */
-function renderGreeting(user) {
+export function renderGreeting(user) {
   if (!viewDashboard) return;
 
-  const hour = new Date().getHours();
-  const greeting = getGreeting(hour);
-  const displayName = user.displayName || 'Yasmin';
-  const firstName = displayName.split(' ')[0];
+  const firstName = extractFirstName(user.displayName);
   const photoURL = user.photoURL || '';
 
   const greetingEl = viewDashboard.querySelector('#admin-greeting');
   if (!greetingEl) return;
 
-  // Curated subtitles that rotate
-  const subtitles = [
-    'Your next great hire is one click away.',
-    'Ready to find someone amazing?',
-    "Let's connect talent with opportunity.",
-    'Time to make magic happen.',
-  ];
-  const subtitle = subtitles[Math.floor(Math.random() * subtitles.length)];
+  // Pick random greeting from template pool
+  const template = GREETING_TEMPLATES[Math.floor(Math.random() * GREETING_TEMPLATES.length)];
+  const greeting = template(firstName);
+
+  // Pick random subtitle from subtitle pool
+  const subtitle = SUBTITLES[Math.floor(Math.random() * SUBTITLES.length)];
+
+  // Butterfly SVG fallback avatar (48×48px)
+  const butterflySvgAvatar = `
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0" aria-hidden="true">
+      <circle cx="24" cy="24" r="24" fill="#C4B5FD" fill-opacity="0.2"/>
+      <path d="M24 14c-3-5-10-6-12-2s1 9 6 12c-5 3-8 8-6 12s9 3 12-2c3 5 10 6 12 2s-1-9-6-12c5-3 8-8 6-12s-9-3-12 2z" fill="#C4B5FD" stroke="#A78BFA" stroke-width="1"/>
+      <ellipse cx="24" cy="24" rx="1.5" ry="6" fill="#A78BFA"/>
+    </svg>
+  `;
 
   greetingEl.innerHTML = `
     <div class="flex items-center gap-4 sm:gap-5">
       ${photoURL ? `
-        <img src="${escapeHtml(photoURL)}" alt="" class="w-12 h-12 rounded-full shadow-sm ring-2 ring-primary/15 ring-offset-2 object-cover flex-shrink-0">
-      ` : `
-        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-sm ring-2 ring-primary/15 ring-offset-2 flex-shrink-0">
-          <span class="text-white text-lg font-bold">${escapeHtml(firstName.charAt(0).toUpperCase())}</span>
-        </div>
-      `}
+        <img src="${escapeHtml(photoURL)}" alt="" class="w-12 h-12 rounded-full shadow-sm ring-2 ring-butterfly-lavender/30 ring-offset-2 object-cover flex-shrink-0" style="width:48px;height:48px;">
+      ` : butterflySvgAvatar}
       <div class="min-w-0">
-        <h1 class="font-accent text-xl sm:text-2xl font-bold text-text-main truncate">${greeting}, ${escapeHtml(firstName)}</h1>
-        <p class="text-muted text-xs sm:text-sm mt-0.5 italic">${subtitle}</p>
+        <h1 class="font-accent text-2xl sm:text-3xl font-bold text-text-main truncate">${escapeHtml(greeting)}</h1>
+        <p class="text-text-main/70 text-sm sm:text-base mt-1">${escapeHtml(subtitle)}</p>
       </div>
     </div>
   `;
