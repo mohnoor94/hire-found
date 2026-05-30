@@ -102,7 +102,7 @@ export function initNav(container) {
   // Logo href: homepage scrolls to top, other pages navigate home
   const logoHref = onHomepage ? '#hero' : basePath;
   const logoLabel = onHomepage ? 'HireFound - Go to top' : 'HireFound - Go to homepage';
-  const logoSrc = `${basePath}assets/hirefound-signature.svg`;
+  const logoSrc = `${basePath}assets/hirefound-signature-primary.svg`;
 
   // Render nav HTML
   container.innerHTML = `

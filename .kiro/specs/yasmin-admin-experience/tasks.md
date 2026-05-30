@@ -77,8 +77,8 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - Assert non-empty photoURL produces `<img>` with 48×48 dimensions
     - Assert null/empty photoURL produces butterfly SVG element (no initial-circle)
 
-- [ ] 5. Implement butterfly entrance animation
-  - [ ] 5.1 Add butterfly entrance animation CSS and JS injection in `/admin/index.html` and `/admin/js/app.js`
+- [x] 5. Implement butterfly entrance animation
+  - [x] 5.1 Add butterfly entrance animation CSS and JS injection in `/admin/index.html` and `/admin/js/app.js`
     - Add `@keyframes butterflyEntrance` CSS in admin `<style>` block (0%→50%→100% opacity/transform, 1.5s duration)
     - Add `.butterfly-entrance` class with `animation: butterflyEntrance 1.5s ease-out forwards`
     - Add `@media (prefers-reduced-motion: reduce)` rule to disable animation (set `animation: none; opacity: 0; display: none`)

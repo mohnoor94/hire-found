@@ -122,18 +122,16 @@
       padding-right: 1.5rem;
     }
 
-    /* === Loading Spinner === */
+    /* === Loading Butterfly === */
     .admin-loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(139, 34, 82, 0.15);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      width: 48px;
+      height: 48px;
+      animation: butterflyPulse 1.5s ease-in-out infinite;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    @keyframes butterflyPulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 1; }
     }
 
     /* === View Transitions (Dashboard ↔ Editor) === */
@@ -330,7 +328,8 @@
     @media (prefers-reduced-motion: reduce) {
       /* Disable motion-based transitions */
       .admin-loading-spinner {
-        animation: pulse 1.5s ease-in-out infinite !important;
+        animation: none !important;
+        opacity: 1;
       }
 
       #view-dashboard,
@@ -420,7 +419,19 @@
   <!-- ==================== LOADING VIEW ==================== -->
   <div id="view-loading" class="flex items-center justify-center min-h-screen">
     <div class="text-center">
-      <div class="admin-loading-spinner mx-auto mb-4"></div>
+      <div class="admin-loading-spinner mx-auto mb-4">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M24 24C20 20 14 14 10 16C6 18 8 26 12 28C16 30 20 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>
+          <path d="M24 24C22 28 18 34 14 36C10 38 8 34 10 30C12 26 18 26 24 24Z" fill="#FDA4AF" stroke="#FDA4AF" stroke-width="0.5"/>
+          <path d="M24 24C28 20 34 14 38 16C42 18 40 26 36 28C32 30 28 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>
+          <path d="M24 24C26 28 30 34 34 36C38 38 40 34 38 30C36 26 30 26 24 24Z" fill="#FDA4AF" stroke="#FDA4AF" stroke-width="0.5"/>
+          <ellipse cx="24" cy="24" rx="1.5" ry="6" fill="#7C3AED"/>
+          <path d="M23 18C22 15 20 13 19 12" stroke="#7C3AED" stroke-width="1" stroke-linecap="round" fill="none"/>
+          <path d="M25 18C26 15 28 13 29 12" stroke="#7C3AED" stroke-width="1" stroke-linecap="round" fill="none"/>
+          <circle cx="19" cy="12" r="1" fill="#C4B5FD"/>
+          <circle cx="29" cy="12" r="1" fill="#C4B5FD"/>
+        </svg>
+      </div>
       <p class="text-muted text-sm">Loading...</p>
     </div>
   </div>
