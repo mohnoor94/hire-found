@@ -44,7 +44,7 @@ function isHomepage() {
     segments.pop();
   }
   // Homepage = no known subdirectory in the path
-  const knownSubDirs = ['jobs', 'admin'];
+  const knownSubDirs = ['jobs', 'yasmin'];
   return !segments.some(s => knownSubDirs.includes(s));
 }
 

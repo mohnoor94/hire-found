@@ -6,8 +6,8 @@ This plan implements six quality-of-life improvements to Yasmin's admin panel: Q
 
 ## Tasks
 
-- [ ] 1. Rename admin directory to yasmin and update references
-  - [ ] 1.1 Rename the `/admin/` directory to `/yasmin/` and update all internal asset references
+- [x] 1. Rename admin directory to yasmin and update references
+  - [x] 1.1 Rename the `/admin/` directory to `/yasmin/` and update all internal asset references
     - Rename the `admin/` folder to `yasmin/`
     - Update the `firebase-config.js` import path in `yasmin/js/auth.js` (from `../../js/firebase-config.js` — verify it still resolves)
     - Update the `firebase-config.js` import path in `yasmin/js/app.js`
@@ -18,7 +18,7 @@ This plan implements six quality-of-life improvements to Yasmin's admin panel: Q
     - Update vitest config if it references `admin/` paths
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-- [ ] 2. Checkpoint - Verify directory rename
+- [x] 2. Checkpoint - Verify directory rename
   - Ensure all relative imports resolve correctly from the new `/yasmin/` path. Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 3. Implement color and contrast fixes

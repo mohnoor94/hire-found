@@ -9,7 +9,7 @@ export function getBasePath() {
   // On GitHub Pages, the repo name is the first path segment and acts as root.
   // On a custom domain, root is /.
   // We detect this by checking known page directories.
-  const knownSubDirs = ['jobs', 'admin'];
+  const knownSubDirs = ['jobs', 'yasmin'];
 
   const segments = path.split('/').filter(Boolean);
   // Remove filename if present
