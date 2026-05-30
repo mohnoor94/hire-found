@@ -122,18 +122,16 @@
       padding-right: 1.5rem;
     }
 
-    /* === Loading Spinner === */
+    /* === Loading Butterfly === */
     .admin-loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(139, 34, 82, 0.15);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      width: 48px;
+      height: 48px;
+      animation: butterflyPulse 1.5s ease-in-out infinite;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    @keyframes butterflyPulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 1; }
     }
 
     /* === View Transitions (Dashboard ↔ Editor) === */
@@ -159,6 +157,7 @@
 
     /* === Card Hover Effects === */
     .job-card {
+      box-shadow: 0 4px 24px rgba(253, 164, 175, 0.15);
       transition: transform 400ms var(--ease-out-quint),
                   box-shadow 400ms var(--ease-out-quint),
                   border-color 300ms var(--ease-out-expo);
@@ -166,12 +165,12 @@
 
     .job-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(139, 34, 82, 0.10);
+      box-shadow: 0 12px 40px rgba(253, 164, 175, 0.25);
     }
 
     .job-card:active {
       transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(139, 34, 82, 0.08);
+      box-shadow: 0 4px 16px rgba(253, 164, 175, 0.20);
     }
 
     /* === Form Reveal Animation === */
@@ -330,7 +329,8 @@
     @media (prefers-reduced-motion: reduce) {
       /* Disable motion-based transitions */
       .admin-loading-spinner {
-        animation: pulse 1.5s ease-in-out infinite !important;
+        animation: none !important;
+        opacity: 1;
       }
 
       #view-dashboard,
@@ -392,19 +392,13 @@
   </style>
 </head>
 
-<body class="text-text-main font-sans antialiased overflow-x-hidden min-h-screen" style="background: linear-gradient(to bottom, #FFFAF5, #FEE2E8);">
+<body class="text-text-main font-sans antialiased overflow-x-hidden min-h-screen" style="background: linear-gradient(to bottom, #FFFAF5, #FFF5F7);">
 
   <!-- ==================== NAV BAR ==================== -->
   <nav id="admin-nav" class="fixed top-0 left-0 right-0 z-50 nav-glass hidden" aria-label="Admin navigation">
     <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
       <a href="./" class="font-accent text-xl font-bold text-primary">Yasmin's Space</a>
       <div class="flex items-center gap-3">
-        <a href="../" class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-muted hover:text-primary transition-colors duration-200" aria-label="Go to main site">
-          Main Site
-        </a>
-        <a href="../jobs/" class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-muted hover:text-primary transition-colors duration-200" aria-label="Go to jobs page">
-          Jobs Page
-        </a>
         <button
           id="sign-out-btn"
           type="button"
@@ -420,14 +414,34 @@
   <!-- ==================== LOADING VIEW ==================== -->
   <div id="view-loading" class="flex items-center justify-center min-h-screen">
     <div class="text-center">
-      <div class="admin-loading-spinner mx-auto mb-4"></div>
+      <div class="admin-loading-spinner mx-auto mb-4">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M24 24C20 20 14 14 10 16C6 18 8 26 12 28C16 30 20 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>
+          <path d="M24 24C22 28 18 34 14 36C10 38 8 34 10 30C12 26 18 26 24 24Z" fill="#FDA4AF" stroke="#FDA4AF" stroke-width="0.5"/>
+          <path d="M24 24C28 20 34 14 38 16C42 18 40 26 36 28C32 30 28 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>
+          <path d="M24 24C26 28 30 34 34 36C38 38 40 34 38 30C36 26 30 26 24 24Z" fill="#FDA4AF" stroke="#FDA4AF" stroke-width="0.5"/>
+          <ellipse cx="24" cy="24" rx="1.5" ry="6" fill="#7C3AED"/>
+          <path d="M23 18C22 15 20 13 19 12" stroke="#7C3AED" stroke-width="1" stroke-linecap="round" fill="none"/>
+          <path d="M25 18C26 15 28 13 29 12" stroke="#7C3AED" stroke-width="1" stroke-linecap="round" fill="none"/>
+          <circle cx="19" cy="12" r="1" fill="#C4B5FD"/>
+          <circle cx="29" cy="12" r="1" fill="#C4B5FD"/>
+        </svg>
+      </div>
       <p class="text-muted text-sm">Loading...</p>
     </div>
   </div>
 
   <!-- ==================== SIGN-IN VIEW ==================== -->
   <div id="view-sign-in" class="flex items-center justify-center min-h-screen hidden">
-    <div class="w-full max-w-sm mx-auto px-6 text-center">
+    <div class="w-full max-w-sm mx-auto px-6 text-center relative">
+      <!-- Decorative butterfly SVG — visible on md+ viewports, does not interfere with touch targets -->
+      <svg class="hidden md:block absolute -top-6 -right-6 w-10 h-10 opacity-40 pointer-events-none" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M20 20C17 17 12 12 9 14C6 16 7 22 10 23C13 24 17 23 20 20Z" fill="#C4B5FD"/>
+        <path d="M20 20C18 23 15 28 12 29C9 30 8 27 9 24C10 21 15 21 20 20Z" fill="#FDA4AF"/>
+        <path d="M20 20C23 17 28 12 31 14C34 16 33 22 30 23C27 24 23 23 20 20Z" fill="#C4B5FD"/>
+        <path d="M20 20C22 23 25 28 28 29C31 30 32 27 31 24C30 21 25 21 20 20Z" fill="#FDA4AF"/>
+        <ellipse cx="20" cy="20" rx="1" ry="4" fill="#7C3AED"/>
+      </svg>
       <svg class="w-16 h-16 mx-auto mb-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="min-width: 48px; min-height: 48px;">
         <!-- Left wing -->
         <path d="M24 24C20 20 14 14 10 16C6 18 8 26 12 28C16 30 20 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>

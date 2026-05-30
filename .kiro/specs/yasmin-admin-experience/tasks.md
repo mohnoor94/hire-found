@@ -77,8 +77,8 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - Assert non-empty photoURL produces `<img>` with 48×48 dimensions
     - Assert null/empty photoURL produces butterfly SVG element (no initial-circle)
 
-- [ ] 5. Implement butterfly entrance animation
-  - [ ] 5.1 Add butterfly entrance animation CSS and JS injection in `/admin/index.html` and `/admin/js/app.js`
+- [x] 5. Implement butterfly entrance animation
+  - [x] 5.1 Add butterfly entrance animation CSS and JS injection in `/admin/index.html` and `/admin/js/app.js`
     - Add `@keyframes butterflyEntrance` CSS in admin `<style>` block (0%→50%→100% opacity/transform, 1.5s duration)
     - Add `.butterfly-entrance` class with `animation: butterflyEntrance 1.5s ease-out forwards`
     - Add `@media (prefers-reduced-motion: reduce)` rule to disable animation (set `animation: none; opacity: 0; display: none`)
@@ -86,8 +86,8 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - In `handleAuthenticated` in app.js, inject a butterfly SVG element with `.butterfly-entrance` class on auth success, remove from DOM after animation completes (1.5s timeout)
     - _Requirements: 3.2, 3.3, 3.5, 3.6_
 
-- [ ] 6. Implement nav bar user indicator and butterfly styling
-  - [ ] 6.1 Add user identifier display in nav bar in `/admin/js/app.js`
+- [x] 6. Implement nav bar user indicator and butterfly styling
+  - [x] 6.1 Add user identifier display in nav bar in `/admin/js/app.js`
     - Implement `truncateUserIdentifier(user)` that returns displayName (or email fallback), truncated to 30 chars + ellipsis if exceeded
     - In `handleAuthenticated`, render a `<span class="text-muted text-xs">` with the truncated identifier, positioned before the Sign Out button in the nav's right-aligned flex group
     - Export `truncateUserIdentifier` for testability
@@ -102,17 +102,17 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - Assert strings ≤ 30 chars returned unmodified
     - Assert displayName preferred over email
 
-  - [ ] 6.3 Update nav bar styling with butterfly theme colors in `/admin/index.html` and `/css/shared.css`
+  - [x] 6.3 Update nav bar styling with butterfly theme colors in `/admin/index.html` and `/css/shared.css`
     - Update `.nav-glass` border-bottom to use butterfly-rose color
     - Update nav background tint to use butterfly-lavender
     - Retain Sign Out button styling with butterfly-theme tokens
     - _Requirements: 4.3, 5.3_
 
-- [ ] 7. Checkpoint - Verify greeting, animation, and nav indicator
+- [x] 7. Checkpoint - Verify greeting, animation, and nav indicator
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 8. Update auth module with butterfly theming
-  - [ ] 8.1 Update sign-in error display in `/admin/js/auth.js`
+- [x] 8. Update auth module with butterfly theming
+  - [x] 8.1 Update sign-in error display in `/admin/js/auth.js`
     - Modify `showSignInError` to use `text-butterfly-rose` instead of `text-red-600`
     - Add `role="alert"` attribute to the error element for ARIA accessibility
     - _Requirements: 6.4_
@@ -125,28 +125,28 @@ Transform the HireFound admin panel into a personalized, butterfly-themed worksp
     - Assert error element has `role="alert"` attribute
     - Assert error element class list contains butterfly-theme color reference
 
-  - [ ] 8.3 Update `restoreSignInScreen` in `/admin/js/auth.js` with Yasmin branding
+  - [x] 8.3 Update `restoreSignInScreen` in `/admin/js/auth.js` with Yasmin branding
     - Replace HireFound logo with butterfly SVG element (matching sign-in view)
     - Change heading to "Yasmin's Space"
     - Change subtext to "Welcome back, beautiful ✨"
     - Ensure sign-in button uses butterfly-theme accent color and pill shape
     - _Requirements: 1.6, 6.1, 6.2, 6.3_
 
-- [ ] 9. Update job card styling with butterfly colors
-  - [ ] 9.1 Apply butterfly color tokens to job cards in `/admin/js/dashboard.js` or `/admin/index.html`
+- [x] 9. Update job card styling with butterfly colors
+  - [x] 9.1 Apply butterfly color tokens to job cards in `/admin/js/dashboard.js` or `/admin/index.html`
     - Apply `border-butterfly-lavender` as the border color on `.job-card` elements
     - Apply `butterfly-rose` with reduced opacity as the box-shadow color
     - Retain existing functionality: hover transform, click actions, status toggle
     - _Requirements: 4.4_
 
-- [ ] 10. Add decorative butterfly SVG to sign-in view
-  - [ ] 10.1 Add a decorative butterfly SVG element to the sign-in card in `/admin/index.html`
+- [x] 10. Add decorative butterfly SVG to sign-in view
+  - [x] 10.1 Add a decorative butterfly SVG element to the sign-in card in `/admin/index.html`
     - Position within the sign-in card area, visible without scrolling on viewports ≥768px
     - Use butterfly-theme accent colors (lavender/rose)
     - Ensure it does not interfere with sign-in button touch targets
     - _Requirements: 3.1_
 
-- [ ] 11. Final checkpoint - Ensure all tests pass
+- [x] 11. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

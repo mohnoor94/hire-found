@@ -492,12 +492,15 @@ function renderField(fieldName, jobData) {
       });
 
     case 'tallyFormId':
+      const tallyHelpText = value
+        ? `<a href="https://tally.so/forms/${value}" target="_blank" rel="noopener noreferrer" class="text-[#7C3AED] hover:underline font-medium">View/edit form →</a>`
+        : 'Optional. <a href="https://tally.so/forms/create" target="_blank" rel="noopener noreferrer" class="text-[#7C3AED] hover:underline font-medium">Create a new form →</a>';
       return textInput({
         name: 'tallyFormId',
         label: 'Tally Form ID',
         value,
         placeholder: 'e.g. wMqROP',
-        helpText: 'Optional Tally form for applications.',
+        helpText: tallyHelpText,
       });
 
     default:

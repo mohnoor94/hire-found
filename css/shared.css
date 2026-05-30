@@ -15,20 +15,18 @@
 
 /* === Sticky Nav === */
 .nav-glass {
-  background: rgba(255, 250, 245, 0.8);
+  background: rgba(196, 181, 253, 0.12);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(139, 34, 82, 0.08);
+  border-bottom: 1px solid #FDA4AF;
 }
 
-/* === Nav Logo (signature SVG recolored to brand primary) === */
+/* === Nav Logo (pre-colored primary SVG, no filter needed) === */
 .nav-logo {
-  /* Recolor black SVG to #8B2252 (primary) */
-  filter: brightness(0) saturate(100%) invert(16%) sepia(48%) saturate(4287%) hue-rotate(318deg) brightness(82%) contrast(95%);
-  transition: filter 0.2s ease, opacity 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 .nav-logo:hover {
-  filter: brightness(0) saturate(100%) invert(25%) sepia(40%) saturate(3500%) hue-rotate(318deg) brightness(90%) contrast(90%);
+  opacity: 0.75;
 }
 
 /* === Footer Logo (signature SVG in white on dark bg) === */
@@ -83,7 +81,7 @@
   border-radius: 9999px;
   font-size: 14px;
   font-weight: 600;
-  color: #8A8380;
+  color: #6B6560;
   background: rgba(139, 34, 82, 0.06);
   border: 2px solid transparent;
   transition: all 0.3s ease;

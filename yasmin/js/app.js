@@ -21,6 +21,7 @@ import { initAuth, signOut } from './auth.js';
 import { initDashboard, refreshJobs, updateJobCard, removeJobCard } from './dashboard.js';
 import { openCreateEditor, openEditEditor, deduplicateSlug, validateForm } from './editor.js';
 import { showToast } from './toast.js';
+import { initShortcuts } from './shortcuts.js';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -131,10 +132,30 @@ export function initApp() {
   }
 }
 
+// ─── Nav Bar User Indicator ──────────────────────────────────────────────────
+
+/**
+ * Returns the user's display name (or email fallback), truncated to 30 characters
+ * with an ellipsis appended if the identifier exceeds 30 characters.
+ * @param {Object} user - Firebase Auth user object
+ * @returns {string}
+ */
+export function truncateUserIdentifier(user) {
+  const identifier = user.displayName || user.email || '';
+  if (identifier.length <= 30) return identifier;
+  return identifier.substring(0, 30) + '…';
+}
+
 // ─── Internal: Auth Callbacks ────────────────────────────────────────────────
 
 /** @type {boolean} */
 let dashboardInitialized = false;
+
+/** @type {boolean} - Tracks whether the editor view is currently open */
+let isEditorOpen = false;
+
+/** @type {boolean} - Tracks whether a modal dialog is currently open */
+let isModalOpen = false;
 
 /**
  * Called when the user is successfully authenticated.
@@ -146,6 +167,10 @@ function handleAuthenticated(user) {
   if (navBar) {
     navBar.classList.remove('hidden');
   }
+
+  // Render user identifier in nav bar (before Sign Out button)
+  // Disabled: full name in nav looked cluttered for a single-user panel
+  // renderNavUserIdentifier(user);
 
   // Only initialize dashboard once — subsequent auth events just show the view
   if (!dashboardInitialized) {
@@ -161,6 +186,15 @@ function handleAuthenticated(user) {
 
     // Render greeting above dashboard (after initDashboard so it doesn't get wiped)
     renderGreeting(user);
+
+    // Initialize keyboard shortcuts
+    initShortcuts({
+      onNewJob: handleNewJob,
+      getViewState: () => ({ isEditorOpen, isModalOpen }),
+    });
+
+    // Add keyboard hint near the "New Job" button
+    addKeyboardHint();
   }
 
   // Ensure dashboard view is visible
@@ -186,6 +220,7 @@ function handleSignedOut() {
 function showDashboardView() {
   if (viewDashboard) viewDashboard.classList.remove('hidden');
   if (viewEditor) viewEditor.classList.add('hidden');
+  isEditorOpen = false;
 }
 
 /**
@@ -194,6 +229,7 @@ function showDashboardView() {
 function showEditorView() {
   if (viewDashboard) viewDashboard.classList.add('hidden');
   if (viewEditor) viewEditor.classList.remove('hidden');
+  isEditorOpen = true;
 }
 
 // ─── Internal: Greeting ──────────────────────────────────────────────────────
@@ -315,17 +351,20 @@ function handleDelete(job) {
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
+  isModalOpen = true;
 
   // Wire up cancel button
   const cancelBtn = modal.querySelector('#delete-cancel-btn');
   cancelBtn.addEventListener('click', () => {
     overlay.remove();
+    isModalOpen = false;
   });
 
   // Close on overlay click (outside modal)
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) {
       overlay.remove();
+      isModalOpen = false;
     }
   });
 
@@ -344,12 +383,14 @@ function handleDelete(job) {
 
       // Success: close dialog, remove card with exit animation, update counts
       overlay.remove();
+      isModalOpen = false;
       removeJobCard(job.id);
       showToast({ type: 'success', message: 'Job post deleted successfully.' });
     } catch (error) {
       console.error('Failed to delete job:', error);
       // Failure: close dialog, show error toast, keep card in list
       overlay.remove();
+      isModalOpen = false;
       showToast({ type: 'error', message: 'Failed to delete job post. Please try again.' });
     }
   });
@@ -463,7 +504,7 @@ async function handleCreateSave(formData, jobId) {
     // Success: show toast, switch to dashboard, refresh job list
     showToast({ type: 'success', message: 'Job post created successfully!' });
     showDashboardView();
-    refreshJobs();
+    await refreshJobs();
   } catch (error) {
     console.error('Failed to create job:', error);
     showToast({ type: 'error', message: 'Failed to create job post. Please try again.' });
@@ -527,7 +568,44 @@ function handleEditorCancel() {
   showDashboardView();
 }
 
+// ─── Internal: Nav User Identifier ───────────────────────────────────────────
+
+/**
+ * Renders the authenticated user's identifier (display name or email) in the nav bar,
+ * positioned before the Sign Out button in the right-aligned flex group.
+ * @param {Object} user - Firebase Auth user object
+ */
+function renderNavUserIdentifier(user) {
+  const signOutBtn = document.getElementById('sign-out-btn');
+  if (!signOutBtn) return;
+
+  // Remove any existing user identifier span
+  const existing = document.getElementById('nav-user-identifier');
+  if (existing) existing.remove();
+
+  const identifier = truncateUserIdentifier(user);
+  if (!identifier) return;
+
+  const span = document.createElement('span');
+  span.id = 'nav-user-identifier';
+  span.className = 'text-muted text-xs';
+  span.textContent = identifier;
+
+  // Insert before the Sign Out button
+  signOutBtn.parentNode.insertBefore(span, signOutBtn);
+}
+
 // ─── Internal: Helpers ───────────────────────────────────────────────────────
+
+/**
+ * Adds a title tooltip to the "New Job" button indicating the keyboard shortcut.
+ */
+function addKeyboardHint() {
+  const newJobBtn = viewDashboard?.querySelector('#new-job-btn');
+  if (!newJobBtn) return;
+
+  newJobBtn.title = 'Press N to create new job';
+}
 
 /**
  * Escapes HTML special characters to prevent XSS.
