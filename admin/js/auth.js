@@ -222,13 +222,23 @@ function restoreSignInScreen() {
   const content = signInEl.querySelector('.w-full');
   if (content) {
     content.innerHTML = `
-      <img src="../assets/hirefound-signature.svg" alt="HireFound" class="w-16 h-16 mx-auto mb-6 nav-logo">
-      <h1 class="font-accent text-3xl font-bold text-primary mb-2">Admin Panel</h1>
-      <p class="text-muted text-sm mb-8">Sign in to manage job posts</p>
+      <svg class="w-16 h-16 mx-auto mb-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="min-width: 48px; min-height: 48px;">
+        <path d="M24 24C20 20 14 14 10 16C6 18 8 26 12 28C16 30 20 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>
+        <path d="M24 24C22 28 18 34 14 36C10 38 8 34 10 30C12 26 18 26 24 24Z" fill="#FDA4AF" stroke="#FDA4AF" stroke-width="0.5"/>
+        <path d="M24 24C28 20 34 14 38 16C42 18 40 26 36 28C32 30 28 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>
+        <path d="M24 24C26 28 30 34 34 36C38 38 40 34 38 30C36 26 30 26 24 24Z" fill="#FDA4AF" stroke="#FDA4AF" stroke-width="0.5"/>
+        <ellipse cx="24" cy="24" rx="1.5" ry="6" fill="#7C3AED"/>
+        <path d="M23 18C22 15 20 13 19 12" stroke="#7C3AED" stroke-width="1" stroke-linecap="round" fill="none"/>
+        <path d="M25 18C26 15 28 13 29 12" stroke="#7C3AED" stroke-width="1" stroke-linecap="round" fill="none"/>
+        <circle cx="19" cy="12" r="1" fill="#C4B5FD"/>
+        <circle cx="29" cy="12" r="1" fill="#C4B5FD"/>
+      </svg>
+      <h1 class="font-accent text-3xl font-bold text-primary mb-2">Yasmin's Space</h1>
+      <p class="text-muted text-sm mb-8">Welcome back, beautiful ✨</p>
       <button
         id="google-sign-in-btn"
         type="button"
-        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] w-full px-6 py-3 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm"
+        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] w-full px-6 py-3 text-sm font-semibold text-white bg-butterfly-lavender rounded-full hover:bg-butterfly-rose transition-all duration-300 shadow-lg shadow-butterfly-lavender/30"
       >
         Sign in with Google
       </button>
@@ -250,8 +260,18 @@ function showAccessDenied() {
   const content = signInEl.querySelector('.w-full');
   if (content) {
     content.innerHTML = `
-      <img src="../assets/hirefound-signature.svg" alt="HireFound" class="w-16 h-16 mx-auto mb-6 nav-logo">
-      <h1 class="font-accent text-3xl font-bold text-red-600 mb-2">Access Denied</h1>
+      <svg class="w-16 h-16 mx-auto mb-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="min-width: 48px; min-height: 48px;">
+        <path d="M24 24C20 20 14 14 10 16C6 18 8 26 12 28C16 30 20 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>
+        <path d="M24 24C22 28 18 34 14 36C10 38 8 34 10 30C12 26 18 26 24 24Z" fill="#FDA4AF" stroke="#FDA4AF" stroke-width="0.5"/>
+        <path d="M24 24C28 20 34 14 38 16C42 18 40 26 36 28C32 30 28 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>
+        <path d="M24 24C26 28 30 34 34 36C38 38 40 34 38 30C36 26 30 26 24 24Z" fill="#FDA4AF" stroke="#FDA4AF" stroke-width="0.5"/>
+        <ellipse cx="24" cy="24" rx="1.5" ry="6" fill="#7C3AED"/>
+        <path d="M23 18C22 15 20 13 19 12" stroke="#7C3AED" stroke-width="1" stroke-linecap="round" fill="none"/>
+        <path d="M25 18C26 15 28 13 29 12" stroke="#7C3AED" stroke-width="1" stroke-linecap="round" fill="none"/>
+        <circle cx="19" cy="12" r="1" fill="#C4B5FD"/>
+        <circle cx="29" cy="12" r="1" fill="#C4B5FD"/>
+      </svg>
+      <h1 class="font-accent text-3xl font-bold text-butterfly-rose mb-2">Access Denied</h1>
       <p class="text-muted text-sm mb-4">This account is not authorized to access the admin panel.</p>
       <p class="text-muted text-xs">Signing out automatically...</p>
     `;
@@ -271,7 +291,8 @@ function showSignInError(message) {
   if (existingError) existingError.remove();
 
   const errorEl = document.createElement('p');
-  errorEl.className = 'sign-in-error text-red-600 text-sm mt-4';
+  errorEl.className = 'sign-in-error text-butterfly-rose text-sm mt-4';
+  errorEl.setAttribute('role', 'alert');
   errorEl.textContent = message;
 
   const btn = signInEl.querySelector('#google-sign-in-btn');

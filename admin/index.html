@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HireFound Admin</title>
-  <link rel="icon" href="../assets/hirefound-signature.svg" type="image/svg+xml">
+  <title>Yasmin's Space</title>
+  <link rel="icon" href="../assets/butterfly-favicon.svg" type="image/svg+xml">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -392,12 +392,12 @@
   </style>
 </head>
 
-<body class="bg-warm text-text-main font-sans antialiased overflow-x-hidden min-h-screen">
+<body class="text-text-main font-sans antialiased overflow-x-hidden min-h-screen" style="background: linear-gradient(to bottom, #FFFAF5, #FEE2E8);">
 
   <!-- ==================== NAV BAR ==================== -->
   <nav id="admin-nav" class="fixed top-0 left-0 right-0 z-50 nav-glass hidden" aria-label="Admin navigation">
     <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-      <a href="./" class="font-accent text-xl font-bold text-primary">HireFound Admin</a>
+      <a href="./" class="font-accent text-xl font-bold text-primary">Yasmin's Space</a>
       <div class="flex items-center gap-3">
         <a href="../" class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium text-muted hover:text-primary transition-colors duration-200" aria-label="Go to main site">
           Main Site
@@ -428,13 +428,27 @@
   <!-- ==================== SIGN-IN VIEW ==================== -->
   <div id="view-sign-in" class="flex items-center justify-center min-h-screen hidden">
     <div class="w-full max-w-sm mx-auto px-6 text-center">
-      <img src="../assets/hirefound-signature.svg" alt="HireFound" class="w-16 h-16 mx-auto mb-6 nav-logo">
-      <h1 class="font-accent text-3xl font-bold text-primary mb-2">Admin Panel</h1>
-      <p class="text-muted text-sm mb-8">Sign in to manage job posts</p>
+      <svg class="w-16 h-16 mx-auto mb-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="min-width: 48px; min-height: 48px;">
+        <!-- Left wing -->
+        <path d="M24 24C20 20 14 14 10 16C6 18 8 26 12 28C16 30 20 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>
+        <path d="M24 24C22 28 18 34 14 36C10 38 8 34 10 30C12 26 18 26 24 24Z" fill="#FDA4AF" stroke="#FDA4AF" stroke-width="0.5"/>
+        <!-- Right wing -->
+        <path d="M24 24C28 20 34 14 38 16C42 18 40 26 36 28C32 30 28 28 24 24Z" fill="#C4B5FD" stroke="#C4B5FD" stroke-width="0.5"/>
+        <path d="M24 24C26 28 30 34 34 36C38 38 40 34 38 30C36 26 30 26 24 24Z" fill="#FDA4AF" stroke="#FDA4AF" stroke-width="0.5"/>
+        <!-- Body -->
+        <ellipse cx="24" cy="24" rx="1.5" ry="6" fill="#7C3AED"/>
+        <!-- Antennae -->
+        <path d="M23 18C22 15 20 13 19 12" stroke="#7C3AED" stroke-width="1" stroke-linecap="round" fill="none"/>
+        <path d="M25 18C26 15 28 13 29 12" stroke="#7C3AED" stroke-width="1" stroke-linecap="round" fill="none"/>
+        <circle cx="19" cy="12" r="1" fill="#C4B5FD"/>
+        <circle cx="29" cy="12" r="1" fill="#C4B5FD"/>
+      </svg>
+      <h1 class="font-accent text-3xl font-bold text-primary mb-2">Yasmin's Space</h1>
+      <p class="text-muted text-sm mb-8">Welcome back, beautiful ✨</p>
       <button
         id="google-sign-in-btn"
         type="button"
-        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] w-full px-6 py-3 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary-light transition-all duration-300 shadow-warm"
+        class="inline-flex items-center justify-center min-w-[44px] min-h-[44px] w-full px-6 py-3 text-sm font-semibold text-white bg-butterfly-lavender rounded-full hover:bg-butterfly-rose transition-all duration-300 shadow-lg shadow-butterfly-lavender/30"
       >
         Sign in with Google
       </button>
