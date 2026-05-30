@@ -9,7 +9,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -325,6 +325,133 @@
       min-width: 44px;
     }
 
+    /* === Greeting Card — Animated Hero Section === */
+    .greeting-card {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      animation: greetingSlideIn 800ms var(--ease-out-quint) both;
+    }
+
+    .greeting-gradient {
+      background: linear-gradient(
+        135deg,
+        rgba(196, 181, 253, 0.15) 0%,
+        rgba(253, 164, 175, 0.12) 30%,
+        rgba(255, 255, 255, 0.4) 60%,
+        rgba(196, 181, 253, 0.1) 100%
+      );
+      background-size: 300% 300%;
+      animation: gradientShift 8s ease-in-out infinite;
+    }
+
+    .greeting-avatar {
+      animation: avatarPop 600ms var(--ease-out-quint) 200ms both;
+    }
+
+    .greeting-text {
+      animation: textReveal 700ms var(--ease-out-quint) 300ms both;
+    }
+
+    .greeting-subtitle {
+      animation: textReveal 700ms var(--ease-out-quint) 450ms both;
+      background-size: 200% auto;
+      animation: textReveal 700ms var(--ease-out-quint) 450ms both, subtitleShimmer 4s linear infinite 1.2s;
+    }
+
+    @keyframes subtitleShimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .greeting-orb-1 {
+      animation: orbFloat 6s ease-in-out infinite;
+    }
+
+    .greeting-orb-2 {
+      animation: orbFloat 7s ease-in-out infinite reverse;
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      font-size: 14px;
+      opacity: 0;
+      animation: particleFloat 4s ease-in-out infinite;
+    }
+
+    .particle-1 { top: 15%; left: 75%; animation-delay: 0s; }
+    .particle-2 { top: 60%; left: 85%; animation-delay: 0.8s; }
+    .particle-3 { top: 25%; left: 90%; animation-delay: 1.6s; }
+    .particle-4 { top: 70%; left: 70%; animation-delay: 2.4s; }
+    .particle-5 { top: 40%; left: 80%; animation-delay: 3.2s; }
+    .particle-6 { top: 50%; left: 92%; animation-delay: 1.2s; }
+
+    @keyframes greetingSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes avatarPop {
+      from {
+        opacity: 0;
+        transform: scale(0.5) rotate(-10deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    @keyframes textReveal {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(10px, -10px) scale(1.05); }
+      66% { transform: translate(-5px, 8px) scale(0.95); }
+    }
+
+    @keyframes particleFloat {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.5);
+      }
+      20% {
+        opacity: 0.8;
+        transform: translateY(0) scale(1);
+      }
+      80% {
+        opacity: 0.6;
+        transform: translateY(-15px) scale(0.9);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.4);
+      }
+    }
+
     /* === Prefers Reduced Motion === */
     @media (prefers-reduced-motion: reduce) {
       /* Disable motion-based transitions */
@@ -387,6 +514,34 @@
       /* Preserve non-movement feedback: color changes, opacity, backdrop blur */
       .loading-pulse {
         animation: pulse 1.5s ease-in-out infinite !important;
+      }
+
+      /* Greeting card — disable animations but keep visual style */
+      .greeting-card,
+      .greeting-avatar,
+      .greeting-text,
+      .greeting-subtitle {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+      }
+
+      .greeting-subtitle {
+        background-size: 100% auto !important;
+      }
+
+      .greeting-gradient {
+        animation: none !important;
+      }
+
+      .greeting-orb-1,
+      .greeting-orb-2 {
+        animation: none !important;
+      }
+
+      .particle {
+        display: none !important;
       }
     }
   </style>

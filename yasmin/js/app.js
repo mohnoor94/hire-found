@@ -45,6 +45,14 @@ export const GREETING_TEMPLATES = [
   (name) => `Good to see you, ${name} 🌷`,
   (name) => `Hey gorgeous, ${name} 💕`,
   (name) => `Look who's here, ${name} 🦋`,
+  (name) => `Missed you, ${name} 🌙`,
+  (name) => `You're glowing today, ${name} ☀️`,
+  (name) => `The queen is back, ${name} 👑`,
+  (name) => `Hey superstar, ${name} 🌟`,
+  (name) => `Always a pleasure, ${name} 🫶`,
+  (name) => `Ready to shine, ${name}? ✨`,
+  (name) => `Here comes the magic, ${name} 🪄`,
+  (name) => `You light up this space, ${name} 💛`,
 ];
 
 /**
@@ -61,6 +69,16 @@ export const SUBTITLES = [
   'You make hiring look effortless 💜',
   'Another day, another perfect match.',
   "Today's going to be a good one 🌷",
+  'Dream teams start with you 💫',
+  'Your energy today? Unstoppable 🔥',
+  'Sprinkle some magic on those listings ✨',
+  'The world needs what you create 🌍',
+  'One post away from changing a life 🦋',
+  'You were made for this 💜',
+  'Good vibes and great hires ahead 🌈',
+  'Confidence looks good on you 👑',
+  'Small steps, big impact — always 🌱',
+  "Let's turn dreams into careers 🚀",
 ];
 
 /**
@@ -236,7 +254,7 @@ function showEditorView() {
 
 /**
  * Renders the personalized greeting section above the dashboard content.
- * Uses affectionate templates with emoji and a butterfly SVG fallback avatar.
+ * Uses affectionate templates with emoji, animated gradient card, and floating particles.
  * @param {Object} user - Firebase Auth user object
  */
 export function renderGreeting(user) {
@@ -255,23 +273,44 @@ export function renderGreeting(user) {
   // Pick random subtitle from subtitle pool
   const subtitle = SUBTITLES[Math.floor(Math.random() * SUBTITLES.length)];
 
-  // Butterfly SVG fallback avatar (48×48px)
+  // Butterfly SVG fallback avatar (56×56px)
   const butterflySvgAvatar = `
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0" aria-hidden="true">
+    <svg width="56" height="56" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 greeting-avatar" aria-hidden="true">
       <circle cx="24" cy="24" r="24" fill="#C4B5FD" fill-opacity="0.2"/>
       <path d="M24 14c-3-5-10-6-12-2s1 9 6 12c-5 3-8 8-6 12s9 3 12-2c3 5 10 6 12 2s-1-9-6-12c5-3 8-8 6-12s-9-3-12 2z" fill="#C4B5FD" stroke="#A78BFA" stroke-width="1"/>
       <ellipse cx="24" cy="24" rx="1.5" ry="6" fill="#A78BFA"/>
     </svg>
   `;
 
+  greetingEl.className = 'mb-8';
   greetingEl.innerHTML = `
-    <div class="flex items-center gap-4 sm:gap-5">
-      ${photoURL ? `
-        <img src="${escapeHtml(photoURL)}" alt="" class="w-12 h-12 rounded-full shadow-sm ring-2 ring-butterfly-lavender/30 ring-offset-2 object-cover flex-shrink-0" style="width:48px;height:48px;">
-      ` : butterflySvgAvatar}
-      <div class="min-w-0">
-        <h1 class="font-accent text-2xl sm:text-3xl font-bold text-text-main truncate">${escapeHtml(greeting)}</h1>
-        <p class="text-text-main/70 text-sm sm:text-base mt-1">${escapeHtml(subtitle)}</p>
+    <div class="greeting-card relative overflow-hidden rounded-3xl p-6 sm:p-8 border border-white/40 shadow-lg">
+      <!-- Animated gradient background -->
+      <div class="greeting-gradient absolute inset-0 opacity-90"></div>
+
+      <!-- Floating particles -->
+      <div class="greeting-particles absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <span class="particle particle-1">✨</span>
+        <span class="particle particle-2">🦋</span>
+        <span class="particle particle-3">💜</span>
+        <span class="particle particle-4">🌸</span>
+        <span class="particle particle-5">✨</span>
+        <span class="particle particle-6">💫</span>
+      </div>
+
+      <!-- Decorative blurred orbs -->
+      <div class="absolute -top-10 -right-10 w-40 h-40 bg-butterfly-lavender/20 rounded-full blur-3xl greeting-orb-1"></div>
+      <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-butterfly-rose/20 rounded-full blur-3xl greeting-orb-2"></div>
+
+      <!-- Content -->
+      <div class="relative z-10 flex items-center gap-5 sm:gap-6">
+        ${photoURL ? `
+          <img src="${escapeHtml(photoURL)}" alt="" class="greeting-avatar w-14 h-14 rounded-full shadow-lg ring-3 ring-white/60 ring-offset-2 ring-offset-transparent object-cover flex-shrink-0" style="width:56px;height:56px;">
+        ` : butterflySvgAvatar}
+        <div class="min-w-0 flex-1">
+          <h1 class="greeting-text font-accent text-2xl sm:text-3xl lg:text-4xl font-bold text-text-main truncate">${escapeHtml(greeting)}</h1>
+          <p class="greeting-subtitle mt-3 text-lg sm:text-xl lg:text-2xl font-bold tracking-wide bg-gradient-to-r from-[#7C3AED] via-[#E879A8] to-[#F59E0B] bg-clip-text text-transparent" style="font-family: 'Caveat', cursive;">${escapeHtml(subtitle)}</p>
+        </div>
       </div>
     </div>
   `;

@@ -426,7 +426,7 @@ function renderDashboardShell() {
   if (!dashboardContainer) return;
 
   dashboardContainer.innerHTML = `
-    <div id="admin-greeting" class="mb-8 pb-6 border-b border-gray-100">
+    <div id="admin-greeting" class="mb-8">
       <!-- Greeting rendered by app.js -->
     </div>
 
