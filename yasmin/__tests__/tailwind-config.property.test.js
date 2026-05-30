@@ -21,9 +21,9 @@ beforeAll(async () => {
 // ─── Expected original color tokens with their values ────────────────────────
 
 const ORIGINAL_TOKENS = {
-  primary: '#8B2252',
-  'primary-light': '#A63B6B',
-  'primary-dark': '#6D1A3F',
+  primary: '#7A1E4A',
+  'primary-light': '#963B63',
+  'primary-dark': '#5E1639',
   secondary: '#D4A574',
   'secondary-light': '#E0BA92',
   warm: '#FFFAF5',
