@@ -96,8 +96,8 @@ export function initNav(container) {
     : `<a href="${basePath}#contact" class="magnetic inline-flex items-center px-5 py-2 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 shadow-warm" aria-label="Get Started - Contact us">Get Started</a>`;
 
   const ctaMobile = onHomepage
-    ? `<a id="nav-get-started-mobile" role="button" tabindex="0" class="md:hidden magnetic inline-flex items-center px-4 py-2 min-h-[44px] min-w-[44px] bg-primary text-white text-base font-semibold rounded-full shadow-warm cursor-pointer" aria-label="Get Started - Contact us">Get Started</a>`
-    : `<a href="${basePath}#contact" class="md:hidden magnetic inline-flex items-center px-4 py-2 min-h-[44px] min-w-[44px] bg-primary text-white text-base font-semibold rounded-full shadow-warm" aria-label="Get Started - Contact us">Get Started</a>`;
+    ? `<a href="#vacancies" class="md:hidden magnetic inline-flex items-center px-4 py-2 min-h-[44px] min-w-[44px] bg-primary text-white text-base font-semibold rounded-full shadow-warm" aria-label="View open job positions">Job Posts</a>`
+    : `<a href="${basePath}jobs/" class="md:hidden magnetic inline-flex items-center px-4 py-2 min-h-[44px] min-w-[44px] bg-primary text-white text-base font-semibold rounded-full shadow-warm" aria-label="View open job positions">Job Posts</a>`;
 
   // Logo href: homepage scrolls to top, other pages navigate home
   const logoHref = onHomepage ? '#hero' : basePath;
@@ -139,7 +139,6 @@ export function initNav(container) {
   // === Homepage: "Get Started" opens booking modal ===
   if (onHomepage) {
     const desktopBtn = document.getElementById('nav-get-started-desktop');
-    const mobileBtn = document.getElementById('nav-get-started-mobile');
 
     const openModal = (e, triggerEl) => {
       e.preventDefault();
@@ -156,15 +155,6 @@ export function initNav(container) {
       desktopBtn.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           openModal(e, desktopBtn);
-        }
-      });
-    }
-
-    if (mobileBtn) {
-      mobileBtn.addEventListener('click', (e) => openModal(e, mobileBtn));
-      mobileBtn.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          openModal(e, mobileBtn);
         }
       });
     }
