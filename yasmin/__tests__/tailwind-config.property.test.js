@@ -31,7 +31,7 @@ const ORIGINAL_TOKENS = {
   dark: '#1A1A2E',
   'dark-light': '#252540',
   'text-main': '#2D2926',
-  muted: '#8A8380',
+  muted: '#6B6560',
   success: '#7A9E7E',
   whatsapp: '#25D366',
 };
@@ -40,6 +40,7 @@ const ORIGINAL_TOKENS = {
 
 const BUTTERFLY_TOKENS = {
   'butterfly-lavender': '#C4B5FD',
+  'butterfly-lavender-dark': '#7C3AED',
   'butterfly-rose': '#FDA4AF',
   'butterfly-gold': '#FCD34D',
 };

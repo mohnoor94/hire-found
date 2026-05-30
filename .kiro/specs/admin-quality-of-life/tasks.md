@@ -21,8 +21,8 @@ This plan implements six quality-of-life improvements to Yasmin's admin panel: Q
 - [x] 2. Checkpoint - Verify directory rename
   - Ensure all relative imports resolve correctly from the new `/yasmin/` path. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 3. Implement color and contrast fixes
-  - [ ] 3.1 Update Tailwind config and CSS for WCAG 2.1 AA compliance
+- [x] 3. Implement color and contrast fixes
+  - [x] 3.1 Update Tailwind config and CSS for WCAG 2.1 AA compliance
     - In `js/tailwind-config.js`, darken the `muted` color from `#8A8380` to `#6B6560` to achieve ≥4.5:1 contrast on white
     - Add a `butterfly-lavender-dark` color (`#7C3AED`) for buttons that need white text
     - Update the "New Job" button in `yasmin/js/dashboard.js` to use `bg-[#7C3AED]` instead of `bg-butterfly-lavender` for white text
@@ -45,8 +45,8 @@ This plan implements six quality-of-life improvements to Yasmin's admin panel: Q
     - Test status indicator colors on card gradient ≥ 3:1
     - _Requirements: 4.2, 4.3, 4.5, 4.6_
 
-- [ ] 4. Implement Quick Links section on dashboard
-  - [ ] 4.1 Add Quick Links section to the dashboard shell in `yasmin/js/dashboard.js`
+- [x] 4. Implement Quick Links section on dashboard
+  - [x] 4.1 Add Quick Links section to the dashboard shell in `yasmin/js/dashboard.js`
     - Add a `renderQuickLinks()` function that returns HTML for 3 link cards
     - Insert the Quick Links section between `#admin-greeting` and the "Your Listings" header in `renderDashboardShell()`
     - Links: "Create New Tally Form" → `https://tally.so/forms/create`, "Cal.com Settings" → `https://app.cal.com`, "View Live Site" → `../`
@@ -61,8 +61,8 @@ This plan implements six quality-of-life improvements to Yasmin's admin panel: Q
     - Test minimum 44px touch targets
     - _Requirements: 1.2, 1.3, 1.4, 1.6, 1.7_
 
-- [ ] 5. Implement per-job Tally form button
-  - [ ] 5.1 Add "Create Form" button to job card footer in `yasmin/js/dashboard.js`
+- [x] 5. Implement per-job Tally form button
+  - [x] 5.1 Add "Create Form" button to job card footer in `yasmin/js/dashboard.js`
     - Insert a "Create Form" `<a>` element in `createJobCardElement()` after the "View" link and before the "Edit" button
     - Link href: `https://tally.so/forms/create`, opens in new tab
     - Styled with `text-butterfly-gold bg-butterfly-gold/10 rounded-lg text-xs font-medium min-w-[44px] min-h-[44px]`
@@ -83,13 +83,13 @@ This plan implements six quality-of-life improvements to Yasmin's admin panel: Q
     - **Validates: Requirements 2.1**
 
 - [ ] 6. Implement keyboard shortcut for new job
-  - [ ] 6.1 Create `yasmin/js/shortcuts.js` module with shortcut logic
+  - [x] 6.1 Create `yasmin/js/shortcuts.js` module with shortcut logic
     - Export `shouldSuppressShortcut(event, viewState)` — returns true if editor/modal is open, focus is in input/textarea/select/contenteditable, or modifier keys are pressed
     - Export `initShortcuts(config)` — registers keydown listener for "N" key, calls `config.onNewJob()` when conditions are met
     - `config.getViewState()` returns `{ isEditorOpen, isModalOpen }`
     - _Requirements: 5.1, 5.2, 5.3_
 
-  - [ ] 6.2 Integrate shortcuts module into `yasmin/js/app.js`
+  - [x] 6.2 Integrate shortcuts module into `yasmin/js/app.js`
     - Import and call `initShortcuts()` in `handleAuthenticated()` with `onNewJob` callback and `getViewState` function
     - Track `isEditorOpen` and `isModalOpen` state in app.js
     - Add a keyboard hint `<kbd>N</kbd>` element near the "New Job" button, visible only on md+ viewports (`hidden md:inline`)
@@ -101,8 +101,8 @@ This plan implements six quality-of-life improvements to Yasmin's admin panel: Q
     - Verify `shouldSuppressShortcut` returns true iff editor open, modal open, focus in text input, or modifier key pressed
     - **Validates: Requirements 5.1, 5.2, 5.3**
 
-- [ ] 7. Implement job count badge in nav bar
-  - [ ] 7.1 Add active job count badge to nav bar in `yasmin/js/app.js` and expose count from `dashboard.js`
+- [x] 7. Implement job count badge in nav bar
+  - [x] 7.1 Add active job count badge to nav bar in `yasmin/js/app.js` and expose count from `dashboard.js`
     - Export `getActiveJobCount()` from `dashboard.js` that returns the count of jobs where `isActive === true`
     - In `app.js`, create `updateNavBadge(count)` that renders/updates a badge span adjacent to "Yasmin's Space" in the nav
     - Badge styled as `rounded-full text-xs px-2 py-0.5 bg-butterfly-lavender text-text-main font-medium`
@@ -116,7 +116,7 @@ This plan implements six quality-of-life improvements to Yasmin's admin panel: Q
     - Verify `getActiveJobCount(jobs)` equals the count of jobs where `isActive` is strictly `true`
     - **Validates: Requirements 6.1, 6.3**
 
-- [ ] 8. Final checkpoint - Ensure all tests pass
+- [x] 8. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

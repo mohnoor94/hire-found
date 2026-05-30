@@ -21,6 +21,7 @@ import { initAuth, signOut } from './auth.js';
 import { initDashboard, refreshJobs, updateJobCard, removeJobCard } from './dashboard.js';
 import { openCreateEditor, openEditEditor, deduplicateSlug, validateForm } from './editor.js';
 import { showToast } from './toast.js';
+import { initShortcuts } from './shortcuts.js';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -150,6 +151,12 @@ export function truncateUserIdentifier(user) {
 /** @type {boolean} */
 let dashboardInitialized = false;
 
+/** @type {boolean} - Tracks whether the editor view is currently open */
+let isEditorOpen = false;
+
+/** @type {boolean} - Tracks whether a modal dialog is currently open */
+let isModalOpen = false;
+
 /**
  * Called when the user is successfully authenticated.
  * Shows the nav bar, renders the greeting, and initializes the dashboard.
@@ -179,6 +186,15 @@ function handleAuthenticated(user) {
 
     // Render greeting above dashboard (after initDashboard so it doesn't get wiped)
     renderGreeting(user);
+
+    // Initialize keyboard shortcuts
+    initShortcuts({
+      onNewJob: handleNewJob,
+      getViewState: () => ({ isEditorOpen, isModalOpen }),
+    });
+
+    // Add keyboard hint near the "New Job" button
+    addKeyboardHint();
   }
 
   // Ensure dashboard view is visible
@@ -204,6 +220,7 @@ function handleSignedOut() {
 function showDashboardView() {
   if (viewDashboard) viewDashboard.classList.remove('hidden');
   if (viewEditor) viewEditor.classList.add('hidden');
+  isEditorOpen = false;
 }
 
 /**
@@ -212,6 +229,7 @@ function showDashboardView() {
 function showEditorView() {
   if (viewDashboard) viewDashboard.classList.add('hidden');
   if (viewEditor) viewEditor.classList.remove('hidden');
+  isEditorOpen = true;
 }
 
 // ─── Internal: Greeting ──────────────────────────────────────────────────────
@@ -333,17 +351,20 @@ function handleDelete(job) {
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
+  isModalOpen = true;
 
   // Wire up cancel button
   const cancelBtn = modal.querySelector('#delete-cancel-btn');
   cancelBtn.addEventListener('click', () => {
     overlay.remove();
+    isModalOpen = false;
   });
 
   // Close on overlay click (outside modal)
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) {
       overlay.remove();
+      isModalOpen = false;
     }
   });
 
@@ -362,12 +383,14 @@ function handleDelete(job) {
 
       // Success: close dialog, remove card with exit animation, update counts
       overlay.remove();
+      isModalOpen = false;
       removeJobCard(job.id);
       showToast({ type: 'success', message: 'Job post deleted successfully.' });
     } catch (error) {
       console.error('Failed to delete job:', error);
       // Failure: close dialog, show error toast, keep card in list
       overlay.remove();
+      isModalOpen = false;
       showToast({ type: 'error', message: 'Failed to delete job post. Please try again.' });
     }
   });
@@ -481,7 +504,7 @@ async function handleCreateSave(formData, jobId) {
     // Success: show toast, switch to dashboard, refresh job list
     showToast({ type: 'success', message: 'Job post created successfully!' });
     showDashboardView();
-    refreshJobs();
+    await refreshJobs();
   } catch (error) {
     console.error('Failed to create job:', error);
     showToast({ type: 'error', message: 'Failed to create job post. Please try again.' });
@@ -573,6 +596,16 @@ function renderNavUserIdentifier(user) {
 }
 
 // ─── Internal: Helpers ───────────────────────────────────────────────────────
+
+/**
+ * Adds a title tooltip to the "New Job" button indicating the keyboard shortcut.
+ */
+function addKeyboardHint() {
+  const newJobBtn = viewDashboard?.querySelector('#new-job-btn');
+  if (!newJobBtn) return;
+
+  newJobBtn.title = 'Press N to create new job';
+}
 
 /**
  * Escapes HTML special characters to prevent XSS.
