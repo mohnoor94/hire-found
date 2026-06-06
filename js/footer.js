@@ -11,7 +11,7 @@ const FOOTER_CONFIG = {
   logoFile: 'hirefound-signature.svg',
   tagline: "Looking for a Hire? We've got you Found.",
   italicTagline: "Find your match. Find your future.",
-  credit: { text: 'Mohammad Noor', url: 'https://noor.sh' },
+  credit: { text: 'by Noor', url: 'https://bynoor.io' },
   copyright: '© 2026 HireFound. All rights reserved.',
 };
 
@@ -78,7 +78,7 @@ export function initFooter(container) {
           <p class="text-white/50 text-lg md:text-xl font-medium mb-2">${FOOTER_CONFIG.tagline}</p>
           <p class="text-white/40 text-base md:text-lg font-accent italic">${FOOTER_CONFIG.italicTagline}</p>
           <div class="mt-10 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6">
-            <p class="text-white/25 text-sm">Made with \u2764 by <a href="${FOOTER_CONFIG.credit.url}" target="_blank" rel="noopener" class="text-white/40 hover:text-white/60 transition-colors">${FOOTER_CONFIG.credit.text}</a></p>
+            <p class="text-white/25 text-sm">Made with \u2764 <a href="${FOOTER_CONFIG.credit.url}" target="_blank" rel="noopener" class="text-white/40 hover:text-white/60 transition-colors">${FOOTER_CONFIG.credit.text}</a></p>
             <span class="hidden sm:inline text-white/15">·</span>
             <p class="text-white/20 text-sm">${FOOTER_CONFIG.copyright}</p>
           </div>
