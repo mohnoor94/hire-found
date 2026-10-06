@@ -1,6 +1,5 @@
 /**
- * Yasmin admin allowlist — matches yasmin/js/app.js ALLOWED_EMAILS.
- * Firestore rules drift (only moh.noor94) is fixed in Phase 6.
+ * Yasmin admin allowlist — must match firestore.rules isAdmin() emails.
  */
 
 export const ALLOWED_EMAILS = [

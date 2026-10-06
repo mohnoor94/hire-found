@@ -2,11 +2,20 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /jobs/{jobId} {
-      // Anyone can read active jobs (public site)
-      allow read: if resource.data.isActive == true;
-      // Only the allowed user can read all jobs and write
-      allow read, write: if request.auth != null 
-        && request.auth.token.email == 'moh.noor94@gmail.com';
+      // Keep in sync with src/lib/yasmin/auth.ts ALLOWED_EMAILS.
+      function isAdmin() {
+        return request.auth != null
+          && request.auth.token.email in [
+            'moh.noor94@gmail.com',
+            'yasmin@hirefound.com'
+          ];
+      }
+
+      // Public: active jobs only. Admins: all jobs (incl. inactive).
+      allow read: if resource.data.isActive == true || isAdmin();
+
+      // Admins only create/update/delete.
+      allow create, update, delete: if isAdmin();
     }
   }
 }

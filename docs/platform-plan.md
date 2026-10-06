@@ -8,10 +8,10 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 5 — Yasmin parity (done) |
-| Next work | Phase 6 — Cutover |
+| Current phase | Phase 6 — Cutover (in progress) |
+| Next work | Deploy Firestore rules; dual-review; merge v2→main to cut over live site |
 | Last updated | 2026-10-07 |
-| Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
+| Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 cutover merge |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
 
 Status values used below: `not started`, `in progress`, `done`, `deferred`.
@@ -40,6 +40,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-07** — Dropped Yasmin "Already signed in? Tap to refresh" hint; `auth.authStateReady()` + loading state replace it.
 - **2026-10-07** — Yasmin primary CTAs use solid violet `#7C3AED` (vanilla light lavender + white failed contrast). Token `--color-butterfly-lavender-dark` kept for parity with `js/tailwind-config.js`.
 - **2026-10-07** — Tiptap prep converts Quill 2 `li[data-list=bullet|ordered]` into standard `ul`/`ol` before parse; saves strip trailing empty `<p>`, unwrap `li>p`, and drop link presentation classes so existing Quill jobs are not rewritten as ordered lists.
+- **2026-10-07** — Phase 6: Firestore rules `isAdmin()` matches UI `ALLOWED_EMAILS` (both admin emails). Deploy rules with `npm run firebase:deploy-rules`. GH Pages workflow builds Next and uploads `out/` only (vanilla root is no longer the artifact).
 
 ```mermaid
 flowchart LR
@@ -61,9 +62,8 @@ flowchart LR
 - **Hosting.** GitHub Pages, custom domain `hirefound.com`, `basePath` `/`. Static export settings: `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`. No Next.js server, API routes, or middleware. Those need a host change, which is a new decision.
 - **Job URLs.** Public detail stays client-loaded (`/jobs/?id={slug}`), matching [`js/jobs.js`](../js/jobs.js). A path like `/jobs/some-new-role` is not a real file for jobs created after the last build, so it is not the live detail URL.
 - **Editor.** shadcn form. Tiptap for the two long descriptions, `dir="rtl"` on the Arabic field. Short description stays plain text. Stored HTML in existing jobs must still render.
-- **Where the work lives.** Branch `v2` until cutover. Each change is committed and pushed to `v2`. `main` stays the vanilla site until Phase 6.
-- **Deploy until cutover.** [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) keeps uploading the repo root. Do not point it at `out/` before Phase 6.
-
+- **Where the work lives.** Branch `v2` until cutover. Each change is committed and pushed to `v2`. Cutover merges `v2` into `main` so the Pages workflow deploys `out/`.
+- **Deploy after cutover.** [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) builds the Next app and uploads `out/`. Vanilla HTML in the repo root is no longer the Pages artifact.
 ## Data contract
 
 Collection: `jobs`. Do not rename fields during the migration.
@@ -95,7 +95,7 @@ Apply order on the public job: Tally iframe when `tallyFormId` is set, otherwise
 
 ## Known fix
 
-- [ ] **Firestore allowlist drift** — `not started`. [`firestore.rules`](../firestore.rules) allows read/write for `moh.noor94@gmail.com` only. [`yasmin/js/app.js`](../yasmin/js/app.js) also allows `yasmin@hirefound.com`. Fix this in Phase 6 so the UI allowlist and the rules match. Deploy the rules with `firebase-tools`. The GitHub Pages workflow does not deploy rules.
+- [x] **Firestore allowlist drift** — `done` (rules file). [`firestore.rules`](../firestore.rules) `isAdmin()` matches [`src/lib/yasmin/auth.ts`](../src/lib/yasmin/auth.ts) `ALLOWED_EMAILS`. Deploy with `npm run firebase:deploy-rules` (not via GitHub Pages).
 
 ## Historical specs
 
@@ -249,7 +249,7 @@ Source: [`jobs/index.html`](../jobs/index.html), [`js/jobs.js`](../js/jobs.js).
 Sources: [`yasmin/index.html`](../yasmin/index.html) and [`yasmin/js/`](../yasmin/js/). shadcn for the panel. Tiptap replaces Quill. Same Firestore writes (`addDoc`, `updateDoc`, `deleteDoc`, `serverTimestamp`).
 
 - [x] Google sign-in, local persistence — `done`
-- [x] Allowlist: `moh.noor94@gmail.com`, `yasmin@hirefound.com` — `done` (UI allowlist; Firestore rules still moh-only until Phase 6)
+- [x] Allowlist: `moh.noor94@gmail.com`, `yasmin@hirefound.com` — `done`
 - [x] Loading, signed-out, and access-denied states — `done`
 - [x] Sign out — `done`
 - [x] Dashboard list of all jobs, including inactive — `done`
@@ -283,20 +283,21 @@ Sources: [`yasmin/index.html`](../yasmin/index.html) and [`yasmin/js/`](../yasmi
 
 Do this only after Phases 3–5 match the live site.
 
-- [ ] Fix the Firestore allowlist drift and deploy the rules — `not started`
-- [ ] GitHub Action builds the app and uploads `out/` — `not started`
-- [ ] Vanilla `index.html`, `jobs/`, and `yasmin/` are no longer the deployed site — `not started`
-- [ ] Smoke test: homepage vacancies load — `not started`
-- [ ] Smoke test: open a job via `?id=` and an apply path — `not started`
-- [ ] Smoke test: Yasmin sign-in, create, edit, and the public page shows the saved HTML — `not started`
+- [x] Fix the Firestore allowlist drift (rules file matches UI) — `done`
+- [ ] Deploy the Firestore rules (`npm run firebase:deploy-rules`) — `in progress` (needs Firebase CLI login)
+- [x] GitHub Action builds the app and uploads `out/` — `done` (workflow on `main`; goes live on merge)
+- [x] Vanilla `index.html`, `jobs/`, and `yasmin/` are no longer the deployed artifact — `done` (workflow uploads `out/` only)
+- [ ] Smoke test: homepage vacancies load — `not started` (after cutover merge)
+- [ ] Smoke test: open a job via `?id=` and an apply path — `not started` (after cutover merge)
+- [ ] Smoke test: Yasmin sign-in, create, edit, and the public page shows the saved HTML — `not started` (after cutover merge)
 
 ### High-risk
 
-- [ ] Firestore rules match the UI allowlist and are deployed — `not started`
-  - [ ] Cursor review
+- [ ] Firestore rules match the UI allowlist and are deployed — `in progress` (rules file done; live deploy blocked on `firebase login`)
+  - [x] Cursor review — 2026-10-07 pass (isAdmin matches ALLOWED_EMAILS; public active-only read preserved; sync test present)
   - [ ] `agy` review
-- [ ] GH Pages workflow builds and deploys `out/` only — `not started`
-  - [ ] Cursor review
+- [ ] GH Pages workflow builds and deploys `out/` only — `in progress` (workflow ready on v2; live after merge to main)
+  - [x] Cursor review — 2026-10-07 pass (build→confirm routes→upload `out/`; CNAME in public/)
   - [ ] `agy` review
 
 ### Phase 6 gate
