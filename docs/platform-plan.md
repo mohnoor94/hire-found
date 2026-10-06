@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 3 — Public site parity (checklist done; gate reviews pending) |
-| Next work | Phase 3 dual reviews (Cursor + `agy`), then Phase 4 |
+| Current phase | Phase 3 — Public site parity (done) |
+| Next work | Phase 4 — Jobs parity |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -212,9 +212,9 @@ Sources: [`index.html`](../index.html), [`js/nav.js`](../js/nav.js), [`js/footer
 
 ### Phase 3 gate
 
-- [ ] Phase 3 gate (homepage parity vs live site) — `not started`
-  - [ ] Cursor review
-  - [ ] `agy` review
+- [x] Phase 3 gate (homepage parity vs live site) — `done`
+  - [x] Cursor review — 2026-10-06 pass-with-fixes (services tab, hero timing, vacancies empty/filters, booking modal, ActionStack, metadata)
+  - [x] `agy` review — 2026-10-06 pass-with-fixes (same must-fixes applied)
 
 ## Phase 4 — Jobs parity
 

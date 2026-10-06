@@ -1,7 +1,6 @@
 export function AntiPitch() {
   return (
-    <>
-<section id="anti-pitch" className="py-20 lg:py-28 px-6 bg-warm relative overflow-hidden">
+    <section id="anti-pitch" className="py-20 lg:py-28 px-6 bg-warm relative overflow-hidden">
     <div className="absolute inset-0 pointer-events-none">
       <div className="floating w-48 h-48 rounded-full bg-primary/[0.03] absolute -top-10 right-10 blur-3xl" style={{ animationDelay: '-5s' }}></div>
       <div className="floating w-32 h-32 rounded-full bg-secondary/[0.04] absolute bottom-10 left-1/4 blur-3xl" style={{ animationDelay: '-12s' }}></div>
@@ -31,9 +30,5 @@ export function AntiPitch() {
       </div>
     </div>
   </section>
-
-
-  {/* ==================== OPEN VACANCIES ==================== */}
-    </>
   );
 }

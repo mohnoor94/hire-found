@@ -1,7 +1,6 @@
 export function Hero() {
   return (
-    <>
-<section id="hero" className="min-h-screen relative overflow-hidden bg-dark flex items-center" data-mouse-glow>
+    <section id="hero" className="min-h-screen relative overflow-hidden bg-dark flex items-center" data-mouse-glow>
     {/* Mouse-reactive glow */}
     <div className="hero-mouse-glow" id="hero-glow"></div>
 
@@ -107,9 +106,5 @@ export function Hero() {
       </a>
     </div>
   </section>
-
-
-  {/* Wave: Dark to Warm */}
-    </>
   );
 }

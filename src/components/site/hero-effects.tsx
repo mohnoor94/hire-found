@@ -92,7 +92,7 @@ export function HeroEffects() {
     replyInput?.addEventListener("keydown", onKey);
     replyInput?.addEventListener("input", onInput);
 
-    const glowCleanups: Array<() => void> = [];
+    const interactionCleanups: Array<() => void> = [];
     if (window.matchMedia("(hover: hover)").matches) {
       document.querySelectorAll<HTMLElement>("[data-mouse-glow]").forEach((section) => {
         const glow = section.querySelector<HTMLElement>(
@@ -111,7 +111,45 @@ export function HeroEffects() {
           );
         };
         section.addEventListener("mousemove", onMove);
-        glowCleanups.push(() => section.removeEventListener("mousemove", onMove));
+        interactionCleanups.push(() => section.removeEventListener("mousemove", onMove));
+      });
+    }
+
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      document.querySelectorAll<HTMLElement>(".magnetic").forEach((btn) => {
+        const onMouseMove = (e: MouseEvent) => {
+          const r = btn.getBoundingClientRect();
+          const x = (e.clientX - r.left - r.width / 2) * 0.15;
+          const y = (e.clientY - r.top - r.height / 2) * 0.15;
+          btn.style.transform = `translate(${x}px, ${y}px)`;
+        };
+        const onMouseLeave = () => {
+          btn.style.transform = "";
+        };
+        btn.addEventListener("mousemove", onMouseMove);
+        btn.addEventListener("mouseleave", onMouseLeave);
+        interactionCleanups.push(() => {
+          btn.removeEventListener("mousemove", onMouseMove);
+          btn.removeEventListener("mouseleave", onMouseLeave);
+        });
+      });
+
+      document.querySelectorAll<HTMLElement>(".premium-card").forEach((card) => {
+        const onCardMove = (e: MouseEvent) => {
+          const r = card.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = `perspective(800px) rotateX(${y * -6}deg) rotateY(${x * 6}deg) translateY(-6px) scale(1.01)`;
+        };
+        const onCardLeave = () => {
+          card.style.transform = "";
+        };
+        card.addEventListener("mousemove", onCardMove);
+        card.addEventListener("mouseleave", onCardLeave);
+        interactionCleanups.push(() => {
+          card.removeEventListener("mousemove", onCardMove);
+          card.removeEventListener("mouseleave", onCardLeave);
+        });
       });
     }
 
@@ -121,7 +159,7 @@ export function HeroEffects() {
       replySend?.removeEventListener("click", onSendClick);
       replyInput?.removeEventListener("keydown", onKey);
       replyInput?.removeEventListener("input", onInput);
-      glowCleanups.forEach((fn) => fn());
+      interactionCleanups.forEach((fn) => fn());
     };
   }, []);
 

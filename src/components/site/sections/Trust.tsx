@@ -1,7 +1,6 @@
 export function Trust() {
   return (
-    <>
-<section id="trust" className="py-20 lg:py-28 px-6 bg-warm hidden">
+    <section id="trust" className="py-20 lg:py-28 px-6 bg-warm hidden">
     <div className="max-w-5xl mx-auto">
 
       {/* As Seen In */}
@@ -35,6 +34,5 @@ export function Trust() {
       </div>
     </div>
   </section>
-    </>
   );
 }

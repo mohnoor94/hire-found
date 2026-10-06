@@ -1,7 +1,6 @@
 export function About() {
   return (
-    <>
-<section id="about" className="py-20 lg:py-28 px-6 bg-gradient-to-b from-warm-dark/50 to-warm">
+    <section id="about" className="py-20 lg:py-28 px-6 bg-gradient-to-b from-warm-dark/50 to-warm">
     <div className="max-w-5xl mx-auto">
       <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
 
@@ -41,9 +40,5 @@ export function About() {
       </div>
     </div>
   </section>
-
-
-  {/* ==================== SERVICES ==================== */}
-    </>
   );
 }

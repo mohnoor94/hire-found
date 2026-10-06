@@ -146,7 +146,7 @@ button:focus-visible,
 
 /* === Arabic Font (from Jobs_Page) === */
 [lang="ar"], [dir="rtl"] {
-  font-family: 'Noto Sans Arabic', 'Inter', system-ui, sans-serif;
+  font-family: var(--font-noto-arabic), 'Noto Sans Arabic', 'Inter', system-ui, sans-serif;
 }
 
 

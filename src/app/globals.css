@@ -21,7 +21,7 @@
     --color-whatsapp: #25D366;
     --color-success: #7A9E7E;
     --font-accent: var(--font-dm-serif), Georgia, serif;
-    --font-sans: var(--font-inter), "Noto Sans Arabic", system-ui, sans-serif;
+    --font-sans: var(--font-inter), var(--font-noto-arabic), "Noto Sans Arabic", system-ui, sans-serif;
     --font-heading: var(--font-dm-serif), Georgia, serif;
     --shadow-card: 0 4px 24px rgba(45, 41, 38, 0.06);
     --shadow-card-hover: 0 12px 40px rgba(45, 41, 38, 0.12);

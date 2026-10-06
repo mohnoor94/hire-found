@@ -11,10 +11,35 @@ export function ServicesEffects() {
   useEffect(() => {
     const employers = document.getElementById("employers");
     const candidates = document.getElementById("candidates");
-    if (employers && candidates) {
-      employers.style.display = tab === "employers" ? "" : "none";
-      candidates.style.display = tab === "candidates" ? "" : "none";
-    }
+    if (!employers || !candidates) return;
+
+    const activePanel = tab === "employers" ? employers : candidates;
+    const inactivePanel = tab === "employers" ? candidates : employers;
+
+    // Fade out inactive
+    inactivePanel.style.opacity = "0";
+    inactivePanel.style.transform = "translateY(12px)";
+
+    const timer = window.setTimeout(() => {
+      inactivePanel.classList.add("hidden");
+      inactivePanel.style.opacity = "";
+      inactivePanel.style.transform = "";
+
+      activePanel.querySelectorAll(".reveal-child").forEach((c) => {
+        c.classList.remove("revealed");
+      });
+      activePanel.classList.remove("hidden");
+      activePanel.style.opacity = "0";
+      activePanel.style.transform = "translateY(12px)";
+
+      requestAnimationFrame(() => {
+        activePanel.style.opacity = "1";
+        activePanel.style.transform = "translateY(0)";
+        activePanel.querySelectorAll(".reveal-child").forEach((c, i) => {
+          window.setTimeout(() => c.classList.add("revealed"), i * 100);
+        });
+      });
+    }, 200);
 
     document.querySelectorAll("[data-tab]").forEach((btn) => {
       const el = btn as HTMLElement;
@@ -22,6 +47,8 @@ export function ServicesEffects() {
       el.classList.toggle("active", active);
       el.setAttribute("aria-selected", active ? "true" : "false");
     });
+
+    return () => window.clearTimeout(timer);
   }, [tab]);
 
   useEffect(() => {

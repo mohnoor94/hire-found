@@ -1,7 +1,6 @@
 export function HowItWorks() {
   return (
-    <>
-<section id="how-it-works" className="py-20 lg:py-28 px-6 bg-gradient-to-b from-warm-dark/40 to-warm">
+    <section id="how-it-works" className="py-20 lg:py-28 px-6 bg-gradient-to-b from-warm-dark/40 to-warm">
     <div className="max-w-4xl mx-auto">
       <div className="text-center mb-16 reveal">
         <h2 className="font-accent text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">How It Works</h2>
@@ -39,9 +38,5 @@ export function HowItWorks() {
       </div>
     </div>
   </section>
-
-
-  {/* ==================== TRUST / TESTIMONIALS ==================== */}
-    </>
   );
 }

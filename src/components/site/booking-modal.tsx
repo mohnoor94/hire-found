@@ -29,13 +29,20 @@ export function useBookingModal() {
   return ctx;
 }
 
+type CalFunction = {
+  (...args: unknown[]): void;
+  loaded?: boolean;
+  ns?: Record<string, unknown>;
+  q?: unknown[];
+};
+
 declare global {
   interface Window {
-    Cal?: {
-      (...args: unknown[]): void;
-      loaded?: boolean;
-      ns?: Record<string, unknown>;
-      q?: unknown[];
+    Cal?: CalFunction;
+    BookingModal?: {
+      open: (trigger?: HTMLElement | null) => void;
+      close: () => void;
+      isOpen: boolean;
     };
   }
 }
@@ -47,24 +54,49 @@ function loadCalSdk(): Promise<void> {
       return;
     }
 
-    (function (C: Window, A: string) {
+    (function (C: Window, A: string, L: string) {
       const p = function (...args: unknown[]) {
         const cal = (p as unknown as { q: unknown[] }).q;
         cal.push(args);
-      } as Window["Cal"] & { q: unknown[] };
+      } as CalFunction;
       p.q = [];
-      C.Cal = p;
-      const n = C.document.createElement("script");
-      n.src = A;
-      n.async = true;
-      n.onload = () => {
-        if (C.Cal) C.Cal.loaded = true;
-        resolve();
+      C.Cal = C.Cal || function (...args: unknown[]) {
+        const cal = C.Cal as CalFunction;
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          const script = C.document.createElement("script");
+          script.src = A;
+          script.async = true;
+          script.onload = () => {
+            if (C.Cal) C.Cal.loaded = true;
+            resolve();
+          };
+          script.onerror = () => reject(new Error("Cal.com SDK failed to load"));
+          C.document.head.appendChild(script);
+          cal.loaded = true;
+        }
+        if (args[0] === L) {
+          const api: CalFunction = function (...apiArgs: unknown[]) {
+            p(api, apiArgs);
+          };
+          const namespace = args[1];
+          api.q = api.q || [];
+          if (typeof namespace === "string") {
+            cal.ns![namespace] = (cal.ns![namespace] as unknown) || api;
+            p(cal.ns![namespace], args);
+            p(cal, ["initNamespace", namespace]);
+          } else {
+            p(cal, args);
+          }
+          return;
+        }
+        p(cal, args);
       };
-      n.onerror = () => reject(new Error("Cal.com SDK failed to load"));
-      const r = C.document.getElementsByTagName("script")[0];
-      r?.parentNode?.insertBefore(n, r);
-    })(window, "https://app.cal.com/embed/embed.js");
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    // Trigger load immediately
+    window.Cal!("init", "booking", { origin: "https://cal.com" });
   });
 }
 
@@ -75,6 +107,7 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
   );
   const triggerRef = useRef<HTMLElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const close = useCallback(() => {
     setIsOpen(false);
@@ -89,9 +122,18 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.BookingModal = { open, close, isOpen };
+    }
+  }, [open, close, isOpen]);
+
+  useEffect(() => {
     if (!isOpen) return;
 
     let cancelled = false;
+    let pollInterval: ReturnType<typeof setInterval> | null = null;
+    let timeoutTimer: ReturnType<typeof setTimeout> | null = null;
+
     (async () => {
       try {
         await loadCalSdk();
@@ -100,18 +142,77 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
           setStatus("error");
           return;
         }
-        window.Cal("init", { origin: "https://cal.com" });
+
+        const cal = window.Cal as CalFunction;
+        const calNsBooking = (cal.ns?.booking || cal) as (...args: unknown[]) => void;
+
+        // Custom HireFound palette matching vanilla
+        calNsBooking("ui", {
+          theme: "light",
+          cssVarsPerTheme: {
+            light: {
+              "cal-brand": "#8B2252",
+              "cal-brand-emphasis": "#A63B6B",
+              "cal-brand-text": "#FFFFFF",
+              "cal-bg": "#FFFAF5",
+              "cal-bg-emphasis": "#F8F0EA",
+              "cal-text": "#2D2926",
+              "cal-text-emphasis": "#1A1A2E",
+              "cal-text-subtle": "#8A8380",
+              "cal-border": "rgba(139, 34, 82, 0.15)",
+              "cal-border-booker": "transparent",
+              "cal-border-booker-width": "0px",
+            },
+          },
+        });
+
+        calNsBooking("preload", { calLink: "yasminblasi" });
+
+        calNsBooking("on", {
+          action: "linkReady",
+          callback: () => {
+            if (!cancelled) setStatus("ready");
+          },
+        });
+
+        calNsBooking("on", {
+          action: "linkFailed",
+          callback: () => {
+            if (!cancelled) setStatus("error");
+          },
+        });
+
         const container = document.getElementById("booking-cal-container");
         if (container) {
           container.innerHTML = "";
-          window.Cal("inline", {
+          calNsBooking("inline", {
             elementOrSelector: "#booking-cal-container",
             calLink: "yasminblasi",
-            layout: "month_view",
-            config: { layout: "month_view" },
           });
         }
-        if (!cancelled) setStatus("ready");
+
+        // Fallback polling for iframe presence if linkReady is missed
+        let pollCount = 0;
+        pollInterval = setInterval(() => {
+          pollCount++;
+          const iframe = document.querySelector("#booking-cal-container iframe");
+          if (iframe && !cancelled) {
+            setStatus("ready");
+            if (pollInterval) clearInterval(pollInterval);
+          } else if (pollCount >= 40) {
+            if (pollInterval) clearInterval(pollInterval);
+          }
+        }, 200);
+
+        // 8-second safety timeout
+        timeoutTimer = setTimeout(() => {
+          if (!cancelled) {
+            const hasIframe = !!document.querySelector(
+              "#booking-cal-container iframe",
+            );
+            setStatus(hasIframe ? "ready" : "error");
+          }
+        }, 8000);
       } catch {
         if (!cancelled) setStatus("error");
       }
@@ -119,19 +220,49 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
 
     return () => {
       cancelled = true;
+      if (pollInterval) clearInterval(pollInterval);
+      if (timeoutTimer) clearTimeout(timeoutTimer);
     };
   }, [isOpen]);
 
+  // Focus trap & Escape key
   useEffect(() => {
     if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        close();
+        return;
+      }
+
+      if (e.key === "Tab" && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
     };
-    document.addEventListener("keydown", onKey);
+
+    document.addEventListener("keydown", onKeyDown);
     document.body.style.overflow = "hidden";
     closeBtnRef.current?.focus();
+
     return () => {
-      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
     };
   }, [isOpen, close]);
@@ -145,6 +276,7 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
     <BookingModalContext.Provider value={value}>
       {children}
       <div
+        ref={modalRef}
         id="booking-modal"
         role="dialog"
         aria-modal="true"
@@ -220,7 +352,25 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
                 className={`w-full overflow-x-hidden ${status === "ready" ? "" : "hidden"}`}
               />
               {status === "error" && (
-                <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
+                <div
+                  id="booking-error"
+                  className="flex flex-col items-center justify-center px-6 py-16 text-center"
+                >
+                  <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10">
+                    <svg
+                      className="size-6 text-primary"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                      />
+                    </svg>
+                  </div>
                   <p className="mb-2 font-semibold text-text-main">
                     Calendar unavailable
                   </p>

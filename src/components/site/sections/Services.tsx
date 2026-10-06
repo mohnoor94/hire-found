@@ -1,7 +1,6 @@
 export function Services() {
   return (
-    <>
-<section id="services" className="py-20 lg:py-28 px-6 bg-warm">
+    <section id="services" className="py-20 lg:py-28 px-6 bg-warm">
     <div className="max-w-5xl mx-auto">
       <div className="text-center mb-12 reveal">
         <h2 className="font-accent text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">How Can I Help?</h2>
@@ -93,9 +92,5 @@ export function Services() {
       </div>
     </div>
   </section>
-
-
-  {/* ==================== HOW IT WORKS ==================== */}
-    </>
   );
 }

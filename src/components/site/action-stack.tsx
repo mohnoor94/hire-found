@@ -8,12 +8,24 @@ export function ActionStack() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      setVisible(window.scrollY > 400);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const hero = document.getElementById("hero");
+    if (!hero) {
+      const onScroll = () => setVisible(window.scrollY > 400);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      return () => window.removeEventListener("scroll", onScroll);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry) return;
+        setVisible(!entry.isIntersecting);
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(hero);
+    return () => observer.disconnect();
   }, []);
 
   return (

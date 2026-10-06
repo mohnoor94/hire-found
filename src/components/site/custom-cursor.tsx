@@ -21,6 +21,10 @@ export function CustomCursor() {
     const onOver = (e: MouseEvent) => {
       const t = e.target as HTMLElement | null;
       if (!t) return;
+      if (t.closest("input, textarea, [contenteditable]")) {
+        cursor.style.opacity = "0";
+        return;
+      }
       if (
         t.closest(
           "a, button, [role='button'], [role='link'], .magnetic, .premium-card, .filter-pill",
@@ -33,6 +37,9 @@ export function CustomCursor() {
     const onOut = (e: MouseEvent) => {
       const t = e.target as HTMLElement | null;
       if (!t) return;
+      if (t.closest("input, textarea, [contenteditable]")) {
+        cursor.style.opacity = "";
+      }
       if (
         t.closest(
           "a, button, [role='button'], [role='link'], .magnetic, .premium-card, .filter-pill",
