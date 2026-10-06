@@ -40,6 +40,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-07** — Dropped Yasmin "Already signed in? Tap to refresh" hint; `auth.authStateReady()` + loading state replace it.
 - **2026-10-07** — Yasmin primary CTAs use solid violet `#7C3AED` (vanilla light lavender + white failed contrast). Token `--color-butterfly-lavender-dark` kept for parity with `js/tailwind-config.js`.
 - **2026-10-07** — Tiptap prep converts Quill 2 `li[data-list=bullet|ordered]` into standard `ul`/`ol` before parse; saves strip trailing empty `<p>`, unwrap `li>p`, and drop link presentation classes so existing Quill jobs are not rewritten as ordered lists.
+
 ```mermaid
 flowchart LR
   homepage[Homepage]
@@ -248,7 +249,7 @@ Source: [`jobs/index.html`](../jobs/index.html), [`js/jobs.js`](../js/jobs.js).
 Sources: [`yasmin/index.html`](../yasmin/index.html) and [`yasmin/js/`](../yasmin/js/). shadcn for the panel. Tiptap replaces Quill. Same Firestore writes (`addDoc`, `updateDoc`, `deleteDoc`, `serverTimestamp`).
 
 - [x] Google sign-in, local persistence — `done`
-- [x] Allowlist: `moh.noor94@gmail.com`, `yasmin@hirefound.com` — `done`
+- [x] Allowlist: `moh.noor94@gmail.com`, `yasmin@hirefound.com` — `done` (UI allowlist; Firestore rules still moh-only until Phase 6)
 - [x] Loading, signed-out, and access-denied states — `done`
 - [x] Sign out — `done`
 - [x] Dashboard list of all jobs, including inactive — `done`
@@ -266,16 +267,16 @@ Sources: [`yasmin/index.html`](../yasmin/index.html) and [`yasmin/js/`](../yasmi
 ### High-risk
 
 - [x] Auth allowlist + denied states — `done`
-  - [x] Cursor review — 2026-10-07 pass-with-fixes (persistence fail-soft + hook tests applied)
+  - [x] Cursor review — 2026-10-07 pass (re-check after fail-soft persistence + hook tests)
   - [x] `agy` review — 2026-10-07 pass (re-check pass)
 - [x] Tiptap HTML round-trip (existing Quill jobs still render) — `done`
-  - [x] Cursor review — 2026-10-07 fail → fixes applied (Quill data-list, normalize, no duplicate exts, placeholder scope, round-trip tests)
-  - [x] `agy` review — 2026-10-07 pass (placeholder must-fix; re-check pass)
+  - [x] Cursor review — 2026-10-07 pass (re-check after Quill data-list + normalize + round-trip tests)
+  - [x] `agy` review — 2026-10-07 pass (re-check pass)
 
 ### Phase 5 gate
 
 - [x] Phase 5 gate — `done`
-  - [x] Cursor review — 2026-10-07 fail → must-fixes applied (Tiptap round-trip, auth fail-soft, refresh in-flight guard, decision log)
+  - [x] Cursor review — 2026-10-07 pass-with-fixes → re-check pass (plan allowlist note vs rules drift owned by Phase 6)
   - [x] `agy` review — 2026-10-07 pass (re-check pass)
 
 ## Phase 6 — Cutover
