@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Tracker only. Implementation has not started. |
-| Next work | Phase 1, on branch `v2` |
+| Current phase | Phase 1 — Foundation (in progress) |
+| Next work | Finish Phase 1 checklist on branch `v2` |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -139,17 +139,17 @@ Record under the gate or item: date + one-line verdict (`pass` / `pass-with-fixe
 
 Branch `v2`. Static export only. No pages beyond a smoke route.
 
-- [ ] Next.js App Router app — `not started`
-- [ ] Tailwind build (replace the Tailwind CDN) — `not started`
+- [x] Next.js App Router app — `done`
+- [x] Tailwind build (replace the Tailwind CDN) — `done`
 - [ ] shadcn/ui initialized — `not started`
 - [ ] Firebase client module (app, Auth, Firestore), same project as [`js/firebase-config.js`](../js/firebase-config.js) — `not started`
-- [ ] `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`, `basePath` `/` — `not started`
+- [x] `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`, `basePath` `/` — `done`
 - [ ] Vitest running in the new app — `not started`
-- [ ] `npm run build` writes `out/` and is not what GitHub Pages deploys yet — `not started`
+- [x] `npm run build` writes `out/` and is not what GitHub Pages deploys yet — `done`
 
 ### High-risk
 
-- [ ] Static export config stays valid for GitHub Pages — `not started`
+- [ ] Static export config stays valid for GitHub Pages — `in progress`
   - [ ] Cursor review
   - [ ] `agy` review
 
