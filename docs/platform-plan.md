@@ -12,6 +12,7 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 | Next work | Phase 1, on branch `v2` |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
+| UI/UX review | Phase 7 surfaces need Cursor **and** Antigravity CLI (`agy`) before `done` |
 
 Status values used below: `not started`, `in progress`, `done`, `deferred`.
 
@@ -32,6 +33,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-06** — Yasmin's job form is rebuilt with shadcn. `fullDescription` and `fullDescriptionAr` move from Quill 2 to Tiptap and keep saving HTML.
 - **2026-10-06** — Migration matches current behavior first. Visual redesign is Phase 7, after parity.
 - **2026-10-06** — Implementation happens on branch `v2`, with each change committed and pushed there. `main` keeps serving the vanilla site until Phase 6.
+- **2026-10-06** — Phase 7 UI/UX work is dual-reviewed: Cursor first, then Antigravity CLI (`agy`), using [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). A surface is not `done` until both reviews are recorded.
 
 ```mermaid
 flowchart LR
@@ -199,9 +201,32 @@ Do this only after Phases 3–5 match the live site.
 
 Start only after Phase 6. Pick the visual direction at the start of this phase and record it in the decision log. This list names the surfaces. It does not choose a look.
 
+### Dual review rule
+
+Each surface below stays `not started` / `in progress` until **both** reviews are checked. Order: implement → Cursor review → `agy` critique → fix agreed issues → mark `done`.
+
+How to run the second review:
+
+1. From Cursor: `agy -p "$(cat docs/ui-ux-review-prompt.md)" --effort high` in the repo root (non-interactive), **or**
+2. In Antigravity CLI: paste the prompt from [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md) and name the surface under review.
+
+Record short notes under the surface (date + one-line verdict). Paste longer critiques into the PR or a linked comment; do not dump full reviews into this tracker.
+
+### Surfaces
+
 - [ ] Choose the visual direction and write it in the decision log — `not started`
 - [ ] Public homepage pass — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
 - [ ] Jobs list and detail pass — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
 - [ ] Yasmin dashboard pass — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
 - [ ] Yasmin editor pass — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
 - [ ] Shared nav, footer, and booking modal pass — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
