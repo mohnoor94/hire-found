@@ -9,7 +9,7 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 | | |
 |---|---|
 | Current phase | Phase 6 — Cutover (in progress) |
-| Next work | Finish high-risk dual-review; Pages→Actions + DNS; merge v2→main; smoke |
+| Next work | Pages→Actions + DNS; then merge v2→main + smoke. Phase 6 `agy` deferred to a later day |
 | Last updated | 2026-10-07 |
 | Live site | Vanilla on `mohnoor94.github.io/hire-found/` (Pages legacy). `hirefound.com` is Squarespace parking until DNS + Pages Actions cutover |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -42,6 +42,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-07** — Tiptap prep converts Quill 2 `li[data-list=bullet|ordered]` into standard `ul`/`ol` before parse; saves strip trailing empty `<p>`, unwrap `li>p`, and drop link presentation classes so existing Quill jobs are not rewritten as ordered lists.
 - **2026-10-07** — Phase 6: Firestore rules `isAdmin()` matches UI `ALLOWED_EMAILS` (both admin emails). Deploy rules with `npm run firebase:deploy-rules`. GH Pages workflow builds Next and uploads `out/` only (vanilla root is no longer the artifact).
 - **2026-10-07** — Cutover hosting check: repo Pages is still `build_type: legacy` from `main` `/` (`mohnoor94.github.io/hire-found/`). Apex/`www` `hirefound.com` currently resolves to Squarespace parking, not Pages. Before treating merge as domain cutover: set Pages source to GitHub Actions and point DNS/custom domain at Pages.
+- **2026-10-07** — Phase 6 `agy` reviews deferred for the day (high-risk firestore-rules, high-risk gh-pages-export, phase-6-gate). Cursor reviews stay recorded; resume `agy` before marking those items `done`.
 
 ```mermaid
 flowchart LR
@@ -294,18 +295,18 @@ Do this only after Phases 3–5 match the live site.
 
 ### High-risk
 
-- [ ] Firestore rules match the UI allowlist and are deployed — `in progress` (deployed; Cursor pass-with-fixes applied; awaiting `agy`)
+- [ ] Firestore rules match the UI allowlist and are deployed — `in progress` (deployed; Cursor pass-with-fixes applied; `agy` deferred)
   - [x] Cursor review — 2026-10-07 pass-with-fixes (set-equality sync test for `isAdmin()` ↔ `ALLOWED_EMAILS`)
-  - [ ] `agy` review
-- [ ] GH Pages workflow builds and deploys `out/` only — `in progress` (workflow + CNAME assert on v2; Pages source still legacy; domain not on Pages yet)
+  - [ ] `agy` review — `deferred` (2026-10-07)
+- [ ] GH Pages workflow builds and deploys `out/` only — `in progress` (workflow + CNAME assert on v2; Pages source still legacy; domain not on Pages yet; `agy` deferred)
   - [x] Cursor review — 2026-10-07 fail → fixes started (CNAME confirm in workflow; hosting/DNS/Pages-source gap recorded in decision log)
-  - [ ] `agy` review
+  - [ ] `agy` review — `deferred` (2026-10-07)
 
 ### Phase 6 gate
 
-- [ ] Phase 6 gate (production cutover ready) — `not started`
+- [ ] Phase 6 gate (production cutover ready) — `not started` (`agy` deferred with high-risk)
   - [ ] Cursor review
-  - [ ] `agy` review
+  - [ ] `agy` review — `deferred` (2026-10-07)
 
 ## Phase 7 — Design and UX
 
