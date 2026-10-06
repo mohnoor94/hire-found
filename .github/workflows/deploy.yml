@@ -29,6 +29,8 @@ jobs:
           test -f out/index.html
           test -f out/jobs/index.html
           test -f out/yasmin/index.html
+          test -f out/CNAME
+          test "$(cat out/CNAME)" = "hirefound.com"
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
