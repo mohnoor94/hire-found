@@ -12,7 +12,7 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 | Next work | Phase 1, on branch `v2` |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
-| UI/UX review | Phase 7 surfaces need Cursor **and** Antigravity CLI (`agy`) before `done` |
+| Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
 
 Status values used below: `not started`, `in progress`, `done`, `deferred`.
 
@@ -23,6 +23,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - Commit each change on `v2` and push that branch. Do not put this work on `main` before Phase 6.
 - Add a dated line to the decision log when a choice changes. Do not open a second plan.
 - Leave Phase 7's visual direction blank until parity is done and a direction is chosen.
+- Do not mark a **phase gate** or **high-risk item** `done` until Cursor and `agy` reviews are both checked. Ordinary checklist items do not each need dual review.
 
 ## Decision log
 
@@ -34,6 +35,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-06** — Migration matches current behavior first. Visual redesign is Phase 7, after parity.
 - **2026-10-06** — Implementation happens on branch `v2`, with each change committed and pushed there. `main` keeps serving the vanilla site until Phase 6.
 - **2026-10-06** — Phase 7 UI/UX work is dual-reviewed: Cursor first, then Antigravity CLI (`agy`), using [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). A surface is not `done` until both reviews are recorded.
+- **2026-10-06** — Dual review also applies to every phase gate (Phases 1–6) and to named high-risk items, using [`docs/phase-review-prompt.md`](phase-review-prompt.md). Not every checkbox gets dual review.
 
 ```mermaid
 flowchart LR
@@ -105,6 +107,34 @@ These folders are the record of the current vanilla site. Leave them in place.
 | [`.kiro/specs/cal-com-integration/`](../.kiro/specs/cal-com-integration/) | Book-a-Call modal on the homepage |
 | [`.kiro/specs/book-a-call-modal-consistency/`](../.kiro/specs/book-a-call-modal-consistency/) | One booking modal across CTAs |
 
+## Review policy
+
+Dual review means: Cursor first, then Antigravity CLI (`agy`), then fix agreed must-fixes, then check both boxes.
+
+**What gets dual review**
+
+1. **Phase gates** — end of Phases 1–6. A phase is not complete until its gate passes.
+2. **High-risk items** — named below inside the phase they belong to (auth, Tiptap HTML, Firestore rules, static export / GH Pages).
+3. **Phase 7 surfaces** — every redesign surface (existing rule).
+
+**What does not**
+
+- Ordinary checklist rows (nav, footer, individual filters, etc.). Those are covered by the phase gate.
+
+**How to run `agy`**
+
+```bash
+# Phase / engineering gate
+agy -p "$(sed 's/REPLACE_WITH_SCOPE/phase-1-gate/' docs/phase-review-prompt.md)" --effort high
+
+# Phase 7 UI/UX surface
+agy -p "$(sed 's/REPLACE_WITH_ONE_OF/homepage/' docs/ui-ux-review-prompt.md)" --effort high
+```
+
+Or paste the matching prompt into interactive `agy` and set the scope/surface name.
+
+Record under the gate or item: date + one-line verdict (`pass` / `pass-with-fixes` / `fail`). Keep long critiques in the PR, not in this file.
+
 ## Phase 1 — Foundation
 
 Branch `v2`. Static export only. No pages beyond a smoke route.
@@ -116,6 +146,18 @@ Branch `v2`. Static export only. No pages beyond a smoke route.
 - [ ] `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`, `basePath` `/` — `not started`
 - [ ] Vitest running in the new app — `not started`
 - [ ] `npm run build` writes `out/` and is not what GitHub Pages deploys yet — `not started`
+
+### High-risk
+
+- [ ] Static export config stays valid for GitHub Pages — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
+
+### Phase 1 gate
+
+- [ ] Phase 1 gate — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
 
 ## Phase 2 — Shared job domain
 
@@ -132,6 +174,18 @@ Port behavior, then the tests. Keep the data contract above.
 - [ ] Port [`yasmin/__tests__/shortcuts.test.js`](../yasmin/__tests__/shortcuts.test.js) — `not started`
 - [ ] Revisit the Book a Call tests when the modal is ported in Phase 3: [`__tests__/book-a-call-preservation.property.test.js`](../__tests__/book-a-call-preservation.property.test.js), [`__tests__/book-a-call-bug-condition.property.test.js`](../__tests__/book-a-call-bug-condition.property.test.js) — `not started`
 - [ ] [`yasmin/__tests__/tailwind-config.property.test.js`](../yasmin/__tests__/tailwind-config.property.test.js) — `deferred`. It locks the CDN Tailwind config. Replace it with the new Tailwind setup instead of porting it.
+
+### High-risk
+
+- [ ] Data contract + ported Vitest suite match vanilla behavior — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
+
+### Phase 2 gate
+
+- [ ] Phase 2 gate — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
 
 ## Phase 3 — Public site parity
 
@@ -153,6 +207,12 @@ Sources: [`index.html`](../index.html), [`js/nav.js`](../js/nav.js), [`js/footer
 - [ ] Scroll reveals — `not started`
 - [ ] Custom cursor — `not started`
 
+### Phase 3 gate
+
+- [ ] Phase 3 gate (homepage parity vs live site) — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
+
 ## Phase 4 — Jobs parity
 
 Source: [`jobs/index.html`](../jobs/index.html), [`js/jobs.js`](../js/jobs.js).
@@ -165,6 +225,18 @@ Source: [`jobs/index.html`](../jobs/index.html), [`js/jobs.js`](../js/jobs.js).
 - [ ] Apply: Tally iframe when `tallyFormId` is set — `not started`
 - [ ] Apply fallback: WhatsApp, email, Book a Call — `not started`
 - [ ] Arabic description block when `fullDescriptionAr` is set — `not started`
+
+### High-risk
+
+- [ ] Client-loaded detail (`?id=`) and apply paths — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
+
+### Phase 4 gate
+
+- [ ] Phase 4 gate — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
 
 ## Phase 5 — Yasmin parity
 
@@ -186,6 +258,21 @@ Sources: [`yasmin/index.html`](../yasmin/index.html) and [`yasmin/js/`](../yasmi
 - [ ] Toasts — `not started`
 - [ ] `N` shortcut opens a new job when the shortcut should not be suppressed — `not started`
 
+### High-risk
+
+- [ ] Auth allowlist + denied states — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
+- [ ] Tiptap HTML round-trip (existing Quill jobs still render) — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
+
+### Phase 5 gate
+
+- [ ] Phase 5 gate — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
+
 ## Phase 6 — Cutover
 
 Do this only after Phases 3–5 match the live site.
@@ -197,20 +284,26 @@ Do this only after Phases 3–5 match the live site.
 - [ ] Smoke test: open a job via `?id=` and an apply path — `not started`
 - [ ] Smoke test: Yasmin sign-in, create, edit, and the public page shows the saved HTML — `not started`
 
+### High-risk
+
+- [ ] Firestore rules match the UI allowlist and are deployed — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
+- [ ] GH Pages workflow builds and deploys `out/` only — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
+
+### Phase 6 gate
+
+- [ ] Phase 6 gate (production cutover ready) — `not started`
+  - [ ] Cursor review
+  - [ ] `agy` review
+
 ## Phase 7 — Design and UX
 
 Start only after Phase 6. Pick the visual direction at the start of this phase and record it in the decision log. This list names the surfaces. It does not choose a look.
 
-### Dual review rule
-
-Each surface below stays `not started` / `in progress` until **both** reviews are checked. Order: implement → Cursor review → `agy` critique → fix agreed issues → mark `done`.
-
-How to run the second review:
-
-1. From Cursor: `agy -p "$(cat docs/ui-ux-review-prompt.md)" --effort high` in the repo root (non-interactive), **or**
-2. In Antigravity CLI: paste the prompt from [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md) and name the surface under review.
-
-Record short notes under the surface (date + one-line verdict). Paste longer critiques into the PR or a linked comment; do not dump full reviews into this tracker.
+Use [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). Each surface stays incomplete until **both** reviews are checked. Order: implement → Cursor review → `agy` critique → fix agreed issues → mark `done`.
 
 ### Surfaces
 
