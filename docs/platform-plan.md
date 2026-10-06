@@ -9,7 +9,7 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 | | |
 |---|---|
 | Current phase | Phase 6 — Cutover (in progress) |
-| Next work | Deploy Firestore rules; dual-review; merge v2→main to cut over live site |
+| Next work | Dual-review high-risk; merge v2→main; smoke tests |
 | Last updated | 2026-10-07 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 cutover merge |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -95,7 +95,7 @@ Apply order on the public job: Tally iframe when `tallyFormId` is set, otherwise
 
 ## Known fix
 
-- [x] **Firestore allowlist drift** — `done` (rules file). [`firestore.rules`](../firestore.rules) `isAdmin()` matches [`src/lib/yasmin/auth.ts`](../src/lib/yasmin/auth.ts) `ALLOWED_EMAILS`. Deploy with `npm run firebase:deploy-rules` (not via GitHub Pages).
+- [x] **Firestore allowlist drift** — `done` (rules file + deployed to `hire-found`). [`firestore.rules`](../firestore.rules) `isAdmin()` matches [`src/lib/yasmin/auth.ts`](../src/lib/yasmin/auth.ts) `ALLOWED_EMAILS`. Re-deploy with `npm run firebase:deploy-rules` if the allowlist changes.
 
 ## Historical specs
 
@@ -284,8 +284,8 @@ Sources: [`yasmin/index.html`](../yasmin/index.html) and [`yasmin/js/`](../yasmi
 Do this only after Phases 3–5 match the live site.
 
 - [x] Fix the Firestore allowlist drift (rules file matches UI) — `done`
-- [ ] Deploy the Firestore rules (`npm run firebase:deploy-rules`) — `in progress` (needs Firebase CLI login)
-- [x] GitHub Action builds the app and uploads `out/` — `done` (workflow on `main`; goes live on merge)
+- [x] Deploy the Firestore rules (`npm run firebase:deploy-rules`) — `done` (2026-10-07, project `hire-found`)
+- [x] GitHub Action builds the app and uploads `out/` — `done` (workflow on `v2`; goes live on merge to `main`)
 - [x] Vanilla `index.html`, `jobs/`, and `yasmin/` are no longer the deployed artifact — `done` (workflow uploads `out/` only)
 - [ ] Smoke test: homepage vacancies load — `not started` (after cutover merge)
 - [ ] Smoke test: open a job via `?id=` and an apply path — `not started` (after cutover merge)
@@ -293,8 +293,8 @@ Do this only after Phases 3–5 match the live site.
 
 ### High-risk
 
-- [ ] Firestore rules match the UI allowlist and are deployed — `in progress` (rules file done; live deploy blocked on `firebase login`)
-  - [x] Cursor review — 2026-10-07 pass (isAdmin matches ALLOWED_EMAILS; public active-only read preserved; sync test present)
+- [ ] Firestore rules match the UI allowlist and are deployed — `in progress` (deployed; awaiting `agy`)
+  - [x] Cursor review — 2026-10-07 pass (isAdmin matches ALLOWED_EMAILS; public active-only read; sync test; live deploy confirmed)
   - [ ] `agy` review
 - [ ] GH Pages workflow builds and deploys `out/` only — `in progress` (workflow ready on v2; live after merge to main)
   - [x] Cursor review — 2026-10-07 pass (build→confirm routes→upload `out/`; CNAME in public/)
