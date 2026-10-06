@@ -141,7 +141,7 @@ Branch `v2`. Static export only. No pages beyond a smoke route.
 
 - [x] Next.js App Router app — `done`
 - [x] Tailwind build (replace the Tailwind CDN) — `done`
-- [ ] shadcn/ui initialized — `not started`
+- [x] shadcn/ui initialized — `done`
 - [ ] Firebase client module (app, Auth, Firestore), same project as [`js/firebase-config.js`](../js/firebase-config.js) — `not started`
 - [x] `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`, `basePath` `/` — `done`
 - [ ] Vitest running in the new app — `not started`
