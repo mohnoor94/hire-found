@@ -6,6 +6,9 @@ import { JobDetail } from "./job-detail";
 import { BookingModalProvider } from "@/components/site/booking-modal";
 import type { Job } from "@/lib/jobs";
 
+(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT =
+  true;
+
 const mockPush = vi.fn();
 let mockSearchParams = new URLSearchParams();
 
@@ -55,6 +58,22 @@ vi.mock("next/navigation", () => ({
   useSearchParams: () => mockSearchParams,
 }));
 
+vi.mock("next/link", () => ({
+  default: ({
+    href,
+    children,
+    ...props
+  }: {
+    href: string;
+    children: React.ReactNode;
+    [key: string]: unknown;
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  ),
+}));
+
 vi.mock("@/lib/jobs", async () => {
   const actual = await vi.importActual<typeof import("@/lib/jobs")>(
     "@/lib/jobs",
@@ -69,6 +88,13 @@ function renderWithProviders(ui: React.ReactElement) {
   return <BookingModalProvider>{ui}</BookingModalProvider>;
 }
 
+async function flushEffects() {
+  await act(async () => {
+    await Promise.resolve();
+    await Promise.resolve();
+  });
+}
+
 describe("Phase 4 Jobs page", () => {
   let container: HTMLDivElement;
   let root: Root;
@@ -76,6 +102,7 @@ describe("Phase 4 Jobs page", () => {
   beforeEach(() => {
     mockSearchParams = new URLSearchParams();
     mockPush.mockReset();
+    fetchJobsMock.mockReset();
     fetchJobsMock.mockResolvedValue(sampleJobs);
     container = document.createElement("div");
     document.body.appendChild(container);
@@ -94,10 +121,7 @@ describe("Phase 4 Jobs page", () => {
     await act(async () => {
       root.render(renderWithProviders(<JobsPageClient />));
     });
-
-    await act(async () => {
-      await Promise.resolve();
-    });
+    await flushEffects();
 
     expect(container.textContent).toContain("Find Your Match");
     expect(container.textContent).toContain("Senior Barista");
@@ -106,15 +130,31 @@ describe("Phase 4 Jobs page", () => {
     expect(
       container.querySelector('[aria-label="Filter by hospitality"]'),
     ).toBeTruthy();
+    expect(
+      container
+        .querySelector('[aria-label="View details for Senior Barista"]')
+        ?.getAttribute("href"),
+    ).toBe("/jobs/?id=senior-barista");
+  });
+
+  it("keeps the page header on detail view", async () => {
+    mockSearchParams = new URLSearchParams("id=senior-barista");
+
+    await act(async () => {
+      root.render(renderWithProviders(<JobsPageClient />));
+    });
+    await flushEffects();
+
+    expect(container.textContent).toContain("Find Your Match");
+    expect(container.textContent).toContain("About This Role");
+    expect(fetchJobsMock).toHaveBeenCalledTimes(1);
   });
 
   it("filters cards by category", async () => {
     await act(async () => {
       root.render(renderWithProviders(<JobsPageClient />));
     });
-    await act(async () => {
-      await Promise.resolve();
-    });
+    await flushEffects();
 
     const techPill = container.querySelector(
       '[aria-label="Filter by tech"]',
@@ -127,22 +167,41 @@ describe("Phase 4 Jobs page", () => {
     expect(container.textContent).not.toContain("Senior Barista");
   });
 
-  it("navigates to detail via pushState-style router push", async () => {
+  it("shows empty listing state", async () => {
+    fetchJobsMock.mockResolvedValueOnce([]);
+
     await act(async () => {
       root.render(renderWithProviders(<JobsPageClient />));
     });
-    await act(async () => {
-      await Promise.resolve();
-    });
+    await flushEffects();
 
-    const card = container.querySelector(
-      '[aria-label="View details for Senior Barista"]',
-    ) as HTMLElement;
-    await act(async () => {
-      card.click();
-    });
+    expect(container.textContent).toContain(
+      "No open roles available right now.",
+    );
+  });
 
-    expect(mockPush).toHaveBeenCalledWith("/jobs/?id=senior-barista");
+  it("shows error state and retries", async () => {
+    fetchJobsMock
+      .mockRejectedValueOnce(new Error("network"))
+      .mockResolvedValueOnce(sampleJobs);
+
+    await act(async () => {
+      root.render(renderWithProviders(<JobsPageClient />));
+    });
+    await flushEffects();
+
+    expect(container.textContent).toContain("Unable to load jobs");
+
+    const retry = container.querySelector(
+      '[aria-label="Retry loading jobs"]',
+    ) as HTMLButtonElement;
+    await act(async () => {
+      retry.click();
+    });
+    await flushEffects();
+
+    expect(container.textContent).toContain("Senior Barista");
+    expect(fetchJobsMock).toHaveBeenCalledTimes(2);
   });
 
   it("shows not-found for unknown slug", async () => {
@@ -151,11 +210,10 @@ describe("Phase 4 Jobs page", () => {
     await act(async () => {
       root.render(renderWithProviders(<JobsPageClient />));
     });
-    await act(async () => {
-      await Promise.resolve();
-    });
+    await flushEffects();
 
     expect(container.textContent).toContain("Job Not Found");
+    expect(container.textContent).toContain("Find Your Match");
   });
 
   it("renders Arabic description and fallback apply CTAs", async () => {
@@ -166,6 +224,7 @@ describe("Phase 4 Jobs page", () => {
         ),
       );
     });
+    await flushEffects();
 
     expect(container.querySelector('[lang="ar"][dir="rtl"]')).toBeTruthy();
     expect(container.textContent).toContain("Interested? Get in Touch");
@@ -186,6 +245,7 @@ describe("Phase 4 Jobs page", () => {
         ),
       );
     });
+    await flushEffects();
 
     expect(container.textContent).toContain("Apply Now");
     const iframe = container.querySelector("iframe");
@@ -194,5 +254,33 @@ describe("Phase 4 Jobs page", () => {
     expect(
       container.querySelector('[aria-label="Book a call with Yasmin"]'),
     ).toBeNull();
+  });
+
+  it("copies the share URL to clipboard", async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: { writeText },
+    });
+
+    await act(async () => {
+      root.render(
+        renderWithProviders(
+          <JobDetail job={sampleJobs[0]!} onBack={() => undefined} />,
+        ),
+      );
+    });
+    await flushEffects();
+
+    const share = container.querySelector(
+      '[aria-label="Share this job - copy URL to clipboard"]',
+    ) as HTMLButtonElement;
+    await act(async () => {
+      share.click();
+    });
+    await flushEffects();
+
+    expect(writeText).toHaveBeenCalled();
+    expect(container.textContent).toContain("✓ Link copied!");
   });
 });

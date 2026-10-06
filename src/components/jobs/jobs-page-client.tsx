@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   fetchJobs,
@@ -25,58 +25,36 @@ export function JobsPageClient() {
   const [allJobs, setAllJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [retryKey, setRetryKey] = useState(0);
   const [activeCategory, setActiveCategory] = useState("all");
-  const [detailJob, setDetailJob] = useState<Job | null | undefined>(
-    undefined,
-  );
-  const [detailLoading, setDetailLoading] = useState(false);
-  const [detailError, setDetailError] = useState(false);
-
-  const loadListing = useCallback(async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const jobs = await fetchJobs();
-      setAllJobs(jobs);
-      setError(false);
-    } catch {
-      setAllJobs([]);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const loadDetail = useCallback(async (jobSlug: string) => {
-    setDetailLoading(true);
-    setDetailError(false);
-    setDetailJob(undefined);
-    try {
-      const jobs = await fetchJobs();
-      setAllJobs(jobs);
-      const found = jobs.find((j) => j.slug === jobSlug) ?? null;
-      setDetailJob(found);
-      setDetailError(false);
-    } catch {
-      setDetailJob(null);
-      setDetailError(true);
-    } finally {
-      setDetailLoading(false);
-    }
-  }, []);
 
   useEffect(() => {
-    if (slug) {
-      void loadDetail(slug);
-    } else {
-      setDetailJob(undefined);
-      setDetailError(false);
-      void loadListing();
-    }
-  }, [slug, loadDetail, loadListing]);
+    let cancelled = false;
 
-  function openDetail(jobSlug: string) {
-    router.push(`/jobs/?id=${jobSlug}`);
+    (async () => {
+      try {
+        const jobs = await fetchJobs();
+        if (cancelled) return;
+        setAllJobs(jobs);
+        setError(false);
+      } catch {
+        if (cancelled) return;
+        setAllJobs([]);
+        setError(true);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [retryKey]);
+
+  function handleRetry() {
+    setLoading(true);
+    setError(false);
+    setRetryKey((key) => key + 1);
   }
 
   function backToListing() {
@@ -84,45 +62,18 @@ export function JobsPageClient() {
     router.push("/jobs/");
   }
 
+  const detailJob = slug
+    ? loading
+      ? undefined
+      : (allJobs.find((job) => job.slug === slug) ?? null)
+    : undefined;
+
   const categories = getCategories(allJobs);
   const filtered = filterByCategory(allJobs, activeCategory);
   const emptyMessage =
     activeCategory === "all"
       ? "No open roles available right now."
       : `No jobs available in ${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}.`;
-
-  if (slug) {
-    return (
-      <section
-        className="bg-warm px-6 py-12 lg:py-16"
-        aria-label="Job details"
-      >
-        <div className="mx-auto max-w-3xl px-4">
-          {detailLoading || detailJob === undefined ? (
-            <div className="flex justify-center py-16">
-              <div
-                className="size-8 animate-spin rounded-full border-4 border-primary/30 border-t-primary"
-                role="status"
-                aria-label="Loading job"
-              />
-            </div>
-          ) : null}
-
-          {!detailLoading && detailError ? (
-            <JobsErrorState onRetry={() => void loadDetail(slug)} />
-          ) : null}
-
-          {!detailLoading && !detailError && detailJob === null ? (
-            <JobsNotFoundState onBack={backToListing} />
-          ) : null}
-
-          {!detailLoading && !detailError && detailJob ? (
-            <JobDetail job={detailJob} onBack={backToListing} />
-          ) : null}
-        </div>
-      </section>
-    );
-  }
 
   return (
     <>
@@ -142,67 +93,93 @@ export function JobsPageClient() {
         </div>
       </section>
 
-      <section
-        className="bg-warm px-6 py-12 lg:py-16"
-        aria-label="Job listings"
-      >
-        <div className="mx-auto max-w-5xl">
-          {!loading && !error && allJobs.length > 0 ? (
-            <div
-              className="mb-10 flex flex-wrap justify-center gap-2"
-              role="group"
-              aria-label="Filter jobs by category"
-            >
-              <button
-                type="button"
-                className={`filter-pill ${activeCategory === "all" ? "active" : ""}`}
-                aria-label="Show all jobs"
-                aria-pressed={activeCategory === "all"}
-                onClick={() => setActiveCategory("all")}
-              >
-                All
-              </button>
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  type="button"
-                  className={`filter-pill ${activeCategory === category ? "active" : ""}`}
-                  aria-label={`Filter by ${category}`}
-                  aria-pressed={activeCategory === category}
-                  onClick={() => setActiveCategory(category)}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </button>
-              ))}
-            </div>
-          ) : null}
-
-          <div aria-label="Job listings grid" aria-live="polite">
-            {loading ? <JobsSkeletons count={4} /> : null}
+      {slug ? (
+        <section
+          className="bg-warm px-6 py-12 lg:py-16"
+          aria-label="Job details"
+        >
+          <div className="mx-auto max-w-3xl px-4">
+            {loading || detailJob === undefined ? (
+              <div className="flex justify-center py-16">
+                <div
+                  className="size-8 animate-spin rounded-full border-4 border-primary/30 border-t-primary"
+                  role="status"
+                  aria-label="Loading job"
+                />
+              </div>
+            ) : null}
 
             {!loading && error ? (
-              <JobsErrorState onRetry={() => void loadListing()} />
+              <JobsErrorState onRetry={handleRetry} />
             ) : null}
 
-            {!loading && !error && filtered.length === 0 ? (
-              <JobsEmptyState message={emptyMessage} />
+            {!loading && !error && detailJob === null ? (
+              <JobsNotFoundState onBack={backToListing} />
             ) : null}
 
-            {!loading && !error && filtered.length > 0 ? (
-              <div className="grid gap-6 md:grid-cols-2">
-                {filtered.map((job, index) => (
-                  <JobCard
-                    key={job.id}
-                    job={job}
-                    index={index}
-                    onSelect={openDetail}
-                  />
+            {!loading && !error && detailJob ? (
+              <JobDetail job={detailJob} onBack={backToListing} />
+            ) : null}
+          </div>
+        </section>
+      ) : (
+        <section
+          className="bg-warm px-6 py-12 lg:py-16"
+          aria-label="Job listings"
+        >
+          <div className="mx-auto max-w-5xl">
+            {!loading && !error && allJobs.length > 0 ? (
+              <div
+                className="mb-10 flex flex-wrap justify-center gap-2"
+                role="group"
+                aria-label="Filter jobs by category"
+              >
+                <button
+                  type="button"
+                  className={`filter-pill ${activeCategory === "all" ? "active" : ""}`}
+                  aria-label="Show all jobs"
+                  aria-pressed={activeCategory === "all"}
+                  onClick={() => setActiveCategory("all")}
+                >
+                  All
+                </button>
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    type="button"
+                    className={`filter-pill ${activeCategory === category ? "active" : ""}`}
+                    aria-label={`Filter by ${category}`}
+                    aria-pressed={activeCategory === category}
+                    onClick={() => setActiveCategory(category)}
+                  >
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </button>
                 ))}
               </div>
             ) : null}
+
+            <div aria-label="Job listings grid" aria-live="polite">
+              {loading ? <JobsSkeletons count={4} /> : null}
+
+              {!loading && error ? (
+                <JobsErrorState onRetry={handleRetry} />
+              ) : null}
+
+              {!loading && !error && filtered.length === 0 ? (
+                <JobsEmptyState message={emptyMessage} />
+              ) : null}
+
+              {!loading && !error && filtered.length > 0 ? (
+                <div className="grid gap-6 md:grid-cols-2">
+                  {filtered.map((job, index) => (
+                    <JobCard key={job.id} job={job} index={index} />
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 }

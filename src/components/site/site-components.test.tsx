@@ -29,9 +29,8 @@ vi.mock("next/link", () => ({
   ),
 }));
 
-// Mock fetchJobs
-vi.mock("@/lib/jobs", () => ({
-  fetchJobs: vi.fn().mockResolvedValue([
+const { fetchJobsMock } = vi.hoisted(() => ({
+  fetchJobsMock: vi.fn().mockResolvedValue([
     {
       id: "job-1",
       title: "Senior Barista",
@@ -61,6 +60,16 @@ vi.mock("@/lib/jobs", () => ({
     },
   ]),
 }));
+
+vi.mock("@/lib/jobs", async () => {
+  const actual = await vi.importActual<typeof import("@/lib/jobs")>(
+    "@/lib/jobs",
+  );
+  return {
+    ...actual,
+    fetchJobs: fetchJobsMock,
+  };
+});
 
 describe("Phase 3 Site Components Parity", () => {
   let container: HTMLDivElement;

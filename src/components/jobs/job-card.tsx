@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { Job } from "@/lib/jobs";
 import {
   categoryColors,
@@ -11,27 +12,18 @@ import {
 type JobCardProps = {
   job: Job;
   index: number;
-  onSelect: (slug: string) => void;
 };
 
-export function JobCard({ job, index, onSelect }: JobCardProps) {
+export function JobCard({ job, index }: JobCardProps) {
   const colors = categoryColors(job.category);
   const label = categoryLabel(job.category);
 
   return (
-    <article
-      role="link"
-      tabIndex={0}
-      className="premium-card shadow-card reveal min-h-[44px] min-w-[44px] cursor-pointer p-7"
+    <Link
+      href={`/jobs/?id=${job.slug}`}
+      className="premium-card shadow-card reveal block min-h-[44px] min-w-[44px] cursor-pointer p-7"
       style={{ transitionDelay: `${index * 0.1}s` }}
       aria-label={`View details for ${job.title}`}
-      onClick={() => onSelect(job.slug)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onSelect(job.slug);
-        }
-      }}
     >
       <div className="mb-3 flex items-start justify-between">
         <span
@@ -64,6 +56,6 @@ export function JobCard({ job, index, onSelect }: JobCardProps) {
           {job.employmentType || ""}
         </span>
       </div>
-    </article>
+    </Link>
   );
 }

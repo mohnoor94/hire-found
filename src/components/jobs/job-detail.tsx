@@ -17,9 +17,20 @@ type JobDetailProps = {
   onBack: () => void;
 };
 
+declare global {
+  interface Window {
+    Tally?: {
+      loadEmbeds?: () => void;
+    };
+  }
+}
+
 export function JobDetail({ job, onBack }: JobDetailProps) {
   const { open } = useBookingModal();
   const [copied, setCopied] = useState(false);
+  const [jobUrl, setJobUrl] = useState(
+    `https://hirefound.com/jobs/?id=${job.slug || ""}`,
+  );
   const colors = categoryColors(job.category);
   const label = categoryLabel(job.category);
   const postedDate = getRelativeTime(job.createdAt);
@@ -27,7 +38,6 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
   const whatsAppNumber = job.contactWhatsApp || DEFAULTS.whatsApp;
   const emailAddress = job.contactEmail || DEFAULTS.email;
   const jobTitle = job.title || "";
-  const jobUrl = `https://hirefound.com/jobs/?id=${job.slug || ""}`;
   const encodedMessage = encodeURIComponent(
     `Hi! I'm interested in the "${jobTitle}" position.\n\n${jobUrl}`,
   );
@@ -37,15 +47,38 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
   const descriptionIsArabic = containsArabic(descriptionHtml);
 
   useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const nextUrl = `${window.location.origin}/jobs/?id=${job.slug || ""}`;
+      await Promise.resolve();
+      if (!cancelled) setJobUrl(nextUrl);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [job.slug]);
+
+  useEffect(() => {
     if (!hasTally) return;
-    if (document.querySelector('script[src*="tally.so/widgets/embed.js"]')) {
+
+    function loadEmbeds() {
+      window.Tally?.loadEmbeds?.();
+    }
+
+    const existing = document.querySelector(
+      'script[src*="tally.so/widgets/embed.js"]',
+    );
+    if (existing) {
+      loadEmbeds();
       return;
     }
+
     const script = document.createElement("script");
     script.src = "https://tally.so/widgets/embed.js";
     script.async = true;
+    script.onload = loadEmbeds;
     document.body.appendChild(script);
-  }, [hasTally]);
+  }, [hasTally, job.tallyFormId]);
 
   async function handleShare() {
     try {
@@ -148,15 +181,17 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
           />
         ) : null}
 
-        <div
-          className="prose prose-sm max-w-none space-y-4 leading-relaxed text-text-main"
-          {...(descriptionIsArabic
-            ? { dir: "rtl" as const, lang: "ar" }
-            : {})}
-          dangerouslySetInnerHTML={{
-            __html: formatRichText(descriptionHtml),
-          }}
-        />
+        {descriptionHtml.trim() ? (
+          <div
+            className="prose prose-sm max-w-none space-y-4 leading-relaxed text-text-main"
+            {...(descriptionIsArabic
+              ? { dir: "rtl" as const, lang: "ar" }
+              : {})}
+            dangerouslySetInnerHTML={{
+              __html: formatRichText(descriptionHtml),
+            }}
+          />
+        ) : null}
       </section>
 
       {hasTally ? (

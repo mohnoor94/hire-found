@@ -8,7 +8,7 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 4 — Jobs parity (implementation done; dual reviews pending) |
+| Current phase | Phase 4 — Jobs parity (fixes applied; dual reviews pending) |
 | Next work | Dual review: high-risk:jobs-detail-apply + Phase 4 gate |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
