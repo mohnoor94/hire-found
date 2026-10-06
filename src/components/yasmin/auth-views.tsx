@@ -106,13 +106,6 @@ export function AuthViews({
             {signInError}
           </p>
         ) : null}
-        <button
-          type="button"
-          onClick={onRetry}
-          className="mt-4 min-h-[44px] text-xs text-[#6B6560] underline underline-offset-2 transition-colors duration-200 hover:text-primary"
-        >
-          Already signed in? Tap to refresh
-        </button>
       </div>
     </div>
   );
