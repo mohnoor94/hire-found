@@ -28,7 +28,8 @@ export type UseAdminAuthResult = {
   retry: () => void;
 };
 
-function resolveStatus(nextUser: User | null): {
+/** Exported for unit tests. */
+export function resolveAuthStatus(nextUser: User | null): {
   status: Exclude<AdminAuthStatus, "loading" | "unavailable">;
   user: User | null;
 } {
@@ -61,7 +62,7 @@ export function useAdminAuth(): UseAdminAuthResult {
   const applyUser = useCallback(
     (nextUser: User | null) => {
       clearDenyTimer();
-      const resolved = resolveStatus(nextUser);
+      const resolved = resolveAuthStatus(nextUser);
       setUser(resolved.user);
       setStatus(resolved.status);
 
@@ -88,29 +89,30 @@ export function useAdminAuth(): UseAdminAuthResult {
 
     let cancelled = false;
     let unsubscribe: (() => void) | undefined;
+    const authInstance = auth;
 
     async function initAuth() {
+      // Persistence is best-effort. A failure must not block the listener —
+      // browsers that block local storage can still use an in-memory session.
       try {
-        // Await persistence so restore isn't racing the first UI decision.
-        await setPersistence(auth!, browserLocalPersistence);
-        // Wait until Firebase has finished reading the persisted session.
-        await auth!.authStateReady();
+        await setPersistence(authInstance, browserLocalPersistence);
       } catch (error) {
-        console.error("Failed to initialize auth persistence/state:", error);
-        if (!cancelled) {
-          setStatus("unavailable");
-        }
-        return;
+        console.error("Failed to set auth persistence:", error);
+      }
+
+      try {
+        await authInstance.authStateReady();
+      } catch (error) {
+        console.error("Failed to await authStateReady:", error);
       }
 
       if (cancelled) return;
 
       readyRef.current = true;
-      // First paint decision only after authStateReady — fixes signed-in → sign-in flash.
-      applyUser(auth!.currentUser);
+      applyUser(authInstance.currentUser);
 
       unsubscribe = onAuthStateChanged(
-        auth!,
+        authInstance,
         (nextUser) => {
           if (!readyRef.current || cancelled) return;
           applyUser(nextUser);
@@ -143,7 +145,6 @@ export function useAdminAuth(): UseAdminAuthResult {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      // onAuthStateChanged / authStateReady path applies the user
     } catch (error) {
       const code =
         error && typeof error === "object" && "code" in error

@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 5 — Yasmin parity (in progress) |
-| Next work | Apply agy must-fixes; finish Cursor dual-review checkboxes; close Phase 5 gate |
+| Current phase | Phase 5 — Yasmin parity (done) |
+| Next work | Phase 6 — Cutover |
 | Last updated | 2026-10-07 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -37,7 +37,9 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-06** — Phase 7 UI/UX work is dual-reviewed: Cursor first, then Antigravity CLI (`agy`), using [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). A surface is not `done` until both reviews are recorded.
 - **2026-10-06** — Dual review also applies to every phase gate (Phases 1–6) and to named high-risk items, using [`docs/phase-review-prompt.md`](phase-review-prompt.md). Not every checkbox gets dual review.
 - **2026-10-06** — Phase 1 `agy` asked for a `v2` lint/test/build CI workflow. Deferred as nice-to-have (not on the Phase 1 checklist). Draft lives at [`.github/workflows/ci.yml`](../.github/workflows/ci.yml); wire or extend it when PR checks are wanted.
-
+- **2026-10-07** — Dropped Yasmin "Already signed in? Tap to refresh" hint; `auth.authStateReady()` + loading state replace it.
+- **2026-10-07** — Yasmin primary CTAs use solid violet `#7C3AED` (vanilla light lavender + white failed contrast). Token `--color-butterfly-lavender-dark` kept for parity with `js/tailwind-config.js`.
+- **2026-10-07** — Tiptap prep converts Quill 2 `li[data-list=bullet|ordered]` into standard `ul`/`ol` before parse; saves strip trailing empty `<p>`, unwrap `li>p`, and drop link presentation classes so existing Quill jobs are not rewritten as ordered lists.
 ```mermaid
 flowchart LR
   homepage[Homepage]
@@ -263,18 +265,18 @@ Sources: [`yasmin/index.html`](../yasmin/index.html) and [`yasmin/js/`](../yasmi
 
 ### High-risk
 
-- [ ] Auth allowlist + denied states — `in progress`
-  - [ ] Cursor review
-  - [x] `agy` review — 2026-10-07 pass
-- [ ] Tiptap HTML round-trip (existing Quill jobs still render) — `in progress`
-  - [ ] Cursor review
-  - [x] `agy` review — 2026-10-07 pass-with-fixes (placeholder extension)
+- [x] Auth allowlist + denied states — `done`
+  - [x] Cursor review — 2026-10-07 pass-with-fixes (persistence fail-soft + hook tests applied)
+  - [x] `agy` review — 2026-10-07 pass (re-check pass)
+- [x] Tiptap HTML round-trip (existing Quill jobs still render) — `done`
+  - [x] Cursor review — 2026-10-07 fail → fixes applied (Quill data-list, normalize, no duplicate exts, placeholder scope, round-trip tests)
+  - [x] `agy` review — 2026-10-07 pass (placeholder must-fix; re-check pass)
 
 ### Phase 5 gate
 
-- [ ] Phase 5 gate — `in progress`
-  - [ ] Cursor review
-  - [x] `agy` review — 2026-10-07 pass-with-fixes (placeholder, drop firebase-admin, lavender-dark token)
+- [x] Phase 5 gate — `done`
+  - [x] Cursor review — 2026-10-07 fail → must-fixes applied (Tiptap round-trip, auth fail-soft, refresh in-flight guard, decision log)
+  - [x] `agy` review — 2026-10-07 pass (re-check pass)
 
 ## Phase 6 — Cutover
 

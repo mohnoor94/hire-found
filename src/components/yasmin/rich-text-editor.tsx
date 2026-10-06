@@ -7,9 +7,10 @@ import Link from "@tiptap/extension-link";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
 import { cn } from "@/lib/utils";
-import { normalizeEditorHtml } from "@/lib/yasmin/editor-html";
-
-export { normalizeEditorHtml } from "@/lib/yasmin/editor-html";
+import {
+  normalizeEditorHtml,
+  prepareIncomingHtml,
+} from "@/lib/yasmin/editor-html";
 
 type RichTextEditorProps = {
   value: string;
@@ -19,6 +20,33 @@ type RichTextEditorProps = {
   id?: string;
   "aria-label"?: string;
 };
+
+/** Shared extension set for the admin editor and round-trip tests. */
+export function createYasminEditorExtensions(placeholder = "") {
+  return [
+    StarterKit.configure({
+      heading: { levels: [2, 3] },
+      // Register Link/Underline once (not via StarterKit duplicates).
+      link: false,
+      underline: false,
+      // Avoid appending a trailing empty paragraph on every save.
+      trailingNode: false,
+    }),
+    Underline,
+    Link.configure({
+      openOnClick: false,
+      // Style links via CSS — never write Tailwind classes into Firestore HTML.
+      HTMLAttributes: {},
+    }),
+    Placeholder.configure({
+      placeholder,
+      emptyEditorClass: "is-editor-empty",
+      emptyNodeClass: "is-empty",
+      showOnlyWhenEditable: true,
+      showOnlyCurrent: false,
+    }),
+  ];
+}
 
 /**
  * Tiptap rich-text field. HTML in, HTML out (Quill job HTML still loads).
@@ -34,27 +62,11 @@ export function RichTextEditor({
 }: RichTextEditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
-    extensions: [
-      StarterKit.configure({
-        heading: { levels: [2, 3] },
-      }),
-      Underline,
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          class: "text-blue-600 underline underline-offset-[3px] font-medium",
-        },
-      }),
-      Placeholder.configure({
-        placeholder,
-        emptyEditorClass: "is-editor-empty",
-        emptyNodeClass: "is-empty",
-      }),
-    ],
-    content: value || "",
+    extensions: createYasminEditorExtensions(placeholder),
+    content: prepareIncomingHtml(value || ""),
     editorProps: {
       attributes: {
-        id: id || "",
+        ...(id ? { id } : {}),
         "aria-label": ariaLabel || "",
         class: cn(
           "tiptap-editor min-h-[180px] px-4 py-3 text-sm leading-relaxed outline-none",
@@ -71,9 +83,11 @@ export function RichTextEditor({
   useEffect(() => {
     if (!editor) return;
     const current = normalizeEditorHtml(editor.getHTML());
-    const next = normalizeEditorHtml(value || "");
+    const next = normalizeEditorHtml(prepareIncomingHtml(value || ""));
     if (current !== next) {
-      editor.commands.setContent(value || "", { emitUpdate: false });
+      editor.commands.setContent(prepareIncomingHtml(value || ""), {
+        emitUpdate: false,
+      });
     }
   }, [editor, value]);
 

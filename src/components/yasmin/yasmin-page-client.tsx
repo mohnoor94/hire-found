@@ -37,10 +37,14 @@ export function YasminPageClient() {
   const loadedRef = useRef(false);
   const prevAuthStatus = useRef(auth.status);
 
+  const refreshInFlight = useRef(false);
+
   const isEditorOpen = view !== "dashboard";
   const isModalOpen = Boolean(deleteTarget);
 
   const refreshJobs = useCallback(async () => {
+    if (refreshInFlight.current) return;
+    refreshInFlight.current = true;
     setLoading(true);
     setError(false);
     try {
@@ -51,6 +55,7 @@ export function YasminPageClient() {
       setError(true);
     } finally {
       setLoading(false);
+      refreshInFlight.current = false;
     }
   }, []);
 

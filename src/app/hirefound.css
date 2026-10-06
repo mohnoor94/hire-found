@@ -188,6 +188,10 @@ button:focus-visible,
 .prose li, .job-description li {
   margin-bottom: 0.25rem;
 }
+.prose li > p, .job-description li > p {
+  margin: 0;
+  display: inline;
+}
 
 
 /* === Homepage motion / components (from index.html) === */

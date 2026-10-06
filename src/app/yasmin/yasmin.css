@@ -200,8 +200,7 @@
   padding-right: 1.5rem;
 }
 
-/* Placeholder extension sets data-placeholder on the empty node */
-.tiptap-editor p.is-empty::before,
+/* Placeholder only when the whole editor is empty (Quill .ql-blank parity) */
 .tiptap-editor.is-editor-empty p.is-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
@@ -211,7 +210,7 @@
   font-style: normal;
 }
 
-.tiptap-rtl .tiptap-editor p.is-empty::before {
+.tiptap-rtl .tiptap-editor.is-editor-empty p.is-empty:first-child::before {
   float: right;
 }
 

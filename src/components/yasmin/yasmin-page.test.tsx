@@ -100,7 +100,7 @@ vi.mock("@/components/yasmin/rich-text-editor", () => ({
       onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) =>
         onChange(e.target.value),
     }),
-  normalizeEditorHtml: (html: string) => html,
+  createYasminEditorExtensions: () => [],
 }));
 
 import { YasminPageClient } from "./yasmin-page-client";
