@@ -97,7 +97,7 @@ export function AuthViews({
           type="button"
           onClick={onSignIn}
           disabled={signingIn}
-          className="inline-flex min-h-[44px] min-w-[44px] w-full items-center justify-center rounded-full bg-butterfly-lavender-dark px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-butterfly-lavender/40 transition-all duration-300 hover:bg-butterfly-rose hover:text-text-main disabled:opacity-60"
+          className="inline-flex min-h-[44px] min-w-[44px] w-full items-center justify-center rounded-full bg-[#7C3AED] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#7C3AED]/40 transition-all duration-300 hover:bg-[#E879A8] disabled:opacity-60"
         >
           {signingIn ? "Signing in..." : "Sign in with Google"}
         </button>

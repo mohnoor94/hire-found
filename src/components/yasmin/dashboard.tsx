@@ -204,7 +204,7 @@ export function YasminDashboard({
             <button
               type="button"
               onClick={onRefresh}
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-butterfly-lavender-dark px-6 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-butterfly-rose hover:text-text-main"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[#7C3AED] px-6 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-[#E879A8]"
             >
               <RefreshIcon className="mr-2" />
               Retry
@@ -227,7 +227,7 @@ export function YasminDashboard({
             <button
               type="button"
               onClick={onNewJob}
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-butterfly-lavender-dark px-6 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-butterfly-rose hover:text-text-main"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[#7C3AED] px-6 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-[#E879A8]"
             >
               <PlusIcon className="mr-2" />
               Create New Job

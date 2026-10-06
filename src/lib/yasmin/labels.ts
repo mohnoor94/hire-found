@@ -47,7 +47,7 @@ export const ADMIN_CATEGORY_COLORS: Record<
 > = {
   hospitality: {
     bg: "bg-butterfly-lavender/10",
-    text: "text-butterfly-lavender-dark",
+    text: "text-butterfly-violet",
   },
   tech: { bg: "bg-blue-50", text: "text-blue-700" },
   fnb: { bg: "bg-amber-50", text: "text-amber-700" },
