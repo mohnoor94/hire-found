@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-/** Scroll-reveal for .reveal / .reveal-child / .fade-up / .text-reveal */
+/** Scroll-reveal for .reveal / .reveal-child; step connectors on #steps-grid. */
 export function ScrollReveals() {
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -16,8 +16,8 @@ export function ScrollReveals() {
     }
 
     const observers: IntersectionObserver[] = [];
+    const observed = new WeakSet<Element>();
 
-    // Single .reveal elements (excluding those inside staggered groups)
     const revealObs = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -30,21 +30,25 @@ export function ScrollReveals() {
     );
     observers.push(revealObs);
 
-    document.querySelectorAll(".reveal").forEach((el) => {
-      if (!el.closest(".reveal-stagger")) {
-        revealObs.observe(el);
-      }
-    });
+    const observeReveal = (el: Element) => {
+      if (observed.has(el) || el.closest(".reveal-stagger")) return;
+      observed.add(el);
+      revealObs.observe(el);
+    };
 
-    // Staggered reveals (.reveal-stagger parent containing .reveal-child)
-    document.querySelectorAll(".reveal-stagger").forEach((group) => {
+    const observeStaggerGroup = (group: Element) => {
+      if (observed.has(group)) return;
+      observed.add(group);
       const children = group.querySelectorAll(".reveal-child");
       const groupObs = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
             if (!entry.isIntersecting) continue;
             children.forEach((child, i) => {
-              window.setTimeout(() => child.classList.add("revealed"), i * 120);
+              window.setTimeout(
+                () => child.classList.add("revealed"),
+                i * 120,
+              );
             });
             groupObs.unobserve(entry.target);
           }
@@ -53,7 +57,25 @@ export function ScrollReveals() {
       );
       groupObs.observe(group);
       observers.push(groupObs);
+    };
+
+    const scan = () => {
+      document.querySelectorAll(".reveal").forEach(observeReveal);
+      document.querySelectorAll(".reveal-stagger").forEach(observeStaggerGroup);
+    };
+
+    scan();
+
+    let scheduled = false;
+    const mo = new MutationObserver(() => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => {
+        scheduled = false;
+        scan();
+      });
     });
+    mo.observe(document.body, { childList: true, subtree: true });
 
     // Step connectors and circle pulsing on #steps-grid
     const stepsGrid = document.getElementById("steps-grid");
@@ -62,10 +84,16 @@ export function ScrollReveals() {
         ([entry]) => {
           if (entry?.isIntersecting) {
             document.querySelectorAll(".step-connector").forEach((line, i) => {
-              window.setTimeout(() => line.classList.add("animate"), 400 + i * 300);
+              window.setTimeout(
+                () => line.classList.add("animate"),
+                400 + i * 300,
+              );
             });
             document.querySelectorAll("[data-step-circle]").forEach((c, i) => {
-              window.setTimeout(() => c.classList.add("step-pulse"), 800 + i * 200);
+              window.setTimeout(
+                () => c.classList.add("step-pulse"),
+                800 + i * 200,
+              );
             });
             stepObs.unobserve(entry.target);
           }
@@ -77,6 +105,7 @@ export function ScrollReveals() {
     }
 
     return () => {
+      mo.disconnect();
       observers.forEach((obs) => obs.disconnect());
     };
   }, []);

@@ -5,6 +5,7 @@ import { CustomCursor } from "@/components/site/custom-cursor";
 import { ScrollReveals } from "@/components/site/scroll-reveals";
 import { HeroEffects } from "@/components/site/hero-effects";
 import { ServicesEffects } from "@/components/site/services-effects";
+import { MicroInteractions } from "@/components/site/micro-interactions";
 import { LiveVacancies } from "@/components/site/live-vacancies";
 import { Hero } from "@/components/site/sections/Hero";
 import { WaveDarkToWarm } from "@/components/site/sections/WaveDarkToWarm";
@@ -39,6 +40,7 @@ export default function HomePage() {
       <HeroEffects />
       <ServicesEffects />
       <ScrollReveals />
+      <MicroInteractions />
     </>
   );
 }
