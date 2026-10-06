@@ -28,6 +28,19 @@ export type UseAdminAuthResult = {
   retry: () => void;
 };
 
+function resolveStatus(nextUser: User | null): {
+  status: Exclude<AdminAuthStatus, "loading" | "unavailable">;
+  user: User | null;
+} {
+  if (!nextUser) {
+    return { status: "signed-out", user: null };
+  }
+  if (isEmailAllowed(nextUser.email, ALLOWED_EMAILS)) {
+    return { status: "authenticated", user: nextUser };
+  }
+  return { status: "denied", user: null };
+}
+
 export function useAdminAuth(): UseAdminAuthResult {
   const [status, setStatus] = useState<AdminAuthStatus>(() =>
     auth ? "loading" : "unavailable",
@@ -36,6 +49,7 @@ export function useAdminAuth(): UseAdminAuthResult {
   const [signInError, setSignInError] = useState<string | null>(null);
   const [signingIn, setSigningIn] = useState(false);
   const denyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const readyRef = useRef(false);
 
   const clearDenyTimer = useCallback(() => {
     if (denyTimerRef.current) {
@@ -44,52 +58,77 @@ export function useAdminAuth(): UseAdminAuthResult {
     }
   }, []);
 
+  const applyUser = useCallback(
+    (nextUser: User | null) => {
+      clearDenyTimer();
+      const resolved = resolveStatus(nextUser);
+      setUser(resolved.user);
+      setStatus(resolved.status);
+
+      if (resolved.status === "authenticated") {
+        setSignInError(null);
+      }
+
+      if (resolved.status === "denied" && auth) {
+        denyTimerRef.current = setTimeout(() => {
+          firebaseSignOut(auth).catch((err) => {
+            console.error("Auto sign-out failed:", err);
+          });
+        }, AUTO_SIGN_OUT_DELAY_MS);
+      }
+    },
+    [clearDenyTimer],
+  );
+
   useEffect(() => {
     if (!auth) {
       return;
     }
 
-    setPersistence(auth, browserLocalPersistence).catch((error) => {
-      console.error("Failed to set auth persistence:", error);
-    });
+    let cancelled = false;
+    let unsubscribe: (() => void) | undefined;
 
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (nextUser) => {
-        clearDenyTimer();
-
-        if (!nextUser) {
-          setUser(null);
-          setStatus("signed-out");
-          return;
+    async function initAuth() {
+      try {
+        // Await persistence so restore isn't racing the first UI decision.
+        await setPersistence(auth!, browserLocalPersistence);
+        // Wait until Firebase has finished reading the persisted session.
+        await auth!.authStateReady();
+      } catch (error) {
+        console.error("Failed to initialize auth persistence/state:", error);
+        if (!cancelled) {
+          setStatus("unavailable");
         }
+        return;
+      }
 
-        if (isEmailAllowed(nextUser.email, ALLOWED_EMAILS)) {
-          setUser(nextUser);
-          setStatus("authenticated");
-          setSignInError(null);
-          return;
-        }
+      if (cancelled) return;
 
-        setUser(null);
-        setStatus("denied");
-        denyTimerRef.current = setTimeout(() => {
-          firebaseSignOut(auth!).catch((err) => {
-            console.error("Auto sign-out failed:", err);
-          });
-        }, AUTO_SIGN_OUT_DELAY_MS);
-      },
-      (error) => {
-        console.error("Auth state listener error:", error);
-        setStatus("unavailable");
-      },
-    );
+      readyRef.current = true;
+      // First paint decision only after authStateReady — fixes signed-in → sign-in flash.
+      applyUser(auth!.currentUser);
+
+      unsubscribe = onAuthStateChanged(
+        auth!,
+        (nextUser) => {
+          if (!readyRef.current || cancelled) return;
+          applyUser(nextUser);
+        },
+        (error) => {
+          console.error("Auth state listener error:", error);
+          if (!cancelled) setStatus("unavailable");
+        },
+      );
+    }
+
+    void initAuth();
 
     return () => {
-      unsubscribe();
+      cancelled = true;
+      unsubscribe?.();
       clearDenyTimer();
     };
-  }, [clearDenyTimer]);
+  }, [applyUser, clearDenyTimer]);
 
   const signInWithGoogle = useCallback(async () => {
     if (!auth) {
@@ -103,6 +142,7 @@ export function useAdminAuth(): UseAdminAuthResult {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
+      // onAuthStateChanged / authStateReady path applies the user
     } catch (error) {
       const code =
         error && typeof error === "object" && "code" in error
