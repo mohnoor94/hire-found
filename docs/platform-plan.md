@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 3 — Public site parity (done) |
-| Next work | Phase 4 — Jobs parity |
+| Current phase | Phase 4 — Jobs parity (implementation done; dual reviews pending) |
+| Next work | Dual review: high-risk:jobs-detail-apply + Phase 4 gate |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -220,18 +220,18 @@ Sources: [`index.html`](../index.html), [`js/nav.js`](../js/nav.js), [`js/footer
 
 Source: [`jobs/index.html`](../jobs/index.html), [`js/jobs.js`](../js/jobs.js).
 
-- [ ] Jobs list page — `not started`
-- [ ] Category filters — `not started`
-- [ ] Job cards — `not started`
-- [ ] Detail via `?id=`, including back/forward — `not started`
-- [ ] Empty, error, and not-found states — `not started`
-- [ ] Apply: Tally iframe when `tallyFormId` is set — `not started`
-- [ ] Apply fallback: WhatsApp, email, Book a Call — `not started`
-- [ ] Arabic description block when `fullDescriptionAr` is set — `not started`
+- [x] Jobs list page — `done`
+- [x] Category filters — `done`
+- [x] Job cards — `done`
+- [x] Detail via `?id=`, including back/forward — `done`
+- [x] Empty, error, and not-found states — `done`
+- [x] Apply: Tally iframe when `tallyFormId` is set — `done`
+- [x] Apply fallback: WhatsApp, email, Book a Call — `done`
+- [x] Arabic description block when `fullDescriptionAr` is set — `done`
 
 ### High-risk
 
-- [ ] Client-loaded detail (`?id=`) and apply paths — `not started`
+- [ ] Client-loaded detail (`?id=`) and apply paths — `in progress`
   - [ ] Cursor review
   - [ ] `agy` review
 
