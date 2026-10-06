@@ -8,6 +8,7 @@ import {
   type Firestore,
   type QuerySnapshot,
   type DocumentData,
+  type QueryConstraint,
 } from "firebase/firestore";
 import { db as defaultDb } from "@/lib/firebase";
 import {
@@ -49,7 +50,7 @@ export async function fetchJobs(
     );
   }
 
-  const constraints = [
+  const constraints: QueryConstraint[] = [
     where("isActive", "==", true),
     orderBy("createdAt", "desc"),
   ];
