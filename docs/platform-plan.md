@@ -36,6 +36,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-06** — Implementation happens on branch `v2`, with each change committed and pushed there. `main` keeps serving the vanilla site until Phase 6.
 - **2026-10-06** — Phase 7 UI/UX work is dual-reviewed: Cursor first, then Antigravity CLI (`agy`), using [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). A surface is not `done` until both reviews are recorded.
 - **2026-10-06** — Dual review also applies to every phase gate (Phases 1–6) and to named high-risk items, using [`docs/phase-review-prompt.md`](phase-review-prompt.md). Not every checkbox gets dual review.
+- **2026-10-06** — Phase 1 `agy` asked for a `v2` lint/test/build CI workflow. Deferred as nice-to-have (not on the Phase 1 checklist). Draft lives at [`.github/workflows/ci.yml`](../.github/workflows/ci.yml); wire or extend it when PR checks are wanted.
 
 ```mermaid
 flowchart LR
@@ -158,6 +159,8 @@ Branch `v2`. Static export only. No pages beyond a smoke route.
 - [x] Phase 1 gate — `done`
   - [x] Cursor review — 2026-10-06 pass-with-fixes (eslint ignore vanilla; vitest ESM config)
   - [x] `agy` review — 2026-10-06 pass-with-fixes (same; CI workflow deferred as nice-to-have)
+
+- [ ] Optional: enable/extend [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) for PR checks — `deferred`
 
 ## Phase 2 — Shared job domain
 
