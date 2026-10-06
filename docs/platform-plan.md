@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 1 — Foundation (done) |
-| Next work | Phase 2 — Shared job domain |
+| Current phase | Phase 2 — Shared job domain (in progress) |
+| Next work | Finish Phase 2 checklist on branch `v2` |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -166,21 +166,21 @@ Branch `v2`. Static export only. No pages beyond a smoke route.
 
 Port behavior, then the tests. Keep the data contract above.
 
-- [ ] Job type matching the Firestore fields — `not started`
-- [ ] `fetchJobs` (active, newest first, limit, 10s timeout, drop expired) — `not started`
-- [ ] Slug generate and dedupe, from [`yasmin/js/editor.js`](../yasmin/js/editor.js) — `not started`
-- [ ] Form validation rules from `validateForm` — `not started`
-- [ ] Category filter, search, and status filter used by the dashboard — `not started`
-- [ ] Port [`yasmin/__tests__/slug.property.test.js`](../yasmin/__tests__/slug.property.test.js) — `not started`
-- [ ] Port [`yasmin/__tests__/validation.property.test.js`](../yasmin/__tests__/validation.property.test.js) — `not started`
-- [ ] Port [`yasmin/__tests__/dashboard-filters.test.js`](../yasmin/__tests__/dashboard-filters.test.js) — `not started`
-- [ ] Port [`yasmin/__tests__/shortcuts.test.js`](../yasmin/__tests__/shortcuts.test.js) — `not started`
+- [x] Job type matching the Firestore fields — `done`
+- [x] `fetchJobs` (active, newest first, limit, 10s timeout, drop expired) — `done`
+- [x] Slug generate and dedupe, from [`yasmin/js/editor.js`](../yasmin/js/editor.js) — `done`
+- [x] Form validation rules from `validateForm` — `done`
+- [x] Category filter, search, and status filter used by the dashboard — `done`
+- [x] Port [`yasmin/__tests__/slug.property.test.js`](../yasmin/__tests__/slug.property.test.js) — `done`
+- [x] Port [`yasmin/__tests__/validation.property.test.js`](../yasmin/__tests__/validation.property.test.js) — `done`
+- [x] Port [`yasmin/__tests__/dashboard-filters.test.js`](../yasmin/__tests__/dashboard-filters.test.js) — `done`
+- [x] Port [`yasmin/__tests__/shortcuts.test.js`](../yasmin/__tests__/shortcuts.test.js) — `done`
 - [ ] Revisit the Book a Call tests when the modal is ported in Phase 3: [`__tests__/book-a-call-preservation.property.test.js`](../__tests__/book-a-call-preservation.property.test.js), [`__tests__/book-a-call-bug-condition.property.test.js`](../__tests__/book-a-call-bug-condition.property.test.js) — `not started`
 - [ ] [`yasmin/__tests__/tailwind-config.property.test.js`](../yasmin/__tests__/tailwind-config.property.test.js) — `deferred`. It locks the CDN Tailwind config. Replace it with the new Tailwind setup instead of porting it.
 
 ### High-risk
 
-- [ ] Data contract + ported Vitest suite match vanilla behavior — `not started`
+- [ ] Data contract + ported Vitest suite match vanilla behavior — `in progress`
   - [ ] Cursor review
   - [ ] `agy` review
 
