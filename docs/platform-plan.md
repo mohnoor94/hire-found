@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 4 — Jobs parity (done) |
-| Next work | Phase 5 — Yasmin parity |
+| Current phase | Phase 5 — Yasmin parity (in progress) |
+| Next work | Dual review for high-risk auth + Tiptap, then Phase 5 gate |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -245,28 +245,28 @@ Source: [`jobs/index.html`](../jobs/index.html), [`js/jobs.js`](../js/jobs.js).
 
 Sources: [`yasmin/index.html`](../yasmin/index.html) and [`yasmin/js/`](../yasmin/js/). shadcn for the panel. Tiptap replaces Quill. Same Firestore writes (`addDoc`, `updateDoc`, `deleteDoc`, `serverTimestamp`).
 
-- [ ] Google sign-in, local persistence — `not started`
-- [ ] Allowlist: `moh.noor94@gmail.com`, `yasmin@hirefound.com` — `not started`
-- [ ] Loading, signed-out, and access-denied states — `not started`
-- [ ] Sign out — `not started`
-- [ ] Dashboard list of all jobs, including inactive — `not started`
-- [ ] Search, category filter, status filter, counts — `not started`
-- [ ] Active toggle, edit, delete (with confirm), view-on-site link — `not started`
-- [ ] Greeting and subtitle — `not started`
-- [ ] Quick links: homepage, jobs, Tally create, Cal.com — `not started`
-- [ ] Editor sections: basic info, company, description, contact — `not started`
-- [ ] Slug auto-generation, manual override, regenerate, dedupe — `not started`
-- [ ] Tiptap for `fullDescription` and `fullDescriptionAr`, HTML in, HTML out — `not started`
-- [ ] Arabic field RTL — `not started`
-- [ ] Toasts — `not started`
-- [ ] `N` shortcut opens a new job when the shortcut should not be suppressed — `not started`
+- [x] Google sign-in, local persistence — `done`
+- [x] Allowlist: `moh.noor94@gmail.com`, `yasmin@hirefound.com` — `done`
+- [x] Loading, signed-out, and access-denied states — `done`
+- [x] Sign out — `done`
+- [x] Dashboard list of all jobs, including inactive — `done`
+- [x] Search, category filter, status filter, counts — `done`
+- [x] Active toggle, edit, delete (with confirm), view-on-site link — `done`
+- [x] Greeting and subtitle — `done`
+- [x] Quick links: homepage, jobs, Tally create, Cal.com — `done`
+- [x] Editor sections: basic info, company, description, contact — `done`
+- [x] Slug auto-generation, manual override, regenerate, dedupe — `done`
+- [x] Tiptap for `fullDescription` and `fullDescriptionAr`, HTML in, HTML out — `done`
+- [x] Arabic field RTL — `done`
+- [x] Toasts — `done`
+- [x] `N` shortcut opens a new job when the shortcut should not be suppressed — `done`
 
 ### High-risk
 
-- [ ] Auth allowlist + denied states — `not started`
+- [ ] Auth allowlist + denied states — `in progress`
   - [ ] Cursor review
   - [ ] `agy` review
-- [ ] Tiptap HTML round-trip (existing Quill jobs still render) — `not started`
+- [ ] Tiptap HTML round-trip (existing Quill jobs still render) — `in progress`
   - [ ] Cursor review
   - [ ] `agy` review
 

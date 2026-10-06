@@ -20,7 +20,12 @@
     --color-muted: #6B6560;
     --color-whatsapp: #25D366;
     --color-success: #7A9E7E;
+    --color-butterfly-lavender: #C4B5FD;
+    --color-butterfly-lavender-dark: #7C3AED;
+    --color-butterfly-rose: #FDA4AF;
+    --color-butterfly-gold: #FCD34D;
     --font-accent: var(--font-dm-serif), Georgia, serif;
+    --font-caveat: var(--font-caveat), cursive;
     --font-sans: var(--font-inter), var(--font-noto-arabic), "Noto Sans Arabic", system-ui, sans-serif;
     --font-heading: var(--font-dm-serif), Georgia, serif;
     --shadow-card: 0 4px 24px rgba(45, 41, 38, 0.06);

@@ -11,6 +11,16 @@ export {
 } from "./types";
 
 export { fetchJobs, type FetchJobsOptions } from "./fetch-jobs";
+export {
+  fetchAllJobs,
+  createJob,
+  updateJob,
+  deleteJob,
+  toggleJobActive,
+  fetchExistingSlugs,
+  type AdminFetchOptions,
+  type CreateJobResult,
+} from "./admin";
 export { generateSlug, deduplicateSlug } from "./slug";
 export {
   validateForm,
