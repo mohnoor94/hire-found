@@ -9,8 +9,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 | | |
 |---|---|
 | Current phase | Phase 5 — Yasmin parity (in progress) |
-| Next work | Dual review for high-risk auth + Tiptap, then Phase 5 gate |
-| Last updated | 2026-10-06 |
+| Next work | Apply agy must-fixes; finish Cursor dual-review checkboxes; close Phase 5 gate |
+| Last updated | 2026-10-07 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
 
@@ -265,16 +265,16 @@ Sources: [`yasmin/index.html`](../yasmin/index.html) and [`yasmin/js/`](../yasmi
 
 - [ ] Auth allowlist + denied states — `in progress`
   - [ ] Cursor review
-  - [ ] `agy` review
+  - [x] `agy` review — 2026-10-07 pass
 - [ ] Tiptap HTML round-trip (existing Quill jobs still render) — `in progress`
   - [ ] Cursor review
-  - [ ] `agy` review
+  - [x] `agy` review — 2026-10-07 pass-with-fixes (placeholder extension)
 
 ### Phase 5 gate
 
-- [ ] Phase 5 gate — `not started`
+- [ ] Phase 5 gate — `in progress`
   - [ ] Cursor review
-  - [ ] `agy` review
+  - [x] `agy` review — 2026-10-07 pass-with-fixes (placeholder, drop firebase-admin, lavender-dark token)
 
 ## Phase 6 — Cutover
 

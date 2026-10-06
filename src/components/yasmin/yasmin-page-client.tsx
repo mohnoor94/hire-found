@@ -35,6 +35,7 @@ export function YasminPageClient() {
   const [deleting, setDeleting] = useState(false);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const loadedRef = useRef(false);
+  const prevAuthStatus = useRef(auth.status);
 
   const isEditorOpen = view !== "dashboard";
   const isModalOpen = Boolean(deleteTarget);
@@ -54,6 +55,21 @@ export function YasminPageClient() {
   }, []);
 
   useEffect(() => {
+    const prev = prevAuthStatus.current;
+    prevAuthStatus.current = auth.status;
+
+    // Drop in-memory admin data when leaving an authenticated session.
+    if (prev === "authenticated" && auth.status !== "authenticated") {
+      loadedRef.current = false;
+      setJobs([]);
+      setEditingJob(null);
+      setDeleteTarget(null);
+      setView("dashboard");
+      setError(false);
+      setLoading(false);
+      return;
+    }
+
     if (auth.status !== "authenticated") {
       loadedRef.current = false;
       return;
@@ -186,9 +202,16 @@ export function YasminPageClient() {
         aria-label="Admin navigation"
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-          <a href="/yasmin/" className="font-accent text-xl font-bold text-primary">
+          <button
+            type="button"
+            onClick={() => {
+              setEditingJob(null);
+              setView("dashboard");
+            }}
+            className="font-accent text-xl font-bold text-primary"
+          >
             Yasmin&apos;s Space
-          </a>
+          </button>
           <button
             type="button"
             onClick={() => void auth.signOut()}

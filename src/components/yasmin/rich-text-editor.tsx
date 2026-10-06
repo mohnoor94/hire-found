@@ -5,6 +5,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Underline from "@tiptap/extension-underline";
+import Placeholder from "@tiptap/extension-placeholder";
 import { cn } from "@/lib/utils";
 import { normalizeEditorHtml } from "@/lib/yasmin/editor-html";
 
@@ -44,6 +45,11 @@ export function RichTextEditor({
           class: "text-blue-600 underline underline-offset-[3px] font-medium",
         },
       }),
+      Placeholder.configure({
+        placeholder,
+        emptyEditorClass: "is-editor-empty",
+        emptyNodeClass: "is-empty",
+      }),
     ],
     content: value || "",
     editorProps: {
@@ -55,7 +61,6 @@ export function RichTextEditor({
           dir === "rtl" && "text-right",
         ),
         dir,
-        ...(placeholder ? { "data-placeholder": placeholder } : {}),
       },
     },
     onUpdate: ({ editor: ed }) => {

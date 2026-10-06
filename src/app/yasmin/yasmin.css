@@ -200,16 +200,18 @@
   padding-right: 1.5rem;
 }
 
-.tiptap-editor.is-editor-empty:first-child::before,
-.tiptap-editor p.is-empty:first-child::before {
+/* Placeholder extension sets data-placeholder on the empty node */
+.tiptap-editor p.is-empty::before,
+.tiptap-editor.is-editor-empty p.is-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
   color: #8a8380;
   pointer-events: none;
   height: 0;
+  font-style: normal;
 }
 
-.tiptap-rtl .tiptap-editor p.is-empty:first-child::before {
+.tiptap-rtl .tiptap-editor p.is-empty::before {
   float: right;
 }
 

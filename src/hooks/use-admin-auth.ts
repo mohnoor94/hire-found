@@ -70,8 +70,9 @@ export function useAdminAuth(): UseAdminAuthResult {
       }
 
       if (resolved.status === "denied" && auth) {
+        const authInstance = auth;
         denyTimerRef.current = setTimeout(() => {
-          firebaseSignOut(auth).catch((err) => {
+          firebaseSignOut(authInstance).catch((err) => {
             console.error("Auto sign-out failed:", err);
           });
         }, AUTO_SIGN_OUT_DELAY_MS);

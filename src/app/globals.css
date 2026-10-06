@@ -21,6 +21,8 @@
     --color-whatsapp: #25D366;
     --color-success: #7A9E7E;
     --color-butterfly-lavender: #C4B5FD;
+    /* Vanilla name from js/tailwind-config.js; also aliased as violet for utilities */
+    --color-butterfly-lavender-dark: #7C3AED;
     --color-butterfly-violet: #7C3AED;
     --color-butterfly-rose: #FDA4AF;
     --color-butterfly-gold: #FCD34D;
