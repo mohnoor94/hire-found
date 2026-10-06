@@ -1,17 +1,44 @@
-import { Button } from "@/components/ui/button";
+import { SiteNav } from "@/components/site/site-nav";
+import { SiteFooter } from "@/components/site/site-footer";
+import { ActionStack } from "@/components/site/action-stack";
+import { CustomCursor } from "@/components/site/custom-cursor";
+import { ScrollReveals } from "@/components/site/scroll-reveals";
+import { HeroEffects } from "@/components/site/hero-effects";
+import { ServicesEffects } from "@/components/site/services-effects";
+import { LiveVacancies } from "@/components/site/live-vacancies";
+import { Hero } from "@/components/site/sections/Hero";
+import { WaveDarkToWarm } from "@/components/site/sections/WaveDarkToWarm";
+import { AntiPitch } from "@/components/site/sections/AntiPitch";
+import { About } from "@/components/site/sections/About";
+import { Services } from "@/components/site/sections/Services";
+import { HowItWorks } from "@/components/site/sections/HowItWorks";
+import { Trust } from "@/components/site/sections/Trust";
+import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className="flex min-h-screen items-center justify-center p-8">
-      <div className="flex flex-col items-center gap-4 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">HireFound</h1>
-        <p className="text-sm text-muted-foreground">
-          Phase 1 foundation smoke route
-        </p>
-        <Button type="button" variant="outline">
-          shadcn ready
-        </Button>
-      </div>
-    </main>
+    <>
+      <a href="#hero" className="skip-link">
+        Skip to content
+      </a>
+      <CustomCursor />
+      <SiteNav />
+      <main>
+        <Hero />
+        <WaveDarkToWarm />
+        <AntiPitch />
+        <LiveVacancies />
+        <About />
+        <Services />
+        <HowItWorks />
+        <Trust />
+        <WaveWarmToDark />
+        <SiteFooter />
+      </main>
+      <ActionStack />
+      <HeroEffects />
+      <ServicesEffects />
+      <ScrollReveals />
+    </>
   );
 }

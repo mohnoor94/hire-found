@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 2 — Shared job domain (done) |
-| Next work | Phase 3 — Public site parity |
+| Current phase | Phase 3 — Public site parity (checklist done; gate reviews pending) |
+| Next work | Phase 3 dual reviews (Cursor + `agy`), then Phase 4 |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -196,19 +196,19 @@ Match current behavior and layout. Visual redesign waits for Phase 7.
 
 Sources: [`index.html`](../index.html), [`js/nav.js`](../js/nav.js), [`js/footer.js`](../js/footer.js), [`js/booking-modal.js`](../js/booking-modal.js).
 
-- [ ] Shared nav — `not started`
-- [ ] Shared footer, including contact mailto — `not started`
-- [ ] Hero, including the WhatsApp-style typing chat — `not started`
-- [ ] Anti-pitch — `not started`
-- [ ] Live vacancies (4 active jobs) — `not started`
-- [ ] About — `not started`
-- [ ] Services (employer / candidate) — `not started`
-- [ ] How it works — `not started`
-- [ ] Trust / testimonials, still hidden as on the current homepage — `not started`
-- [ ] Book a Call modal (Cal.com embed, `cal.com/yasminblasi`) — `not started`
-- [ ] WhatsApp entry points and floating actions — `not started`
-- [ ] Scroll reveals — `not started`
-- [ ] Custom cursor — `not started`
+- [x] Shared nav — `done`
+- [x] Shared footer, including contact mailto — `done`
+- [x] Hero, including the WhatsApp-style typing chat — `done`
+- [x] Anti-pitch — `done`
+- [x] Live vacancies (4 active jobs) — `done`
+- [x] About — `done`
+- [x] Services (employer / candidate) — `done`
+- [x] How it works — `done`
+- [x] Trust / testimonials, still hidden as on the current homepage — `done`
+- [x] Book a Call modal (Cal.com embed, `cal.com/yasminblasi`) — `done`
+- [x] WhatsApp entry points and floating actions — `done`
+- [x] Scroll reveals — `done`
+- [x] Custom cursor — `done`
 
 ### Phase 3 gate
 
