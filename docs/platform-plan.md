@@ -180,15 +180,15 @@ Port behavior, then the tests. Keep the data contract above.
 
 ### High-risk
 
-- [ ] Data contract + ported Vitest suite match vanilla behavior — `in progress`
-  - [ ] Cursor review
-  - [ ] `agy` review
+- [x] Data contract + ported Vitest suite match vanilla behavior — `done`
+  - [x] Cursor review — 2026-10-06 pass
+  - [x] `agy` review — 2026-10-06 pass
 
 ### Phase 2 gate
 
-- [ ] Phase 2 gate — `not started`
-  - [ ] Cursor review
-  - [ ] `agy` review
+- [x] Phase 2 gate — `done`
+  - [x] Cursor review — 2026-10-06 pass
+  - [x] `agy` review — 2026-10-06 pass
 
 ## Phase 3 — Public site parity
 
