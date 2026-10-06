@@ -101,7 +101,7 @@ export function YasminDashboard({
           type="button"
           onClick={onNewJob}
           title="Press N to create new job"
-          className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[#7C3AED] px-6 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-butterfly-rose sm:ml-auto"
+          className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[#7C3AED] px-6 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-butterfly-rose hover:text-text-main sm:ml-auto"
           aria-label="Create new job post"
         >
           <PlusIcon className="mr-2" />
@@ -204,7 +204,7 @@ export function YasminDashboard({
             <button
               type="button"
               onClick={onRefresh}
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-butterfly-lavender px-6 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-butterfly-rose"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-butterfly-lavender-dark px-6 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-butterfly-rose hover:text-text-main"
             >
               <RefreshIcon className="mr-2" />
               Retry
@@ -227,7 +227,7 @@ export function YasminDashboard({
             <button
               type="button"
               onClick={onNewJob}
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-butterfly-lavender px-6 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-butterfly-rose"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-butterfly-lavender-dark px-6 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-butterfly-rose hover:text-text-main"
             >
               <PlusIcon className="mr-2" />
               Create New Job

@@ -191,10 +191,12 @@ button:focus-visible,
 
 
 /* === Homepage motion / components (from index.html) === */
-/* === Custom Cursor (desktop only) === */
+/* === Custom Cursor (desktop only; only when CustomCursor is mounted) === */
     @media (hover: hover) and (pointer: fine) {
-      * { cursor: none !important; }
-      input, textarea, [contenteditable] { cursor: text !important; }
+      body:has(.custom-cursor.active) * { cursor: none !important; }
+      body:has(.custom-cursor.active) input,
+      body:has(.custom-cursor.active) textarea,
+      body:has(.custom-cursor.active) [contenteditable] { cursor: text !important; }
     }
     .custom-cursor {
       position: fixed;
