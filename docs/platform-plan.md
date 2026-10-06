@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 1 — Foundation (checklist done; gate + high-risk reviews pending) |
-| Next work | Phase 1 dual reviews (Cursor + `agy`), then Phase 2 |
+| Current phase | Phase 1 — Foundation (done) |
+| Next work | Phase 2 — Shared job domain |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -149,15 +149,15 @@ Branch `v2`. Static export only. No pages beyond a smoke route.
 
 ### High-risk
 
-- [ ] Static export config stays valid for GitHub Pages — `in progress`
-  - [ ] Cursor review
-  - [ ] `agy` review
+- [x] Static export config stays valid for GitHub Pages — `done`
+  - [x] Cursor review — 2026-10-06 pass
+  - [x] `agy` review — 2026-10-06 pass
 
 ### Phase 1 gate
 
-- [ ] Phase 1 gate — `not started`
-  - [ ] Cursor review
-  - [ ] `agy` review
+- [x] Phase 1 gate — `done`
+  - [x] Cursor review — 2026-10-06 pass-with-fixes (eslint ignore vanilla; vitest ESM config)
+  - [x] `agy` review — 2026-10-06 pass-with-fixes (same; CI workflow deferred as nice-to-have)
 
 ## Phase 2 — Shared job domain
 
