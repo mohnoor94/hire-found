@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 4 — Jobs parity (fixes applied; dual reviews pending) |
-| Next work | Dual review: high-risk:jobs-detail-apply + Phase 4 gate |
+| Current phase | Phase 4 — Jobs parity (done) |
+| Next work | Phase 5 — Yasmin parity |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -231,15 +231,15 @@ Source: [`jobs/index.html`](../jobs/index.html), [`js/jobs.js`](../js/jobs.js).
 
 ### High-risk
 
-- [ ] Client-loaded detail (`?id=`) and apply paths — `in progress`
-  - [ ] Cursor review
-  - [ ] `agy` review
+- [x] Client-loaded detail (`?id=`) and apply paths — `done`
+  - [x] Cursor review — 2026-10-06 pass
+  - [x] `agy` review — 2026-10-06 pass
 
 ### Phase 4 gate
 
-- [ ] Phase 4 gate — `not started`
-  - [ ] Cursor review
-  - [ ] `agy` review
+- [x] Phase 4 gate — `done`
+  - [x] Cursor review — 2026-10-06 pass
+  - [x] `agy` review — 2026-10-06 pass
 
 ## Phase 5 — Yasmin parity
 
