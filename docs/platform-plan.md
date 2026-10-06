@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 1 — Foundation (in progress) |
-| Next work | Finish Phase 1 checklist on branch `v2` |
+| Current phase | Phase 1 — Foundation (checklist done; gate + high-risk reviews pending) |
+| Next work | Phase 1 dual reviews (Cursor + `agy`), then Phase 2 |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -144,7 +144,7 @@ Branch `v2`. Static export only. No pages beyond a smoke route.
 - [x] shadcn/ui initialized — `done`
 - [x] Firebase client module (app, Auth, Firestore), same project as [`js/firebase-config.js`](../js/firebase-config.js) — `done`
 - [x] `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`, `basePath` `/` — `done`
-- [ ] Vitest running in the new app — `not started`
+- [x] Vitest running in the new app — `done`
 - [x] `npm run build` writes `out/` and is not what GitHub Pages deploys yet — `done`
 
 ### High-risk
