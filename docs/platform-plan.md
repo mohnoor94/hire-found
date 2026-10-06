@@ -8,8 +8,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 2 — Shared job domain (in progress) |
-| Next work | Finish Phase 2 checklist on branch `v2` |
+| Current phase | Phase 2 — Shared job domain (done) |
+| Next work | Phase 3 — Public site parity |
 | Last updated | 2026-10-06 |
 | Live site | Vanilla HTML on GitHub Pages (`hirefound.com`) until Phase 6 |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
