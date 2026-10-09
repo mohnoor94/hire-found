@@ -301,15 +301,32 @@
 }
 
 /* Yasmin editor: draft text matches the public job description. */
+.tiptap-frame {
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
 .tiptap-editor {
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   line-height: 1.7;
   color: var(--foreground);
-  outline: none;
+  /* Beat base `* { outline-ring }` + focus UA styles; outline was 2px solid primary. */
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
 }
 
 .tiptap-editor:focus,
+.tiptap-editor:focus-visible,
 .tiptap-editor.ProseMirror-focused {
-  outline: none;
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
 }
 
 .tiptap-editor p {

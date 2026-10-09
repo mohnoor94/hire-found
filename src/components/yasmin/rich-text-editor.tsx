@@ -72,9 +72,10 @@ export function RichTextEditor({
         "aria-label": ariaLabel || "",
         ...(dir === "rtl" ? { lang: "ar" } : {}),
         class: cn(
-          "tiptap-editor min-h-40 scroll-mb-32 px-4 py-3 text-base leading-relaxed outline-none focus:outline-none",
+          "tiptap-editor min-h-40 max-w-full min-w-0 scroll-mb-32 px-4 py-3 text-base leading-relaxed",
           dir === "rtl" && "text-start",
         ),
+        style: "outline: none; outline-offset: 0;",
         dir,
       },
     },
@@ -104,9 +105,9 @@ export function RichTextEditor({
   }
 
   return (
-    <div className="scroll-mb-32 rounded-2xl border border-primary/25 bg-white transition-[border-color] has-[.tiptap-editor:focus]:border-primary">
+    <div className="tiptap-frame max-w-full min-w-0 overflow-x-clip scroll-mb-32 rounded-2xl border border-primary/25 bg-white has-[.tiptap-editor:focus]:border-primary">
       <EditorToolbar editor={editor} label={ariaLabel} fieldId={id} />
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor} className="max-w-full min-w-0 overflow-x-clip" />
     </div>
   );
 }
@@ -227,11 +228,11 @@ function EditorToolbar({
   return (
     <div
       dir="ltr"
-      className="rounded-t-2xl border-b border-primary/15 bg-warm"
+      className="max-w-full min-w-0 overflow-x-clip rounded-t-2xl border-b border-primary/15 bg-warm"
     >
       <div
         ref={barRef}
-        className="flex flex-wrap gap-2 px-3 py-2"
+        className="flex max-w-full min-w-0 flex-wrap gap-2 px-3 py-2"
         role="toolbar"
         aria-label={label ? `${label} formatting` : "Formatting"}
         aria-orientation="horizontal"

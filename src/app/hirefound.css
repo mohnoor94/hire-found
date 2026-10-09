@@ -76,9 +76,19 @@
 /* === Focus Indicators === */
 a:focus-visible,
 button:focus-visible,
-[tabindex="0"]:focus-visible {
+[tabindex="0"]:focus-visible:not(.ProseMirror):not(.tiptap-editor):not([contenteditable="true"]) {
   outline: 2px solid var(--primary, #7a1e4a);
   outline-offset: 2px;
+}
+
+/* Tiptap: frame border is the only focus chrome (see .tiptap-frame). */
+.ProseMirror:focus,
+.ProseMirror:focus-visible,
+.tiptap-editor:focus,
+.tiptap-editor:focus-visible,
+[contenteditable="true"].ProseMirror:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
 }
 
 /* === Accessibility === */

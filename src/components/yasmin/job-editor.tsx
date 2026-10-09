@@ -317,7 +317,7 @@ export function JobEditor({
   const tallyId = "field-tallyFormId";
 
   return (
-    <div className="mx-auto max-w-6xl px-6 pt-6 pb-36">
+    <div className="mx-auto w-full max-w-6xl min-w-0 px-6 pt-6 pb-36">
       <form
         id="job-editor-form"
         noValidate
@@ -548,12 +548,12 @@ export function JobEditor({
           </div>
         </section>
 
-        <section data-section="description" className="mt-10 border-t border-secondary pt-6">
+        <section data-section="description" className="mt-10 min-w-0 border-t border-secondary pt-6">
           <h3 className="font-accent text-xl text-primary">Description</h3>
           <p className="mt-1 text-sm text-muted">
             Short text for the list. Full text for the page. Arabic is optional.
           </p>
-          <div className="mt-5 space-y-5">
+          <div className="mt-5 min-w-0 space-y-5">
             <EditorField
               id={shortId}
               label="Short description"
@@ -579,7 +579,7 @@ export function JobEditor({
               />
             </EditorField>
 
-            <div className="space-y-2">
+            <div className="min-w-0 space-y-2">
               <p className="text-sm font-semibold text-text-main">
                 Full description
               </p>
@@ -592,7 +592,7 @@ export function JobEditor({
               />
             </div>
 
-            <div className="space-y-2">
+            <div className="min-w-0 space-y-2">
               <p className="text-sm font-semibold text-text-main">
                 Full description (Arabic)
               </p>
