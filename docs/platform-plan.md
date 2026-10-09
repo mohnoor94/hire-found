@@ -10,8 +10,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 7: Stage D yasmin-dashboard in review |
-| Next work | Cursor + `tagy` review for `yasmin-dashboard`. Editor waits. Custom-domain DNS still deferred |
+| Current phase | Phase 7: Stage D yasmin-dashboard done; editor next |
+| Next work | Stage D5 `yasmin-editor` → Cursor + `tagy` review. Custom-domain DNS still deferred |
 | Last updated | 2026-10-10 |
 | Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). Smoke passed 2026-10-09. `hirefound.com` DNS deferred |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -70,6 +70,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — jobs `tagy` pass-with-fixes: drop card `aria-label` erasure; `document.title` + focus job `h1`; All jobs is a `Link` that preserves list filters; Link-copied uses primary contrast; Arabic titles drop `font-accent`; Tally gets a new-tab fallback.
 - **2026-10-10** - Stage D4 yasmin-dashboard (review gate open, not `done`): dense linen desk. Time-of-day greeting, metric row filters Active / Inactive / All, search, category select, editorial rows with the active switch, view, edit, and delete. `N` still opens a draft. Dropped the particle greeting card, Caveat script, and butterfly pulse. Sign-in line is "Sign in to manage listings." Greeting pool stays in `src/lib/yasmin/greeting.ts` and is not shown on the desk. Editor form is unchanged; the shared admin bar and linen shell also wrap it. `src/lib/**` unchanged. Vitest **137**.
 - **2026-10-10** - yasmin-dashboard Cursor pass-with-fixes: status filters are quiet pills (not hero stats); Tools links moved under the list; Delete uses destructive; greeting is smaller with no email line; row drops redundant Active/Inactive text beside the Switch.
+- **2026-10-10** - yasmin-dashboard `tagy` pass-with-fixes: row shows posted/updated/expiry meta; inactive rows are dimmed with an Inactive tag and no public View link; row Delete uses `text-destructive`; delete dialog footer spans full width (`-mx-6 -mb-6 p-6`). Tools already at desk foot; status pills already high-contrast from Cursor round.
 
 ```mermaid
 flowchart LR
@@ -355,9 +356,9 @@ Use [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). Each surface stays 
 - [x] Jobs list and detail pass — `done` (2026-10-09)
   - [x] Cursor review — 2026-10-09 pass-with-fixes → must-fixes applied
   - [x] `agy` review — 2026-10-09 pass-with-fixes via `tagy` → must-fixes applied
-- [ ] Yasmin dashboard pass — `in progress` (2026-10-10, review gate open)
+- [x] Yasmin dashboard pass — `done` (2026-10-10)
   - [x] Cursor review — 2026-10-10 pass-with-fixes → must-fixes applied
-  - [ ] `agy` review
+  - [x] `agy` review — 2026-10-10 pass-with-fixes via `tagy` → must-fixes applied
 - [ ] Yasmin editor pass — `not started`
   - [ ] Cursor review
   - [ ] `agy` review

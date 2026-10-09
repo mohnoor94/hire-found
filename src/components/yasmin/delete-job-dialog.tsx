@@ -45,7 +45,7 @@ export function DeleteJobDialog({
             This action is permanent and cannot be undone.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="border-primary/15 bg-warm sm:justify-stretch">
+        <DialogFooter className="-mx-6 -mb-6 border-primary/15 bg-warm p-6 sm:justify-stretch">
           <button
             type="button"
             disabled={deleting}
