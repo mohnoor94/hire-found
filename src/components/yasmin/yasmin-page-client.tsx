@@ -18,7 +18,7 @@ import {
 import { useAdminAuth } from "@/hooks/use-admin-auth";
 import { AuthViews } from "./auth-views";
 import { YasminDashboard } from "./dashboard";
-import { JobEditor } from "./job-editor";
+import { JobEditor, type JobEditorHandle } from "./job-editor";
 import { DeleteJobDialog } from "./delete-job-dialog";
 
 type ViewMode = "dashboard" | "create" | "edit";
@@ -35,6 +35,7 @@ export function YasminPageClient() {
   const [deleting, setDeleting] = useState(false);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const loadedRef = useRef(false);
+  const editorRef = useRef<JobEditorHandle>(null);
   const prevAuthStatus = useRef(auth.status);
 
   const refreshInFlight = useRef(false);
@@ -113,13 +114,24 @@ export function YasminPageClient() {
     setEditingJob(null);
   }, []);
 
+  const leaveEditor = useCallback(
+    (action: () => void) => {
+      if (view !== "dashboard" && editorRef.current) {
+        editorRef.current.requestLeave(action);
+        return;
+      }
+      action();
+    },
+    [view],
+  );
+
   const handleSave = useCallback(
     async (formData: JobFormData, jobId: string | null) => {
       setSaving(true);
       try {
         if (jobId) {
           await updateJob(jobId, formData);
-          toast.success("Job post updated successfully!");
+          toast.success("Listing saved.");
           setJobs((prev) =>
             prev.map((j) =>
               j.id === jobId
@@ -135,7 +147,7 @@ export function YasminPageClient() {
           setEditingJob(null);
         } else {
           await createJob(formData);
-          toast.success("Job post created successfully!");
+          toast.success("Listing published.");
           setView("dashboard");
           await refreshJobs();
         }
@@ -143,8 +155,8 @@ export function YasminPageClient() {
         console.error("Failed to save job:", err);
         toast.error(
           jobId
-            ? "Failed to update job post. Please try again."
-            : "Failed to create job post. Please try again.",
+            ? "Couldn't save this listing. Try again."
+            : "Couldn't publish this listing. Try again.",
         );
       } finally {
         setSaving(false);
@@ -210,17 +222,19 @@ export function YasminPageClient() {
           <button
             type="button"
             onClick={() => {
-              setEditingJob(null);
-              setView("dashboard");
+              if (view === "dashboard") return;
+              leaveEditor(handleCancelEditor);
             }}
-            className="font-accent text-xl text-primary touch-manipulation focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            disabled={view !== "dashboard" && saving}
+            className="font-accent text-xl text-primary touch-manipulation select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60"
           >
             Yasmin&apos;s Space
           </button>
           <button
             type="button"
-            onClick={() => void auth.signOut()}
-            className="inline-flex min-h-11 touch-manipulation items-center px-3 text-sm font-semibold text-primary select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            onClick={() => leaveEditor(() => void auth.signOut())}
+            disabled={view !== "dashboard" && saving}
+            className="inline-flex min-h-11 touch-manipulation items-center px-3 text-sm font-semibold text-primary select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60"
             aria-label="Sign out"
           >
             Sign Out
@@ -244,6 +258,7 @@ export function YasminPageClient() {
           />
         ) : (
           <JobEditor
+            ref={editorRef}
             key={view === "edit" ? editingJob?.id ?? "edit" : "create"}
             job={view === "edit" ? editingJob : null}
             saving={saving}

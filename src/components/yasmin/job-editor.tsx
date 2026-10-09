@@ -1,7 +1,7 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useState } from "react";
+import { useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import type { Job } from "@/lib/jobs/types";
 import {
   CATEGORIES,
@@ -12,14 +12,39 @@ import {
 import { generateSlug } from "@/lib/jobs/slug";
 import { validateForm, type JobFormData } from "@/lib/jobs/validation";
 import { formatOptionLabel } from "@/lib/yasmin/labels";
+import {
+  normalizeEditorHtml,
+  prepareIncomingHtml,
+} from "@/lib/yasmin/editor-html";
 import { withBasePath } from "@/lib/base-path";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { RichTextEditor } from "./rich-text-editor";
-import { cn } from "@/lib/utils";
+import {
+  ChipField,
+  describedBy,
+  EditorField,
+  EditorSelect,
+  EditorTextArea,
+  EditorTextInput,
+  editorPrimaryButton,
+  editorQuietButton,
+  editorTextButton,
+  LockedContactField,
+} from "./editor-fields";
+
+export type JobEditorHandle = {
+  requestLeave: (action?: () => void) => void;
+};
 
 type JobEditorProps = {
+  ref?: React.Ref<JobEditorHandle>;
   job?: Job | null;
   saving: boolean;
   onSave: (data: JobFormData, jobId: string | null) => void | Promise<void>;
@@ -60,6 +85,20 @@ const EMPTY: FormState = {
   tallyFormId: "",
 };
 
+const FIELD_ORDER = [
+  "title",
+  "titleAr",
+  "slug",
+  "category",
+  "location",
+  "employmentType",
+  "companyName",
+  "salary",
+  "shortDescription",
+  "contactWhatsApp",
+  "contactEmail",
+] as const;
+
 function jobToForm(job?: Job | null): FormState {
   if (!job) return { ...EMPTY };
   return {
@@ -80,26 +119,41 @@ function jobToForm(job?: Job | null): FormState {
   };
 }
 
-const SECTIONS = [
-  {
-    id: "basic-info",
-    title: "Basic Info",
-  },
-  {
-    id: "company-details",
-    title: "Company Details",
-  },
-  {
-    id: "description",
-    title: "Description",
-  },
-  {
-    id: "contact",
-    title: "Contact",
-  },
-] as const;
+function contactPayload(
+  form: FormState,
+  whatsAppCustom: boolean,
+  emailCustom: boolean,
+): FormState {
+  return {
+    ...form,
+    contactWhatsApp: whatsAppCustom ? form.contactWhatsApp : DEFAULTS.whatsApp,
+    contactEmail: emailCustom ? form.contactEmail : DEFAULTS.email,
+  };
+}
 
-export function JobEditor({ job, saving, onSave, onCancel }: JobEditorProps) {
+function sameHtml(a: string, b: string) {
+  return (
+    normalizeEditorHtml(prepareIncomingHtml(a)) ===
+    normalizeEditorHtml(prepareIncomingHtml(b))
+  );
+}
+
+function sameListing(a: FormState, b: FormState) {
+  return (Object.keys(a) as (keyof FormState)[]).every((key) => {
+    if (key === "fullDescription" || key === "fullDescriptionAr") {
+      return sameHtml(a[key], b[key]);
+    }
+    return a[key] === b[key];
+  });
+}
+
+export function JobEditor({
+  ref,
+  job,
+  saving,
+  onSave,
+  onCancel,
+}: JobEditorProps) {
   const isEdit = Boolean(job?.id);
   const [form, setForm] = useState<FormState>(() => jobToForm(job));
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -110,12 +164,61 @@ export function JobEditor({ job, saving, onSave, onCancel }: JobEditorProps) {
   const [emailCustom, setEmailCustom] = useState(() =>
     Boolean(job?.contactEmail && job.contactEmail !== DEFAULTS.email),
   );
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    "basic-info": true,
-    "company-details": true,
-    description: true,
-    contact: true,
-  });
+  const [discardOpen, setDiscardOpen] = useState(false);
+  const [baseline] = useState(() =>
+    contactPayload(
+      jobToForm(job),
+      Boolean(job?.contactWhatsApp && job.contactWhatsApp !== DEFAULTS.whatsApp),
+      Boolean(job?.contactEmail && job.contactEmail !== DEFAULTS.email),
+    ),
+  );
+  const pendingLeave = useRef<(() => void) | null>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const titleArRef = useRef<HTMLInputElement>(null);
+  const slugRef = useRef<HTMLInputElement>(null);
+  const categoryRef = useRef<HTMLInputElement>(null);
+  const locationRef = useRef<HTMLInputElement>(null);
+  const employmentRef = useRef<HTMLSelectElement>(null);
+  const companyRef = useRef<HTMLInputElement>(null);
+  const salaryRef = useRef<HTMLInputElement>(null);
+  const shortRef = useRef<HTMLTextAreaElement>(null);
+  const whatsAppRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+
+  const dirty = !sameListing(
+    contactPayload(form, whatsAppCustom, emailCustom),
+    baseline,
+  );
+
+  const requestLeave = useCallback(
+    (action?: () => void) => {
+      if (saving) return;
+      const next = action ?? onCancel;
+      if (!dirty) {
+        next();
+        return;
+      }
+      pendingLeave.current = next;
+      setDiscardOpen(true);
+    },
+    [dirty, onCancel, saving],
+  );
+
+  useImperativeHandle(ref, () => ({ requestLeave }), [requestLeave]);
+
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!dirty) return;
+    function onBeforeUnload(event: BeforeUnloadEvent) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [dirty]);
 
   function setField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => {
@@ -133,595 +236,545 @@ export function JobEditor({ job, saving, onSave, onCancel }: JobEditorProps) {
     });
   }
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    const data: JobFormData = {
-      ...form,
-      contactWhatsApp: whatsAppCustom
-        ? form.contactWhatsApp
-        : DEFAULTS.whatsApp,
-      contactEmail: emailCustom ? form.contactEmail : DEFAULTS.email,
-    };
+  function focusField(name: string) {
+    const node =
+      name === "title"
+        ? titleRef.current
+        : name === "titleAr"
+          ? titleArRef.current
+          : name === "slug"
+            ? slugRef.current
+            : name === "category"
+              ? categoryRef.current
+              : name === "location"
+                ? locationRef.current
+                : name === "employmentType"
+                  ? employmentRef.current
+                  : name === "companyName"
+                    ? companyRef.current
+                    : name === "salary"
+                      ? salaryRef.current
+                      : name === "shortDescription"
+                        ? shortRef.current
+                        : name === "contactWhatsApp"
+                          ? whatsAppRef.current
+                          : name === "contactEmail"
+                            ? emailRef.current
+                            : null;
+    if (!node) return;
+    node.focus();
+    if (typeof node.scrollIntoView === "function") {
+      node.scrollIntoView({ block: "center", inline: "nearest" });
+    }
+  }
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    const data = contactPayload(form, whatsAppCustom, emailCustom);
     const result = validateForm(data);
     if (!result.valid) {
       setErrors(result.errors);
-      const first = Object.keys(result.errors)[0];
-      if (first) {
-        document.getElementById(`field-${first}`)?.focus();
-      }
+      const first =
+        FIELD_ORDER.find((key) => result.errors[key]) ??
+        Object.keys(result.errors)[0];
+      if (first) focusField(first);
       return;
     }
     void onSave(data, job?.id ?? null);
   }
 
+  function dismissDiscard() {
+    pendingLeave.current = null;
+    setDiscardOpen(false);
+  }
+
+  function confirmDiscard() {
+    const action = pendingLeave.current ?? onCancel;
+    pendingLeave.current = null;
+    setDiscardOpen(false);
+    action();
+  }
+
+  function blockEnterSubmit(event: React.KeyboardEvent<HTMLFormElement>) {
+    if (event.key !== "Enter") return;
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (target instanceof HTMLTextAreaElement) return;
+    if (target instanceof HTMLInputElement || target.closest(".tiptap-editor")) {
+      event.preventDefault();
+    }
+  }
+
+  const errorCount = Object.keys(errors).length;
+  const titleId = "field-title";
+  const titleArId = "field-titleAr";
+  const slugId = "field-slug";
+  const typeId = "field-employmentType";
+  const companyId = "field-companyName";
+  const salaryId = "field-salary";
+  const shortId = "field-shortDescription";
+  const tallyId = "field-tallyFormId";
+
   return (
-    <div className="mx-auto max-w-4xl px-6 py-8">
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <h2 className="font-accent mb-1 text-2xl font-bold text-primary">
-            {isEdit ? "Edit Job Post" : "Create New Job Post"}
-          </h2>
+    <div className="mx-auto max-w-6xl px-6 pt-6 pb-36">
+      <form
+        id="job-editor-form"
+        noValidate
+        onSubmit={handleSubmit}
+        onKeyDown={blockEnterSubmit}
+      >
+        <button
+          type="button"
+          onClick={() => requestLeave()}
+          disabled={saving}
+          className={`${editorTextButton} -ms-3`}
+        >
+          Back to listings
+        </button>
+
+        <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="font-accent text-2xl text-primary">
+              {isEdit ? "Edit job" : "New job"}
+            </h2>
+            <p className="mt-1 max-w-[48ch] text-sm text-muted">
+              Title, category, location, and type are enough to publish. Add
+              the description when you have it.
+            </p>
+          </div>
           {isEdit && job?.slug ? (
             <a
               href={withBasePath(`/jobs/?id=${encodeURIComponent(job.slug)}`)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-medium text-primary transition-colors duration-200 hover:text-primary-light"
+              className={editorTextButton}
             >
               View on site
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
           ) : null}
         </div>
-        <p className="text-sm text-[#6B6560]">
-          {isEdit
-            ? "Update the job listing details below."
-            : "Fill in the details to publish a new job listing."}
-        </p>
-      </div>
 
-      <form id="job-editor-form" noValidate onSubmit={handleSubmit}>
-        <EditorSection
-          id="basic-info"
-          title="Basic Info"
-          open={openSections["basic-info"]}
-          onToggle={() =>
-            setOpenSections((s) => ({ ...s, "basic-info": !s["basic-info"] }))
-          }
-        >
-          <Field error={errors.title}>
-            <Label htmlFor="field-title">
-              Title <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="field-title"
-              name="title"
-              value={form.title}
-              maxLength={120}
-              placeholder="e.g. Front Desk Agent"
-              onChange={(e) => setField("title", e.target.value)}
-              className={fieldClass(errors.title)}
-            />
-          </Field>
-
-          <Field error={errors.titleAr}>
-            <Label htmlFor="field-titleAr">Title (Arabic)</Label>
-            <Input
-              id="field-titleAr"
-              name="titleAr"
-              dir="rtl"
-              value={form.titleAr}
-              maxLength={120}
-              placeholder="العنوان بالعربية"
-              onChange={(e) => setField("titleAr", e.target.value)}
-              className={cn(fieldClass(errors.titleAr), "text-right")}
-            />
-          </Field>
-
-          <Field error={errors.slug}>
-            <Label htmlFor="field-slug">
-              Slug <span className="text-red-500">*</span>
-            </Label>
-            <div className="flex items-center gap-2">
-              <Input
-                id="field-slug"
-                name="slug"
-                value={form.slug}
-                maxLength={80}
-                placeholder="auto-generated-from-title"
-                onChange={(e) => {
-                  setSlugManual(true);
-                  setField("slug", e.target.value);
-                }}
-                className={cn("flex-1", fieldClass(errors.slug))}
-              />
-              <button
-                type="button"
-                title="Regenerate slug from title"
-                onClick={() => {
-                  setField("slug", generateSlug(form.title));
-                  setSlugManual(false);
-                }}
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl bg-primary/10 px-3 py-2 text-xs font-medium text-primary transition-all duration-200 hover:bg-primary/20"
-              >
-                <RefreshIcon />
-              </button>
-            </div>
-            <p className="mt-1 text-xs text-[#6B6560]">
-              URL-friendly identifier. Auto-generated from title.
-            </p>
-          </Field>
-
-          <ChipField
-            label="Category"
-            required
-            name="category"
-            value={form.category}
-            options={[...CATEGORIES]}
-            error={errors.category}
-            placeholder="Type or pick a category..."
-            helpText="Choose from suggestions or type your own."
-            onChange={(v) => setField("category", v)}
-          />
-
-          <ChipField
-            label="Location"
-            required
-            name="location"
-            value={form.location}
-            options={[...LOCATIONS]}
-            error={errors.location}
-            placeholder="Type a location or pick below..."
-            helpText="Choose a country or type a specific city/region."
-            onChange={(v) => setField("location", v)}
-          />
-
-          <Field error={errors.employmentType}>
-            <Label htmlFor="field-employmentType">
-              Employment Type <span className="text-red-500">*</span>
-            </Label>
-            <select
-              id="field-employmentType"
-              name="employmentType"
-              value={form.employmentType}
-              onChange={(e) => setField("employmentType", e.target.value)}
-              className={cn(
-                "w-full appearance-none rounded-xl border bg-white px-4 py-3 text-sm text-text-main transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/30 focus:outline-none",
-                errors.employmentType ? "border-red-500" : "border-gray-200",
-                "min-h-[44px]",
-              )}
+        <section data-section="basic-info" className="mt-8 border-t border-secondary pt-6">
+          <h3 className="font-accent text-xl text-primary">Role</h3>
+          <p className="mt-1 text-sm text-muted">
+            The facts a candidate scans first.
+          </p>
+          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+            <EditorField
+              id={titleId}
+              label="Title"
+              required
+              error={errors.title}
             >
-              <option value="" disabled>
-                Select employment type
-              </option>
-              {EMPLOYMENT_TYPES.map((opt) => (
-                <option key={opt} value={opt}>
-                  {formatOptionLabel(opt)}
-                </option>
-              ))}
-            </select>
-          </Field>
-        </EditorSection>
+              <EditorTextInput
+                ref={titleRef}
+                id={titleId}
+                name="title"
+                value={form.title}
+                maxLength={120}
+                placeholder="e.g. Front Desk Agent"
+                invalid={Boolean(errors.title)}
+                aria-describedby={describedBy(titleId, {
+                  error: Boolean(errors.title),
+                })}
+                onChange={(event) => setField("title", event.target.value)}
+              />
+            </EditorField>
 
-        <EditorSection
-          id="company-details"
-          title="Company Details"
-          open={openSections["company-details"]}
-          onToggle={() =>
-            setOpenSections((s) => ({
-              ...s,
-              "company-details": !s["company-details"],
-            }))
-          }
-        >
-          <Field error={errors.companyName}>
-            <Label htmlFor="field-companyName">Company Name</Label>
-            <Input
-              id="field-companyName"
-              value={form.companyName}
-              maxLength={120}
-              placeholder="e.g. Marriott International"
-              onChange={(e) => setField("companyName", e.target.value)}
-              className={fieldClass(errors.companyName)}
-            />
-          </Field>
-          <Field error={errors.salary}>
-            <Label htmlFor="field-salary">Salary</Label>
-            <Input
-              id="field-salary"
-              value={form.salary}
-              maxLength={100}
-              placeholder="e.g. AED 5,000 - 7,000/month"
-              onChange={(e) => setField("salary", e.target.value)}
-              className={fieldClass(errors.salary)}
-            />
-          </Field>
-        </EditorSection>
+            <EditorField
+              id={titleArId}
+              label="Title (Arabic)"
+              error={errors.titleAr}
+            >
+              <EditorTextInput
+                ref={titleArRef}
+                id={titleArId}
+                name="titleAr"
+                dir="rtl"
+                lang="ar"
+                value={form.titleAr}
+                maxLength={120}
+                placeholder="العنوان بالعربية"
+                invalid={Boolean(errors.titleAr)}
+                aria-describedby={describedBy(titleArId, {
+                  error: Boolean(errors.titleAr),
+                })}
+                onChange={(event) => setField("titleAr", event.target.value)}
+              />
+            </EditorField>
 
-        <EditorSection
-          id="description"
-          title="Description"
-          open={openSections.description}
-          onToggle={() =>
-            setOpenSections((s) => ({
-              ...s,
-              description: !s.description,
-            }))
-          }
-        >
-          <Field error={errors.shortDescription}>
-            <Label htmlFor="field-shortDescription">Short Description</Label>
-            <Textarea
-              id="field-shortDescription"
-              value={form.shortDescription}
-              maxLength={300}
-              rows={6}
-              placeholder="Brief summary of the role (max 300 characters)"
-              onChange={(e) => setField("shortDescription", e.target.value)}
-              className={cn("min-h-[144px] resize-y", fieldClass(errors.shortDescription))}
-            />
-            <p className="mt-1 text-xs text-[#6B6560]">300 characters max</p>
-          </Field>
-
-          <div className="field-group space-y-1.5">
-            <Label>Full Description</Label>
-            <RichTextEditor
-              id="field-fullDescription"
-              aria-label="Full Description"
-              value={form.fullDescription}
-              onChange={(html) => setField("fullDescription", html)}
-              placeholder="Detailed job description, responsibilities, requirements..."
-            />
-          </div>
-
-          <div className="field-group space-y-1.5">
-            <Label>Full Description (Arabic)</Label>
-            <RichTextEditor
-              id="field-fullDescriptionAr"
-              aria-label="Full Description (Arabic)"
-              value={form.fullDescriptionAr}
-              onChange={(html) => setField("fullDescriptionAr", html)}
-              placeholder="الوصف الكامل بالعربية..."
-              dir="rtl"
-            />
-          </div>
-        </EditorSection>
-
-        <EditorSection
-          id="contact"
-          title="Contact"
-          open={openSections.contact}
-          onToggle={() =>
-            setOpenSections((s) => ({ ...s, contact: !s.contact }))
-          }
-        >
-          <LockedContactField
-            label="WhatsApp Number"
-            name="contactWhatsApp"
-            value={form.contactWhatsApp}
-            defaultValue={DEFAULTS.whatsApp}
-            custom={whatsAppCustom}
-            error={errors.contactWhatsApp}
-            placeholder="e.g. 971501234567"
-            helpText="Digits only, 7–15 characters."
-            onToggleCustom={() => {
-              if (whatsAppCustom) {
-                setWhatsAppCustom(false);
-                setField("contactWhatsApp", DEFAULTS.whatsApp);
-              } else {
-                setWhatsAppCustom(true);
-                setField("contactWhatsApp", "");
-              }
-            }}
-            onChange={(v) => setField("contactWhatsApp", v)}
-          />
-
-          <LockedContactField
-            label="Contact Email"
-            name="contactEmail"
-            type="email"
-            value={form.contactEmail}
-            defaultValue={DEFAULTS.email}
-            custom={emailCustom}
-            error={errors.contactEmail}
-            placeholder="e.g. hr@company.com"
-            onToggleCustom={() => {
-              if (emailCustom) {
-                setEmailCustom(false);
-                setField("contactEmail", DEFAULTS.email);
-              } else {
-                setEmailCustom(true);
-                setField("contactEmail", "");
-              }
-            }}
-            onChange={(v) => setField("contactEmail", v)}
-          />
-
-          <Field>
-            <Label htmlFor="field-tallyFormId">Tally Form ID</Label>
-            <Input
-              id="field-tallyFormId"
-              value={form.tallyFormId}
-              placeholder="e.g. wMqROP"
-              onChange={(e) => setField("tallyFormId", e.target.value)}
-              className={fieldClass()}
-            />
-            <p className="mt-1 text-xs text-[#6B6560]">
-              {form.tallyFormId ? (
-                <a
-                  href={`https://tally.so/forms/${form.tallyFormId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-[#7C3AED] hover:underline"
+            <EditorField
+              id={slugId}
+              label="Slug"
+              required
+              error={errors.slug}
+              hint="From the title. Change it only if the URL should differ."
+              className="sm:col-span-2"
+            >
+              <div className="flex items-center gap-2">
+                <EditorTextInput
+                  ref={slugRef}
+                  id={slugId}
+                  name="slug"
+                  value={form.slug}
+                  maxLength={80}
+                  placeholder="auto-generated-from-title"
+                  autoComplete="off"
+                  spellCheck={false}
+                  invalid={Boolean(errors.slug)}
+                  aria-describedby={describedBy(slugId, {
+                    hint: true,
+                    error: Boolean(errors.slug),
+                  })}
+                  onChange={(event) => {
+                    setSlugManual(true);
+                    setField("slug", event.target.value);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setField("slug", generateSlug(form.title));
+                    setSlugManual(false);
+                  }}
+                  className={`${editorQuietButton} shrink-0`}
                 >
-                  View/edit form →
-                </a>
-              ) : (
-                <>
-                  Optional.{" "}
+                  Regenerate
+                </button>
+              </div>
+            </EditorField>
+
+            <ChipField
+              label="Category"
+              required
+              name="category"
+              value={form.category}
+              options={CATEGORIES}
+              error={errors.category}
+              placeholder="Type a category"
+              helpText="Pick a suggestion or type your own."
+              formatLabel="category"
+              inputRef={categoryRef}
+              onChange={(value) => setField("category", value)}
+            />
+
+            <ChipField
+              label="Location"
+              required
+              name="location"
+              value={form.location}
+              options={LOCATIONS}
+              error={errors.location}
+              placeholder="Type a city or country"
+              helpText="Pick a country or type a city."
+              inputRef={locationRef}
+              onChange={(value) => setField("location", value)}
+            />
+
+            <EditorField
+              id={typeId}
+              label="Employment type"
+              required
+              error={errors.employmentType}
+            >
+              <EditorSelect
+                ref={employmentRef}
+                id={typeId}
+                name="employmentType"
+                value={form.employmentType}
+                invalid={Boolean(errors.employmentType)}
+                aria-describedby={describedBy(typeId, {
+                  error: Boolean(errors.employmentType),
+                })}
+                onChange={(event) =>
+                  setField("employmentType", event.target.value)
+                }
+              >
+                <option value="" disabled>
+                  Select type
+                </option>
+                {EMPLOYMENT_TYPES.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {formatOptionLabel(opt)}
+                  </option>
+                ))}
+              </EditorSelect>
+            </EditorField>
+
+            <EditorField
+              id={companyId}
+              label="Company"
+              error={errors.companyName}
+            >
+              <EditorTextInput
+                ref={companyRef}
+                id={companyId}
+                name="companyName"
+                value={form.companyName}
+                maxLength={120}
+                placeholder="e.g. Marriott International"
+                invalid={Boolean(errors.companyName)}
+                aria-describedby={describedBy(companyId, {
+                  error: Boolean(errors.companyName),
+                })}
+                onChange={(event) =>
+                  setField("companyName", event.target.value)
+                }
+              />
+            </EditorField>
+
+            <EditorField id={salaryId} label="Salary" error={errors.salary}>
+              <EditorTextInput
+                ref={salaryRef}
+                id={salaryId}
+                name="salary"
+                value={form.salary}
+                maxLength={100}
+                placeholder="e.g. AED 5,000 - 7,000/month"
+                invalid={Boolean(errors.salary)}
+                aria-describedby={describedBy(salaryId, {
+                  error: Boolean(errors.salary),
+                })}
+                onChange={(event) => setField("salary", event.target.value)}
+              />
+            </EditorField>
+          </div>
+        </section>
+
+        <section data-section="description" className="mt-10 border-t border-secondary pt-6">
+          <h3 className="font-accent text-xl text-primary">Description</h3>
+          <p className="mt-1 text-sm text-muted">
+            Short text for the list. Full text for the page. Arabic is optional.
+          </p>
+          <div className="mt-5 space-y-5">
+            <EditorField
+              id={shortId}
+              label="Short description"
+              error={errors.shortDescription}
+              hint={`${form.shortDescription.length} / 300`}
+            >
+              <EditorTextArea
+                ref={shortRef}
+                id={shortId}
+                name="shortDescription"
+                value={form.shortDescription}
+                maxLength={300}
+                rows={4}
+                placeholder="Brief summary of the role"
+                invalid={Boolean(errors.shortDescription)}
+                aria-describedby={describedBy(shortId, {
+                  hint: true,
+                  error: Boolean(errors.shortDescription),
+                })}
+                onChange={(event) =>
+                  setField("shortDescription", event.target.value)
+                }
+              />
+            </EditorField>
+
+            <div className="space-y-2">
+              <p className="text-sm font-semibold text-text-main">
+                Full description
+              </p>
+              <RichTextEditor
+                id="field-fullDescription"
+                aria-label="Full description"
+                value={form.fullDescription}
+                onChange={(html) => setField("fullDescription", html)}
+                placeholder="Responsibilities, requirements, and who should apply"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-sm font-semibold text-text-main">
+                Full description (Arabic)
+              </p>
+              <RichTextEditor
+                id="field-fullDescriptionAr"
+                aria-label="Full description (Arabic)"
+                value={form.fullDescriptionAr}
+                onChange={(html) => setField("fullDescriptionAr", html)}
+                placeholder="الوصف الكامل بالعربية..."
+                dir="rtl"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section data-section="contact" className="mt-10 border-t border-secondary pt-6">
+          <h3 className="font-accent text-xl text-primary">Apply</h3>
+          <p className="mt-1 text-sm text-muted">
+            Defaults to Yasmin. Change them only for this role.
+          </p>
+          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+            <LockedContactField
+              label="WhatsApp"
+              name="contactWhatsApp"
+              value={form.contactWhatsApp}
+              custom={whatsAppCustom}
+              error={errors.contactWhatsApp}
+              placeholder="e.g. 971501234567"
+              helpText="Digits only, 7-15."
+              inputMode="numeric"
+              maxLength={15}
+              inputRef={whatsAppRef}
+              onToggleCustom={() => {
+                if (whatsAppCustom) {
+                  setWhatsAppCustom(false);
+                  setField("contactWhatsApp", DEFAULTS.whatsApp);
+                } else {
+                  setWhatsAppCustom(true);
+                  setField("contactWhatsApp", "");
+                }
+              }}
+              onChange={(value) => setField("contactWhatsApp", value)}
+            />
+
+            <LockedContactField
+              label="Email"
+              name="contactEmail"
+              type="email"
+              value={form.contactEmail}
+              custom={emailCustom}
+              error={errors.contactEmail}
+              placeholder="e.g. hr@company.com"
+              inputRef={emailRef}
+              onToggleCustom={() => {
+                if (emailCustom) {
+                  setEmailCustom(false);
+                  setField("contactEmail", DEFAULTS.email);
+                } else {
+                  setEmailCustom(true);
+                  setField("contactEmail", "");
+                }
+              }}
+              onChange={(value) => setField("contactEmail", value)}
+            />
+
+            <EditorField
+              id={tallyId}
+              label="Tally form ID"
+              className="sm:col-span-2"
+              hint={
+                form.tallyFormId ? (
                   <a
-                    href="https://tally.so/forms/create"
+                    href={`https://tally.so/forms/${encodeURIComponent(form.tallyFormId)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium text-[#7C3AED] hover:underline"
+                    className="font-semibold text-primary underline-offset-4 hover:underline"
                   >
-                    Create a new form →
+                    Open form
+                    <span className="sr-only"> (opens in a new tab)</span>
                   </a>
-                </>
-              )}
-            </p>
-          </Field>
-        </EditorSection>
+                ) : (
+                  <>
+                    Optional. When set, this form is the apply path.{" "}
+                    <a
+                      href="https://tally.so/forms/create"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-primary underline-offset-4 hover:underline"
+                    >
+                      Create a form
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  </>
+                )
+              }
+            >
+              <EditorTextInput
+                id={tallyId}
+                name="tallyFormId"
+                value={form.tallyFormId}
+                placeholder="e.g. wMqROP"
+                autoComplete="off"
+                spellCheck={false}
+                aria-describedby={describedBy(tallyId, { hint: true })}
+                onChange={(event) => setField("tallyFormId", event.target.value)}
+              />
+            </EditorField>
+          </div>
+        </section>
 
-        <div className="mt-8 flex items-center gap-4">
-          <button
-            type="submit"
-            id="editor-save-btn"
-            disabled={saving}
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-primary-light disabled:opacity-60"
-          >
-            {saving
-              ? "Saving..."
-              : isEdit
-                ? "Update Job"
-                : "Create Job"}
-          </button>
-          <button
-            type="button"
-            onClick={onCancel}
-            disabled={saving}
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-primary/10 px-8 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:bg-primary/20"
-          >
-            Cancel
-          </button>
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-primary/15 bg-warm pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+          <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-3 sm:flex-row sm:items-center sm:justify-end">
+            {errorCount > 0 ? (
+              <p
+                id="editor-form-error"
+                role="alert"
+                className="text-sm text-destructive sm:me-auto"
+              >
+                Check the highlighted fields before publishing.
+              </p>
+            ) : null}
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => requestLeave()}
+                disabled={saving}
+                className={`${editorQuietButton} flex-1 sm:flex-none`}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                id="editor-save-btn"
+                disabled={saving}
+                aria-describedby={errorCount > 0 ? "editor-form-error" : undefined}
+                className={`${editorPrimaryButton} flex-1 sm:flex-none`}
+              >
+                {saving
+                  ? isEdit
+                    ? "Saving..."
+                    : "Publishing..."
+                  : isEdit
+                    ? "Save changes"
+                    : "Publish"}
+              </button>
+            </div>
+          </div>
         </div>
       </form>
 
-      {/* Keep SECTIONS referenced for parity checklist readability */}
-      <span className="sr-only">{SECTIONS.map((s) => s.title).join(", ")}</span>
-    </div>
-  );
-}
-
-function fieldClass(error?: string) {
-  return cn(
-    "min-h-[44px] rounded-xl border bg-white text-sm text-text-main transition-all duration-200 focus-visible:border-primary focus-visible:ring-primary/30",
-    error ? "border-red-500" : "border-gray-200",
-  );
-}
-
-function Field({
-  children,
-  error,
-}: {
-  children: React.ReactNode;
-  error?: string;
-}) {
-  return (
-    <div className="field-group space-y-1.5">
-      {children}
-      {error ? (
-        <p className="text-xs text-red-500" aria-live="polite">
-          {error}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
-function EditorSection({
-  id,
-  title,
-  open,
-  onToggle,
-  children,
-}: {
-  id: string;
-  title: string;
-  open: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <fieldset
-      className="mb-6 overflow-hidden rounded-2xl border border-gray-200"
-      data-section={id}
-    >
-      <legend className="sr-only">{title}</legend>
-      <button
-        type="button"
-        className="flex min-h-[44px] w-full items-center justify-between bg-warm-dark/50 px-6 py-4 transition-colors duration-200 hover:bg-warm-dark"
-        aria-expanded={open}
-        aria-controls={`section-content-${id}`}
-        onClick={onToggle}
+      <Dialog
+        open={discardOpen}
+        onOpenChange={(open) => {
+          if (!open) dismissDiscard();
+        }}
       >
-        <span className="text-sm font-semibold text-text-main">{title}</span>
-        <svg
-          className={cn(
-            "h-5 w-5 text-[#6B6560] transition-transform duration-300",
-            !open && "-rotate-90",
-          )}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          aria-hidden="true"
+        <DialogContent
+          className="rounded-2xl border border-primary/15 bg-warm p-6 shadow-card sm:max-w-md"
+          showCloseButton={false}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
-      {open ? (
-        <div
-          id={`section-content-${id}`}
-          className="space-y-5 px-6 py-5"
-        >
-          {children}
-        </div>
-      ) : null}
-    </fieldset>
-  );
-}
-
-function ChipField({
-  label,
-  required,
-  name,
-  value,
-  options,
-  error,
-  placeholder,
-  helpText,
-  onChange,
-}: {
-  label: string;
-  required?: boolean;
-  name: string;
-  value: string;
-  options: string[];
-  error?: string;
-  placeholder?: string;
-  helpText?: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <Field error={error}>
-      <Label htmlFor={`field-${name}`}>
-        {label}
-        {required ? <span className="ml-0.5 text-red-500">*</span> : null}
-      </Label>
-      <Input
-        id={`field-${name}`}
-        name={name}
-        value={value}
-        placeholder={placeholder}
-        autoComplete="off"
-        onChange={(e) => onChange(e.target.value)}
-        className={cn("mb-2", fieldClass(error))}
-      />
-      <div className="flex flex-wrap gap-1.5">
-        {options.map((opt) => {
-          const selected = opt.toLowerCase() === value.toLowerCase();
-          return (
+          <DialogHeader>
+            <DialogTitle className="font-accent text-2xl leading-snug text-primary">
+              {isEdit ? "Leave without saving?" : "Discard this draft?"}
+            </DialogTitle>
+            <DialogDescription className="text-sm leading-relaxed text-muted">
+              {isEdit
+                ? "Changes to this listing will be lost."
+                : "Nothing is published until you save."}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="-mx-6 -mb-6 border-primary/15 bg-warm p-6 sm:justify-stretch">
             <button
-              key={opt}
               type="button"
-              onClick={() => onChange(opt)}
-              className={cn(
-                "rounded-full border px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all duration-150",
-                selected
-                  ? "border-primary bg-primary/10 text-primary"
-                  : "border-gray-200 text-text-main hover:border-primary hover:bg-primary/10 hover:text-primary",
-              )}
+              onClick={dismissDiscard}
+              className={`${editorQuietButton} flex-1`}
             >
-              {formatOptionLabel(opt)}
+              Keep editing
             </button>
-          );
-        })}
-        <button
-          type="button"
-          onClick={() => {
-            onChange("");
-            document.getElementById(`field-${name}`)?.focus();
-          }}
-          className="rounded-full border border-dashed border-gray-300 px-3 py-1.5 text-xs font-medium whitespace-nowrap text-[#6B6560] transition-all duration-150 hover:border-primary hover:text-primary"
-        >
-          ✏️ Custom...
-        </button>
-      </div>
-      {helpText ? (
-        <p className="mt-2 text-xs text-[#6B6560]">{helpText}</p>
-      ) : null}
-    </Field>
-  );
-}
-
-function LockedContactField({
-  label,
-  name,
-  value,
-  custom,
-  error,
-  placeholder,
-  helpText,
-  type = "text",
-  onToggleCustom,
-  onChange,
-}: {
-  label: string;
-  name: string;
-  value: string;
-  defaultValue: string;
-  custom: boolean;
-  error?: string;
-  placeholder?: string;
-  helpText?: string;
-  type?: string;
-  onToggleCustom: () => void;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <Field error={error}>
-      <div className="mb-1.5 flex items-center justify-between">
-        <Label htmlFor={`field-${name}`}>{label}</Label>
-        <button
-          type="button"
-          onClick={onToggleCustom}
-          className="text-xs font-medium text-primary transition-colors duration-200 hover:text-primary-light"
-        >
-          {custom ? "Reset to default" : "Use custom"}
-        </button>
-      </div>
-      <Input
-        id={`field-${name}`}
-        name={name}
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        disabled={!custom}
-        onChange={(e) => onChange(e.target.value)}
-        className={cn(
-          fieldClass(error),
-          !custom && "cursor-not-allowed bg-gray-50 text-[#6B6560]",
-        )}
-      />
-      {!custom ? (
-        <p className="mt-1 text-xs text-[#6B6560]">
-          Using Yasmin&apos;s default. Click &quot;Use custom&quot; to override.
-        </p>
-      ) : helpText ? (
-        <p className="mt-1 text-xs text-[#6B6560]">{helpText}</p>
-      ) : null}
-    </Field>
-  );
-}
-
-function RefreshIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-    </svg>
+            <button
+              type="button"
+              onClick={confirmDiscard}
+              className="inline-flex min-h-11 flex-1 touch-manipulation items-center justify-center rounded-full bg-destructive px-4 text-sm font-semibold text-white select-none active:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-destructive"
+            >
+              Discard
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

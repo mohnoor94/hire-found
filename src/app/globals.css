@@ -299,3 +299,73 @@
     filter: saturate(0.92) contrast(1.03);
   }
 }
+
+/* Yasmin editor: draft text matches the public job description. */
+.tiptap-editor {
+  line-height: 1.7;
+  color: var(--foreground);
+}
+
+.tiptap-editor p {
+  margin-bottom: 0.85rem;
+}
+
+.tiptap-editor h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.tiptap-editor h3 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.4rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.tiptap-editor h2:first-child,
+.tiptap-editor h3:first-child {
+  margin-top: 0;
+}
+
+.tiptap-editor ul,
+.tiptap-editor ol {
+  margin-bottom: 0.75rem;
+  padding-inline-start: 1.5rem;
+}
+
+.tiptap-editor ul {
+  list-style-type: disc;
+}
+
+.tiptap-editor ol {
+  list-style-type: decimal;
+}
+
+.tiptap-editor li {
+  margin-bottom: 0.25rem;
+}
+
+.tiptap-editor li > p {
+  display: inline;
+  margin: 0;
+}
+
+.tiptap-editor a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.tiptap-editor.is-editor-empty p.is-empty:first-child::before {
+  float: inline-start;
+  height: 0;
+  color: var(--muted);
+  font-style: normal;
+  content: attr(data-placeholder);
+  pointer-events: none;
+}

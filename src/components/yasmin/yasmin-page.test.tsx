@@ -202,8 +202,13 @@ describe("YasminPageClient", () => {
       newJobBtn.click();
     });
 
-    expect(container.textContent).toContain("Create New Job Post");
+    expect(container.querySelector('[data-section="basic-info"]')).toBeTruthy();
+    expect(container.querySelector('[data-section="description"]')).toBeTruthy();
+    expect(container.querySelector('[data-section="contact"]')).toBeTruthy();
+    expect(container.textContent).toContain("Publish");
+    expect(container.textContent).not.toContain("Create New Job Post");
     expect(container.querySelector("#field-title")).toBeTruthy();
+    expect(container.querySelector("#editor-save-btn")).toBeTruthy();
   });
 
   it("filters the desk to inactive listings", async () => {
