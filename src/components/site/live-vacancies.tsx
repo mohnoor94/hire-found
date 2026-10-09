@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { fetchJobs, getCategories, type Job } from "@/lib/jobs";
-import { useBookingModal } from "@/components/site/booking-modal";
+import { useBookingModal } from "@/components/site/cal-dialog";
 import { JobCard } from "@/components/jobs/job-card";
 
 export function LiveVacancies() {

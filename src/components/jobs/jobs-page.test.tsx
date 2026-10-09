@@ -3,7 +3,7 @@ import React, { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { JobsPageClient } from "./jobs-page-client";
 import { JobDetail } from "./job-detail";
-import { BookingModalProvider } from "@/components/site/booking-modal";
+import { BookingModalProvider } from "@/components/site/cal-dialog";
 import type { Job } from "@/lib/jobs";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT =

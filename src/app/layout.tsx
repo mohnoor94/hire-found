@@ -1,10 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Serif_Display, Inter, Noto_Sans_Arabic } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { withBasePath } from "@/lib/base-path";
-import { BookingModalProvider } from "@/components/site/booking-modal";
+import { CalDialogProvider } from "@/components/site/cal-dialog";
 import "./globals.css";
 import "./hirefound.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#FCF9F5",
+};
 
 const inter = Inter({
   subsets: ["latin"],
@@ -62,7 +69,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       )}
     >
       <body className="overflow-x-hidden bg-warm font-sans text-text-main antialiased">
-        <BookingModalProvider>{children}</BookingModalProvider>
+        <CalDialogProvider>{children}</CalDialogProvider>
       </body>
     </html>
   );

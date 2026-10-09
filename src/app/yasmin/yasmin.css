@@ -4,13 +4,6 @@
   background: linear-gradient(to bottom, #FFFAF5, #FFF5F7);
 }
 
-.nav-glass {
-  background: rgba(255, 250, 245, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(139, 34, 82, 0.08);
-}
-
 .admin-loading-spinner {
   width: 48px;
   height: 48px;

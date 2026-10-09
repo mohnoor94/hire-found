@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useBookingModal } from "@/components/site/booking-modal";
+import { useBookingModal } from "@/components/site/cal-dialog";
 
 /** Services employer/candidate tabs + booking triggers (vanilla parity). */
 export function ServicesEffects() {

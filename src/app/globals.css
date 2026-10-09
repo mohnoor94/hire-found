@@ -6,9 +6,9 @@
 
 @theme inline {
 
-    /* HireFound brand (vanilla parity) */
-    --color-warm: #FFFAF5;
-    --color-warm-dark: #F8F0EA;
+    /* HireFound — Stage C direction: linen, burgundy, gold */
+    --color-warm: #FCF9F5;
+    --color-warm-dark: #F3EBE3;
     --color-primary: #7A1E4A;
     --color-primary-light: #963B63;
     --color-primary-dark: #5E1639;
@@ -17,7 +17,7 @@
     --color-dark: #1A1A2E;
     --color-dark-light: #252540;
     --color-text-main: #2D2926;
-    --color-muted: #6B6560;
+    --color-muted: #5E534C;
     --color-whatsapp: #25D366;
     --color-success: #7A9E7E;
     --color-butterfly-lavender: #C4B5FD;
@@ -30,10 +30,10 @@
     --font-caveat: var(--font-caveat), cursive;
     --font-sans: var(--font-inter), var(--font-noto-arabic), "Noto Sans Arabic", system-ui, sans-serif;
     --font-heading: var(--font-dm-serif), Georgia, serif;
-    --shadow-card: 0 4px 24px rgba(45, 41, 38, 0.06);
-    --shadow-card-hover: 0 12px 40px rgba(45, 41, 38, 0.12);
-    --shadow-warm: 0 4px 20px rgba(139, 34, 82, 0.12);
-    --shadow-glow: 0 0 40px rgba(139, 34, 82, 0.2);
+    --shadow-card: 0 8px 24px rgba(45, 41, 38, 0.07);
+    --shadow-card-hover: 0 16px 36px rgba(45, 41, 38, 0.1);
+    --shadow-warm: 0 8px 20px rgba(122, 30, 74, 0.16);
+    --shadow-glow: 0 12px 32px rgba(122, 30, 74, 0.14);
 
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
@@ -76,24 +76,26 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
+    --site-nav-offset: calc(4rem + env(safe-area-inset-top, 0px));
+    --background: #FCF9F5;
+    --foreground: #2D2926;
+    --card: #FFFCF8;
+    --card-foreground: #2D2926;
+    --popover: #FCF9F5;
+    --popover-foreground: #2D2926;
     --primary: #7A1E4A;
-    --primary-foreground: #ffffff;
+    --primary-foreground: #FCF9F5;
     --secondary: #D4A574;
-    --secondary-foreground: #1A1A2E;
-    --muted: #6B6560;
-    --muted-foreground: #6B6560;
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
+    --secondary-foreground: #2D2926;
+    /* Text color in this app (`text-muted`), not a shadcn surface. */
+    --muted: #5E534C;
+    --muted-foreground: #5E534C;
+    --accent: #F3EBE3;
+    --accent-foreground: #7A1E4A;
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
+    --border: color-mix(in srgb, #7A1E4A 14%, #FCF9F5);
+    --input: color-mix(in srgb, #7A1E4A 18%, #FCF9F5);
+    --ring: #7A1E4A;
     --chart-1: oklch(0.87 0 0);
     --chart-2: oklch(0.556 0 0);
     --chart-3: oklch(0.439 0 0);
@@ -144,14 +146,85 @@
     --sidebar-ring: oklch(0.556 0 0);
 }
 
+@utility nav-glass {
+  /* Opaque linen so the bar stays warm over the dark hero. */
+  background-color: rgb(252 249 245 / 0.97);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid color-mix(in srgb, #7a1e4a 14%, transparent);
+}
+
+@utility glass-nav {
+  background-color: rgb(252 249 245 / 0.97);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid color-mix(in srgb, #7a1e4a 14%, transparent);
+}
+
+@utility card-surface {
+  background-color: #fffcf8;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(45, 41, 38, 0.08);
+}
+
+@utility filter-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-color: color-mix(in srgb, #7a1e4a 8%, #fcf9f5);
+  color: #5e534c;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: color-mix(in srgb, #7a1e4a 14%, #fcf9f5);
+      color: #7a1e4a;
+    }
+  }
+
+  &:active {
+    background-color: color-mix(in srgb, #7a1e4a 18%, #fcf9f5);
+  }
+
+  &.active {
+    background-color: #7a1e4a;
+    color: #fcf9f5;
+    border-color: #7a1e4a;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #7a1e4a;
+    outline-offset: 2px;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-warm text-text-main;
-    }
+  }
   html {
     @apply font-sans;
-    }
+    color-scheme: light;
+    scroll-padding-top: var(--site-nav-offset);
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-warm text-text-main;
+  }
+  ::selection {
+    background: #7a1e4a;
+    color: #fcf9f5;
+  }
+  :where(input, textarea, [contenteditable="true"]) {
+    caret-color: #7a1e4a;
+  }
+  button {
+    user-select: none;
+  }
 }

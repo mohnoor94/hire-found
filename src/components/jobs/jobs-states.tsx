@@ -1,6 +1,6 @@
 "use client";
 
-import { useBookingModal } from "@/components/site/booking-modal";
+import { useBookingModal } from "@/components/site/cal-dialog";
 import { DEFAULTS } from "@/lib/jobs";
 
 type JobsEmptyStateProps = {

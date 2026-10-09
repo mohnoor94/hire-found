@@ -10,31 +10,9 @@
   --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
   --ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
-  --primary: #8B2252;
-  --secondary: #D4A574;
-  --dark: #1A1A2E;
 }
 
-/* === Sticky Nav === */
-.nav-glass {
-  background: rgba(196, 181, 253, 0.12);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid #FDA4AF;
-}
-
-/* === Nav Logo (pre-colored primary SVG, no filter needed) === */
-.nav-logo {
-  transition: opacity 0.2s ease;
-}
-.nav-logo:hover {
-  opacity: 0.75;
-}
-
-/* === Footer Logo (signature SVG in white on dark bg) === */
-.footer-logo {
-  filter: brightness(0) invert(1);
-}
+/* Shared chrome (nav-glass, filter-pill, card-surface) lives in globals.css. */
 
 /* === Scroll Reveal === */
 .reveal {
@@ -75,35 +53,6 @@
 .premium-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 16px 48px rgba(139, 34, 82, 0.12);
-}
-
-/* === Filter Pills === */
-.filter-pill {
-  padding: 8px 20px;
-  border-radius: 9999px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #6B6560;
-  background: rgba(139, 34, 82, 0.06);
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-}
-.filter-pill:hover {
-  background: rgba(139, 34, 82, 0.1);
-  color: var(--primary);
-}
-.filter-pill.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
-.filter-pill:focus-visible {
-  outline: 3px solid var(--primary);
-  outline-offset: 2px;
 }
 
 /* === Skip to Content === */
@@ -195,36 +144,6 @@ button:focus-visible,
 
 
 /* === Homepage motion / components (from index.html) === */
-/* === Custom Cursor (desktop only; only when CustomCursor is mounted) === */
-    @media (hover: hover) and (pointer: fine) {
-      body:has(.custom-cursor.active) * { cursor: none !important; }
-      body:has(.custom-cursor.active) input,
-      body:has(.custom-cursor.active) textarea,
-      body:has(.custom-cursor.active) [contenteditable] { cursor: text !important; }
-    }
-    .custom-cursor {
-      position: fixed;
-      top: 0; left: 0;
-      width: 20px; height: 20px;
-      border: 2px solid var(--primary);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.3s var(--ease-out-quint), height 0.3s var(--ease-out-quint),
-                  background 0.3s var(--ease-out-quint), border-color 0.3s var(--ease-out-quint);
-      mix-blend-mode: difference;
-      display: none;
-    }
-    .custom-cursor.active {
-      display: block;
-    }
-    .custom-cursor.hovering {
-      width: 44px; height: 44px;
-      background: rgba(139, 34, 82, 0.15);
-      border-color: var(--secondary);
-    }
-
     /* === Hero === */
     .hero-mouse-glow {
       position: absolute; inset: 0;

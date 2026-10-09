@@ -4,7 +4,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { SiteNav } from "./site-nav";
 import { SiteFooter } from "./site-footer";
 import { ActionStack } from "./action-stack";
-import { BookingModalProvider, useBookingModal } from "./booking-modal";
+import { CalDialogProvider, useBookingModal } from "./cal-dialog";
 import { LiveVacancies } from "./live-vacancies";
 
 // Mock next/navigation
@@ -93,9 +93,9 @@ describe("Phase 3 Site Components Parity", () => {
     it("renders navigation links and Get Started CTA", async () => {
       await act(async () => {
         root.render(
-          <BookingModalProvider>
+          <CalDialogProvider>
             <SiteNav />
-          </BookingModalProvider>,
+          </CalDialogProvider>,
         );
       });
 
@@ -117,6 +117,17 @@ describe("Phase 3 Site Components Parity", () => {
       const getStarted = container.querySelector("#nav-get-started-desktop");
       expect(getStarted).not.toBeNull();
       expect(getStarted?.textContent?.trim()).toBe("Get Started");
+
+      const menu = container.querySelector(
+        'button[aria-controls="mobile-nav"]',
+      ) as HTMLButtonElement;
+      expect(menu).not.toBeNull();
+      await act(async () => {
+        menu.click();
+      });
+      const drawer = document.getElementById("mobile-nav");
+      expect(drawer?.textContent).toContain("Services");
+      expect(drawer?.textContent).toContain("Get Started");
     });
   });
 
@@ -124,13 +135,13 @@ describe("Phase 3 Site Components Parity", () => {
     it("renders WhatsApp link, social handles, and Book a Call button", async () => {
       await act(async () => {
         root.render(
-          <BookingModalProvider>
+          <CalDialogProvider>
             <SiteFooter />
-          </BookingModalProvider>,
+          </CalDialogProvider>,
         );
       });
 
-      const footer = container.querySelector("section#contact");
+      const footer = container.querySelector("footer#contact");
       expect(footer).not.toBeNull();
 
       // WhatsApp link
@@ -153,9 +164,9 @@ describe("Phase 3 Site Components Parity", () => {
     it("renders jobs, category filters, and Career Bridge with data-switch-tab", async () => {
       await act(async () => {
         root.render(
-          <BookingModalProvider>
+          <CalDialogProvider>
             <LiveVacancies />
-          </BookingModalProvider>,
+          </CalDialogProvider>,
         );
       });
 
@@ -179,9 +190,9 @@ describe("Phase 3 Site Components Parity", () => {
     it("renders floating action buttons for WhatsApp and booking", async () => {
       await act(async () => {
         root.render(
-          <BookingModalProvider>
+          <CalDialogProvider>
             <ActionStack />
-          </BookingModalProvider>,
+          </CalDialogProvider>,
         );
       });
 
@@ -196,7 +207,7 @@ describe("Phase 3 Site Components Parity", () => {
     });
   });
 
-  describe("BookingModalProvider", () => {
+  describe("CalDialog", () => {
     function TestTrigger() {
       const { open } = useBookingModal();
       return (
@@ -206,35 +217,41 @@ describe("Phase 3 Site Components Parity", () => {
       );
     }
 
-    it("opens on trigger click, sets window.BookingModal, and closes on Escape", async () => {
+    it("opens a Cal.com embed and closes on Escape without polling", async () => {
+      const interval = vi.spyOn(window, "setInterval");
       await act(async () => {
         root.render(
-          <BookingModalProvider>
+          <CalDialogProvider>
             <TestTrigger />
-          </BookingModalProvider>,
+          </CalDialogProvider>,
         );
       });
 
-      const modal = container.querySelector("#booking-modal");
-      expect(modal?.classList.contains("hidden")).toBe(true);
+      expect(document.getElementById("booking-modal")).toBeNull();
       expect(window.BookingModal).toBeDefined();
 
-      // Click trigger to open
       const trigger = container.querySelector("#test-open") as HTMLButtonElement;
       await act(async () => {
         trigger.click();
       });
 
-      expect(modal?.classList.contains("hidden")).toBe(false);
+      const modal = document.getElementById("booking-modal");
       expect(modal?.getAttribute("data-state")).toBe("open");
+      const iframe = modal?.querySelector("iframe");
+      const src = iframe?.getAttribute("src") ?? "";
+      expect(src).toContain("https://cal.com/yasminblasi");
+      expect(src).toContain("embed=true");
+      expect(src).toContain("brandColor=7A1E4A");
+      expect(interval).not.toHaveBeenCalled();
 
-      // Press Escape to close
       await act(async () => {
-        document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+        document.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+        );
       });
 
-      expect(modal?.classList.contains("hidden")).toBe(true);
-      expect(modal?.getAttribute("data-state")).toBe("closed");
+      expect(document.getElementById("booking-modal")).toBeNull();
+      interval.mockRestore();
     });
   });
 });

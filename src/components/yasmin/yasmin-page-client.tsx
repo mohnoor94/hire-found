@@ -203,10 +203,10 @@ export function YasminPageClient() {
   return (
     <>
       <nav
-        className="nav-glass fixed top-0 right-0 left-0 z-50"
+        className="nav-glass fixed top-0 right-0 left-0 z-50 pt-[env(safe-area-inset-top)]"
         aria-label="Admin navigation"
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <button
             type="button"
             onClick={() => {
@@ -228,7 +228,7 @@ export function YasminPageClient() {
         </div>
       </nav>
 
-      <div className="pt-16">
+      <div className="pt-[var(--site-nav-offset)]">
         {view === "dashboard" ? (
           <YasminDashboard
             user={auth.user}

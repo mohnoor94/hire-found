@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
-import { CustomCursor } from "@/components/site/custom-cursor";
 import { ScrollReveals } from "@/components/site/scroll-reveals";
 import { MicroInteractions } from "@/components/site/micro-interactions";
 import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
@@ -47,9 +46,8 @@ export default function JobsPage() {
       <a href="#main-content" className="skip-link">
         Skip to content
       </a>
-      <CustomCursor />
       <SiteNav />
-      <main id="main-content" className="pt-20">
+      <main id="main-content" className="pt-[calc(var(--site-nav-offset)+1.5rem)]">
         <Suspense fallback={<JobsFallback />}>
           <JobsPageClient />
         </Suspense>

@@ -1,7 +1,6 @@
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
 import { ActionStack } from "@/components/site/action-stack";
-import { CustomCursor } from "@/components/site/custom-cursor";
 import { ScrollReveals } from "@/components/site/scroll-reveals";
 import { HeroEffects } from "@/components/site/hero-effects";
 import { ServicesEffects } from "@/components/site/services-effects";
@@ -22,7 +21,6 @@ export default function HomePage() {
       <a href="#hero" className="skip-link">
         Skip to content
       </a>
-      <CustomCursor />
       <SiteNav />
       <main>
         <Hero />
