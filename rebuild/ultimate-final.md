@@ -286,8 +286,8 @@ Pasted into `docs/platform-plan.md` (decision log + top pointer + status “Next
 [x] Decision-log + pointer in docs/platform-plan.md (2026-10-09)
 [x] Preflight on v2: npm test (189) && npm run build — green 2026-10-09
 [x] Git hygiene before merge: git fetch origin main && git status (clean tree on v2) — 2026-10-09; `origin/main` is an ancestor (fast-forward)
-[ ] Merge v2 → main; wait for Actions green
-[ ] Switch Pages → GitHub Actions
+[x] Merge v2 → main; wait for Actions green — run 37969404737 success 2026-10-09
+[ ] Switch Pages → GitHub Actions — API still build_type legacy
 [ ] DNS apex/www → Pages (parallel OK)
 [ ] Smoke: / , /jobs/?id=… , /yasmin/ CRUD → public HTML
 [ ] Run deferred Phase 6 agy; mark gate only when real

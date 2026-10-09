@@ -11,9 +11,9 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 | | |
 |---|---|
 | Current phase | Phase 6 — Cutover (in progress) |
-| Next work | Stage A merge `v2`→`main` (preflight 189/189 recorded 2026-10-09). Then green Actions → Pages source to Actions → DNS parallel → smoke. Phase 6 `agy` still deferred until actually run |
+| Next work | Switch Pages source to GitHub Actions, then point apex/`www` DNS at Pages (off Squarespace). Smoke after that. Phase 6 `agy` still deferred until actually run |
 | Last updated | 2026-10-09 |
-| Live site | Vanilla on `mohnoor94.github.io/hire-found/` (Pages legacy). `hirefound.com` is Squarespace parking until DNS + Pages Actions cutover |
+| Live site | Actions published Next `out/` to `mohnoor94.github.io/hire-found/` (run 37969404737). Pages source is still legacy. `hirefound.com` is still Squarespace parking |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
 | Rebuild strategy | [`rebuild/ultimate-final.md`](../rebuild/ultimate-final.md) (canonical). Debate trail: [`rebuild/archive/`](../rebuild/archive/) |
 
@@ -23,7 +23,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 
 - Change an item's status when work on it starts or finishes.
 - Set **Current phase** and **Last updated** at the top in that same change.
-- Commit each change on `v2` and push that branch. Do not put this work on `main` before Phase 6.
+- After the 2026-10-09 cutover merge, commit and push on `main` (the branch that deploys).
 - Add a dated line to the decision log when a choice changes. Do not open a second plan.
 - Leave Phase 7's visual direction blank until Phase 6 cutover/smoke is done; then record one direction line at Stage C per [`rebuild/ultimate-final.md`](../rebuild/ultimate-final.md).
 - Do not mark a **phase gate** or **high-risk item** `done` until Cursor and `agy` reviews are both checked. Ordinary checklist items do not each need dual review.
@@ -48,6 +48,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-07** — Phase 6 `agy` reviews deferred for the day (high-risk firestore-rules, high-risk gh-pages-export, phase-6-gate). Cursor reviews stay recorded; resume `agy` before marking those items `done`.
 - **2026-10-09** — Canonical rebuild strategy: `rebuild/ultimate-final.md`. Phase 6 cutover = preflight on v2 → merge v2→main → green Actions → Pages source to Actions → DNS parallel → smoke; then delete vanilla root (+ root assets only; never public/assets); re-baseline Vitest. Phase 7 = aggressive presentation rebuild (tokens & chrome → homepage → jobs → Yasmin) keeping domain/auth/Firestore/`?id=`/static export. Phase 6 `agy` remains deferred until actually run — do not invent PASS. Defer `/jobs/[slug]` + OG/JSON-LD to Stage E. Prior opinions/revs archived under `rebuild/archive/`.
 - **2026-10-09** — Preflight on `v2`: `npm test` 189/189 pass; `npm run build` green (recorded before Stage A merge).
+- **2026-10-09** — Fast-forward merged `v2` into `main` at `223bae1`. Actions run [37969404737](https://github.com/mohnoor94/hire-found/actions/runs/37969404737) succeeded: `out/index.html`, `out/jobs/index.html`, `out/yasmin/index.html`, `out/CNAME` = `hirefound.com`, and `deploy-pages` published that artifact. Pages API still reports `build_type: legacy` (source `main` `/`). `hirefound.com` nameservers are Google Domains; apex/`www` still resolve to Squarespace parking (`ext-sq.squarespace.com`). Smoke waits until Pages source is GitHub Actions and DNS is confirmed.
 
 ```mermaid
 flowchart LR
@@ -69,7 +70,7 @@ flowchart LR
 - **Hosting.** GitHub Pages, custom domain `hirefound.com`, `basePath` `/`. Static export settings: `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`. No Next.js server, API routes, or middleware. Those need a host change, which is a new decision.
 - **Job URLs.** Public detail stays client-loaded (`/jobs/?id={slug}`), matching [`js/jobs.js`](../js/jobs.js). A path like `/jobs/some-new-role` is not a real file for jobs created after the last build, so it is not the live detail URL.
 - **Editor.** shadcn form. Tiptap for the two long descriptions, `dir="rtl"` on the Arabic field. Short description stays plain text. Stored HTML in existing jobs must still render.
-- **Where the work lives.** Branch `v2` until cutover. Each change is committed and pushed to `v2`. Cutover merges `v2` into `main` so the Pages workflow deploys `out/`.
+- **Where the work lives.** Cutover merged `v2` into `main` on 2026-10-09. Later changes commit and push on `main`.
 - **Deploy after cutover.** [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) builds the Next app and uploads `out/`. Vanilla HTML in the repo root is no longer the Pages artifact.
 ## Data contract
 
@@ -292,18 +293,18 @@ Do this only after Phases 3–5 match the live site.
 
 - [x] Fix the Firestore allowlist drift (rules file matches UI) — `done`
 - [x] Deploy the Firestore rules (`npm run firebase:deploy-rules`) — `done` (2026-10-07, project `hire-found`)
-- [x] GitHub Action builds the app and uploads `out/` — `done` (workflow on `v2`; goes live on merge to `main`)
+- [x] GitHub Action builds the app and uploads `out/` — `done` (green on `main`, run 37969404737, 2026-10-09)
 - [x] Vanilla `index.html`, `jobs/`, and `yasmin/` are no longer the deployed artifact — `done` (workflow uploads `out/` only)
-- [ ] Smoke test: homepage vacancies load — `not started` (after cutover merge)
-- [ ] Smoke test: open a job via `?id=` and an apply path — `not started` (after cutover merge)
-- [ ] Smoke test: Yasmin sign-in, create, edit, and the public page shows the saved HTML — `not started` (after cutover merge)
+- [ ] Smoke test: homepage vacancies load — `not started` (after Pages source = Actions and DNS)
+- [ ] Smoke test: open a job via `?id=` and an apply path — `not started` (after Pages source = Actions and DNS)
+- [ ] Smoke test: Yasmin sign-in, create, edit, and the public page shows the saved HTML — `not started` (after Pages source = Actions and DNS)
 
 ### High-risk
 
 - [ ] Firestore rules match the UI allowlist and are deployed — `in progress` (deployed; Cursor pass-with-fixes applied; `agy` deferred)
   - [x] Cursor review — 2026-10-07 pass-with-fixes (set-equality sync test for `isAdmin()` ↔ `ALLOWED_EMAILS`)
   - [ ] `agy` review — `deferred` (2026-10-07)
-- [ ] GH Pages workflow builds and deploys `out/` only — `in progress` (workflow + CNAME assert on v2; Pages source still legacy; domain not on Pages yet; `agy` deferred)
+- [ ] GH Pages workflow builds and deploys `out/` only — `in progress` (Actions green on `main` with CNAME assert; Pages source still legacy; domain still Squarespace; `agy` deferred)
   - [x] Cursor review — 2026-10-07 fail → fixes started (CNAME confirm in workflow; hosting/DNS/Pages-source gap recorded in decision log)
   - [ ] `agy` review — `deferred` (2026-10-07)
 
