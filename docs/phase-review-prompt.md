@@ -4,7 +4,7 @@ Use this with Cursor or Antigravity CLI (`agy`) for Phase 1–6 gate reviews and
 
 Fill in **Scope** before running.
 
-You are reviewing HireFound on branch `v2`. Be critical. Do not rewrite code unless asked. Produce a structured critique only.
+You are reviewing HireFound on branch `main` (post-cutover deploy branch). Be critical. Do not rewrite code unless asked. Do not run `git checkout` or change branches. Produce a structured critique only.
 
 ## Context
 

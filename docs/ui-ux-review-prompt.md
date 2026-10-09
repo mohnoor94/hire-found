@@ -2,7 +2,7 @@
 
 Use this with Cursor or Antigravity CLI (`agy`) for Phase 7 surface reviews. Fill in the **Surface** line before running.
 
-You are reviewing HireFound UI/UX on branch `v2`. Be critical. Do not rewrite code unless asked. Produce a structured critique only.
+You are reviewing HireFound UI/UX on branch `main` (post-cutover deploy branch). Be critical. Do not rewrite code unless asked. Do not run `git checkout` or change branches. Produce a structured critique only.
 
 ## Context
 

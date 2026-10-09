@@ -65,6 +65,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — homepage `tagy` pass-with-fixes: wave matches preceding `warm-dark`; step labels use `text-muted`; job-row hover; footer out of `<main>`; vacancy filter `aria-pressed`.
 - **2026-10-09** — Homepage hero portrait returns as full-bleed editorial plane (burgundy wash + linen scrim + gold rule), not a cutout/card. HireFound type stays on the left; dual CTAs unchanged.
 - **2026-10-09** — Stage D3 jobs (review gate open, not `done`): editorial list with search across title, Arabic title, city, and company, plus category chips and bilingual rows. Detail stays `/jobs/?id=`. When `tallyFormId` is set, that job's Tally embed is the apply path; WhatsApp, email, and Book a Call stay as fallbacks. Dropped emoji, magnetic buttons, and category color pills. RTL descriptions use logical list padding and burgundy links. `src/lib/jobs/*` unchanged. Vitest **136**.
+- **2026-10-09** — Review prompts (`docs/ui-ux-review-prompt.md`, `docs/phase-review-prompt.md`) now target `main` and forbid `git checkout`. Stale `v2` wording made `tagy`/`agy` switch the working tree mid-review.
 
 ```mermaid
 flowchart LR
