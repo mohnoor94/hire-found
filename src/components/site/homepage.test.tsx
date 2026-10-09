@@ -84,7 +84,7 @@ describe("Homepage", () => {
     expect(
       container.querySelector('img[src*="yasmin-blasi"]'),
     ).not.toBeNull();
-    expect(container.querySelector(".hf-hero-photo")).not.toBeNull();
+    expect(container.querySelector(".hf-hero-portrait")).not.toBeNull();
     expect(container.querySelector(".rounded-2xl")).toBeNull();
 
     const hiring = container.querySelector("#hero-hiring") as HTMLButtonElement;

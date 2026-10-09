@@ -1,5 +1,5 @@
 /**
- * Keyboard shortcuts — from yasmin/js/shortcuts.js.
+ * Keyboard shortcuts - from yasmin/js/shortcuts.js.
  */
 
 export type ShortcutViewState = {

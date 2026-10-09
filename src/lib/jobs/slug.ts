@@ -1,5 +1,5 @@
 /**
- * Slug generation and dedupe — from yasmin/js/editor.js.
+ * Slug generation and dedupe - from yasmin/js/editor.js.
  */
 
 /** URL-safe slug from a title (max 80 chars). */

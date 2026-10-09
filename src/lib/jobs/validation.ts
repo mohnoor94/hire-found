@@ -1,5 +1,5 @@
 /**
- * Form validation — from yasmin/js/editor.js validateForm.
+ * Form validation - from yasmin/js/editor.js validateForm.
  */
 import { EMPLOYMENT_TYPES, SLUG_PATTERN } from "./types";
 

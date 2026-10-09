@@ -6,7 +6,7 @@
 
 @theme inline {
 
-    /* HireFound — Stage C direction: linen, burgundy, gold */
+    /* HireFound - Stage C direction: linen, burgundy, gold */
     --color-warm: #FCF9F5;
     --color-warm-dark: #F3EBE3;
     --color-primary: #7A1E4A;
@@ -223,29 +223,28 @@
   }
 }
 
-/* Homepage: photo plane + fold copy, then services panel. */
-@keyframes hf-hero-photo-in {
+/* Homepage: typography fold + atelier deck, then services panel. */
+@keyframes hf-hero-portrait-in {
   from {
-    transform: scale(1.06);
-    filter: saturate(0.55) contrast(1.05);
+    opacity: 0;
+    transform: scale(0.95);
   }
   to {
+    opacity: 1;
     transform: scale(1);
-    filter: saturate(0.72) contrast(1.04);
   }
 }
 
-.hf-hero-photo {
-  transform-origin: 68% 20%;
-  filter: saturate(0.72) contrast(1.04);
-  animation: hf-hero-photo-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+.hf-hero-portrait {
+  filter: saturate(0.92) contrast(1.03);
+  animation: hf-hero-portrait-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
 @keyframes hf-fold-in {
   from {
     opacity: 0;
     transform: translateY(14px);
-    filter: blur(6px);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
@@ -255,7 +254,22 @@
 }
 
 .hf-fold {
-  animation: hf-fold-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+  animation: hf-fold-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+@keyframes hf-atelier-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hf-atelier-deck {
+  animation: hf-atelier-in 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
 @keyframes hf-panel-in {
@@ -274,14 +288,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hf-hero-photo,
+  .hf-hero-portrait,
   .hf-fold,
+  .hf-atelier-deck,
   .hf-panel[data-state="active"] {
     animation: none;
   }
 
-  .hf-hero-photo {
+  .hf-hero-portrait {
     transform: none;
-    filter: saturate(0.72) contrast(1.04);
+    filter: saturate(0.92) contrast(1.03);
   }
 }

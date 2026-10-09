@@ -30,7 +30,7 @@ export function JobsEmptyState({ message }: JobsEmptyStateProps) {
       </div>
       <p className="mb-2 text-lg font-semibold text-text-main">{message}</p>
       <p className="mb-8 max-w-md text-sm text-muted">
-        Interested in opportunities? Reach out directly — I&apos;d love to hear
+        Interested in opportunities? Reach out directly. I&apos;d love to hear
         from you.
       </p>
       <div className="flex flex-col items-center gap-3 sm:flex-row">

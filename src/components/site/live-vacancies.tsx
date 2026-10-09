@@ -112,7 +112,7 @@ export function LiveVacancies() {
                   : `No jobs available in ${category.charAt(0).toUpperCase() + category.slice(1)}`}
               </p>
               <p className="mb-8 max-w-md text-sm text-muted">
-                Interested in opportunities? Reach out directly — I&apos;d love
+                Interested in opportunities? Reach out directly. I&apos;d love
                 to hear from you.
               </p>
               <div className="flex flex-col items-start gap-3 sm:flex-row">
@@ -165,7 +165,7 @@ export function LiveVacancies() {
               </p>
               <p className="mb-6 max-w-md text-sm text-muted">
                 We&apos;re having trouble loading jobs right now. Reach out
-                directly — I&apos;d love to hear from you.
+                directly. I&apos;d love to hear from you.
               </p>
               <div className="flex flex-col items-start gap-3 sm:flex-row">
                 <button

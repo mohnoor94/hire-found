@@ -26,7 +26,7 @@ export function Trust() {
 
         <blockquote className="mt-16 border-t border-secondary pt-10">
           <p className="font-accent text-2xl leading-snug text-pretty text-text-main italic md:text-3xl">
-            Yasmin didn&apos;t just find us a candidate — she found us a team
+            Yasmin didn&apos;t just find us a candidate, she found us a team
             member. Someone who gets our culture, our speed, our vision.
             That&apos;s rare.
           </p>

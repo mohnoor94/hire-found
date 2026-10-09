@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { ALLOWED_EMAILS } from "./auth";
 
-/** Emails listed inside firestore.rules `isAdmin()` — both directions vs UI. */
+/** Emails listed inside firestore.rules `isAdmin()` - both directions vs UI. */
 function emailsInIsAdmin(rules: string): string[] {
   const block = rules.match(
     /function isAdmin\(\)[\s\S]*?request\.auth\.token\.email in \[([\s\S]*?)\]/,

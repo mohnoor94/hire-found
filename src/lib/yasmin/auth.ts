@@ -1,5 +1,5 @@
 /**
- * Yasmin admin allowlist — must match firestore.rules isAdmin() emails.
+ * Yasmin admin allowlist - must match firestore.rules isAdmin() emails.
  */
 
 export const ALLOWED_EMAILS = [

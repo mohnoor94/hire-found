@@ -10,11 +10,11 @@ import {
 const EMPLOYER_SERVICES = [
   {
     title: "Executive Search & Headhunting",
-    body: "I find leaders who don't just fill a seat — they transform your business. C-suite, directors, the people who move the needle.",
+    body: "I find leaders who don't just fill a seat: they transform your business. C-suite, directors, the people who move the needle.",
   },
   {
     title: "Recruitment & Job Matching",
-    body: "From junior to senior, across industries. I handle sourcing, screening, and matching — you just meet the finalists.",
+    body: "From junior to senior, across industries. I handle sourcing, screening, and matching, so you just meet the finalists.",
   },
   {
     title: "DISC Assessments",
@@ -25,7 +25,7 @@ const EMPLOYER_SERVICES = [
 const CANDIDATE_SERVICES = [
   {
     title: "Career Matchmaking",
-    body: "Tell me where you want to go. I'll find the opportunities that actually match — not just what's available, but what's right.",
+    body: "Tell me where you want to go. I'll find the opportunities that actually match: not just what's available, but what's right.",
   },
   {
     title: "CV Optimization",

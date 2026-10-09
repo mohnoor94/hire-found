@@ -35,7 +35,7 @@ export function createYasminEditorExtensions(placeholder = "") {
     Underline,
     Link.configure({
       openOnClick: false,
-      // Style links via CSS — never write Tailwind classes into Firestore HTML.
+      // Style links via CSS - never write Tailwind classes into Firestore HTML.
       HTMLAttributes: {},
     }),
     Placeholder.configure({

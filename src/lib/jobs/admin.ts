@@ -1,5 +1,5 @@
 /**
- * Admin Firestore ops for Yasmin — all jobs (incl. inactive), CRUD, toggle.
+ * Admin Firestore ops for Yasmin - all jobs (incl. inactive), CRUD, toggle.
  */
 import {
   collection,

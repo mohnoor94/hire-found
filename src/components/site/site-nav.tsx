@@ -180,7 +180,7 @@ export function SiteNav() {
                 className={cn(bookClass, "w-full")}
                 onClick={() => {
                   setMenuOpen(false);
-                  // Return focus to the menu button — drawer trigger unmounts.
+                  // Return focus to the menu button - drawer trigger unmounts.
                   open(menuButtonRef.current);
                 }}
               >

@@ -87,7 +87,7 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Clipboard API unavailable — match vanilla silent fail
+      // Clipboard API unavailable - match vanilla silent fail
     }
   }
 

@@ -66,7 +66,7 @@ export function SiteFooter() {
           </a>
         </div>
         <p className="mt-5 text-sm text-warm/80">
-          Book a call for a set time — or message me on WhatsApp if you prefer
+          Book a call for a set time, or message me on WhatsApp if you prefer
           chat.
         </p>
 

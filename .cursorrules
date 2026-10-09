@@ -1,0 +1,4 @@
+# Project Rules for HireFound
+
+## Typography & Copywriting
+- **NO EM DASHES**: Never use em dashes (`—` or `&mdash;`) anywhere across this site, UI text, or code comments. Use standard hyphens (`-`), commas, colons, or clean sentence breaks instead.

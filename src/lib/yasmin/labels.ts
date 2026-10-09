@@ -1,4 +1,4 @@
-/** Admin dashboard label formatters — from yasmin/js/dashboard.js. */
+/** Admin dashboard label formatters - from yasmin/js/dashboard.js. */
 
 const CATEGORY_LABELS: Record<string, string> = {
   hospitality: "Hospitality",

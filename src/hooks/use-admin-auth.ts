@@ -92,7 +92,7 @@ export function useAdminAuth(): UseAdminAuthResult {
     const authInstance = auth;
 
     async function initAuth() {
-      // Persistence is best-effort. A failure must not block the listener —
+      // Persistence is best-effort. A failure must not block the listener -
       // browsers that block local storage can still use an in-memory session.
       try {
         await setPersistence(authInstance, browserLocalPersistence);
@@ -156,7 +156,7 @@ export function useAdminAuth(): UseAdminAuthResult {
           "Pop-up was blocked. Please allow pop-ups for this site.",
         );
       } else if (code === "auth/popup-closed-by-user") {
-        // User closed popup — no error
+        // User closed popup - no error
       } else {
         console.error("Sign-in error:", error);
         setSignInError("Sign-in failed. Please try again.");

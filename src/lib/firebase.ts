@@ -1,5 +1,5 @@
 /**
- * Firebase client module — same project as js/firebase-config.js.
+ * Firebase client module - same project as js/firebase-config.js.
  * Browser Auth + Firestore only. No Hosting, Functions, or Storage.
  */
 import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";

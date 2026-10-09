@@ -1,11 +1,11 @@
 const STEPS = [
   {
     title: "We Talk",
-    body: "Tell me everything. The role, the culture, the dream. I listen like it matters — because it does.",
+    body: "Tell me everything. The role, the culture, the dream. I listen like it matters, because it does.",
   },
   {
     title: "We Match",
-    body: "I go find your person. Not the most available — the most right.",
+    body: "I go find your person. Not the most available, but the most right.",
   },
   {
     title: "You Grow",

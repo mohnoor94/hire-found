@@ -1,5 +1,5 @@
 /**
- * Dashboard filters — from yasmin/js/dashboard.js filterJobs.
+ * Dashboard filters - from yasmin/js/dashboard.js filterJobs.
  */
 import type { JobStatusFilter } from "./types";
 

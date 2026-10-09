@@ -1,5 +1,5 @@
 /**
- * Greeting helpers — from yasmin/js/app.js.
+ * Greeting helpers - from yasmin/js/app.js.
  */
 
 export const GREETING_TEMPLATES: Array<(name: string) => string> = [
@@ -54,7 +54,7 @@ export const SUBTITLES = [
   "You were made for this 💜",
   "Good vibes and great hires ahead 🌈",
   "Confidence looks good on you 👑",
-  "Small steps, big impact — always 🌱",
+  "Small steps, big impact, always 🌱",
   "Let's turn dreams into careers 🚀",
   "Every listing tells a story 📖",
   "You bring the spark, we bring the tools 🔧",
