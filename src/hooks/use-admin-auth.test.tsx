@@ -68,7 +68,7 @@ vi.mock("@/lib/firebase", () => ({
   },
 }));
 
-import { useAdminAuth } from "./use-admin-auth";
+import { __resetAdminAuthStoreForTests, useAdminAuth } from "./use-admin-auth";
 
 function HookProbe({
   onUpdate,
@@ -119,6 +119,7 @@ describe("useAdminAuth", () => {
     authMocks.authStateReady.mockClear();
     authMocks.onAuthStateChanged.mockClear();
     authMocks.signOut.mockClear();
+    __resetAdminAuthStoreForTests();
     latest = null;
     container = document.createElement("div");
     document.body.appendChild(container);

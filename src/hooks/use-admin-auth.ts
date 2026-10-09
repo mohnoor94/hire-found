@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
@@ -42,105 +42,161 @@ export function resolveAuthStatus(nextUser: User | null): {
   return { status: "denied", user: null };
 }
 
-export function useAdminAuth(): UseAdminAuthResult {
-  const [status, setStatus] = useState<AdminAuthStatus>(() =>
-    auth ? "loading" : "unavailable",
-  );
-  const [user, setUser] = useState<User | null>(null);
-  const [signInError, setSignInError] = useState<string | null>(null);
-  const [signingIn, setSigningIn] = useState(false);
-  const denyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const readyRef = useRef(false);
+type AuthSnapshot = {
+  status: AdminAuthStatus;
+  user: User | null;
+  signInError: string | null;
+  signingIn: boolean;
+};
 
-  const clearDenyTimer = useCallback(() => {
-    if (denyTimerRef.current) {
-      clearTimeout(denyTimerRef.current);
-      denyTimerRef.current = null;
-    }
-  }, []);
+const SESSION_FLAG = "hf-yasmin-auth";
 
-  const applyUser = useCallback(
-    (nextUser: User | null) => {
-      clearDenyTimer();
-      const resolved = resolveAuthStatus(nextUser);
-      setUser(resolved.user);
-      setStatus(resolved.status);
+function writeSessionFlag(authenticated: boolean) {
+  try {
+    if (authenticated) sessionStorage.setItem(SESSION_FLAG, "1");
+    else sessionStorage.removeItem(SESSION_FLAG);
+  } catch {
+    // Ignore quota / private-mode failures.
+  }
+}
 
-      if (resolved.status === "authenticated") {
-        setSignInError(null);
-      }
+function initialStatus(): AdminAuthStatus {
+  if (!auth) return "unavailable";
+  if (auth.currentUser) return resolveAuthStatus(auth.currentUser).status;
+  return "loading";
+}
 
-      if (resolved.status === "denied" && auth) {
-        const authInstance = auth;
-        denyTimerRef.current = setTimeout(() => {
-          firebaseSignOut(authInstance).catch((err) => {
-            console.error("Auto sign-out failed:", err);
-          });
-        }, AUTO_SIGN_OUT_DELAY_MS);
-      }
-    },
-    [clearDenyTimer],
-  );
+let snapshot: AuthSnapshot = {
+  status: initialStatus(),
+  user: auth?.currentUser
+    ? resolveAuthStatus(auth.currentUser).user
+    : null,
+  signInError: null,
+  signingIn: false,
+};
 
-  useEffect(() => {
-    if (!auth) {
-      return;
-    }
+const storeListeners = new Set<() => void>();
+let authStarted = false;
+let denyTimer: ReturnType<typeof setTimeout> | null = null;
+let persistenceStarted = false;
 
-    let cancelled = false;
-    let unsubscribe: (() => void) | undefined;
+function emit(next: Partial<AuthSnapshot>) {
+  snapshot = { ...snapshot, ...next };
+  if (snapshot.status === "authenticated") writeSessionFlag(true);
+  else if (
+    snapshot.status === "signed-out" ||
+    snapshot.status === "denied"
+  ) {
+    writeSessionFlag(false);
+  }
+  storeListeners.forEach((listener) => listener());
+}
+
+function clearDenyTimer() {
+  if (denyTimer) {
+    clearTimeout(denyTimer);
+    denyTimer = null;
+  }
+}
+
+function applyUser(nextUser: User | null) {
+  clearDenyTimer();
+  const resolved = resolveAuthStatus(nextUser);
+
+  emit({
+    user: resolved.user,
+    status: resolved.status,
+    signInError:
+      resolved.status === "authenticated" ? null : snapshot.signInError,
+  });
+
+  if (resolved.status === "denied" && auth) {
     const authInstance = auth;
+    denyTimer = setTimeout(() => {
+      firebaseSignOut(authInstance).catch((err) => {
+        console.error("Auto sign-out failed:", err);
+      });
+    }, AUTO_SIGN_OUT_DELAY_MS);
+  }
+}
 
-    async function initAuth() {
-      // Persistence is best-effort. A failure must not block the listener -
-      // browsers that block local storage can still use an in-memory session.
+function startAuthStore() {
+  if (authStarted) return;
+  authStarted = true;
+
+  if (!auth) {
+    emit({ status: "unavailable", user: null });
+    return;
+  }
+
+  const authInstance = auth;
+
+  void (async () => {
+    if (!persistenceStarted) {
+      persistenceStarted = true;
       try {
         await setPersistence(authInstance, browserLocalPersistence);
       } catch (error) {
         console.error("Failed to set auth persistence:", error);
       }
-
-      try {
-        await authInstance.authStateReady();
-      } catch (error) {
-        console.error("Failed to await authStateReady:", error);
-      }
-
-      if (cancelled) return;
-
-      readyRef.current = true;
-      applyUser(authInstance.currentUser);
-
-      unsubscribe = onAuthStateChanged(
-        authInstance,
-        (nextUser) => {
-          if (!readyRef.current || cancelled) return;
-          applyUser(nextUser);
-        },
-        (error) => {
-          console.error("Auth state listener error:", error);
-          if (!cancelled) setStatus("unavailable");
-        },
-      );
     }
 
-    void initAuth();
+    try {
+      await authInstance.authStateReady();
+    } catch (error) {
+      console.error("Failed to await authStateReady:", error);
+    }
 
-    return () => {
-      cancelled = true;
-      unsubscribe?.();
-      clearDenyTimer();
-    };
-  }, [applyUser, clearDenyTimer]);
+    applyUser(authInstance.currentUser);
+
+    onAuthStateChanged(
+      authInstance,
+      (nextUser) => {
+        applyUser(nextUser);
+      },
+      (error) => {
+        console.error("Auth state listener error:", error);
+        emit({ status: "unavailable" });
+      },
+    );
+  })();
+}
+
+function subscribe(listener: () => void) {
+  storeListeners.add(listener);
+  startAuthStore();
+  return () => {
+    storeListeners.delete(listener);
+  };
+}
+
+function getSnapshot() {
+  return snapshot;
+}
+
+function getServerSnapshot(): AuthSnapshot {
+  return {
+    status: "loading",
+    user: null,
+    signInError: null,
+    signingIn: false,
+  };
+}
+
+export function useAdminAuth(): UseAdminAuthResult {
+  const state = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+  useEffect(() => {
+    startAuthStore();
+  }, []);
 
   const signInWithGoogle = useCallback(async () => {
     if (!auth) {
-      setStatus("unavailable");
+      emit({ status: "unavailable" });
       return;
     }
 
-    setSigningIn(true);
-    setSignInError(null);
+    emit({ signingIn: true, signInError: null });
 
     try {
       const provider = new GoogleAuthProvider();
@@ -152,17 +208,18 @@ export function useAdminAuth(): UseAdminAuthResult {
           : "";
 
       if (code === "auth/popup-blocked") {
-        setSignInError(
-          "Pop-up was blocked. Please allow pop-ups for this site.",
-        );
+        emit({
+          signInError:
+            "Pop-up was blocked. Please allow pop-ups for this site.",
+        });
       } else if (code === "auth/popup-closed-by-user") {
         // User closed popup - no error
       } else {
         console.error("Sign-in error:", error);
-        setSignInError("Sign-in failed. Please try again.");
+        emit({ signInError: "Sign-in failed. Please try again." });
       }
     } finally {
-      setSigningIn(false);
+      emit({ signingIn: false });
     }
   }, []);
 
@@ -180,12 +237,28 @@ export function useAdminAuth(): UseAdminAuthResult {
   }, []);
 
   return {
-    status,
-    user,
-    signInError,
-    signingIn,
+    status: state.status,
+    user: state.user,
+    signInError: state.signInError,
+    signingIn: state.signingIn,
     signInWithGoogle,
     signOut,
     retry,
   };
+}
+
+/** Test-only: reset module store between cases. */
+export function __resetAdminAuthStoreForTests() {
+  clearDenyTimer();
+  authStarted = false;
+  persistenceStarted = false;
+  snapshot = {
+    status: initialStatus(),
+    user: auth?.currentUser
+      ? resolveAuthStatus(auth.currentUser).user
+      : null,
+    signInError: null,
+    signingIn: false,
+  };
+  storeListeners.clear();
 }

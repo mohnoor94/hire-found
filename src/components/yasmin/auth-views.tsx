@@ -40,6 +40,12 @@ export function AuthViews({
   }
 
   if (status === "loading") {
+    let restoring = false;
+    try {
+      restoring = sessionStorage.getItem("hf-yasmin-auth") === "1";
+    } catch {
+      restoring = false;
+    }
     return (
       <AuthShell>
         <div
@@ -47,7 +53,7 @@ export function AuthViews({
           aria-hidden="true"
         />
         <p className="mt-4 text-sm text-muted" role="status">
-          Loading...
+          {restoring ? "Restoring your session..." : "Loading..."}
         </p>
       </AuthShell>
     );
