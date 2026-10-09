@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { fetchJobs, getCategories, type Job } from "@/lib/jobs";
 import { useBookingModal } from "@/components/site/cal-dialog";
+import { useServicesTab } from "@/components/site/services-tab";
 import { JobCard } from "@/components/jobs/job-card";
 
 export function LiveVacancies() {
   const { open } = useBookingModal();
+  const servicesTab = useServicesTab();
   const [jobs, setJobs] = useState<Job[] | null>(null);
   const [error, setError] = useState(false);
   const [category, setCategory] = useState("all");
@@ -42,20 +44,14 @@ export function LiveVacancies() {
   return (
     <section
       id="vacancies"
-      className="relative overflow-hidden bg-gradient-to-b from-warm to-warm-dark/40 px-6 py-20 lg:py-28"
+      className="bg-warm px-6 py-20 lg:py-28"
     >
-      <div className="pointer-events-none absolute inset-0">
-        <div
-          className="floating absolute top-10 right-20 size-40 rounded-full bg-secondary/[0.04] blur-3xl"
-          style={{ animationDelay: "-8s" }}
-        />
-      </div>
-      <div className="relative z-10 mx-auto max-w-5xl">
-        <div className="reveal mb-10 text-center">
-          <h2 className="font-accent mb-4 text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-10">
+          <h2 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
             Find Your Match
           </h2>
-          <p className="mx-auto max-w-xl text-lg text-muted">
+          <p className="mt-4 max-w-xl text-lg text-muted">
             Open roles I&apos;m hiring for right now. Something catch your eye?
             Let&apos;s talk.
           </p>
@@ -63,7 +59,7 @@ export function LiveVacancies() {
 
         {jobs && jobs.length > 0 && categories.length > 1 && (
           <div
-            className="mb-8 flex flex-wrap justify-center gap-2"
+            className="mb-8 flex flex-wrap gap-2"
             role="group"
             aria-label="Filter jobs by category"
           >
@@ -84,25 +80,28 @@ export function LiveVacancies() {
 
         <div id="vacancy-grid">
           {jobs === null && (
-            <div className="grid gap-6 md:grid-cols-2">
+            <div
+              className="grid gap-6 md:grid-cols-2"
+              aria-busy="true"
+              aria-label="Loading open roles"
+            >
               {[0, 1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="rounded-[20px] bg-white p-7 shadow-card animate-pulse"
+                  className="card-surface animate-pulse p-7"
                 >
                   <div className="mb-3 flex items-start justify-between">
-                    <div className="size-[38px] rounded-[10px] bg-gray-200" />
-                    <div className="h-6 w-20 rounded-full bg-gray-200" />
+                    <div className="h-6 w-20 rounded-full bg-warm-dark" />
                   </div>
-                  <div className="mb-2 h-5 w-3/4 rounded bg-gray-200" />
-                  <div className="mb-3 h-4 w-1/2 rounded bg-gray-200" />
-                  <div className="mb-4 space-y-2">
-                    <div className="h-3 w-full rounded bg-gray-200" />
-                    <div className="h-3 w-5/6 rounded bg-gray-200" />
+                  <div className="mb-2 h-5 w-3/4 rounded bg-warm-dark" />
+                  <div className="mb-3 h-4 w-1/2 rounded bg-warm-dark" />
+                  <div className="mb-4 flex flex-col gap-2">
+                    <div className="h-3 w-full rounded bg-warm-dark" />
+                    <div className="h-3 w-5/6 rounded bg-warm-dark" />
                   </div>
                   <div className="flex items-center justify-between">
-                    <div className="h-3 w-24 rounded bg-gray-200" />
-                    <div className="h-6 w-16 rounded-full bg-gray-200" />
+                    <div className="h-3 w-24 rounded bg-warm-dark" />
+                    <div className="h-6 w-16 rounded-full bg-warm-dark" />
                   </div>
                 </div>
               ))}
@@ -111,29 +110,14 @@ export function LiveVacancies() {
 
           {jobs && !error && filtered.length > 0 && (
             <div className="grid gap-6 md:grid-cols-2">
-              {filtered.map((job, index) => (
-                <JobCard key={job.id} job={job} index={index} />
+              {filtered.map((job) => (
+                <JobCard key={job.id} job={job} />
               ))}
             </div>
           )}
 
           {jobs && !error && filtered.length === 0 && (
-            <div className="flex flex-col items-center justify-center px-4 py-16 text-center">
-              <div className="mb-6 flex size-16 items-center justify-center rounded-full bg-secondary/10">
-                <svg
-                  className="size-8 text-secondary"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z"
-                  />
-                </svg>
-              </div>
+            <div className="flex flex-col items-start px-0 py-16">
               <p className="mb-2 text-lg font-semibold text-text-main">
                 {category === "all"
                   ? "No open roles right now"
@@ -143,12 +127,34 @@ export function LiveVacancies() {
                 Interested in opportunities? Reach out directly — I&apos;d love
                 to hear from you.
               </p>
-              <div className="flex flex-col items-center gap-3 sm:flex-row">
+              <div className="flex flex-col items-start gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={(e) => open(e.currentTarget)}
+                  className="inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark"
+                  aria-label="Book a call with Yasmin"
+                >
+                  <svg
+                    className="size-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                    />
+                  </svg>
+                  Book a Call
+                </button>
                 <a
                   href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20job%20opportunities."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="magnetic inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-full bg-whatsapp px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:brightness-110"
+                  className="inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10"
                   aria-label="Contact via WhatsApp"
                 >
                   <svg
@@ -160,33 +166,12 @@ export function LiveVacancies() {
                   </svg>
                   WhatsApp
                 </a>
-                <button
-                  type="button"
-                  onClick={(e) => open(e.currentTarget)}
-                  className="magnetic inline-flex min-h-[44px] min-w-[44px] cursor-pointer items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-warm transition-colors duration-200 hover:bg-primary-light"
-                  aria-label="Book a call with Yasmin"
-                >
-                  <svg
-                    className="size-4"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                    />
-                  </svg>
-                  Book a Call
-                </button>
               </div>
             </div>
           )}
 
           {error && (
-            <div className="flex flex-col items-center justify-center px-4 py-12 text-center">
+            <div className="flex flex-col items-start py-12">
               <p className="mb-2 text-lg font-semibold text-text-main">
                 Jobs temporarily unavailable
               </p>
@@ -194,12 +179,34 @@ export function LiveVacancies() {
                 We&apos;re having trouble loading jobs right now. Reach out
                 directly — I&apos;d love to hear from you.
               </p>
-              <div className="flex flex-col items-center gap-3 sm:flex-row">
+              <div className="flex flex-col items-start gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={(e) => open(e.currentTarget)}
+                  className="inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark"
+                  aria-label="Book a call with Yasmin"
+                >
+                  <svg
+                    className="size-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                    />
+                  </svg>
+                  Book a Call
+                </button>
                 <a
                   href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I'm%20interested%20in%20job%20opportunities."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="magnetic inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-full bg-whatsapp px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:brightness-110"
+                  className="inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10"
                   aria-label="Contact via WhatsApp"
                 >
                   <svg
@@ -211,62 +218,37 @@ export function LiveVacancies() {
                   </svg>
                   WhatsApp
                 </a>
-                <button
-                  type="button"
-                  onClick={(e) => open(e.currentTarget)}
-                  className="magnetic inline-flex min-h-[44px] min-w-[44px] cursor-pointer items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-warm transition-colors duration-200 hover:bg-primary-light"
-                  aria-label="Book a call with Yasmin"
-                >
-                  <svg
-                    className="size-4"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                    />
-                  </svg>
-                  Book a Call
-                </button>
               </div>
             </div>
           )}
         </div>
 
         {jobs && jobs.length > 0 && (
-          <div className="mt-10 text-center">
+          <div className="mt-10">
             <Link
               href="/jobs/"
-              className="magnetic inline-flex min-h-[44px] items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-warm transition-all duration-300 hover:bg-primary-light"
+              className="inline-flex min-h-12 touch-manipulation items-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark"
             >
-              View All Open Roles →
+              View All Open Roles
             </Link>
           </div>
         )}
 
-        <div className="reveal mx-auto mt-16 max-w-2xl">
-          <div className="relative overflow-hidden rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/[0.06] to-secondary/[0.06] p-8 text-center md:p-10">
-            <div className="relative z-10">
-              <h3 className="font-accent mb-2 text-xl font-bold text-primary md:text-2xl">
-                Looking for more than a job listing?
-              </h3>
-              <p className="mx-auto mb-5 max-w-md text-sm leading-relaxed text-muted">
-                Get your CV rewritten, nail your next interview, or let me
-                personally match you with your dream role.
-              </p>
-              <a
-                href="#services"
-                data-switch-tab="candidates"
-                className="career-bridge magnetic inline-flex min-h-[44px] items-center gap-2 rounded-full bg-primary/10 px-6 py-2.5 text-sm font-semibold text-primary transition-all duration-300 hover:bg-primary hover:text-white"
-              >
-                Explore Career Services →
-              </a>
-            </div>
-          </div>
+        <div className="mt-16 max-w-xl border-t border-secondary pt-10">
+          <h3 className="font-accent text-2xl text-primary">
+            Looking for more than a job listing?
+          </h3>
+          <p className="mt-3 max-w-[42rem] text-sm leading-relaxed text-muted">
+            Get your CV rewritten, nail your next interview, or let me
+            personally match you with your dream role.
+          </p>
+          <a
+            href="#services"
+            className="career-bridge mt-5 inline-flex min-h-11 touch-manipulation items-center text-sm font-semibold text-primary underline decoration-primary/40 underline-offset-4"
+            onClick={() => servicesTab?.setTab("candidates")}
+          >
+            Explore Career Services
+          </a>
         </div>
       </div>
     </section>

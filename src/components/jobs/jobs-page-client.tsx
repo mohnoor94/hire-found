@@ -82,7 +82,7 @@ export function JobsPageClient() {
           <div className="absolute top-10 right-20 size-40 rounded-full bg-secondary/[0.04] blur-3xl" />
           <div className="absolute bottom-10 left-1/4 size-32 rounded-full bg-primary/[0.03] blur-3xl" />
         </div>
-        <div className="reveal relative z-10 mx-auto max-w-5xl text-center">
+        <div className="relative z-10 mx-auto max-w-5xl text-center">
           <h1 className="font-accent mb-4 text-4xl font-bold text-primary md:text-5xl lg:text-6xl">
             Find Your Match
           </h1>
@@ -171,8 +171,8 @@ export function JobsPageClient() {
 
               {!loading && !error && filtered.length > 0 ? (
                 <div className="grid gap-6 md:grid-cols-2">
-                  {filtered.map((job, index) => (
-                    <JobCard key={job.id} job={job} index={index} />
+                  {filtered.map((job) => (
+                    <JobCard key={job.id} job={job} />
                   ))}
                 </div>
               ) : null}

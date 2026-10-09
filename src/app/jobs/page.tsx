@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
-import { ScrollReveals } from "@/components/site/scroll-reveals";
-import { MicroInteractions } from "@/components/site/micro-interactions";
 import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
 import { JobsPageClient } from "@/components/jobs/jobs-page-client";
 import { JobsSkeletons } from "@/components/jobs/jobs-states";
@@ -54,8 +52,6 @@ export default function JobsPage() {
         <WaveWarmToDark />
         <SiteFooter />
       </main>
-      <ScrollReveals />
-      <MicroInteractions />
     </>
   );
 }

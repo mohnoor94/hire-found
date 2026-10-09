@@ -160,7 +160,7 @@ describe("Phase 3 Site Components Parity", () => {
   });
 
   describe("LiveVacancies", () => {
-    it("renders jobs, category filters, and Career Bridge with data-switch-tab", async () => {
+    it("renders jobs, category filters, and a Career Bridge to services", async () => {
       await act(async () => {
         root.render(
           <CalDialogProvider>
@@ -177,7 +177,6 @@ describe("Phase 3 Site Components Parity", () => {
       const careerBridge = container.querySelector(".career-bridge");
       expect(careerBridge).not.toBeNull();
       expect(careerBridge?.getAttribute("href")).toBe("#services");
-      expect(careerBridge?.getAttribute("data-switch-tab")).toBe("candidates");
 
       // Job titles
       expect(container.textContent).toContain("Senior Barista");

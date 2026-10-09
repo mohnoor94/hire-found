@@ -11,18 +11,16 @@ import {
 
 type JobCardProps = {
   job: Job;
-  index: number;
 };
 
-export function JobCard({ job, index }: JobCardProps) {
+export function JobCard({ job }: JobCardProps) {
   const colors = categoryColors(job.category);
   const label = categoryLabel(job.category);
 
   return (
     <Link
       href={`/jobs/?id=${job.slug}`}
-      className="premium-card shadow-card reveal block min-h-[44px] min-w-[44px] cursor-pointer p-7"
-      style={{ transitionDelay: `${index * 0.1}s` }}
+      className="premium-card shadow-card block min-h-[44px] min-w-[44px] cursor-pointer p-7"
       aria-label={`View details for ${job.title}`}
     >
       <div className="mb-3 flex items-start justify-between">

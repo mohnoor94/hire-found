@@ -8,8 +8,8 @@ export function ActionStack() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const hero = document.getElementById("hero");
-    if (!hero) {
+    const hero = document.querySelector("#hero");
+    if (!(hero instanceof Element)) {
       const onScroll = () => setVisible(window.scrollY > 400);
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
@@ -62,7 +62,7 @@ export function ActionStack() {
         href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I%20found%20you%20through%20your%20website."
         target="_blank"
         rel="noopener noreferrer"
-        className="wa-pulse bg-whatsapp inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:brightness-110 max-md:size-12 max-md:justify-center max-md:rounded-full max-md:px-0"
+        className="bg-whatsapp inline-flex touch-manipulation items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg select-none active:brightness-95 max-md:size-12 max-md:justify-center max-md:rounded-full max-md:px-0"
         aria-label="WhatsApp"
       >
         <svg
