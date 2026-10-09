@@ -1,6 +1,12 @@
 "use client";
 
-import { ButterflyIcon } from "./butterfly-icon";
+import type { ReactNode } from "react";
+
+const primaryButton =
+  "inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";
+
+const quietButton =
+  "inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/25 bg-white px-6 text-sm font-semibold text-primary select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 type AuthViewsProps = {
   status: "loading" | "signed-out" | "denied" | "unavailable";
@@ -19,94 +25,78 @@ export function AuthViews({
 }: AuthViewsProps) {
   if (status === "unavailable") {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
-            <svg
-              className="h-8 w-8 text-red-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
-              />
-            </svg>
-          </div>
-          <h2 className="font-accent mb-2 text-xl font-bold text-text-main">
-            Authentication Unavailable
-          </h2>
-          <p className="mb-6 text-sm text-[#6B6560]">
-            Unable to connect to the authentication service. Please try again.
-          </p>
-          <button
-            type="button"
-            onClick={onRetry}
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-primary-light"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
+      <AuthShell>
+        <h1 className="font-accent text-3xl tracking-[-0.02em] text-primary">
+          Authentication Unavailable
+        </h1>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          Unable to connect to the authentication service. Please try again.
+        </p>
+        <button type="button" onClick={onRetry} className={`${quietButton} mt-8`}>
+          Retry
+        </button>
+      </AuthShell>
     );
   }
 
   if (status === "loading") {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <div className="admin-loading-spinner mx-auto mb-4">
-            <ButterflyIcon size={48} />
-          </div>
-          <p className="text-sm text-[#6B6560]">Loading...</p>
-        </div>
-      </div>
+      <AuthShell>
+        <div
+          className="mx-auto size-8 animate-spin rounded-full border-4 border-primary/30 border-t-primary motion-reduce:animate-none"
+          aria-hidden="true"
+        />
+        <p className="mt-4 text-sm text-muted" role="status">
+          Loading...
+        </p>
+      </AuthShell>
     );
   }
 
   if (status === "denied") {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="mx-auto w-full max-w-sm px-6 text-center">
-          <ButterflyIcon size={64} className="mx-auto mb-6" />
-          <h1 className="font-accent mb-2 text-3xl font-bold text-butterfly-rose">
-            Access Denied
-          </h1>
-          <p className="mb-4 text-sm text-[#6B6560]">
-            This account is not authorized to access the admin panel.
-          </p>
-          <p className="text-xs text-[#6B6560]">Signing out automatically...</p>
-        </div>
-      </div>
+      <AuthShell>
+        <h1 className="font-accent text-4xl tracking-[-0.02em] text-primary">
+          Access Denied
+        </h1>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          This account is not authorized to access the admin panel.
+        </p>
+        <p className="mt-4 text-xs text-muted">Signing out automatically...</p>
+      </AuthShell>
     );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="relative mx-auto w-full max-w-sm px-6 text-center">
-        <ButterflyIcon size={64} className="mx-auto mb-6" />
-        <h1 className="font-accent mb-2 text-3xl font-bold text-primary">
-          Yasmin&apos;s Space
-        </h1>
-        <p className="mb-8 text-sm text-[#6B6560]">Welcome back, beautiful ✨</p>
-        <button
-          type="button"
-          onClick={onSignIn}
-          disabled={signingIn}
-          className="inline-flex min-h-[44px] min-w-[44px] w-full items-center justify-center rounded-full bg-[#7C3AED] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#7C3AED]/40 transition-all duration-300 hover:bg-[#E879A8] disabled:opacity-60"
-        >
-          {signingIn ? "Signing in..." : "Sign in with Google"}
-        </button>
-        {signInError ? (
-          <p className="mt-4 text-sm text-butterfly-rose" role="alert">
-            {signInError}
-          </p>
-        ) : null}
-      </div>
+    <AuthShell>
+      <h1 className="font-accent text-4xl tracking-[-0.02em] text-primary">
+        Yasmin&apos;s Space
+      </h1>
+      <div className="mx-auto mt-4 h-px w-12 bg-secondary" aria-hidden="true" />
+      <p className="mt-4 text-sm leading-relaxed text-muted">
+        Sign in to manage listings.
+      </p>
+      <button
+        type="button"
+        onClick={onSignIn}
+        disabled={signingIn}
+        className={`${primaryButton} mt-8`}
+      >
+        {signingIn ? "Signing in..." : "Sign in with Google"}
+      </button>
+      {signInError ? (
+        <p className="mt-4 text-sm text-destructive" role="alert">
+          {signInError}
+        </p>
+      ) : null}
+    </AuthShell>
+  );
+}
+
+function AuthShell({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex min-h-dvh items-center justify-center px-6 pb-[env(safe-area-inset-bottom)]">
+      <div className="w-full max-w-sm text-center">{children}</div>
     </div>
   );
 }

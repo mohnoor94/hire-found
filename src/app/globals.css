@@ -27,7 +27,6 @@
     --color-butterfly-rose: #FDA4AF;
     --color-butterfly-gold: #FCD34D;
     --font-accent: var(--font-dm-serif), Georgia, serif;
-    --font-caveat: var(--font-caveat), cursive;
     --font-sans: var(--font-inter), var(--font-noto-arabic), "Noto Sans Arabic", system-ui, sans-serif;
     --font-heading: var(--font-dm-serif), Georgia, serif;
     --shadow-card: 0 8px 24px rgba(45, 41, 38, 0.07);

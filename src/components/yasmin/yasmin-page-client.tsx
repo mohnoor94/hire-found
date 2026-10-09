@@ -27,7 +27,7 @@ export function YasminPageClient() {
   const auth = useAdminAuth();
   const [view, setView] = useState<ViewMode>("dashboard");
   const [jobs, setJobs] = useState<Job[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [editingJob, setEditingJob] = useState<Job | null>(null);
   const [saving, setSaving] = useState(false);
@@ -213,14 +213,14 @@ export function YasminPageClient() {
               setEditingJob(null);
               setView("dashboard");
             }}
-            className="font-accent text-xl font-bold text-primary"
+            className="font-accent text-xl text-primary touch-manipulation focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             Yasmin&apos;s Space
           </button>
           <button
             type="button"
             onClick={() => void auth.signOut()}
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition-all duration-300 hover:bg-primary hover:text-white"
+            className="inline-flex min-h-11 touch-manipulation items-center px-3 text-sm font-semibold text-primary select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             aria-label="Sign out"
           >
             Sign Out

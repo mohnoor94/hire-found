@@ -205,4 +205,35 @@ describe("YasminPageClient", () => {
     expect(container.textContent).toContain("Create New Job Post");
     expect(container.querySelector("#field-title")).toBeTruthy();
   });
+
+  it("filters the desk to inactive listings", async () => {
+    authState.status = "authenticated";
+    authState.user = {
+      uid: "u1",
+      displayName: "Yasmin",
+      email: "yasmin@hirefound.com",
+      photoURL: null,
+    };
+
+    await act(async () => {
+      root.render(<YasminPageClient />);
+    });
+    await act(async () => {
+      await Promise.resolve();
+    });
+
+    const group = container.querySelector('[aria-label="Filter by status"]');
+    expect(group).toBeTruthy();
+    const inactiveBtn = group!.querySelector(
+      '[data-status="inactive"]',
+    ) as HTMLButtonElement | null;
+    expect(inactiveBtn).toBeTruthy();
+
+    await act(async () => {
+      inactiveBtn!.click();
+    });
+
+    expect(container.textContent).not.toContain("Senior Barista");
+    expect(container.textContent).toContain("Inactive Role");
+  });
 });
