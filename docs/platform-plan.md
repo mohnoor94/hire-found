@@ -2,17 +2,20 @@
 
 This file is the source of truth for the move from the vanilla site to Next.js. Update it in the same change that does the work. A pull request that moves the platform without updating this file is incomplete.
 
-Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site. They stay as history. Do not rewrite them. If a decision here disagrees with a `.kiro` spec, this file wins.
+**Cutover + Phase 7 execution brief (canonical):** [`rebuild/ultimate-final.md`](../rebuild/ultimate-final.md). This plan keeps living checkboxes, status, and the decision log. Prior rebuild debate docs live in [`rebuild/archive/`](../rebuild/archive/) as history only.
+
+Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site. They stay as history. Do not rewrite them. If a decision here disagrees with a `.kiro` spec, this file wins. If Phase 6/7 *execution order* disagrees with a prior rebuild opinion, [`ultimate-final.md`](../rebuild/ultimate-final.md) wins for how to cut over and redesign.
 
 ## Status
 
 | | |
 |---|---|
 | Current phase | Phase 6 — Cutover (in progress) |
-| Next work | Pages→Actions + DNS; then merge v2→main + smoke. Phase 6 `agy` deferred to a later day |
-| Last updated | 2026-10-07 |
+| Next work | Stage A merge `v2`→`main` (preflight 189/189 recorded 2026-10-09). Then green Actions → Pages source to Actions → DNS parallel → smoke. Phase 6 `agy` still deferred until actually run |
+| Last updated | 2026-10-09 |
 | Live site | Vanilla on `mohnoor94.github.io/hire-found/` (Pages legacy). `hirefound.com` is Squarespace parking until DNS + Pages Actions cutover |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
+| Rebuild strategy | [`rebuild/ultimate-final.md`](../rebuild/ultimate-final.md) (canonical). Debate trail: [`rebuild/archive/`](../rebuild/archive/) |
 
 Status values used below: `not started`, `in progress`, `done`, `deferred`.
 
@@ -22,7 +25,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - Set **Current phase** and **Last updated** at the top in that same change.
 - Commit each change on `v2` and push that branch. Do not put this work on `main` before Phase 6.
 - Add a dated line to the decision log when a choice changes. Do not open a second plan.
-- Leave Phase 7's visual direction blank until parity is done and a direction is chosen.
+- Leave Phase 7's visual direction blank until Phase 6 cutover/smoke is done; then record one direction line at Stage C per [`rebuild/ultimate-final.md`](../rebuild/ultimate-final.md).
 - Do not mark a **phase gate** or **high-risk item** `done` until Cursor and `agy` reviews are both checked. Ordinary checklist items do not each need dual review.
 
 ## Decision log
@@ -43,6 +46,8 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-07** — Phase 6: Firestore rules `isAdmin()` matches UI `ALLOWED_EMAILS` (both admin emails). Deploy rules with `npm run firebase:deploy-rules`. GH Pages workflow builds Next and uploads `out/` only (vanilla root is no longer the artifact).
 - **2026-10-07** — Cutover hosting check: repo Pages is still `build_type: legacy` from `main` `/` (`mohnoor94.github.io/hire-found/`). Apex/`www` `hirefound.com` currently resolves to Squarespace parking, not Pages. Before treating merge as domain cutover: set Pages source to GitHub Actions and point DNS/custom domain at Pages.
 - **2026-10-07** — Phase 6 `agy` reviews deferred for the day (high-risk firestore-rules, high-risk gh-pages-export, phase-6-gate). Cursor reviews stay recorded; resume `agy` before marking those items `done`.
+- **2026-10-09** — Canonical rebuild strategy: `rebuild/ultimate-final.md`. Phase 6 cutover = preflight on v2 → merge v2→main → green Actions → Pages source to Actions → DNS parallel → smoke; then delete vanilla root (+ root assets only; never public/assets); re-baseline Vitest. Phase 7 = aggressive presentation rebuild (tokens & chrome → homepage → jobs → Yasmin) keeping domain/auth/Firestore/`?id=`/static export. Phase 6 `agy` remains deferred until actually run — do not invent PASS. Defer `/jobs/[slug]` + OG/JSON-LD to Stage E. Prior opinions/revs archived under `rebuild/archive/`.
+- **2026-10-09** — Preflight on `v2`: `npm test` 189/189 pass; `npm run build` green (recorded before Stage A merge).
 
 ```mermaid
 flowchart LR
