@@ -49,9 +49,9 @@ export default function JobsPage() {
         <Suspense fallback={<JobsFallback />}>
           <JobsPageClient />
         </Suspense>
-        <WaveWarmToDark />
-        <SiteFooter />
       </main>
+      <WaveWarmToDark />
+      <SiteFooter />
     </>
   );
 }

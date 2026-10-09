@@ -31,7 +31,7 @@ export function HowItWorks() {
                 className="absolute top-1.5 -left-8 size-2.5 -translate-x-1/2 rounded-full bg-primary"
                 aria-hidden="true"
               />
-              <p className="text-xs font-semibold tracking-[0.14em] text-secondary uppercase">
+              <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">
                 Step {index + 1}
               </p>
               <h3 className="font-accent mt-2 text-3xl text-primary">

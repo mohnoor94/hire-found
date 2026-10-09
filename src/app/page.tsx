@@ -27,9 +27,9 @@ export default function HomePage() {
           <Services />
           <HowItWorks />
           <Trust />
-          <WaveWarmToDark />
-          <SiteFooter />
         </main>
+        <WaveWarmToDark from="warm-dark" />
+        <SiteFooter />
       </ServicesTabProvider>
       <ActionStack />
     </>

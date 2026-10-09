@@ -67,6 +67,7 @@ export function LiveVacancies() {
               <button
                 key={cat}
                 type="button"
+                aria-pressed={category === cat}
                 className={`filter-pill ${category === cat ? "active" : ""}`}
                 onClick={() => setCategory(cat)}
               >

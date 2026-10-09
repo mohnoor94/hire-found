@@ -294,7 +294,8 @@ Pasted into `docs/platform-plan.md` (decision log + top pointer + status “Next
 [x] Stage B delete vanilla; protect public/assets; re-baseline tests 131; grep-zero CDN — 2026-10-09
 [x] Stage C direction line — 2026-10-09
 [x] Stage D shared-chrome — 2026-10-09 (Cursor + tagy)
-[ ] Stage D surfaces remaining (homepage → jobs → Yasmin)
+[x] Stage D homepage — 2026-10-09 (Cursor + tagy)
+[ ] Stage D surfaces remaining (jobs → Yasmin)
 ```
 
 **Do not:** redesign on two trees, delete before smoke, touch `public/assets`, pull `[slug]` into Phase 7, mark `agy` done from folklore. Do not reopen `rebuild/archive/` for execution decisions.

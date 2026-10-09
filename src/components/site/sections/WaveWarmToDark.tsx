@@ -1,7 +1,20 @@
+import { cn } from "@/lib/utils";
+
 /** Linen → contact band. Fill must match SiteFooter (`bg-primary-dark`). */
-export function WaveWarmToDark() {
+export function WaveWarmToDark({
+  from = "warm",
+}: {
+  /** Background of the section above the wave. */
+  from?: "warm" | "warm-dark";
+}) {
   return (
-    <div className="-mb-px bg-warm text-primary-dark" aria-hidden="true">
+    <div
+      className={cn(
+        "-mb-px text-primary-dark",
+        from === "warm-dark" ? "bg-warm-dark" : "bg-warm",
+      )}
+      aria-hidden="true"
+    >
       <svg
         className="block h-16 w-full md:h-20"
         viewBox="0 0 1440 80"

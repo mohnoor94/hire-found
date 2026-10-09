@@ -26,10 +26,10 @@ export function JobCard({ job }: JobCardProps) {
   return (
     <Link
       href={`/jobs/?id=${job.slug}`}
-      className="block min-h-11 border-t border-secondary py-7 outline-none transition-colors focus-visible:bg-warm-dark/40 active:bg-warm-dark/50"
+      className="group block min-h-11 border-t border-secondary py-7 outline-none transition-colors hover:bg-warm-dark/40 focus-visible:bg-warm-dark/40 active:bg-warm-dark/50"
       aria-label={`View details for ${job.title}`}
     >
-      <h3 className="font-accent text-2xl leading-snug text-balance text-primary">
+      <h3 className="font-accent text-2xl leading-snug text-balance text-primary transition-colors group-hover:text-primary-light">
         {job.title}
       </h3>
       {job.titleAr?.trim() ? (
