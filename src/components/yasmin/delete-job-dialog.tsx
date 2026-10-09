@@ -11,10 +11,10 @@ import {
 import type { Job } from "@/lib/jobs/types";
 
 const quietButton =
-  "inline-flex min-h-11 flex-1 touch-manipulation items-center justify-center rounded-full border border-primary/25 bg-white px-4 text-sm font-semibold text-primary select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";
+  "inline-flex min-h-11 flex-1 touch-manipulation items-center justify-center rounded-full border border-primary/25 bg-white px-4 text-sm font-semibold text-muted select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";
 
 const dangerButton =
-  "inline-flex min-h-11 flex-1 touch-manipulation items-center justify-center rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";
+  "inline-flex min-h-11 flex-1 touch-manipulation items-center justify-center rounded-full bg-destructive px-4 text-sm font-semibold text-white select-none active:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-destructive disabled:opacity-60";
 
 type DeleteJobDialogProps = {
   job: Job | null;

@@ -103,14 +103,14 @@ export function YasminDashboard({
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-6 pt-8 pb-[max(2rem,env(safe-area-inset-bottom))]">
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mx-auto max-w-6xl px-6 pt-6 pb-[max(2rem,env(safe-area-inset-bottom))] sm:pt-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <GreetingCard key={user.uid} user={user} />
         <button
           type="button"
           onClick={onNewJob}
           title="Press N to create new job"
-          className={primaryButton}
+          className={`${primaryButton} shrink-0`}
           aria-label="Create new job post"
           aria-keyshortcuts="N"
         >
@@ -124,36 +124,32 @@ export function YasminDashboard({
         </button>
       </div>
 
-      <div className="mt-5 h-px w-12 bg-secondary" aria-hidden="true" />
-      <QuickLinks />
-
       <div
-        className="mt-8 grid grid-cols-3 border-y border-secondary/70"
+        className="mt-5 flex flex-wrap gap-2"
         role="group"
         aria-label="Filter by status"
       >
-        <StatusMetric
+        <StatusFilterPill
+          count={jobs.length}
+          label="All"
+          pressed={status === "all"}
+          onClick={() => setStatus("all")}
+        />
+        <StatusFilterPill
           count={activeCount}
           label="Active"
           pressed={status === "active"}
           onClick={() => setStatus("active")}
         />
-        <StatusMetric
+        <StatusFilterPill
           count={inactiveCount}
           label="Inactive"
           pressed={status === "inactive"}
           onClick={() => setStatus("inactive")}
         />
-        <StatusMetric
-          count={jobs.length}
-          label="All"
-          pressed={status === "all"}
-          onClick={() => setStatus("all")}
-          last
-        />
       </div>
 
-      <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-end">
+      <div className="mt-5 flex flex-col gap-3 lg:flex-row lg:items-end">
         <div className="min-w-0 flex-1">
           <label
             htmlFor="listing-search"
@@ -172,7 +168,7 @@ export function YasminDashboard({
             className={fieldClass}
           />
         </div>
-        <div className="lg:w-64">
+        <div className="lg:w-56">
           <label
             htmlFor="listing-category"
             className="mb-2 block text-sm font-semibold text-text-main"
@@ -195,7 +191,7 @@ export function YasminDashboard({
         </div>
       </div>
 
-      <div className="mt-10 flex items-end justify-between gap-3">
+      <div className="mt-8 flex items-end justify-between gap-3">
         <div>
           <h2 className="font-accent text-2xl text-primary">Listings</h2>
           <p className="mt-1 text-sm text-muted" aria-live="polite">
@@ -291,22 +287,22 @@ export function YasminDashboard({
             ))
           : null}
       </div>
+
+      <QuickLinks />
     </div>
   );
 }
 
-function StatusMetric({
+function StatusFilterPill({
   count,
   label,
   pressed,
   onClick,
-  last = false,
 }: {
   count: number;
   label: string;
   pressed: boolean;
   onClick: () => void;
-  last?: boolean;
 }) {
   return (
     <button
@@ -314,14 +310,10 @@ function StatusMetric({
       aria-pressed={pressed}
       data-status={label.toLowerCase()}
       onClick={onClick}
-      className={`flex min-h-16 touch-manipulation flex-col items-start justify-center px-2 py-3 text-left select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:bg-warm-dark sm:px-4 ${
-        last ? "" : "border-r border-secondary/50"
-      } ${pressed ? "bg-warm-dark" : ""}`}
+      className={`filter-pill ${pressed ? "active" : ""}`}
     >
-      <span className="font-accent text-3xl tabular-nums tracking-[-0.02em] text-primary sm:text-4xl">
-        {count}
-      </span>
-      <span className="text-xs font-semibold text-muted">{label}</span>
+      {label}
+      <span className="ms-1.5 tabular-nums opacity-70">{count}</span>
     </button>
   );
 }

@@ -69,6 +69,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — jobs Cursor pass-with-fixes: detail drops listing masthead so the role `h1` owns the page; focus rings on rows/CTAs; `companyName` in row meta; homepage vacancy chips use `formatCategoryLabel`.
 - **2026-10-09** — jobs `tagy` pass-with-fixes: drop card `aria-label` erasure; `document.title` + focus job `h1`; All jobs is a `Link` that preserves list filters; Link-copied uses primary contrast; Arabic titles drop `font-accent`; Tally gets a new-tab fallback.
 - **2026-10-10** - Stage D4 yasmin-dashboard (review gate open, not `done`): dense linen desk. Time-of-day greeting, metric row filters Active / Inactive / All, search, category select, editorial rows with the active switch, view, edit, and delete. `N` still opens a draft. Dropped the particle greeting card, Caveat script, and butterfly pulse. Sign-in line is "Sign in to manage listings." Greeting pool stays in `src/lib/yasmin/greeting.ts` and is not shown on the desk. Editor form is unchanged; the shared admin bar and linen shell also wrap it. `src/lib/**` unchanged. Vitest **137**.
+- **2026-10-10** - yasmin-dashboard Cursor pass-with-fixes: status filters are quiet pills (not hero stats); Tools links moved under the list; Delete uses destructive; greeting is smaller with no email line; row drops redundant Active/Inactive text beside the Switch.
 
 ```mermaid
 flowchart LR
@@ -355,7 +356,7 @@ Use [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). Each surface stays 
   - [x] Cursor review — 2026-10-09 pass-with-fixes → must-fixes applied
   - [x] `agy` review — 2026-10-09 pass-with-fixes via `tagy` → must-fixes applied
 - [ ] Yasmin dashboard pass — `in progress` (2026-10-10, review gate open)
-  - [ ] Cursor review
+  - [x] Cursor review — 2026-10-10 pass-with-fixes → must-fixes applied
   - [ ] `agy` review
 - [ ] Yasmin editor pass — `not started`
   - [ ] Cursor review

@@ -6,25 +6,20 @@ export function GreetingCard({ user }: { user: User }) {
   const line = `${getGreeting(new Date().getHours())}, ${name}`;
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex min-w-0 items-center gap-3">
       {user.photoURL ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={user.photoURL}
           alt=""
-          width={40}
-          height={40}
-          className="size-10 shrink-0 rounded-full object-cover"
+          width={36}
+          height={36}
+          className="size-9 shrink-0 rounded-full object-cover"
         />
       ) : null}
-      <div className="min-w-0">
-        <h1 className="font-accent text-3xl tracking-[-0.02em] text-balance text-primary sm:text-4xl">
-          {line}
-        </h1>
-        {user.email ? (
-          <p className="mt-1 truncate text-sm text-muted">{user.email}</p>
-        ) : null}
-      </div>
+      <h1 className="min-w-0 font-accent text-2xl tracking-[-0.02em] text-balance text-primary sm:text-3xl">
+        {line}
+      </h1>
     </div>
   );
 }

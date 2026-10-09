@@ -60,25 +60,14 @@ export function DashboardJobCard({
             </p>
           ) : null}
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <span
-            className={
-              isActive
-                ? "text-xs font-semibold text-primary"
-                : "text-xs font-semibold text-muted"
-            }
-          >
-            {isActive ? "Active" : "Inactive"}
-          </span>
-          <div className="flex min-h-11 min-w-11 items-center justify-center">
-            <Switch
-              checked={isActive}
-              disabled={toggling}
-              onCheckedChange={() => onToggleActive(job)}
-              aria-label={`Toggle active status for ${title}`}
-              className="after:-inset-y-3.5"
-            />
-          </div>
+        <div className="flex min-h-11 min-w-11 shrink-0 items-center justify-center">
+          <Switch
+            checked={isActive}
+            disabled={toggling}
+            onCheckedChange={() => onToggleActive(job)}
+            aria-label={`Toggle active status for ${title}`}
+            className="after:-inset-y-3.5"
+          />
         </div>
       </div>
       <div className="mt-1 -ml-3 flex flex-wrap">

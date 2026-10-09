@@ -173,7 +173,7 @@ describe("YasminPageClient", () => {
     expect(mockFetchAll).toHaveBeenCalled();
     expect(container.textContent).toContain("Senior Barista");
     expect(container.textContent).toContain("Inactive Role");
-    expect(container.textContent).toContain("Quick Actions");
+    expect(container.querySelector('[aria-label="Quick Actions"]')).toBeTruthy();
     expect(container.textContent).toContain("Sign Out");
   });
 
