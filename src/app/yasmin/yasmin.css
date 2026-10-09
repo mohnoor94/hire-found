@@ -1,0 +1,238 @@
+/* Yasmin admin panel — visual parity with yasmin/index.html */
+
+.yasmin-app {
+  background: linear-gradient(to bottom, #FFFAF5, #FFF5F7);
+}
+
+.nav-glass {
+  background: rgba(255, 250, 245, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(139, 34, 82, 0.08);
+}
+
+.admin-loading-spinner {
+  width: 48px;
+  height: 48px;
+  animation: butterflyPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes butterflyPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.greeting-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(196, 181, 253, 0.35) 0%,
+    rgba(253, 164, 175, 0.3) 50%,
+    rgba(252, 211, 77, 0.25) 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.greeting-orb-1 {
+  animation: orbFloat 10s ease-in-out infinite;
+}
+
+.greeting-orb-2 {
+  animation: orbFloat 12s ease-in-out infinite reverse;
+}
+
+@keyframes orbFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(10px, -10px) scale(1.05);
+  }
+  66% {
+    transform: translate(-5px, 8px) scale(0.95);
+  }
+}
+
+.particle {
+  position: absolute;
+  font-size: 14px;
+  opacity: 0;
+  animation: particleFloat 6s ease-in-out infinite;
+}
+
+.particle-1 {
+  top: 20%;
+  left: 15%;
+  animation-delay: 0s;
+}
+.particle-2 {
+  top: 40%;
+  right: 20%;
+  animation-delay: 1s;
+}
+.particle-3 {
+  bottom: 30%;
+  left: 25%;
+  animation-delay: 2s;
+}
+.particle-4 {
+  top: 25%;
+  right: 35%;
+  animation-delay: 3s;
+}
+.particle-5 {
+  bottom: 20%;
+  right: 15%;
+  animation-delay: 4s;
+}
+.particle-6 {
+  top: 55%;
+  left: 40%;
+  animation-delay: 5s;
+}
+
+@keyframes particleFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.5);
+  }
+  20% {
+    opacity: 0.8;
+    transform: translateY(0) scale(1);
+  }
+  80% {
+    opacity: 0.6;
+    transform: translateY(-15px) scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.4);
+  }
+}
+
+.greeting-avatar {
+  animation: avatarPop 0.6s ease-out both;
+}
+
+.greeting-text {
+  animation: textReveal 0.7s ease-out 0.15s both;
+}
+
+.greeting-subtitle {
+  animation: textReveal 0.7s ease-out 0.3s both;
+}
+
+@keyframes avatarPop {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes textReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Tiptap editor */
+.tiptap-editor p {
+  margin-bottom: 0.5rem;
+}
+
+.tiptap-editor h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.tiptap-editor h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.tiptap-editor ul,
+.tiptap-editor ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tiptap-editor a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 500;
+}
+
+.tiptap-rtl .tiptap-editor ul,
+.tiptap-rtl .tiptap-editor ol {
+  padding-left: 0;
+  padding-right: 1.5rem;
+}
+
+/* Placeholder only when the whole editor is empty (Quill .ql-blank parity) */
+.tiptap-editor.is-editor-empty p.is-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #8a8380;
+  pointer-events: none;
+  height: 0;
+  font-style: normal;
+}
+
+.tiptap-rtl .tiptap-editor.is-editor-empty p.is-empty:first-child::before {
+  float: right;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-loading-spinner,
+  .greeting-gradient,
+  .greeting-orb-1,
+  .greeting-orb-2,
+  .greeting-avatar,
+  .greeting-text,
+  .greeting-subtitle {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .particle {
+    display: none !important;
+  }
+
+  .job-card:hover {
+    transform: none;
+  }
+}
