@@ -10,8 +10,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 6 — Cutover (in progress) |
-| Next work | Close Phase 6 gate (Cursor + `tagy`/`agy`), then Stage B delete vanilla. Custom-domain DNS deferred |
+| Current phase | Phase 6 — Cutover (`done`). Next: Stage B delete vanilla |
+| Next work | Stage B: delete vanilla root only (never `public/assets` / `public/CNAME`); clean eslint + vitest; re-baseline Next-only test count; grep-zero CDN. Then Stage C direction line |
 | Last updated | 2026-10-09 |
 | Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). Smoke passed 2026-10-09. `hirefound.com` DNS deferred |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -54,6 +54,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — high-risk:gh-pages-export Cursor + `agy` both pass-with-fixes. Must-fixes applied: metadata icons via `withBasePath` (`layout.tsx`, `yasmin/page.tsx`); `deploy.yml` runs `configure-pages` before build and passes `NEXT_PUBLIC_BASE_PATH` from `steps.pages.outputs.base_path`; confirm step greps interim basePath into `out/`.
 - **2026-10-09** — Local Antigravity reviews use shell wrapper `tagy` (`toggle-agy` then `agy --dangerously-skip-permissions`). Documented under Review policy.
 - **2026-10-09** — high-risk:firestore-rules Cursor re-review pass; `tagy` pass-with-fixes. Must-fixes: `email_verified == true` in `isAdmin()` + redeploy rules; `npm test` before build in `deploy.yml`.
+- **2026-10-09** — Phase 6 gate: Cursor pass-with-fixes (`email_verified` assert in `firestore-rules.test.ts`); `tagy` pass. Stage A cutover closed; Stage B delete vanilla is next. Custom-domain DNS still deferred.
 
 ```mermaid
 flowchart LR
@@ -317,9 +318,9 @@ Do this only after Phases 3–5 match the live site.
 
 ### Phase 6 gate
 
-- [ ] Phase 6 gate (production cutover ready) — `not started` (`agy` deferred with high-risk)
-  - [ ] Cursor review
-  - [ ] `agy` review — `deferred` (2026-10-07)
+- [x] Phase 6 gate (production cutover ready) — `done` (2026-10-09)
+  - [x] Cursor review — 2026-10-09 pass-with-fixes → must-fix applied (`email_verified` test)
+  - [x] `agy` review — 2026-10-09 pass via `tagy`
 
 ## Phase 7 — Design and UX
 

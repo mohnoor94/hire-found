@@ -290,7 +290,7 @@ Pasted into `docs/platform-plan.md` (decision log + top pointer + status “Next
 [x] Switch Pages → GitHub Actions — build_type workflow 2026-10-09
 [ ] DNS apex/www → Pages — deferred; keep github.io/hire-found (+ interim basePath)
 [x] Smoke: /hire-found/ , /hire-found/jobs/?id=… , /hire-found/yasmin/ CRUD → public HTML — user pass 2026-10-09
-[ ] Run deferred Phase 6 reviews (Cursor + agy); mark gate only when real
+[x] Run deferred Phase 6 reviews (Cursor + tagy/agy); mark gate only when real — 2026-10-09
 [ ] Stage B delete vanilla; protect public/assets; re-baseline tests; grep-zero CDN
 [ ] Stage C direction line → Stage D surfaces in order
 ```

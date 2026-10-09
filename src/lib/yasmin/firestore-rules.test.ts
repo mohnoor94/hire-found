@@ -20,4 +20,11 @@ describe("Firestore rules allowlist sync", () => {
     const fromUi = [...ALLOWED_EMAILS].sort();
     expect(fromRules).toEqual(fromUi);
   });
+
+  it("requires email_verified in isAdmin()", () => {
+    const rulesPath = resolve(process.cwd(), "firestore.rules");
+    const rules = readFileSync(rulesPath, "utf8");
+    const isAdmin = rules.match(/function isAdmin\(\)[\s\S]*?\n      \}/)?.[0] ?? "";
+    expect(isAdmin).toMatch(/request\.auth\.token\.email_verified\s*==\s*true/);
+  });
 });
