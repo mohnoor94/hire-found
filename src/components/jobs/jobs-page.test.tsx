@@ -250,10 +250,15 @@ describe("Phase 4 Jobs page", () => {
     expect(container.textContent).toContain("Apply Now");
     const iframe = container.querySelector("iframe");
     expect(iframe?.getAttribute("src")).toContain("tally.so/embed/abc123");
+    expect(iframe?.getAttribute("src")).not.toContain("tally.so/embed/undefined");
     expect(container.textContent).toContain("Have Questions?");
     expect(
       container.querySelector('[aria-label="Book a call with Yasmin"]'),
-    ).toBeNull();
+    ).toBeTruthy();
+    expect(
+      container.querySelector('[aria-label="Contact via WhatsApp"]'),
+    ).toBeTruthy();
+    expect(container.querySelector('[aria-label="Send an email"]')).toBeTruthy();
   });
 
   it("copies the share URL to clipboard", async () => {
@@ -281,6 +286,42 @@ describe("Phase 4 Jobs page", () => {
     await flushEffects();
 
     expect(writeText).toHaveBeenCalled();
-    expect(container.textContent).toContain("✓ Link copied!");
+    expect(container.textContent).toContain("Link copied");
+  });
+
+  it("searches English, Arabic, and location", async () => {
+    await act(async () => {
+      root.render(renderWithProviders(<JobsPageClient />));
+    });
+    await flushEffects();
+
+    const input = container.querySelector("#job-search") as HTMLInputElement;
+    expect(input).toBeTruthy();
+
+    await act(async () => {
+      setNativeValue(input, "باريستا");
+    });
+    expect(container.textContent).toContain("Senior Barista");
+    expect(container.textContent).not.toContain("Frontend Engineer");
+
+    await act(async () => {
+      setNativeValue(input, "Remote");
+    });
+    expect(container.textContent).toContain("Frontend Engineer");
+    expect(container.textContent).not.toContain("Senior Barista");
+
+    await act(async () => {
+      setNativeValue(input, "no-such-role");
+    });
+    expect(container.textContent).toContain("No roles match that search.");
   });
 });
+
+function setNativeValue(input: HTMLInputElement, value: string) {
+  const setter = Object.getOwnPropertyDescriptor(
+    window.HTMLInputElement.prototype,
+    "value",
+  )?.set;
+  setter?.call(input, value);
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+}

@@ -10,8 +10,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 7 — Stage D homepage done; jobs next |
-| Next work | Stage D3 `jobs` → Cursor + `tagy` review. Custom-domain DNS still deferred |
+| Current phase | Phase 7: Stage D jobs implemented; review gate open |
+| Next work | Stage D3 `jobs` Cursor + `tagy` review (do not mark done). Custom-domain DNS still deferred |
 | Last updated | 2026-10-09 |
 | Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). Smoke passed 2026-10-09. `hirefound.com` DNS deferred |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -64,6 +64,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — homepage Cursor must-fixes: edge portrait hero plane; editorial job rows (no `premium-card`/pills/emoji); About without second portrait; Services contact strip removed; HowItWorks as a vertical step spine.
 - **2026-10-09** — homepage `tagy` pass-with-fixes: wave matches preceding `warm-dark`; step labels use `text-muted`; job-row hover; footer out of `<main>`; vacancy filter `aria-pressed`.
 - **2026-10-09** — Homepage hero portrait returns as full-bleed editorial plane (burgundy wash + linen scrim + gold rule), not a cutout/card. HireFound type stays on the left; dual CTAs unchanged.
+- **2026-10-09** — Stage D3 jobs (review gate open, not `done`): editorial list with search across title, Arabic title, city, and company, plus category chips and bilingual rows. Detail stays `/jobs/?id=`. When `tallyFormId` is set, that job's Tally embed is the apply path; WhatsApp, email, and Book a Call stay as fallbacks. Dropped emoji, magnetic buttons, and category color pills. RTL descriptions use logical list padding and burgundy links. `src/lib/jobs/*` unchanged. Vitest **136**.
 
 ```mermaid
 flowchart LR
@@ -346,7 +347,7 @@ Use [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). Each surface stays 
 - [x] Public homepage pass — `done` (2026-10-09; Trust still hidden pending Yasmin)
   - [x] Cursor review — 2026-10-09 pass-with-fixes → must-fixes applied
   - [x] `agy` review — 2026-10-09 pass-with-fixes via `tagy` → must-fixes applied
-- [ ] Jobs list and detail pass — `not started`
+- [ ] Jobs list and detail pass — `in progress` (2026-10-09, review gate open)
   - [ ] Cursor review
   - [ ] `agy` review
 - [ ] Yasmin dashboard pass — `not started`

@@ -2,12 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  fetchJobs,
-  filterByCategory,
-  getCategories,
-  type Job,
-} from "@/lib/jobs";
+import { fetchJobs, getCategories, type Job } from "@/lib/jobs";
+import { formatCategoryLabel } from "@/lib/yasmin/labels";
 import { JobCard } from "@/components/jobs/job-card";
 import { JobDetail } from "@/components/jobs/job-detail";
 import {
@@ -16,6 +12,24 @@ import {
   JobsNotFoundState,
   JobsSkeletons,
 } from "@/components/jobs/jobs-states";
+
+function matchesQuery(job: Job, query: string) {
+  const needle = query.trim().toLowerCase();
+  if (!needle) return true;
+  const haystack = [
+    job.title,
+    job.titleAr,
+    job.companyName,
+    job.location,
+    job.shortDescription,
+    job.category,
+    formatCategoryLabel(job.category),
+  ]
+    .filter((part) => typeof part === "string" && part.trim())
+    .join("\n")
+    .toLowerCase();
+  return haystack.includes(needle);
+}
 
 export function JobsPageClient() {
   const router = useRouter();
@@ -27,6 +41,7 @@ export function JobsPageClient() {
   const [error, setError] = useState(false);
   const [retryKey, setRetryKey] = useState(0);
   const [activeCategory, setActiveCategory] = useState("all");
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -59,6 +74,7 @@ export function JobsPageClient() {
 
   function backToListing() {
     setActiveCategory("all");
+    setQuery("");
     router.push("/jobs/");
   }
 
@@ -69,36 +85,40 @@ export function JobsPageClient() {
     : undefined;
 
   const categories = getCategories(allJobs);
-  const filtered = filterByCategory(allJobs, activeCategory);
-  const emptyMessage =
-    activeCategory === "all"
+  const filtered = allJobs.filter((job) => {
+    if (activeCategory !== "all" && job.category !== activeCategory) return false;
+    return matchesQuery(job, query);
+  });
+  const emptyMessage = query.trim()
+    ? "No roles match that search."
+    : activeCategory === "all"
       ? "No open roles available right now."
-      : `No jobs available in ${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}.`;
+      : `No jobs available in ${formatCategoryLabel(activeCategory)}.`;
+  const countLabel =
+    filtered.length === 1 ? "1 open role" : `${filtered.length} open roles`;
 
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-to-b from-warm to-warm-dark/40 px-6 py-16 lg:py-20">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-10 right-20 size-40 rounded-full bg-secondary/[0.04] blur-3xl" />
-          <div className="absolute bottom-10 left-1/4 size-32 rounded-full bg-primary/[0.03] blur-3xl" />
-        </div>
-        <div className="relative z-10 mx-auto max-w-5xl text-center">
-          <h1 className="font-accent mb-4 text-4xl font-bold text-primary md:text-5xl lg:text-6xl">
+      <section className="bg-warm px-6 pt-6 pb-2 lg:pt-10">
+        <div className="mx-auto max-w-5xl">
+          <h1 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
             Find Your Match
           </h1>
-          <p className="mx-auto max-w-xl text-lg text-muted">
-            Browse open roles I&apos;m currently hiring for. Your next career
-            move might be one click away.
+          <div className="mt-5 h-px w-12 bg-secondary" aria-hidden="true" />
+          <p className="mt-5 max-w-[65ch] text-lg text-muted">
+            {slug
+              ? "Open roles I'm hiring for right now."
+              : "Open roles I'm hiring for right now, in English and Arabic. Search by title, city, or company."}
           </p>
         </div>
       </section>
 
       {slug ? (
         <section
-          className="bg-warm px-6 py-12 lg:py-16"
+          className="bg-warm px-6 py-10 lg:py-14"
           aria-label="Job details"
         >
-          <div className="mx-auto max-w-3xl px-4">
+          <div className="mx-auto max-w-5xl">
             {loading || detailJob === undefined ? (
               <div className="flex justify-center py-16">
                 <div
@@ -124,41 +144,62 @@ export function JobsPageClient() {
         </section>
       ) : (
         <section
-          className="bg-warm px-6 py-12 lg:py-16"
+          className="bg-warm px-6 py-8 lg:py-12"
           aria-label="Job listings"
         >
           <div className="mx-auto max-w-5xl">
             {!loading && !error && allJobs.length > 0 ? (
-              <div
-                className="mb-10 flex flex-wrap justify-center gap-2"
-                role="group"
-                aria-label="Filter jobs by category"
-              >
-                <button
-                  type="button"
-                  className={`filter-pill ${activeCategory === "all" ? "active" : ""}`}
-                  aria-label="Show all jobs"
-                  aria-pressed={activeCategory === "all"}
-                  onClick={() => setActiveCategory("all")}
-                >
-                  All
-                </button>
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    type="button"
-                    className={`filter-pill ${activeCategory === category ? "active" : ""}`}
-                    aria-label={`Filter by ${category}`}
-                    aria-pressed={activeCategory === category}
-                    onClick={() => setActiveCategory(category)}
+              <>
+                <div className="max-w-xl">
+                  <label
+                    htmlFor="job-search"
+                    className="mb-2 block text-sm font-semibold text-text-main"
                   >
-                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                    Search
+                  </label>
+                  <input
+                    id="job-search"
+                    type="search"
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder="Role, city, or company"
+                    autoComplete="off"
+                    enterKeyHint="search"
+                    className="h-12 w-full rounded-full border border-primary/25 bg-white px-5 text-base text-text-main placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  />
+                </div>
+
+                <div
+                  className="mt-6 flex flex-wrap gap-2"
+                  role="group"
+                  aria-label="Filter jobs by category"
+                >
+                  <button
+                    type="button"
+                    className={`filter-pill ${activeCategory === "all" ? "active" : ""}`}
+                    aria-label="Show all jobs"
+                    aria-pressed={activeCategory === "all"}
+                    onClick={() => setActiveCategory("all")}
+                  >
+                    All
                   </button>
-                ))}
-              </div>
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      type="button"
+                      className={`filter-pill ${activeCategory === category ? "active" : ""}`}
+                      aria-label={`Filter by ${category}`}
+                      aria-pressed={activeCategory === category}
+                      onClick={() => setActiveCategory(category)}
+                    >
+                      {formatCategoryLabel(category)}
+                    </button>
+                  ))}
+                </div>
+              </>
             ) : null}
 
-            <div aria-label="Job listings grid" aria-live="polite">
+            <div className="mt-8" aria-label="Job listings grid" aria-live="polite">
               {loading ? <JobsSkeletons count={4} /> : null}
 
               {!loading && error ? (
@@ -170,11 +211,14 @@ export function JobsPageClient() {
               ) : null}
 
               {!loading && !error && filtered.length > 0 ? (
-                <div className="flex flex-col">
-                  {filtered.map((job) => (
-                    <JobCard key={job.id} job={job} />
-                  ))}
-                </div>
+                <>
+                  <p className="mb-2 text-sm text-muted">{countLabel}</p>
+                  <div className="flex flex-col">
+                    {filtered.map((job) => (
+                      <JobCard key={job.id} job={job} />
+                    ))}
+                  </div>
+                </>
               ) : null}
             </div>
           </div>

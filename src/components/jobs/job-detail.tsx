@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ArrowLeft, Calendar, Mail, Share2 } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import {
   DEFAULTS,
   type Job,
-  categoryColors,
-  categoryLabel,
   containsArabic,
   formatRichText,
   getRelativeTime,
 } from "@/lib/jobs";
 import { withBasePath } from "@/lib/base-path";
+import { formatCategoryLabel, formatEmploymentType } from "@/lib/yasmin/labels";
 
 type JobDetailProps = {
   job: Job;
@@ -26,14 +26,19 @@ declare global {
   }
 }
 
+const primaryAction =
+  "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark";
+
+const quietAction =
+  "inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10";
+
 export function JobDetail({ job, onBack }: JobDetailProps) {
   const { open } = useBookingModal();
   const [copied, setCopied] = useState(false);
   const [jobUrl, setJobUrl] = useState(
     withBasePath(`/jobs/?id=${job.slug || ""}`),
   );
-  const colors = categoryColors(job.category);
-  const label = categoryLabel(job.category);
+  const label = formatCategoryLabel(job.category);
   const postedDate = getRelativeTime(job.createdAt);
 
   const whatsAppNumber = job.contactWhatsApp || DEFAULTS.whatsApp;
@@ -46,6 +51,19 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
   const hasTally = Boolean(job.tallyFormId?.trim());
   const descriptionHtml = job.fullDescription || "";
   const descriptionIsArabic = containsArabic(descriptionHtml);
+  const hasArabicDescription = Boolean(job.fullDescriptionAr?.trim());
+  const hasEnglishDescription = Boolean(descriptionHtml.trim());
+
+  const meta = [
+    label,
+    job.location?.trim() || null,
+    formatEmploymentType(
+      typeof job.employmentType === "string" ? job.employmentType : undefined,
+    ) || null,
+    job.companyName?.trim() || null,
+    job.salary?.trim() || null,
+    postedDate || null,
+  ].filter(Boolean);
 
   useEffect(() => {
     let cancelled = false;
@@ -99,24 +117,22 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
     <div>
       <button
         type="button"
-        className="mb-8 inline-flex min-h-[44px] items-center gap-1 text-sm font-semibold text-primary transition-colors duration-200 hover:text-primary-light"
+        className="mb-8 inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-primary active:text-primary-dark"
         aria-label="Back to all job listings"
         data-back-link="true"
         onClick={onBack}
       >
-        <svg className="size-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-        </svg>
-        All Jobs
+        <ArrowLeft className="size-4" aria-hidden="true" />
+        All jobs
       </button>
 
-      <header className="mb-8">
-        <h1 className="font-accent mb-2 text-3xl font-bold text-text-main md:text-4xl">
+      <header>
+        <h1 className="font-accent text-3xl tracking-[-0.02em] text-balance text-primary md:text-4xl">
           {job.title}
         </h1>
         {job.titleAr?.trim() ? (
           <p
-            className="mb-3 text-xl font-semibold text-secondary"
+            className="mt-2 w-fit font-accent text-2xl leading-snug text-text-main"
             dir="rtl"
             lang="ar"
           >
@@ -124,125 +140,122 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
           </p>
         ) : null}
 
-        <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-muted">
-          <span
-            className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${colors.bg} ${colors.text}`}
-          >
-            {label}
-          </span>
-          {job.location ? <span>📍 {job.location}</span> : null}
-          {job.employmentType ? (
-            <span
-              className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${colors.bg} ${colors.text}`}
-            >
-              {job.employmentType}
-            </span>
-          ) : null}
-          {job.companyName?.trim() ? (
-            <span>🏢 {job.companyName}</span>
-          ) : null}
-          {job.salary?.trim() ? <span>💰 {job.salary}</span> : null}
-          {postedDate ? <span>🕐 {postedDate}</span> : null}
-        </div>
+        <p className="mt-4 max-w-[65ch] text-sm text-muted">{meta.join(" · ")}</p>
 
         <div className="mt-6 flex items-center gap-3">
           <button
             type="button"
-            className="magnetic inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-full border-2 border-primary/20 px-4 py-2 text-sm font-semibold text-primary transition-colors duration-200 hover:bg-primary/5"
+            className={quietAction}
             aria-label="Share this job - copy URL to clipboard"
             onClick={handleShare}
           >
-            <svg className="size-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
-            </svg>
+            <Share2 className="size-4" aria-hidden="true" />
             Share
           </button>
-          <span
-            className={`text-sm font-medium text-success transition-opacity duration-200 ${copied ? "opacity-100" : "opacity-0"}`}
-            aria-live="polite"
-          >
-            ✓ Link copied!
+          <span aria-live="polite" className="text-sm font-medium text-success">
+            {copied ? "Link copied" : ""}
           </span>
         </div>
       </header>
 
-      <section className="mt-10">
-        <h2 className="mb-4 text-xl font-bold text-text-main">
-          About This Role
-        </h2>
+      {hasArabicDescription || hasEnglishDescription ? (
+        <section className="mt-10 border-t border-secondary pt-10">
+          <h2 className="font-accent mb-6 text-2xl text-primary">
+            About This Role
+          </h2>
 
-        {job.fullDescriptionAr?.trim() ? (
-          <div
-            className="prose prose-sm mb-8 max-w-none space-y-4 leading-relaxed text-text-main"
-            dir="rtl"
-            lang="ar"
-            dangerouslySetInnerHTML={{
-              __html: formatRichText(job.fullDescriptionAr),
-            }}
-          />
-        ) : null}
+          {hasArabicDescription ? (
+            <div
+              className="job-description mb-8 max-w-[65ch] text-base leading-relaxed text-text-main"
+              dir="rtl"
+              lang="ar"
+              dangerouslySetInnerHTML={{
+                __html: formatRichText(job.fullDescriptionAr),
+              }}
+            />
+          ) : null}
 
-        {descriptionHtml.trim() ? (
-          <div
-            className="prose prose-sm max-w-none space-y-4 leading-relaxed text-text-main"
-            {...(descriptionIsArabic
-              ? { dir: "rtl" as const, lang: "ar" }
-              : {})}
-            dangerouslySetInnerHTML={{
-              __html: formatRichText(descriptionHtml),
-            }}
-          />
-        ) : null}
-      </section>
+          {hasEnglishDescription ? (
+            <div
+              className="job-description max-w-[65ch] text-base leading-relaxed text-text-main"
+              {...(descriptionIsArabic
+                ? { dir: "rtl" as const, lang: "ar" }
+                : {})}
+              dangerouslySetInnerHTML={{
+                __html: formatRichText(descriptionHtml),
+              }}
+            />
+          ) : null}
+        </section>
+      ) : null}
 
       {hasTally ? (
-        <section className="mt-10">
-          <h2 className="mb-4 text-xl font-bold text-text-main">Apply Now</h2>
+        <section className="mt-10 border-t border-secondary pt-10">
+          <h2 className="font-accent text-2xl text-primary">Apply Now</h2>
           <iframe
             data-tally-src={tallyUrl}
             src={tallyUrl}
-            width="100%"
-            frameBorder={0}
             title="Application Form"
-            className="rounded-lg"
-            style={{ minHeight: 400 }}
+            className="mt-6 min-h-[400px] w-full rounded-[16px] border border-primary/15 bg-white"
           />
-          <div className="mt-10 border-t border-gray-200 pt-8">
-            <h3 className="mb-2 text-lg font-bold text-text-main">
-              Have Questions?
-            </h3>
-            <p className="mb-4 text-sm text-muted">
-              Want more details or prefer to reach out directly? We&apos;re happy
-              to help.
+          <div className="mt-10">
+            <h3 className="font-accent text-xl text-primary">Have Questions?</h3>
+            <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-muted">
+              The form above is the way to apply. WhatsApp, email, and a call
+              are here if you would rather talk first.
             </p>
-            <div className="flex flex-col flex-wrap items-start gap-3 sm:flex-row sm:items-center">
-              <WhatsAppLink href={`https://wa.me/${whatsAppNumber}?text=${encodedMessage}`} />
-              <EmailLink href={`mailto:${emailAddress}?subject=${encodedSubject}`} />
-            </div>
+            <ContactActions
+              whatsAppHref={`https://wa.me/${whatsAppNumber}?text=${encodedMessage}`}
+              emailHref={`mailto:${emailAddress}?subject=${encodedSubject}`}
+              onBook={(target) => open(target)}
+              bookPrimary={false}
+            />
           </div>
         </section>
       ) : (
-        <section className="mt-10">
-          <h2 className="mb-4 text-xl font-bold text-text-main">
+        <section className="mt-10 border-t border-secondary pt-10">
+          <h2 className="font-accent text-2xl text-primary">
             Interested? Get in Touch
           </h2>
-          <div className="flex flex-col flex-wrap items-start gap-3 sm:flex-row sm:items-center">
-            <WhatsAppLink href={`https://wa.me/${whatsAppNumber}?text=${encodedMessage}`} />
-            <EmailLink href={`mailto:${emailAddress}?subject=${encodedSubject}`} />
-            <button
-              type="button"
-              className="magnetic inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-warm transition-colors duration-200 hover:bg-primary-light"
-              aria-label="Book a call with Yasmin"
-              onClick={(e) => open(e.currentTarget)}
-            >
-              <svg className="size-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-              </svg>
-              Book a Call
-            </button>
-          </div>
+          <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-muted">
+            Book a call, or reach Yasmin on WhatsApp or email.
+          </p>
+          <ContactActions
+            whatsAppHref={`https://wa.me/${whatsAppNumber}?text=${encodedMessage}`}
+            emailHref={`mailto:${emailAddress}?subject=${encodedSubject}`}
+            onBook={(target) => open(target)}
+            bookPrimary
+          />
         </section>
       )}
+    </div>
+  );
+}
+
+function ContactActions({
+  whatsAppHref,
+  emailHref,
+  onBook,
+  bookPrimary,
+}: {
+  whatsAppHref: string;
+  emailHref: string;
+  onBook: (target: HTMLButtonElement) => void;
+  bookPrimary: boolean;
+}) {
+  return (
+    <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+      <button
+        type="button"
+        className={bookPrimary ? primaryAction : quietAction}
+        aria-label="Book a call with Yasmin"
+        onClick={(event) => onBook(event.currentTarget)}
+      >
+        <Calendar className="size-4" aria-hidden="true" />
+        Book a Call
+      </button>
+      <WhatsAppLink href={whatsAppHref} />
+      <EmailLink href={emailHref} />
     </div>
   );
 }
@@ -253,7 +266,7 @@ function WhatsAppLink({ href }: { href: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="magnetic inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-full bg-whatsapp px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:brightness-110"
+      className={quietAction}
       aria-label="Contact via WhatsApp"
     >
       <svg className="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -266,14 +279,8 @@ function WhatsAppLink({ href }: { href: string }) {
 
 function EmailLink({ href }: { href: string }) {
   return (
-    <a
-      href={href}
-      className="magnetic inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:brightness-110"
-      aria-label="Send an email"
-    >
-      <svg className="size-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-      </svg>
+    <a href={href} className={quietAction} aria-label="Send an email">
+      <Mail className="size-4" aria-hidden="true" />
       Email
     </a>
   );
