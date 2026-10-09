@@ -1,3 +1,5 @@
+import { withBasePath } from "@/lib/base-path";
+
 export function Hero() {
   return (
     <section id="hero" className="min-h-screen relative overflow-hidden bg-dark flex items-center" data-mouse-glow>
@@ -19,7 +21,7 @@ export function Hero() {
         <div className="flex-1 text-center lg:text-left">
           {/* Brand */}
           <div className="mb-3 fade-up" data-hero="1">
-            <img src="/assets/hirefound-signature.svg" alt="HireFound" className="h-14 lg:h-12 w-auto mx-auto lg:mx-0 mb-4 footer-logo" style={{ opacity: '0.9', filter: 'brightness(0) invert(1) drop-shadow(0 0 12px rgba(196,75,128,0.4))' }} />
+            <img src={withBasePath("/assets/hirefound-signature.svg")} alt="HireFound" className="h-14 lg:h-12 w-auto mx-auto lg:mx-0 mb-4 footer-logo" style={{ opacity: '0.9', filter: 'brightness(0) invert(1) drop-shadow(0 0 12px rgba(196,75,128,0.4))' }} />
           </div>
 
           {/* Title */}
@@ -34,7 +36,7 @@ export function Hero() {
               {/* Header */}
               <div className="wa-chat-header">
                 <svg className="w-5 h-5 text-[#AEBAC1] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
-                <img src="/assets/yasmin-blasi.png" alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                <img src={withBasePath("/assets/yasmin-blasi.png")} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
                 <div className="flex-1 min-w-0">
                   <p className="text-[#E9EDEF] text-sm font-medium leading-tight">Yasmin</p>
                   <p className="text-[#25D366] text-[11px] leading-tight">online</p>
@@ -91,7 +93,7 @@ export function Hero() {
         {/* Right: Photo (desktop only) */}
         <div className="hidden lg:block flex-shrink-0 fade-up" data-hero="2">
           <div className="w-80 h-80 rounded-full overflow-hidden photo-glow-circle relative" style={{ background: 'radial-gradient(circle, rgba(192, 162, 236, 0.3) 0%, rgba(139, 92, 196, 0.15) 50%, transparent 70%)' }}>
-            <img src="/assets/yasmin-blasi.png" alt="Yasmin Blasi, Founder of HireFound" className="w-full h-full object-cover" loading="eager" />
+            <img src={withBasePath("/assets/yasmin-blasi.png")} alt="Yasmin Blasi, Founder of HireFound" className="w-full h-full object-cover" loading="eager" />
           </div>
         </div>
       </div>

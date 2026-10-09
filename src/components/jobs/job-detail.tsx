@@ -11,6 +11,7 @@ import {
   formatRichText,
   getRelativeTime,
 } from "@/lib/jobs";
+import { withBasePath } from "@/lib/base-path";
 
 type JobDetailProps = {
   job: Job;
@@ -29,7 +30,7 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
   const { open } = useBookingModal();
   const [copied, setCopied] = useState(false);
   const [jobUrl, setJobUrl] = useState(
-    `https://hirefound.com/jobs/?id=${job.slug || ""}`,
+    withBasePath(`/jobs/?id=${job.slug || ""}`),
   );
   const colors = categoryColors(job.category);
   const label = categoryLabel(job.category);
@@ -49,7 +50,7 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const nextUrl = `${window.location.origin}/jobs/?id=${job.slug || ""}`;
+      const nextUrl = `${window.location.origin}${withBasePath(`/jobs/?id=${job.slug || ""}`)}`;
       await Promise.resolve();
       if (!cancelled) setJobUrl(nextUrl);
     })();

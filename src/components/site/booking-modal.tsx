@@ -10,6 +10,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { withBasePath } from "@/lib/base-path";
 
 type BookingModalContextValue = {
   open: (trigger?: HTMLElement | null) => void;
@@ -299,7 +300,7 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
           >
             <div className="flex h-16 flex-shrink-0 items-center gap-3 border-b border-primary/10 px-4 py-3">
               <img
-                src="/assets/yasmin-blasi.png"
+                src={withBasePath("/assets/yasmin-blasi.png")}
                 alt=""
                 className="size-10 rounded-full object-cover"
               />

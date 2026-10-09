@@ -1,6 +1,7 @@
 "use client";
 
 import { useBookingModal } from "@/components/site/booking-modal";
+import { withBasePath } from "@/lib/base-path";
 
 const FOOTER_CONFIG = {
   whatsAppNumber: "962793001043",
@@ -137,7 +138,7 @@ export function SiteFooter() {
 
         <div className="mt-24 border-t border-white/10 pt-12 text-center">
           <img
-            src="/assets/hirefound-signature.svg"
+            src={withBasePath("/assets/hirefound-signature.svg")}
             alt="HireFound"
             className="footer-logo mx-auto mb-6 h-12 opacity-80 md:h-14"
           />

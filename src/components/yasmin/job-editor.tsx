@@ -12,6 +12,7 @@ import {
 import { generateSlug } from "@/lib/jobs/slug";
 import { validateForm, type JobFormData } from "@/lib/jobs/validation";
 import { formatOptionLabel } from "@/lib/yasmin/labels";
+import { withBasePath } from "@/lib/base-path";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -162,7 +163,7 @@ export function JobEditor({ job, saving, onSave, onCancel }: JobEditorProps) {
           </h2>
           {isEdit && job?.slug ? (
             <a
-              href={`/jobs/?id=${encodeURIComponent(job.slug)}`}
+              href={withBasePath(`/jobs/?id=${encodeURIComponent(job.slug)}`)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs font-medium text-primary transition-colors duration-200 hover:text-primary-light"

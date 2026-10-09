@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useBookingModal } from "@/components/site/booking-modal";
+import { withBasePath } from "@/lib/base-path";
 
 const NAV_ITEMS = [
   {
@@ -83,7 +84,7 @@ export function SiteNav() {
           }
         >
           <img
-            src="/assets/hirefound-signature-primary.svg"
+            src={withBasePath("/assets/hirefound-signature-primary.svg")}
             alt="HireFound"
             className="nav-logo h-8 w-auto"
           />

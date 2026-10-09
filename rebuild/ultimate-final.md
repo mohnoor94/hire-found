@@ -287,9 +287,9 @@ Pasted into `docs/platform-plan.md` (decision log + top pointer + status “Next
 [x] Preflight on v2: npm test (189) && npm run build — green 2026-10-09
 [x] Git hygiene before merge: git fetch origin main && git status (clean tree on v2) — 2026-10-09; `origin/main` is an ancestor (fast-forward)
 [x] Merge v2 → main; wait for Actions green — run 37969404737 success 2026-10-09
-[ ] Switch Pages → GitHub Actions — API still build_type legacy
-[ ] DNS apex/www → Pages (parallel OK)
-[ ] Smoke: / , /jobs/?id=… , /yasmin/ CRUD → public HTML
+[x] Switch Pages → GitHub Actions — build_type workflow 2026-10-09
+[ ] DNS apex/www → Pages — deferred; keep github.io/hire-found (+ interim basePath)
+[ ] Smoke: /hire-found/ , /hire-found/jobs/?id=… , /hire-found/yasmin/ CRUD → public HTML
 [ ] Run deferred Phase 6 agy; mark gate only when real
 [ ] Stage B delete vanilla; protect public/assets; re-baseline tests; grep-zero CDN
 [ ] Stage C direction line → Stage D surfaces in order

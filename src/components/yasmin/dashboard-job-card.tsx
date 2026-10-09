@@ -6,6 +6,7 @@ import {
   formatCategoryLabel,
   formatEmploymentType,
 } from "@/lib/yasmin/labels";
+import { withBasePath } from "@/lib/base-path";
 import { Switch } from "@/components/ui/switch";
 
 type DashboardJobCardProps = {
@@ -104,7 +105,7 @@ export function DashboardJobCard({
       <div className="flex items-center gap-2 border-t border-butterfly-lavender/10 pt-3">
         {job.slug ? (
           <a
-            href={`/jobs/?id=${encodeURIComponent(job.slug)}`}
+            href={withBasePath(`/jobs/?id=${encodeURIComponent(job.slug)}`)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg bg-gray-100 px-3 py-2 text-xs font-medium text-text-main transition-all duration-200 hover:bg-gray-200"

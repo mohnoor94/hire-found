@@ -1,3 +1,5 @@
+import { withBasePath } from "@/lib/base-path";
+
 export function About() {
   return (
     <section id="about" className="py-20 lg:py-28 px-6 bg-gradient-to-b from-warm-dark/50 to-warm">
@@ -7,7 +9,7 @@ export function About() {
         {/* Photo */}
         <div className="reveal flex-shrink-0">
           <div className="w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden shadow-card photo-glow-circle" style={{ background: 'radial-gradient(circle, rgba(192, 162, 236, 0.3) 0%, rgba(139, 92, 196, 0.15) 50%, transparent 70%)' }}>
-            <img src="/assets/yasmin-blasi.png" alt="Yasmin Blasi, Founder of HireFound" className="w-full h-full object-cover" loading="lazy" />
+            <img src={withBasePath("/assets/yasmin-blasi.png")} alt="Yasmin Blasi, Founder of HireFound" className="w-full h-full object-cover" loading="lazy" />
           </div>
         </div>
 
