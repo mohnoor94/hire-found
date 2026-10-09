@@ -113,6 +113,16 @@ describe("Phase 3 Site Components Parity", () => {
       expect(links.some((l) => l.href === "#services")).toBe(true);
       expect(links.some((l) => l.href === "#how-it-works")).toBe(true);
 
+      const sectionHrefs = links
+        .map((l) => l.href)
+        .filter((href) => href && href.startsWith("#") && href !== "#hero");
+      expect(sectionHrefs).toEqual([
+        "#vacancies",
+        "#about",
+        "#services",
+        "#how-it-works",
+      ]);
+
       const bookCall = container.querySelector("#nav-book-a-call-desktop");
       expect(bookCall).not.toBeNull();
       expect(bookCall?.textContent?.trim()).toBe("Book a Call");

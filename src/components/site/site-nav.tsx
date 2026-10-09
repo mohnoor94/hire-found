@@ -17,18 +17,18 @@ import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   {
-    label: "About",
-    descriptor: "The founder and the matchmaking standard",
-    homepageHref: "#about",
-    otherHref: "/#about",
-    sectionId: "about",
-  },
-  {
     label: "Find Your Match",
     descriptor: "Open roles across Jordan and the Gulf",
     homepageHref: "#vacancies",
     otherHref: "/jobs/",
     sectionId: "vacancies",
+  },
+  {
+    label: "About",
+    descriptor: "The founder and the matchmaking standard",
+    homepageHref: "#about",
+    otherHref: "/#about",
+    sectionId: "about",
   },
   {
     label: "Services",
