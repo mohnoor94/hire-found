@@ -104,11 +104,9 @@ export function RichTextEditor({
   }
 
   return (
-    <div className="scroll-mb-32 rounded-2xl border border-primary/15 bg-white has-[.tiptap-editor:focus]:border-primary has-[.tiptap-editor:focus]:ring-2 has-[.tiptap-editor:focus]:ring-primary/30">
+    <div className="scroll-mb-32 rounded-2xl border border-primary/25 bg-white transition-[border-color] has-[.tiptap-editor:focus]:border-primary">
       <EditorToolbar editor={editor} label={ariaLabel} fieldId={id} />
-      <div className="min-w-0">
-        <EditorContent editor={editor} />
-      </div>
+      <EditorContent editor={editor} />
     </div>
   );
 }
