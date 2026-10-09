@@ -45,11 +45,11 @@ const linkClass = (active: boolean) =>
     "inline-flex min-h-11 touch-manipulation items-center text-sm font-medium",
     active
       ? "text-primary underline decoration-2 underline-offset-8"
-      : "text-[#5E534C] hover:text-primary",
+      : "text-muted hover:text-primary",
   );
 
 const bookClass =
-  "inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full bg-primary px-5 text-sm font-semibold text-[#FCF9F5] select-none hover:bg-primary-light active:bg-primary-dark";
+  "inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full bg-primary px-5 text-sm font-semibold text-warm select-none hover:bg-primary-light active:bg-primary-dark";
 
 export function SiteNav() {
   const pathname = usePathname() || "/";
@@ -99,12 +99,12 @@ export function SiteNav() {
             })}
             <button
               type="button"
-              id="nav-get-started-desktop"
+              id="nav-book-a-call-desktop"
               className={bookClass}
-              aria-label="Get Started - Contact us"
+              aria-label="Book a Call"
               onClick={(e) => open(e.currentTarget)}
             >
-              Get Started
+              Book a Call
             </button>
           </div>
 
@@ -125,11 +125,11 @@ export function SiteNav() {
 
       <DialogPrimitive.Root open={menuOpen} onOpenChange={setMenuOpen}>
         <DialogPrimitive.Portal>
-          <DialogPrimitive.Overlay className="fixed inset-0 z-[60] bg-[#2D2926]/45 data-open:animate-in data-open:fade-in-0" />
+          <DialogPrimitive.Overlay className="fixed inset-0 z-[60] bg-text-main/45 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
           <DialogPrimitive.Content
             id="mobile-nav"
             aria-describedby="mobile-nav-description"
-            className="fixed inset-0 z-[60] flex h-dvh w-full flex-col bg-[#FCF9F5] pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] outline-none sm:inset-y-0 sm:left-auto sm:w-[22rem] sm:shadow-[-12px_0_40px_rgba(45,41,38,0.12)]"
+            className="fixed inset-0 z-[60] flex h-dvh w-full flex-col bg-warm pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] outline-none data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:inset-y-0 sm:left-auto sm:w-[22rem] sm:data-open:slide-in-from-right-4 sm:data-closed:slide-out-to-right-4 sm:shadow-[-12px_0_40px_rgba(45,41,38,0.12)]"
           >
             <div className="flex h-16 shrink-0 items-center justify-between pr-[max(0.5rem,env(safe-area-inset-right))] pl-[max(1.25rem,env(safe-area-inset-left))]">
               <img
@@ -184,7 +184,7 @@ export function SiteNav() {
                   open(menuButtonRef.current);
                 }}
               >
-                Get Started
+                Book a Call
               </button>
             </div>
           </DialogPrimitive.Content>

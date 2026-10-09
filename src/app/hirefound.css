@@ -77,9 +77,8 @@
 a:focus-visible,
 button:focus-visible,
 [tabindex="0"]:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: 2px solid var(--primary, #7a1e4a);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 /* === Accessibility === */

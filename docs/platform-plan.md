@@ -10,8 +10,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 7 — Stage D `shared-chrome` implemented, review gate open |
-| Next work | Cursor then `tagy` review of `shared-chrome`. Homepage stays blocked until that gate passes. Custom-domain DNS still deferred |
+| Current phase | Phase 7 — Stage D `shared-chrome` done; homepage next |
+| Next work | Stage D2 `homepage` → Cursor + `tagy` review. Custom-domain DNS still deferred |
 | Last updated | 2026-10-09 |
 | Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). Smoke passed 2026-10-09. `hirefound.com` DNS deferred |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -58,7 +58,8 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — Stage B: deleted vanilla root (`index.html`, `jobs/`, `yasmin/`, `js/`, `css/`, root `assets/`, `__tests__/`). Kept `public/assets/` + `public/CNAME`. Cleaned `vitest.config.mjs` + `eslint.config.mjs`. Grep-zero CDN Tailwind/Firebase/`tailwind.config =` outside `rebuild/` and `.kiro/`. **Vitest re-baseline: 131 Next-only** (was 193 with vanilla includes).
 - **2026-10-09** — Phase 7 visual direction (Stage C): boutique linen `#FCF9F5`, burgundy `#7A1E4A`, warm gold `#D4A574`; editorial serif (DM Serif) + clean sans + Noto Sans Arabic; motion budget 2–3 intentional moments only (no cursor/observer theater); Yasmin admin stays dense and fast (~2 min to publish). Working rule: swap presentation/CSS/components; leave `src/lib/**`, Firebase, schema, domain tests, and static export alone unless a tiny display helper is required.
 - **2026-10-09** — Stage D1 shared chrome (review gate open, not `done`): `globals.css` owns `@utility` `nav-glass` / `glass-nav` / `filter-pill` / `card-surface` and the linen/burgundy/gold tokens. `SiteNav` is a fixed glass bar plus a mobile drawer. `SiteFooter` leads with Book a Call. `CalDialog` is a Radix dialog with a lazy `cal.com/yasminblasi` iframe (`onLoad`, no `setInterval`). Custom cursor and the old booking poll are deleted. `hirefound.css` no longer owns chrome. Vitest stays 131.
-- **2026-10-09** — shared-chrome Cursor must-fixes: CalDialog restores focus to a live control (menu button when book opens from the drawer); footer copy supports Book-a-Call as primary with WhatsApp secondary. `tagy` review still pending.
+- **2026-10-09** — shared-chrome Cursor must-fixes: CalDialog restores focus to a live control (menu button when book opens from the drawer); footer copy supports Book-a-Call as primary with WhatsApp secondary.
+- **2026-10-09** — shared-chrome `tagy` pass-with-fixes applied: focus rings no longer force `border-radius: 4px`; nav CTA is “Book a Call”; CalDialog + drawer animate; Cal error offers WhatsApp/email; desktop dialog widened to ~44rem × 620px; dropped duplicate `glass-nav` utility and hex scatter in chrome.
 
 ```mermaid
 flowchart LR
@@ -335,9 +336,9 @@ Use [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). Each surface stays 
 ### Surfaces
 
 - [x] Choose the visual direction and write it in the decision log — `done` (2026-10-09 Stage C line)
-- [ ] Shared nav, footer, and booking modal pass — `in progress` (implemented 2026-10-09; review gate open)
-  - [ ] Cursor review
-  - [ ] `agy` review
+- [x] Shared nav, footer, and booking modal pass — `done` (2026-10-09)
+  - [x] Cursor review — 2026-10-09 pass-with-fixes → must-fixes applied
+  - [x] `agy` review — 2026-10-09 pass-with-fixes via `tagy` → must-fixes applied
 - [ ] Public homepage pass — `not started`
   - [ ] Cursor review
   - [ ] `agy` review

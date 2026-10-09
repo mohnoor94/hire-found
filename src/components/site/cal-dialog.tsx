@@ -68,15 +68,16 @@ export function CalDialog({
   onFrameLoad: () => void;
 }) {
   const embedSrc = calEmbedSrc(DEFAULTS.calLink);
+  const whatsAppUrl = `https://wa.me/${DEFAULTS.whatsApp}?text=${encodeURIComponent("Hi Yasmin! I found you through your website.")}`;
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[70] bg-[#2D2926]/55 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[70] bg-text-main/55 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
         <DialogPrimitive.Content
           id="booking-modal"
           aria-describedby="booking-modal-description"
-          className="fixed inset-0 z-[70] flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-[#FCF9F5] pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] outline-none sm:inset-auto sm:top-1/2 sm:left-1/2 sm:h-auto sm:max-h-[min(92dvh,840px)] sm:w-[min(calc(100%-2rem),32.5rem)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:card-surface sm:pt-0 sm:pb-0"
+          className="fixed inset-0 z-[70] flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-warm pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] outline-none data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:h-auto sm:max-h-[min(92dvh,840px)] sm:w-[min(calc(100%-2rem),44rem)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:card-surface sm:pt-0 sm:pb-0 sm:data-open:zoom-in-95 sm:data-closed:zoom-out-95"
         >
           <div className="flex h-16 shrink-0 items-center gap-3 border-b border-primary/10 pr-[max(0.5rem,env(safe-area-inset-right))] pl-[max(1rem,env(safe-area-inset-left))]">
             <img
@@ -116,32 +117,48 @@ export function CalDialog({
                 <p className="font-accent text-xl text-text-main">
                   Calendar unavailable
                 </p>
-                <p className="mt-2 max-w-xs text-sm text-[#5E534C]">
-                  The scheduling page didn&apos;t load. You can book on Cal.com
-                  instead.
+                <p className="mt-2 max-w-xs text-sm text-muted">
+                  The scheduling page didn&apos;t load. Try Cal.com, WhatsApp,
+                  or email instead.
                 </p>
-                <a
-                  href={DEFAULTS.calLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 inline-flex min-h-11 touch-manipulation items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-[#FCF9F5] select-none active:bg-primary-dark"
-                >
-                  Book on Cal.com
-                  <ArrowUpRightIcon className="size-4" />
-                </a>
+                <div className="mt-6 flex w-full max-w-sm flex-col gap-3">
+                  <a
+                    href={DEFAULTS.calLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-warm select-none active:bg-primary-dark"
+                  >
+                    Book on Cal.com
+                    <ArrowUpRightIcon className="size-4" />
+                  </a>
+                  <a
+                    href={whatsAppUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/20 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10"
+                  >
+                    Chat on WhatsApp
+                  </a>
+                  <a
+                    href={`mailto:${DEFAULTS.email}`}
+                    className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/20 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10"
+                  >
+                    Email Yasmin
+                  </a>
+                </div>
               </div>
             ) : (
               <>
                 {status === "loading" ? (
                   <div
                     id="booking-loading"
-                    className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#FCF9F5]"
+                    className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-warm"
                   >
                     <div
                       className="size-10 rounded-full border-2 border-primary/20 border-t-primary motion-safe:animate-spin"
                       aria-hidden="true"
                     />
-                    <p className="mt-4 text-sm text-[#5E534C]">
+                    <p className="mt-4 text-sm text-muted">
                       Loading calendar...
                     </p>
                   </div>
@@ -151,7 +168,7 @@ export function CalDialog({
                   title="Book a call with Yasmin on Cal.com"
                   src={embedSrc}
                   onLoad={onFrameLoad}
-                  className="h-[calc(100dvh-4rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full border-0 sm:h-[min(520px,calc(92dvh-4rem))]"
+                  className="h-[calc(100dvh-4rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full border-0 sm:h-[min(620px,calc(92dvh-4rem))]"
                 />
               </>
             )}
@@ -171,7 +188,7 @@ function focusBookingReturn(trigger: HTMLElement | null) {
     document.querySelector<HTMLElement>(
       'button[aria-controls="mobile-nav"]',
     ) ??
-    document.getElementById("nav-get-started-desktop") ??
+    document.getElementById("nav-book-a-call-desktop") ??
     document.getElementById("footer-book-a-call");
   fallback?.focus();
 }

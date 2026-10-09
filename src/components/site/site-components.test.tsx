@@ -90,7 +90,7 @@ describe("Phase 3 Site Components Parity", () => {
   });
 
   describe("SiteNav", () => {
-    it("renders navigation links and Get Started CTA", async () => {
+    it("renders navigation links and Book a Call CTA", async () => {
       await act(async () => {
         root.render(
           <CalDialogProvider>
@@ -113,10 +113,9 @@ describe("Phase 3 Site Components Parity", () => {
       expect(links.some((l) => l.href === "#services")).toBe(true);
       expect(links.some((l) => l.href === "#how-it-works")).toBe(true);
 
-      // Check Get Started button
-      const getStarted = container.querySelector("#nav-get-started-desktop");
-      expect(getStarted).not.toBeNull();
-      expect(getStarted?.textContent?.trim()).toBe("Get Started");
+      const bookCall = container.querySelector("#nav-book-a-call-desktop");
+      expect(bookCall).not.toBeNull();
+      expect(bookCall?.textContent?.trim()).toBe("Book a Call");
 
       const menu = container.querySelector(
         'button[aria-controls="mobile-nav"]',
@@ -127,7 +126,7 @@ describe("Phase 3 Site Components Parity", () => {
       });
       const drawer = document.getElementById("mobile-nav");
       expect(drawer?.textContent).toContain("Services");
-      expect(drawer?.textContent).toContain("Get Started");
+      expect(drawer?.textContent).toContain("Book a Call");
     });
   });
 
