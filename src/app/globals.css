@@ -304,6 +304,12 @@
 .tiptap-editor {
   line-height: 1.7;
   color: var(--foreground);
+  outline: none;
+}
+
+.tiptap-editor:focus,
+.tiptap-editor.ProseMirror-focused {
+  outline: none;
 }
 
 .tiptap-editor p {

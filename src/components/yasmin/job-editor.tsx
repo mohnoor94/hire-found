@@ -9,7 +9,7 @@ import {
   EMPLOYMENT_TYPES,
   LOCATIONS,
 } from "@/lib/jobs/types";
-import { generateSlug } from "@/lib/jobs/slug";
+import { randomSlugSuffix, slugFromTitle } from "@/lib/jobs/slug";
 import { validateForm, type JobFormData } from "@/lib/jobs/validation";
 import { formatOptionLabel } from "@/lib/yasmin/labels";
 import {
@@ -158,6 +158,7 @@ export function JobEditor({
   const [form, setForm] = useState<FormState>(() => jobToForm(job));
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [slugManual, setSlugManual] = useState(() => Boolean(job?.slug));
+  const [slugSuffix, setSlugSuffix] = useState(() => randomSlugSuffix());
   const [whatsAppCustom, setWhatsAppCustom] = useState(() =>
     Boolean(job?.contactWhatsApp && job.contactWhatsApp !== DEFAULTS.whatsApp),
   );
@@ -224,7 +225,7 @@ export function JobEditor({
     setForm((prev) => {
       const next = { ...prev, [key]: value };
       if (key === "title" && !slugManual) {
-        next.slug = generateSlug(String(value));
+        next.slug = slugFromTitle(String(value), slugSuffix);
       }
       return next;
     });
@@ -333,15 +334,9 @@ export function JobEditor({
         </button>
 
         <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="font-accent text-2xl text-primary">
-              {isEdit ? "Edit job" : "New job"}
-            </h2>
-            <p className="mt-1 max-w-[48ch] text-sm text-muted">
-              Title, category, location, and type are enough to publish. Add
-              the description when you have it.
-            </p>
-          </div>
+          <h2 className="font-accent text-2xl text-primary">
+            {isEdit ? "Edit job" : "New job"}
+          </h2>
           {isEdit && job?.slug ? (
             <a
               href={withBasePath(`/jobs/?id=${encodeURIComponent(job.slug)}`)}
@@ -409,7 +404,7 @@ export function JobEditor({
               label="Slug"
               required
               error={errors.slug}
-              hint="From the title. Change it only if the URL should differ."
+              hint="From the title, plus a short unique id so two openings can share a title."
               className="sm:col-span-2"
             >
               <div className="flex items-center gap-2">
@@ -435,8 +430,19 @@ export function JobEditor({
                 <button
                   type="button"
                   onClick={() => {
-                    setField("slug", generateSlug(form.title));
+                    const nextSuffix = randomSlugSuffix();
+                    setSlugSuffix(nextSuffix);
                     setSlugManual(false);
+                    setForm((prev) => ({
+                      ...prev,
+                      slug: slugFromTitle(prev.title, nextSuffix),
+                    }));
+                    setErrors((prev) => {
+                      if (!prev.slug) return prev;
+                      const copy = { ...prev };
+                      delete copy.slug;
+                      return copy;
+                    });
                   }}
                   className={`${editorQuietButton} shrink-0`}
                 >

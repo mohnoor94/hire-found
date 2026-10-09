@@ -21,7 +21,12 @@ export {
   type AdminFetchOptions,
   type CreateJobResult,
 } from "./admin";
-export { generateSlug, deduplicateSlug } from "./slug";
+export {
+  generateSlug,
+  randomSlugSuffix,
+  slugFromTitle,
+  deduplicateSlug,
+} from "./slug";
 export {
   validateForm,
   type JobFormData,

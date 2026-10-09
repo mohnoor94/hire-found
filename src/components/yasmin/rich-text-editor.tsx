@@ -72,7 +72,7 @@ export function RichTextEditor({
         "aria-label": ariaLabel || "",
         ...(dir === "rtl" ? { lang: "ar" } : {}),
         class: cn(
-          "tiptap-editor min-h-40 scroll-mb-32 px-4 py-3 text-base leading-relaxed outline-none",
+          "tiptap-editor min-h-40 scroll-mb-32 px-4 py-3 text-base leading-relaxed outline-none focus:outline-none",
           dir === "rtl" && "text-start",
         ),
         dir,
@@ -104,7 +104,7 @@ export function RichTextEditor({
   }
 
   return (
-    <div className="scroll-mb-32 rounded-2xl border border-primary/15 bg-white has-[.tiptap-editor:focus]:outline-2 has-[.tiptap-editor:focus]:outline-offset-2 has-[.tiptap-editor:focus]:outline-primary">
+    <div className="scroll-mb-32 overflow-hidden rounded-2xl border border-primary/15 bg-white has-[.tiptap-editor:focus]:border-primary has-[.tiptap-editor:focus]:ring-2 has-[.tiptap-editor:focus]:ring-primary/30">
       <EditorToolbar editor={editor} label={ariaLabel} fieldId={id} />
       <EditorContent editor={editor} />
     </div>
