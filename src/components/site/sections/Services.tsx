@@ -48,7 +48,7 @@ export function Services() {
   const setTab = shared?.setTab ?? setLocalTab;
 
   return (
-    <section id="services" className="bg-warm px-6 py-20 lg:py-28">
+    <section id="services" className="bg-warm-dark px-6 py-20 lg:py-28">
       <div className="mx-auto max-w-3xl">
         <h2 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
           How Can I Help?

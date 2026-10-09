@@ -117,8 +117,8 @@ describe("Phase 3 Site Components Parity", () => {
         .map((l) => l.href)
         .filter((href) => href && href.startsWith("#") && href !== "#hero");
       expect(sectionHrefs).toEqual([
-        "#vacancies",
         "#about",
+        "#vacancies",
         "#services",
         "#how-it-works",
       ]);

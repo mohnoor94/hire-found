@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import React, { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { Hero } from "./sections/Hero";
+import { About } from "./sections/About";
 import { Services } from "./sections/Services";
 import { Trust } from "./sections/Trust";
 import { LiveVacancies } from "./live-vacancies";
@@ -152,5 +153,26 @@ describe("Homepage", () => {
     expect(trust?.hasAttribute("hidden")).toBe(true);
     expect(trust?.textContent).toContain("TEDx Zarqa University");
     expect(trust?.textContent).toContain("Sarah A.");
+  });
+
+  it("renders the founder editorial portrait, credentials, and facts in About", async () => {
+    await act(async () => {
+      root.render(<About />);
+    });
+
+    const about = container.querySelector("section#about");
+    expect(about).not.toBeNull();
+    expect(about?.textContent).toContain("Meet the Founder");
+    expect(about?.textContent).toContain("I'm not your usual recruiter.");
+    expect(about?.textContent).toContain("And that's exactly the point.");
+    expect(about?.textContent).toContain("Yasmin Blasi");
+    expect(about?.textContent).toContain("Founder & Executive Matchmaker");
+    expect(about?.textContent).toContain("10+ years in HR");
+    expect(about?.textContent).toContain("Matchmaking, Not Seat-Filling");
+    expect(about?.textContent).toContain("Your Story, Not Just Keywords");
+    expect(about?.textContent).toContain("From First Call to First Day");
+
+    const img = about?.querySelector('img[src*="yasmin-blasi"]');
+    expect(img).not.toBeNull();
   });
 });

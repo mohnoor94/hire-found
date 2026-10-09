@@ -4,7 +4,6 @@ import { ActionStack } from "@/components/site/action-stack";
 import { ServicesTabProvider } from "@/components/site/services-tab";
 import { LiveVacancies } from "@/components/site/live-vacancies";
 import { Hero } from "@/components/site/sections/Hero";
-import { AntiPitch } from "@/components/site/sections/AntiPitch";
 import { About } from "@/components/site/sections/About";
 import { Services } from "@/components/site/sections/Services";
 import { HowItWorks } from "@/components/site/sections/HowItWorks";
@@ -21,14 +20,13 @@ export default function HomePage() {
       <ServicesTabProvider>
         <main>
           <Hero />
-          <AntiPitch />
-          <LiveVacancies />
           <About />
+          <LiveVacancies />
           <Services />
           <HowItWorks />
           <Trust />
         </main>
-        <WaveWarmToDark from="warm-dark" />
+        <WaveWarmToDark from="warm" />
         <SiteFooter />
       </ServicesTabProvider>
       <ActionStack />

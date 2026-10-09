@@ -17,18 +17,18 @@ import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   {
-    label: "Find Your Match",
-    descriptor: "Open roles across Jordan and the Gulf",
-    homepageHref: "#vacancies",
-    otherHref: "/jobs/",
-    sectionId: "vacancies",
-  },
-  {
     label: "About",
     descriptor: "The founder and the matchmaking standard",
     homepageHref: "#about",
     otherHref: "/#about",
     sectionId: "about",
+  },
+  {
+    label: "Find Your Match",
+    descriptor: "Open roles across Jordan and the Gulf",
+    homepageHref: "#vacancies",
+    otherHref: "/jobs/",
+    sectionId: "vacancies",
   },
   {
     label: "Services",
@@ -197,12 +197,6 @@ export function SiteNav() {
             >
               <CalendarIcon className="size-4" aria-hidden="true" />
               <span>Book a Call</span>
-              <span
-                className="inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                aria-hidden="true"
-              >
-                <ArrowUpRightIcon className="size-3.5" />
-              </span>
             </button>
           </div>
 
