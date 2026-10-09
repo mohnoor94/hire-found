@@ -292,7 +292,8 @@ Pasted into `docs/platform-plan.md` (decision log + top pointer + status “Next
 [x] Smoke: /hire-found/ , /hire-found/jobs/?id=… , /hire-found/yasmin/ CRUD → public HTML — user pass 2026-10-09
 [x] Run deferred Phase 6 reviews (Cursor + tagy/agy); mark gate only when real — 2026-10-09
 [x] Stage B delete vanilla; protect public/assets; re-baseline tests 131; grep-zero CDN — 2026-10-09
-[ ] Stage C direction line → Stage D surfaces in order
+[x] Stage C direction line — 2026-10-09
+[ ] Stage D surfaces in order (shared-chrome → homepage → jobs → Yasmin)
 ```
 
 **Do not:** redesign on two trees, delete before smoke, touch `public/assets`, pull `[slug]` into Phase 7, mark `agy` done from folklore. Do not reopen `rebuild/archive/` for execution decisions.
