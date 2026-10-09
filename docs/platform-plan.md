@@ -74,6 +74,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-10** - Stage D5 yasmin-editor (review gate open, not `done`): one linen form instead of four accordions. Role, description, and apply stay open. Sticky Publish / Save bar. Tiptap toolbar is labeled, burgundy when pressed, and one tab stop with arrow keys. Link uses an inline address field (no `window.prompt`). Arabic title and description stay `dir="rtl"`. Discard confirm on Back, Cancel, the wordmark, and Sign out when the draft changed. `yasmin.css` deleted; editor text rules live in `globals.css`. `editor-html` unchanged. Vitest **144**.
 - **2026-10-10** - yasmin-editor early fixes: drop the publish helper line under the heading; auto-slugs use `slugFromTitle` with a stable random suffix (server dedupe still applies); rich-text focus is one border/ring on the frame, not a second inner outline.
 - **2026-10-10** - yasmin-editor chrome fixes (local): ProseMirror focus outline excluded from `hirefound.css` `[tabindex="0"]:focus-visible` (frame border only); short-description textarea uses `overflow-x-hidden` / `break-words` / `min-w-0`.
+- **2026-10-10** - Next 16 route scroll: `html` keeps `scroll-smooth` for in-page anchors and adds `data-scroll-behavior="smooth"` so client navigations jump to the top instantly instead of animating from a clamped bottom position.
 
 ```mermaid
 flowchart LR
