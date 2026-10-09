@@ -128,6 +128,61 @@ describe("Phase 3 Site Components Parity", () => {
       expect(drawer?.textContent).toContain("Services");
       expect(drawer?.textContent).toContain("Book a Call");
     });
+
+    it("renders the refreshed capsule and editorial mobile actions", async () => {
+      await act(async () => {
+        root.render(
+          <CalDialogProvider>
+            <SiteNav />
+          </CalDialogProvider>,
+        );
+      });
+
+      const nav = container.querySelector("nav#navbar");
+      expect(nav?.className).toContain("rounded-[1.75rem]");
+      expect(
+        container.querySelector('[aria-label="Sections"]'),
+      ).not.toBeNull();
+
+      const menu = container.querySelector(
+        'button[aria-controls="mobile-nav"]',
+      ) as HTMLButtonElement;
+      expect(menu.textContent?.trim()).toBe("");
+      expect(menu.getAttribute("aria-label")).toBe("Open menu");
+      await act(async () => {
+        menu.click();
+      });
+
+      const drawer = document.getElementById("mobile-nav");
+      expect(drawer?.querySelectorAll(".nav-mobile-card").length).toBe(4);
+      expect(drawer?.textContent).toContain("From first call to first day");
+
+      const mobileBook = document.getElementById("nav-book-a-call-mobile");
+      expect(mobileBook?.textContent?.trim()).toBe("Book a Call");
+
+      const whatsApp = document.getElementById("nav-whatsapp-mobile");
+      expect(whatsApp?.getAttribute("href")).toContain("wa.me/962793001043");
+      expect(whatsApp?.getAttribute("target")).toBe("_blank");
+    });
+
+    it("opens the booking modal from the desktop CTA", async () => {
+      await act(async () => {
+        root.render(
+          <CalDialogProvider>
+            <SiteNav />
+          </CalDialogProvider>,
+        );
+      });
+
+      const bookCall = container.querySelector(
+        "#nav-book-a-call-desktop",
+      ) as HTMLButtonElement;
+      await act(async () => {
+        bookCall.click();
+      });
+
+      expect(document.getElementById("booking-modal")).not.toBeNull();
+    });
   });
 
   describe("SiteFooter", () => {
