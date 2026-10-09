@@ -11,7 +11,7 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 | | |
 |---|---|
 | Current phase | Phase 6 — Cutover (in progress) |
-| Next work | Close remaining Phase 6 reviews (high-risk firestore-rules `agy`, phase-6-gate), then Stage B delete vanilla. Custom-domain DNS deferred |
+| Next work | Close Phase 6 gate (Cursor + `tagy`/`agy`), then Stage B delete vanilla. Custom-domain DNS deferred |
 | Last updated | 2026-10-09 |
 | Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). Smoke passed 2026-10-09. `hirefound.com` DNS deferred |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -52,6 +52,8 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — Pages source switched to GitHub Actions (`build_type: workflow`). Custom domain DNS deferred: keep serving at `mohnoor94.github.io/hire-found/` for smoke. Interim `basePath` / `assetPrefix` `/hire-found` (plus `withBasePath` for public assets and raw anchors). When attaching `hirefound.com`, set `NEXT_PUBLIC_BASE_PATH=""` / clear `basePath` and configure the custom domain in Pages settings. `public/CNAME` stays `hirefound.com` for that later step. Vitest after basePath helper: 192.
 - **2026-10-09** — Stage A smoke on project Pages URL: homepage vacancies, `/jobs/?id=` + apply path, Yasmin sign-in/create/edit → public HTML — all passed (user-confirmed). Phase 6 dual reviews still required before Stage B.
 - **2026-10-09** — high-risk:gh-pages-export Cursor + `agy` both pass-with-fixes. Must-fixes applied: metadata icons via `withBasePath` (`layout.tsx`, `yasmin/page.tsx`); `deploy.yml` runs `configure-pages` before build and passes `NEXT_PUBLIC_BASE_PATH` from `steps.pages.outputs.base_path`; confirm step greps interim basePath into `out/`.
+- **2026-10-09** — Local Antigravity reviews use shell wrapper `tagy` (`toggle-agy` then `agy --dangerously-skip-permissions`). Documented under Review policy.
+- **2026-10-09** — high-risk:firestore-rules Cursor re-review pass; `tagy` pass-with-fixes. Must-fixes: `email_verified == true` in `isAdmin()` + redeploy rules; `npm test` before build in `deploy.yml`.
 
 ```mermaid
 flowchart LR
@@ -106,7 +108,7 @@ Apply order on the public job: Tally iframe when `tallyFormId` is set, otherwise
 
 ## Known fix
 
-- [x] **Firestore allowlist drift** — `done` (rules file + deployed to `hire-found`). [`firestore.rules`](../firestore.rules) `isAdmin()` matches [`src/lib/yasmin/auth.ts`](../src/lib/yasmin/auth.ts) `ALLOWED_EMAILS`. Re-deploy with `npm run firebase:deploy-rules` if the allowlist changes.
+- [x] **Firestore allowlist drift** — `done` (rules file + deployed to `hire-found`). [`firestore.rules`](../firestore.rules) `isAdmin()` matches [`src/lib/yasmin/auth.ts`](../src/lib/yasmin/auth.ts) `ALLOWED_EMAILS` and requires `email_verified`. Re-deploy with `npm run firebase:deploy-rules` if the allowlist changes.
 
 ## Historical specs
 
@@ -138,15 +140,17 @@ Dual review means: Cursor first, then Antigravity CLI (`agy`), then fix agreed m
 
 **How to run `agy`**
 
+Prefer the local shell wrapper `tagy` (toggles Antigravity context, then runs `agy --dangerously-skip-permissions`). Plain `agy` still works.
+
 ```bash
 # Phase / engineering gate
-agy -p "$(sed 's/REPLACE_WITH_SCOPE/phase-1-gate/' docs/phase-review-prompt.md)" --effort high
+tagy -p "$(sed 's/REPLACE_WITH_SCOPE/phase-1-gate/' docs/phase-review-prompt.md)" --effort high
 
 # Phase 7 UI/UX surface
-agy -p "$(sed 's/REPLACE_WITH_ONE_OF/homepage/' docs/ui-ux-review-prompt.md)" --effort high
+tagy -p "$(sed 's/REPLACE_WITH_ONE_OF/homepage/' docs/ui-ux-review-prompt.md)" --effort high
 ```
 
-Or paste the matching prompt into interactive `agy` and set the scope/surface name.
+Or paste the matching prompt into interactive `agy` / `tagy` and set the scope/surface name.
 
 Record under the gate or item: date + one-line verdict (`pass` / `pass-with-fixes` / `fail`). Keep long critiques in the PR, not in this file.
 
@@ -304,9 +308,9 @@ Do this only after Phases 3–5 match the live site.
 
 ### High-risk
 
-- [ ] Firestore rules match the UI allowlist and are deployed — `in progress` (deployed; Cursor pass-with-fixes applied; `agy` deferred)
-  - [x] Cursor review — 2026-10-07 pass-with-fixes (set-equality sync test for `isAdmin()` ↔ `ALLOWED_EMAILS`)
-  - [ ] `agy` review — `deferred` (2026-10-07)
+- [x] Firestore rules match the UI allowlist and are deployed — `done` (2026-10-09; `email_verified` + allowlist; redeployed)
+  - [x] Cursor review — 2026-10-07 pass-with-fixes → 2026-10-09 re-check pass
+  - [x] `agy` review — 2026-10-09 pass-with-fixes via `tagy` → must-fixes applied
 - [x] GH Pages workflow builds and deploys `out/` only — `done` (2026-10-09; Actions + project Pages; custom domain deferred)
   - [x] Cursor review — 2026-10-07 fail → 2026-10-09 pass-with-fixes → must-fixes verified in `out/`
   - [x] `agy` review — 2026-10-09 pass-with-fixes → must-fixes applied

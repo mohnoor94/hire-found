@@ -25,6 +25,7 @@ jobs:
       - id: pages
         uses: actions/configure-pages@v4
       - run: npm ci
+      - run: npm test
       - name: Build static export
         env:
           # Project Pages → "/hire-found"; empty when a custom domain is attached.
