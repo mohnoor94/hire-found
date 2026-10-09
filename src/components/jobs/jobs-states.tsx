@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { DEFAULTS } from "@/lib/jobs";
@@ -76,11 +77,7 @@ export function JobsErrorState({ onRetry }: JobsErrorStateProps) {
   );
 }
 
-type JobsNotFoundStateProps = {
-  onBack: () => void;
-};
-
-export function JobsNotFoundState({ onBack }: JobsNotFoundStateProps) {
+export function JobsNotFoundState() {
   return (
     <div className="flex flex-col items-start py-10">
       <h1 className="font-accent mb-2 text-3xl text-primary">Job Not Found</h1>
@@ -88,15 +85,14 @@ export function JobsNotFoundState({ onBack }: JobsNotFoundStateProps) {
         This role is no longer available or may have been removed. Browse the
         current openings.
       </p>
-      <button
-        type="button"
+      <Link
+        href="/jobs/"
         className={primaryAction}
         aria-label="Back to all job listings"
         data-back-link="true"
-        onClick={onBack}
       >
         View all jobs
-      </button>
+      </Link>
     </div>
   );
 }

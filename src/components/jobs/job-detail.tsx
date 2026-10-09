@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { ArrowLeft, Calendar, Mail, Share2 } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import {
@@ -15,7 +16,6 @@ import { formatCategoryLabel, formatEmploymentType } from "@/lib/yasmin/labels";
 
 type JobDetailProps = {
   job: Job;
-  onBack: () => void;
 };
 
 declare global {
@@ -32,8 +32,9 @@ const primaryAction =
 const quietAction =
   "inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
-export function JobDetail({ job, onBack }: JobDetailProps) {
+export function JobDetail({ job }: JobDetailProps) {
   const { open } = useBookingModal();
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const [copied, setCopied] = useState(false);
   const [jobUrl, setJobUrl] = useState(
     withBasePath(`/jobs/?id=${job.slug || ""}`),
@@ -53,6 +54,9 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
   const descriptionIsArabic = containsArabic(descriptionHtml);
   const hasArabicDescription = Boolean(job.fullDescriptionAr?.trim());
   const hasEnglishDescription = Boolean(descriptionHtml.trim());
+  const tallyPublicUrl = hasTally
+    ? `https://tally.so/r/${job.tallyFormId}`
+    : "";
 
   const meta = [
     label,
@@ -64,6 +68,15 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
     job.salary?.trim() || null,
     postedDate || null,
   ].filter(Boolean);
+
+  useEffect(() => {
+    const previous = document.title;
+    document.title = `${job.title} | HireFound`;
+    titleRef.current?.focus({ preventScroll: true });
+    return () => {
+      document.title = previous;
+    };
+  }, [job.slug, job.title]);
 
   useEffect(() => {
     let cancelled = false;
@@ -115,24 +128,27 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
 
   return (
     <div>
-      <button
-        type="button"
+      <Link
+        href="/jobs/"
         className="mb-8 inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-primary active:text-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         aria-label="Back to all job listings"
         data-back-link="true"
-        onClick={onBack}
       >
         <ArrowLeft className="size-4" aria-hidden="true" />
         All jobs
-      </button>
+      </Link>
 
       <header>
-        <h1 className="font-accent text-3xl tracking-[-0.02em] text-balance text-primary md:text-4xl">
+        <h1
+          ref={titleRef}
+          tabIndex={-1}
+          className="font-accent text-3xl tracking-[-0.02em] text-balance text-primary outline-none md:text-4xl"
+        >
           {job.title}
         </h1>
         {job.titleAr?.trim() ? (
           <p
-            className="mt-2 w-fit font-accent text-2xl leading-snug text-text-main"
+            className="mt-2 w-fit text-2xl leading-snug text-text-main"
             dir="rtl"
             lang="ar"
           >
@@ -152,7 +168,7 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
             <Share2 className="size-4" aria-hidden="true" />
             Share
           </button>
-          <span aria-live="polite" className="text-sm font-medium text-success">
+          <span aria-live="polite" className="text-sm font-medium text-primary">
             {copied ? "Link copied" : ""}
           </span>
         </div>
@@ -198,6 +214,16 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
             title="Application Form"
             className="mt-6 min-h-[400px] w-full rounded-[16px] border border-primary/15 bg-white"
           />
+          <p className="mt-3 text-sm text-muted">
+            <a
+              href={tallyPublicUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-primary underline decoration-primary/40 underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              Open application form in a new tab
+            </a>
+          </p>
           <div className="mt-10">
             <h3 className="font-accent text-xl text-primary">Have Questions?</h3>
             <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-muted">

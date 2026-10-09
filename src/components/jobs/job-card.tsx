@@ -24,7 +24,6 @@ export function JobCard({ job }: JobCardProps) {
     <Link
       href={`/jobs/?id=${job.slug}`}
       className="group block min-h-11 border-t border-secondary py-7 transition-colors last:border-b hover:bg-warm-dark/40 focus-visible:bg-warm-dark/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:bg-warm-dark/50"
-      aria-label={`View details for ${job.title}`}
     >
       <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
         <h3 className="font-accent text-2xl leading-snug text-balance text-primary transition-colors group-hover:text-primary-light">

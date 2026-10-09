@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { fetchJobs, getCategories, type Job } from "@/lib/jobs";
 import { formatCategoryLabel } from "@/lib/yasmin/labels";
 import { JobCard } from "@/components/jobs/job-card";
@@ -32,7 +32,6 @@ function matchesQuery(job: Job, query: string) {
 }
 
 export function JobsPageClient() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const slug = searchParams.get("id");
 
@@ -70,12 +69,6 @@ export function JobsPageClient() {
     setLoading(true);
     setError(false);
     setRetryKey((key) => key + 1);
-  }
-
-  function backToListing() {
-    setActiveCategory("all");
-    setQuery("");
-    router.push("/jobs/");
   }
 
   const detailJob = slug
@@ -135,11 +128,11 @@ export function JobsPageClient() {
             ) : null}
 
             {!loading && !error && detailJob === null ? (
-              <JobsNotFoundState onBack={backToListing} />
+              <JobsNotFoundState />
             ) : null}
 
             {!loading && !error && detailJob ? (
-              <JobDetail job={detailJob} onBack={backToListing} />
+              <JobDetail job={detailJob} />
             ) : null}
           </div>
         </section>

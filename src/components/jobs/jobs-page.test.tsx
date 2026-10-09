@@ -9,7 +9,6 @@ import type { Job } from "@/lib/jobs";
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT =
   true;
 
-const mockPush = vi.fn();
 let mockSearchParams = new URLSearchParams();
 
 const { sampleJobs, fetchJobsMock } = vi.hoisted(() => {
@@ -54,7 +53,6 @@ const { sampleJobs, fetchJobsMock } = vi.hoisted(() => {
 });
 
 vi.mock("next/navigation", () => ({
-  useRouter: () => ({ push: mockPush }),
   useSearchParams: () => mockSearchParams,
 }));
 
@@ -101,7 +99,6 @@ describe("Phase 4 Jobs page", () => {
 
   beforeEach(() => {
     mockSearchParams = new URLSearchParams();
-    mockPush.mockReset();
     fetchJobsMock.mockReset();
     fetchJobsMock.mockResolvedValue(sampleJobs);
     container = document.createElement("div");
@@ -131,10 +128,10 @@ describe("Phase 4 Jobs page", () => {
       container.querySelector('[aria-label="Filter by hospitality"]'),
     ).toBeTruthy();
     expect(
-      container
-        .querySelector('[aria-label="View details for Senior Barista"]')
-        ?.getAttribute("href"),
-    ).toBe("/jobs/?id=senior-barista");
+      container.querySelector('a[href="/jobs/?id=senior-barista"]'),
+    ).toBeTruthy();
+    expect(container.textContent).toContain("Senior Barista");
+    expect(container.textContent).toContain("باريستا أول");
   });
 
   it("lets the job title own the detail heading", async () => {
@@ -221,9 +218,7 @@ describe("Phase 4 Jobs page", () => {
   it("renders Arabic description and fallback apply CTAs", async () => {
     await act(async () => {
       root.render(
-        renderWithProviders(
-          <JobDetail job={sampleJobs[0]!} onBack={() => undefined} />,
-        ),
+        renderWithProviders(<JobDetail job={sampleJobs[0]!} />),
       );
     });
     await flushEffects();
@@ -237,14 +232,16 @@ describe("Phase 4 Jobs page", () => {
       container.querySelector('[aria-label="Book a call with Yasmin"]'),
     ).toBeTruthy();
     expect(container.querySelector("iframe")).toBeNull();
+    expect(
+      container.querySelector('[data-back-link="true"]')?.getAttribute("href"),
+    ).toBe("/jobs/");
+    expect(document.title).toBe("Senior Barista | HireFound");
   });
 
   it("embeds Tally when tallyFormId is set", async () => {
     await act(async () => {
       root.render(
-        renderWithProviders(
-          <JobDetail job={sampleJobs[1]!} onBack={() => undefined} />,
-        ),
+        renderWithProviders(<JobDetail job={sampleJobs[1]!} />),
       );
     });
     await flushEffects();
@@ -253,6 +250,11 @@ describe("Phase 4 Jobs page", () => {
     const iframe = container.querySelector("iframe");
     expect(iframe?.getAttribute("src")).toContain("tally.so/embed/abc123");
     expect(iframe?.getAttribute("src")).not.toContain("tally.so/embed/undefined");
+    expect(
+      container
+        .querySelector('a[href="https://tally.so/r/abc123"]')
+        ?.textContent,
+    ).toContain("Open application form in a new tab");
     expect(container.textContent).toContain("Have Questions?");
     expect(
       container.querySelector('[aria-label="Book a call with Yasmin"]'),
@@ -272,9 +274,7 @@ describe("Phase 4 Jobs page", () => {
 
     await act(async () => {
       root.render(
-        renderWithProviders(
-          <JobDetail job={sampleJobs[0]!} onBack={() => undefined} />,
-        ),
+        renderWithProviders(<JobDetail job={sampleJobs[0]!} />),
       );
     });
     await flushEffects();
