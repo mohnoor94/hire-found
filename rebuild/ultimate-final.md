@@ -289,8 +289,8 @@ Pasted into `docs/platform-plan.md` (decision log + top pointer + status “Next
 [x] Merge v2 → main; wait for Actions green — run 37969404737 success 2026-10-09
 [x] Switch Pages → GitHub Actions — build_type workflow 2026-10-09
 [ ] DNS apex/www → Pages — deferred; keep github.io/hire-found (+ interim basePath)
-[ ] Smoke: /hire-found/ , /hire-found/jobs/?id=… , /hire-found/yasmin/ CRUD → public HTML
-[ ] Run deferred Phase 6 agy; mark gate only when real
+[x] Smoke: /hire-found/ , /hire-found/jobs/?id=… , /hire-found/yasmin/ CRUD → public HTML — user pass 2026-10-09
+[ ] Run deferred Phase 6 reviews (Cursor + agy); mark gate only when real
 [ ] Stage B delete vanilla; protect public/assets; re-baseline tests; grep-zero CDN
 [ ] Stage C direction line → Stage D surfaces in order
 ```

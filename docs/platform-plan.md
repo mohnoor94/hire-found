@@ -11,9 +11,9 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 | | |
 |---|---|
 | Current phase | Phase 6 — Cutover (in progress) |
-| Next work | Smoke on `https://mohnoor94.github.io/hire-found/` (homepage vacancies, `/jobs/?id=`, Yasmin CRUD). Custom-domain DNS deferred. Phase 6 `agy` still deferred until actually run |
+| Next work | Close Phase 6 dual reviews (high-risk gh-pages-export, high-risk firestore-rules `agy`, phase-6-gate), then Stage B delete vanilla. Custom-domain DNS deferred |
 | Last updated | 2026-10-09 |
-| Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). `hirefound.com` DNS left on Squarespace until a later cutover |
+| Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). Smoke passed 2026-10-09. `hirefound.com` DNS deferred |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
 | Rebuild strategy | [`rebuild/ultimate-final.md`](../rebuild/ultimate-final.md) (canonical). Debate trail: [`rebuild/archive/`](../rebuild/archive/) |
 
@@ -50,6 +50,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — Preflight on `v2`: `npm test` 189/189 pass; `npm run build` green (recorded before Stage A merge).
 - **2026-10-09** — Fast-forward merged `v2` into `main` at `223bae1`. Actions run [37969404737](https://github.com/mohnoor94/hire-found/actions/runs/37969404737) succeeded: `out/index.html`, `out/jobs/index.html`, `out/yasmin/index.html`, `out/CNAME` = `hirefound.com`, and `deploy-pages` published that artifact.
 - **2026-10-09** — Pages source switched to GitHub Actions (`build_type: workflow`). Custom domain DNS deferred: keep serving at `mohnoor94.github.io/hire-found/` for smoke. Interim `basePath` / `assetPrefix` `/hire-found` (plus `withBasePath` for public assets and raw anchors). When attaching `hirefound.com`, set `NEXT_PUBLIC_BASE_PATH=""` / clear `basePath` and configure the custom domain in Pages settings. `public/CNAME` stays `hirefound.com` for that later step. Vitest after basePath helper: 192.
+- **2026-10-09** — Stage A smoke on project Pages URL: homepage vacancies, `/jobs/?id=` + apply path, Yasmin sign-in/create/edit → public HTML — all passed (user-confirmed). Phase 6 dual reviews still required before Stage B.
 
 ```mermaid
 flowchart LR
@@ -296,9 +297,9 @@ Do this only after Phases 3–5 match the live site.
 - [x] Deploy the Firestore rules (`npm run firebase:deploy-rules`) — `done` (2026-10-07, project `hire-found`)
 - [x] GitHub Action builds the app and uploads `out/` — `done` (green on `main`, run 37969404737, 2026-10-09)
 - [x] Vanilla `index.html`, `jobs/`, and `yasmin/` are no longer the deployed artifact — `done` (workflow uploads `out/` only)
-- [ ] Smoke test: homepage vacancies load — `not started` (on `mohnoor94.github.io/hire-found/` after basePath deploy)
-- [ ] Smoke test: open a job via `?id=` and an apply path — `not started` (on project Pages URL)
-- [ ] Smoke test: Yasmin sign-in, create, edit, and the public page shows the saved HTML — `not started` (on project Pages URL)
+- [x] Smoke test: homepage vacancies load — `done` (2026-10-09, `mohnoor94.github.io/hire-found/`)
+- [x] Smoke test: open a job via `?id=` and an apply path — `done` (2026-10-09)
+- [x] Smoke test: Yasmin sign-in, create, edit, and the public page shows the saved HTML — `done` (2026-10-09)
 
 ### High-risk
 
