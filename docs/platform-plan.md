@@ -10,8 +10,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 6 — Cutover (`done`). Next: Stage B delete vanilla |
-| Next work | Stage B: delete vanilla root only (never `public/assets` / `public/CNAME`); clean eslint + vitest; re-baseline Next-only test count; grep-zero CDN. Then Stage C direction line |
+| Current phase | Phase 6 `done`. Stage B delete vanilla `done`. Next: Stage C |
+| Next work | Stage C: one decision-log visual direction line, then Stage D `shared-chrome`. Custom-domain DNS still deferred |
 | Last updated | 2026-10-09 |
 | Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). Smoke passed 2026-10-09. `hirefound.com` DNS deferred |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -55,6 +55,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — Local Antigravity reviews use shell wrapper `tagy` (`toggle-agy` then `agy --dangerously-skip-permissions`). Documented under Review policy.
 - **2026-10-09** — high-risk:firestore-rules Cursor re-review pass; `tagy` pass-with-fixes. Must-fixes: `email_verified == true` in `isAdmin()` + redeploy rules; `npm test` before build in `deploy.yml`.
 - **2026-10-09** — Phase 6 gate: Cursor pass-with-fixes (`email_verified` assert in `firestore-rules.test.ts`); `tagy` pass. Stage A cutover closed; Stage B delete vanilla is next. Custom-domain DNS still deferred.
+- **2026-10-09** — Stage B: deleted vanilla root (`index.html`, `jobs/`, `yasmin/`, `js/`, `css/`, root `assets/`, `__tests__/`). Kept `public/assets/` + `public/CNAME`. Cleaned `vitest.config.mjs` + `eslint.config.mjs`. Grep-zero CDN Tailwind/Firebase/`tailwind.config =` outside `rebuild/` and `.kiro/`. **Vitest re-baseline: 131 Next-only** (was 193 with vanilla includes).
 
 ```mermaid
 flowchart LR
@@ -72,7 +73,7 @@ flowchart LR
 ## Locked decisions
 
 - **Framework.** Next.js App Router, React, Tailwind, shadcn/ui.
-- **Backend.** Firebase project `hire-found`. Auth and Firestore only, initialized in the browser the way [`js/firebase-config.js`](../js/firebase-config.js) does today. Firebase Hosting, Cloud Functions, and Storage are out of scope.
+- **Backend.** Firebase project `hire-found`. Auth and Firestore only, initialized in the browser via [`src/lib/firebase.ts`](../src/lib/firebase.ts) (same project as the retired vanilla config). Firebase Hosting, Cloud Functions, and Storage are out of scope.
 - **Hosting.** GitHub Pages static export: `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`. Interim live URL is the project site with `basePath` `/hire-found`. Custom domain `hirefound.com` (and empty `basePath`) is deferred until DNS is pointed at Pages. No Next.js server, API routes, or middleware.
 - **Job URLs.** Public detail stays client-loaded (`/jobs/?id={slug}`), matching [`js/jobs.js`](../js/jobs.js). A path like `/jobs/some-new-role` is not a real file for jobs created after the last build, so it is not the live detail URL.
 - **Editor.** shadcn form. Tiptap for the two long descriptions, `dir="rtl"` on the Arabic field. Short description stays plain text. Stored HTML in existing jobs must still render.
@@ -162,7 +163,7 @@ Branch `v2`. Static export only. No pages beyond a smoke route.
 - [x] Next.js App Router app — `done`
 - [x] Tailwind build (replace the Tailwind CDN) — `done`
 - [x] shadcn/ui initialized — `done`
-- [x] Firebase client module (app, Auth, Firestore), same project as [`js/firebase-config.js`](../js/firebase-config.js) — `done`
+- [x] Firebase client module (app, Auth, Firestore), same project as the retired vanilla config — `done` ([`src/lib/firebase.ts`](../src/lib/firebase.ts))
 - [x] `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true` — `done` (interim `basePath` `/hire-found` for project Pages; empty when custom domain attaches)
 - [x] Vitest running in the new app — `done`
 - [x] `npm run build` writes `out/` and is not what GitHub Pages deploys yet — `done`

@@ -291,7 +291,7 @@ Pasted into `docs/platform-plan.md` (decision log + top pointer + status “Next
 [ ] DNS apex/www → Pages — deferred; keep github.io/hire-found (+ interim basePath)
 [x] Smoke: /hire-found/ , /hire-found/jobs/?id=… , /hire-found/yasmin/ CRUD → public HTML — user pass 2026-10-09
 [x] Run deferred Phase 6 reviews (Cursor + tagy/agy); mark gate only when real — 2026-10-09
-[ ] Stage B delete vanilla; protect public/assets; re-baseline tests; grep-zero CDN
+[x] Stage B delete vanilla; protect public/assets; re-baseline tests 131; grep-zero CDN — 2026-10-09
 [ ] Stage C direction line → Stage D surfaces in order
 ```
 

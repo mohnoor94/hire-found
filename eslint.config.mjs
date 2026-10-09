@@ -12,10 +12,6 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // Vanilla site coexists until Phase 6 cutover:
-    "js/**",
-    "yasmin/**",
-    "__tests__/**",
   ]),
 ]);
 
