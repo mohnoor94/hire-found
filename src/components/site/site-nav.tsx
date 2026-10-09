@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { MenuIcon, XIcon } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
@@ -56,6 +56,7 @@ export function SiteNav() {
   const onHomepage = isHomepagePath(pathname);
   const { open } = useBookingModal();
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
     <>
@@ -108,6 +109,7 @@ export function SiteNav() {
           </div>
 
           <button
+            ref={menuButtonRef}
             type="button"
             className="inline-flex size-11 touch-manipulation items-center justify-center rounded-full text-text-main select-none active:bg-primary/10 md:hidden"
             aria-haspopup="dialog"
@@ -176,10 +178,10 @@ export function SiteNav() {
               <button
                 type="button"
                 className={cn(bookClass, "w-full")}
-                onClick={(e) => {
-                  const trigger = e.currentTarget;
+                onClick={() => {
                   setMenuOpen(false);
-                  open(trigger);
+                  // Return focus to the menu button — drawer trigger unmounts.
+                  open(menuButtonRef.current);
                 }}
               >
                 Get Started

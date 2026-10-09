@@ -251,6 +251,7 @@ describe("Phase 3 Site Components Parity", () => {
       });
 
       expect(document.getElementById("booking-modal")).toBeNull();
+      expect(document.activeElement).toBe(trigger);
       interval.mockRestore();
     });
   });

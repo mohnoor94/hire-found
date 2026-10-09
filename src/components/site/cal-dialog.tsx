@@ -162,15 +162,34 @@ export function CalDialog({
   );
 }
 
+function focusBookingReturn(trigger: HTMLElement | null) {
+  if (trigger && document.contains(trigger)) {
+    trigger.focus();
+    return;
+  }
+  const fallback =
+    document.querySelector<HTMLElement>(
+      'button[aria-controls="mobile-nav"]',
+    ) ??
+    document.getElementById("nav-get-started-desktop") ??
+    document.getElementById("footer-book-a-call");
+  fallback?.focus();
+}
+
 export function CalDialogProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState<LoadStatus>("loading");
   const triggerRef = useRef<HTMLElement | null>(null);
   const loadedRef = useRef(false);
 
+  const restoreFocus = useCallback(() => {
+    focusBookingReturn(triggerRef.current);
+  }, []);
+
   const close = useCallback(() => {
     setIsOpen(false);
-  }, []);
+    queueMicrotask(restoreFocus);
+  }, [restoreFocus]);
 
   const open = useCallback((trigger?: HTMLElement | null) => {
     triggerRef.current =

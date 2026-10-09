@@ -65,8 +65,8 @@ export function SiteFooter() {
           </a>
         </div>
         <p className="mt-5 text-sm text-[#E6D5C8]">
-          The fastest way to reach me? WhatsApp. I&apos;m usually one message
-          away.
+          Book a call for a set time — or message me on WhatsApp if you prefer
+          chat.
         </p>
 
         <div className="mt-8 flex items-center justify-center gap-3">
