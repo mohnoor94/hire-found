@@ -104,9 +104,11 @@ export function RichTextEditor({
   }
 
   return (
-    <div className="scroll-mb-32 overflow-hidden rounded-2xl border border-primary/15 bg-white has-[.tiptap-editor:focus]:border-primary has-[.tiptap-editor:focus]:ring-2 has-[.tiptap-editor:focus]:ring-primary/30">
+    <div className="scroll-mb-32 rounded-2xl border border-primary/15 bg-white has-[.tiptap-editor:focus]:border-primary has-[.tiptap-editor:focus]:ring-2 has-[.tiptap-editor:focus]:ring-primary/30">
       <EditorToolbar editor={editor} label={ariaLabel} fieldId={id} />
-      <EditorContent editor={editor} />
+      <div className="min-w-0">
+        <EditorContent editor={editor} />
+      </div>
     </div>
   );
 }
@@ -227,7 +229,7 @@ function EditorToolbar({
   return (
     <div
       dir="ltr"
-      className="sticky top-[var(--site-nav-offset)] z-20 rounded-t-2xl border-b border-primary/15 bg-warm"
+      className="rounded-t-2xl border-b border-primary/15 bg-warm"
     >
       <div
         ref={barRef}
