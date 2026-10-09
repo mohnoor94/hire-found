@@ -42,7 +42,8 @@ export function slugFromTitle(
       .replace(/[^a-z0-9]/g, "")
       .slice(0, SLUG_SUFFIX_LENGTH) || randomSlugSuffix();
   const base = generateSlug(title);
-  if (!base) return id;
+  // Empty title keeps the draft clean (no ghost suffix-only slug / discard prompt).
+  if (!base) return "";
   const maxBase = SLUG_MAX_LENGTH - 1 - id.length;
   const trimmed = base.slice(0, maxBase).replace(/-+$/, "");
   return trimmed ? `${trimmed}-${id}` : id;

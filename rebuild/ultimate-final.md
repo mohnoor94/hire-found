@@ -297,7 +297,7 @@ Pasted into `docs/platform-plan.md` (decision log + top pointer + status “Next
 [x] Stage D homepage — 2026-10-09 (Cursor + tagy)
 [x] Stage D jobs — 2026-10-09 (Cursor + tagy)
 [x] Stage D yasmin-dashboard — 2026-10-10 (Cursor + tagy)
-[ ] Stage D yasmin-editor
+[x] Stage D yasmin-editor — 2026-10-10 (Cursor + yagy)
 ```
 
 **Do not:** redesign on two trees, delete before smoke, touch `public/assets`, pull `[slug]` into Phase 7, mark `agy` done from folklore. Do not reopen `rebuild/archive/` for execution decisions.

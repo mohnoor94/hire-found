@@ -79,13 +79,13 @@ describe("JobEditor", () => {
       setNativeValue(title, "Front Desk Agent");
     });
 
-    const back = Array.from(container.querySelectorAll("button")).find((button) =>
-      button.textContent?.includes("Back to listings"),
+    const cancel = Array.from(container.querySelectorAll("button")).find(
+      (button) => button.textContent?.trim() === "Cancel",
     );
-    expect(back).toBeTruthy();
+    expect(cancel).toBeTruthy();
 
     act(() => {
-      back!.click();
+      cancel!.click();
     });
 
     expect(onCancel).not.toHaveBeenCalled();
@@ -112,12 +112,12 @@ describe("JobEditor", () => {
       );
     });
 
-    const back = Array.from(container.querySelectorAll("button")).find((button) =>
-      button.textContent?.includes("Back to listings"),
+    const cancel = Array.from(container.querySelectorAll("button")).find(
+      (button) => button.textContent?.trim() === "Cancel",
     );
 
     act(() => {
-      back!.click();
+      cancel!.click();
     });
 
     expect(onCancel).toHaveBeenCalledOnce();

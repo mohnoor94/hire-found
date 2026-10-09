@@ -10,8 +10,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 7: Stage D yasmin-editor (review gate open) |
-| Next work | Cursor + `tagy` review for `yasmin-editor`. Custom-domain DNS still deferred |
+| Current phase | Phase 7 complete (Stage D surfaces done; Stage E deferred) |
+| Next work | Custom-domain DNS still deferred. Stage E only if explicitly opened |
 | Last updated | 2026-10-10 |
 | Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). Smoke passed 2026-10-09. `hirefound.com` DNS deferred |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -75,6 +75,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-10** - yasmin-editor early fixes: drop the publish helper line under the heading; auto-slugs use `slugFromTitle` with a stable random suffix (server dedupe still applies); rich-text focus is one border/ring on the frame, not a second inner outline.
 - **2026-10-10** - yasmin-editor chrome fixes (local): ProseMirror focus outline excluded from `hirefound.css` `[tabindex="0"]:focus-visible` (frame border only); short-description textarea uses `overflow-x-hidden` / `break-words` / `min-w-0`.
 - **2026-10-10** - Next 16 route scroll: `html` keeps `scroll-smooth` for in-page anchors and adds `data-scroll-behavior="smooth"` so client navigations jump to the top instantly instead of animating from a clamped bottom position.
+- **2026-10-10** - yasmin-editor Cursor + `yagy` pass-with-fixes applied: category/location use `datalist` (no pill wall / Custom wipe); empty-title `slugFromTitle` returns `""`; slug demoted under Role facts; rich text via `EditorField`; stronger frame focus; single-row scroll toolbar; link Cancel/Escape; short description `dir="auto"`; drop redundant Back control.
 
 ```mermaid
 flowchart LR
@@ -363,6 +364,6 @@ Use [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). Each surface stays 
 - [x] Yasmin dashboard pass — `done` (2026-10-10)
   - [x] Cursor review — 2026-10-10 pass-with-fixes → must-fixes applied
   - [x] `agy` review — 2026-10-10 pass-with-fixes via `tagy` → must-fixes applied
-- [ ] Yasmin editor pass — `in progress` (2026-10-10, review gate open)
-  - [ ] Cursor review
-  - [ ] `agy` review
+- [x] Yasmin editor pass — `done` (2026-10-10)
+  - [x] Cursor review — 2026-10-10 pass-with-fixes → must-fixes applied
+  - [x] `agy` review — 2026-10-10 pass-with-fixes via `yagy` → must-fixes applied

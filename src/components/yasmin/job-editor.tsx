@@ -88,12 +88,12 @@ const EMPTY: FormState = {
 const FIELD_ORDER = [
   "title",
   "titleAr",
-  "slug",
   "category",
   "location",
   "employmentType",
   "companyName",
   "salary",
+  "slug",
   "shortDescription",
   "contactWhatsApp",
   "contactEmail",
@@ -324,16 +324,7 @@ export function JobEditor({
         onSubmit={handleSubmit}
         onKeyDown={blockEnterSubmit}
       >
-        <button
-          type="button"
-          onClick={() => requestLeave()}
-          disabled={saving}
-          className={`${editorTextButton} -ms-3`}
-        >
-          Back to listings
-        </button>
-
-        <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <h2 className="font-accent text-2xl text-primary">
             {isEdit ? "Edit job" : "New job"}
           </h2>
@@ -399,9 +390,105 @@ export function JobEditor({
               />
             </EditorField>
 
+            <ChipField
+              label="Category"
+              required
+              name="category"
+              value={form.category}
+              options={CATEGORIES}
+              error={errors.category}
+              placeholder="Type or pick a category"
+              helpText="Suggestions appear as you type; you can also enter your own."
+              formatLabel="category"
+              inputRef={categoryRef}
+              onChange={(value) => setField("category", value)}
+            />
+
+            <ChipField
+              label="Location"
+              required
+              name="location"
+              value={form.location}
+              options={LOCATIONS}
+              error={errors.location}
+              placeholder="Type or pick a location"
+              helpText="Suggestions appear as you type; you can also enter a city."
+              inputRef={locationRef}
+              onChange={(value) => setField("location", value)}
+            />
+
+            <EditorField
+              id={typeId}
+              label="Employment type"
+              required
+              error={errors.employmentType}
+            >
+              <EditorSelect
+                ref={employmentRef}
+                id={typeId}
+                name="employmentType"
+                value={form.employmentType}
+                invalid={Boolean(errors.employmentType)}
+                aria-describedby={describedBy(typeId, {
+                  error: Boolean(errors.employmentType),
+                })}
+                onChange={(event) =>
+                  setField("employmentType", event.target.value)
+                }
+              >
+                <option value="" disabled>
+                  Select type
+                </option>
+                {EMPLOYMENT_TYPES.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {formatOptionLabel(opt)}
+                  </option>
+                ))}
+              </EditorSelect>
+            </EditorField>
+
+            <EditorField id={salaryId} label="Salary" error={errors.salary}>
+              <EditorTextInput
+                ref={salaryRef}
+                id={salaryId}
+                name="salary"
+                value={form.salary}
+                maxLength={100}
+                placeholder="e.g. AED 5,000 - 7,000/month"
+                invalid={Boolean(errors.salary)}
+                aria-describedby={describedBy(salaryId, {
+                  error: Boolean(errors.salary),
+                })}
+                onChange={(event) => setField("salary", event.target.value)}
+              />
+            </EditorField>
+
+            <EditorField
+              id={companyId}
+              label="Company"
+              error={errors.companyName}
+              className="sm:col-span-2"
+            >
+              <EditorTextInput
+                ref={companyRef}
+                id={companyId}
+                name="companyName"
+                value={form.companyName}
+                maxLength={120}
+                placeholder="e.g. Marriott International"
+                invalid={Boolean(errors.companyName)}
+                aria-describedby={describedBy(companyId, {
+                  error: Boolean(errors.companyName),
+                })}
+                onChange={(event) =>
+                  setField("companyName", event.target.value)
+                }
+              />
+            </EditorField>
+
             <EditorField
               id={slugId}
-              label="Slug"
+              label="Permalink slug"
               required
               error={errors.slug}
               hint="From the title, plus a short unique id so two openings can share a title."
@@ -450,101 +537,6 @@ export function JobEditor({
                 </button>
               </div>
             </EditorField>
-
-            <ChipField
-              label="Category"
-              required
-              name="category"
-              value={form.category}
-              options={CATEGORIES}
-              error={errors.category}
-              placeholder="Type a category"
-              helpText="Pick a suggestion or type your own."
-              formatLabel="category"
-              inputRef={categoryRef}
-              onChange={(value) => setField("category", value)}
-            />
-
-            <ChipField
-              label="Location"
-              required
-              name="location"
-              value={form.location}
-              options={LOCATIONS}
-              error={errors.location}
-              placeholder="Type a city or country"
-              helpText="Pick a country or type a city."
-              inputRef={locationRef}
-              onChange={(value) => setField("location", value)}
-            />
-
-            <EditorField
-              id={typeId}
-              label="Employment type"
-              required
-              error={errors.employmentType}
-            >
-              <EditorSelect
-                ref={employmentRef}
-                id={typeId}
-                name="employmentType"
-                value={form.employmentType}
-                invalid={Boolean(errors.employmentType)}
-                aria-describedby={describedBy(typeId, {
-                  error: Boolean(errors.employmentType),
-                })}
-                onChange={(event) =>
-                  setField("employmentType", event.target.value)
-                }
-              >
-                <option value="" disabled>
-                  Select type
-                </option>
-                {EMPLOYMENT_TYPES.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {formatOptionLabel(opt)}
-                  </option>
-                ))}
-              </EditorSelect>
-            </EditorField>
-
-            <EditorField
-              id={companyId}
-              label="Company"
-              error={errors.companyName}
-            >
-              <EditorTextInput
-                ref={companyRef}
-                id={companyId}
-                name="companyName"
-                value={form.companyName}
-                maxLength={120}
-                placeholder="e.g. Marriott International"
-                invalid={Boolean(errors.companyName)}
-                aria-describedby={describedBy(companyId, {
-                  error: Boolean(errors.companyName),
-                })}
-                onChange={(event) =>
-                  setField("companyName", event.target.value)
-                }
-              />
-            </EditorField>
-
-            <EditorField id={salaryId} label="Salary" error={errors.salary}>
-              <EditorTextInput
-                ref={salaryRef}
-                id={salaryId}
-                name="salary"
-                value={form.salary}
-                maxLength={100}
-                placeholder="e.g. AED 5,000 - 7,000/month"
-                invalid={Boolean(errors.salary)}
-                aria-describedby={describedBy(salaryId, {
-                  error: Boolean(errors.salary),
-                })}
-                onChange={(event) => setField("salary", event.target.value)}
-              />
-            </EditorField>
           </div>
         </section>
 
@@ -564,6 +556,7 @@ export function JobEditor({
                 ref={shortRef}
                 id={shortId}
                 name="shortDescription"
+                dir="auto"
                 value={form.shortDescription}
                 maxLength={300}
                 rows={4}
@@ -579,32 +572,36 @@ export function JobEditor({
               />
             </EditorField>
 
-            <div className="min-w-0 space-y-2">
-              <p className="text-sm font-semibold text-text-main">
-                Full description
-              </p>
+            <EditorField
+              id="field-fullDescription"
+              label="Full description"
+              className="min-w-0"
+            >
               <RichTextEditor
                 id="field-fullDescription"
+                aria-labelledby="field-fullDescription-label"
                 aria-label="Full description"
                 value={form.fullDescription}
                 onChange={(html) => setField("fullDescription", html)}
                 placeholder="Responsibilities, requirements, and who should apply"
               />
-            </div>
+            </EditorField>
 
-            <div className="min-w-0 space-y-2">
-              <p className="text-sm font-semibold text-text-main">
-                Full description (Arabic)
-              </p>
+            <EditorField
+              id="field-fullDescriptionAr"
+              label="Full description (Arabic)"
+              className="min-w-0"
+            >
               <RichTextEditor
                 id="field-fullDescriptionAr"
+                aria-labelledby="field-fullDescriptionAr-label"
                 aria-label="Full description (Arabic)"
                 value={form.fullDescriptionAr}
                 onChange={(html) => setField("fullDescriptionAr", html)}
                 placeholder="الوصف الكامل بالعربية..."
                 dir="rtl"
               />
-            </div>
+            </EditorField>
           </div>
         </section>
 

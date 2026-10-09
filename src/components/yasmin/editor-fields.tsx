@@ -51,7 +51,11 @@ export function EditorField({
   return (
     <div className={cn("space-y-2", className)}>
       <div className="flex items-center justify-between gap-3">
-        <label htmlFor={id} className="text-sm font-semibold text-text-main">
+        <label
+          id={`${id}-label`}
+          htmlFor={id}
+          className="text-sm font-semibold text-text-main"
+        >
           {label}
           {required ? (
             <>
@@ -161,6 +165,7 @@ export function ChipField({
   onChange: (value: string) => void;
 }) {
   const id = `field-${name}`;
+  const listId = `${id}-suggestions`;
   const labelFor = (opt: string) =>
     formatLabel === "category" ? formatCategoryLabel(opt) : formatOptionLabel(opt);
 
@@ -171,13 +176,13 @@ export function ChipField({
       required={required}
       error={error}
       hint={helpText}
-      className="sm:col-span-2"
     >
       <EditorTextInput
         ref={inputRef}
         id={id}
         name={name}
         value={value}
+        list={listId}
         maxLength={name === "category" ? 50 : 100}
         placeholder={placeholder}
         autoComplete="off"
@@ -188,32 +193,13 @@ export function ChipField({
         })}
         onChange={(event) => onChange(event.target.value)}
       />
-      <div className="flex flex-wrap gap-2" role="group" aria-label={`${label} suggestions`}>
-        {options.map((opt) => {
-          const selected = opt.toLowerCase() === value.toLowerCase();
-          return (
-            <button
-              key={opt}
-              type="button"
-              aria-pressed={selected}
-              onClick={() => onChange(opt)}
-              className={cn("filter-pill", selected && "active")}
-            >
-              {labelFor(opt)}
-            </button>
-          );
-        })}
-        <button
-          type="button"
-          onClick={() => {
-            onChange("");
-            inputRef?.current?.focus();
-          }}
-          className="inline-flex min-h-11 touch-manipulation items-center rounded-full border border-dashed border-primary/30 px-5 text-sm font-semibold text-muted select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-        >
-          Custom
-        </button>
-      </div>
+      <datalist id={listId}>
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {labelFor(opt)}
+          </option>
+        ))}
+      </datalist>
     </EditorField>
   );
 }

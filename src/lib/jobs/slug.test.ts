@@ -79,6 +79,11 @@ describe("slugFromTitle", () => {
     expect(slug.length).toBeLessThanOrEqual(80);
   });
 
+  it("returns an empty string when the title has no slug base", () => {
+    expect(slugFromTitle("", "a1b2c3")).toBe("");
+    expect(slugFromTitle("!!!", "a1b2c3")).toBe("");
+  });
+
   it("randomSlugSuffix is lowercase alphanumeric of the requested length", () => {
     const suffix = randomSlugSuffix(6);
     expect(suffix).toMatch(/^[a-z0-9]{6}$/);

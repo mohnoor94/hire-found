@@ -20,6 +20,7 @@ type RichTextEditorProps = {
   dir?: "ltr" | "rtl";
   id?: string;
   "aria-label"?: string;
+  "aria-labelledby"?: string;
 };
 
 /** Shared extension set for the admin editor and round-trip tests. */
@@ -60,6 +61,7 @@ export function RichTextEditor({
   dir = "ltr",
   id,
   "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
 }: RichTextEditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
@@ -69,7 +71,8 @@ export function RichTextEditor({
     editorProps: {
       attributes: {
         ...(id ? { id } : {}),
-        "aria-label": ariaLabel || "",
+        ...(ariaLabel ? { "aria-label": ariaLabel } : {}),
+        ...(ariaLabelledBy ? { "aria-labelledby": ariaLabelledBy } : {}),
         ...(dir === "rtl" ? { lang: "ar" } : {}),
         class: cn(
           "tiptap-editor min-h-40 max-w-full min-w-0 scroll-mb-32 px-4 py-3 text-base leading-relaxed",
@@ -105,7 +108,7 @@ export function RichTextEditor({
   }
 
   return (
-    <div className="tiptap-frame max-w-full min-w-0 overflow-x-clip scroll-mb-32 rounded-2xl border border-primary/25 bg-white has-[.tiptap-editor:focus]:border-primary">
+    <div className="tiptap-frame max-w-full min-w-0 overflow-x-clip scroll-mb-32 rounded-2xl border border-primary/25 bg-white has-[.tiptap-editor:focus]:border-primary has-[.tiptap-editor:focus]:outline-2 has-[.tiptap-editor:focus]:outline-offset-2 has-[.tiptap-editor:focus]:outline-primary">
       <EditorToolbar editor={editor} label={ariaLabel} fieldId={id} />
       <EditorContent editor={editor} className="max-w-full min-w-0 overflow-x-clip" />
     </div>
@@ -139,6 +142,11 @@ function EditorToolbar({
     const prev = editor.getAttributes("link").href as string | undefined;
     setLinkUrl(prev || "https://");
     setLinkOpen((open) => !open);
+  }
+
+  function closeLink() {
+    setLinkOpen(false);
+    editor.chain().focus().run();
   }
 
   function applyLink(raw: string) {
@@ -232,7 +240,7 @@ function EditorToolbar({
     >
       <div
         ref={barRef}
-        className="flex max-w-full min-w-0 flex-wrap gap-2 px-3 py-2"
+        className="flex max-w-full min-w-0 flex-nowrap gap-2 overflow-x-auto overscroll-x-contain px-3 py-2"
         role="toolbar"
         aria-label={label ? `${label} formatting` : "Formatting"}
         aria-orientation="horizontal"
@@ -290,6 +298,11 @@ function EditorToolbar({
             className={cn(editorControlClass, "sm:flex-1")}
             onChange={(event) => setLinkUrl(event.target.value)}
             onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                event.preventDefault();
+                closeLink();
+                return;
+              }
               if (event.key !== "Enter") return;
               event.preventDefault();
               applyLink(linkUrl);
@@ -309,6 +322,13 @@ function EditorToolbar({
               className={editorTextButton}
             >
               Remove
+            </button>
+            <button
+              type="button"
+              onClick={closeLink}
+              className={editorTextButton}
+            >
+              Cancel
             </button>
           </div>
         </div>
