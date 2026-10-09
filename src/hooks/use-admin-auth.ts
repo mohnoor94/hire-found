@@ -174,13 +174,16 @@ function getSnapshot() {
   return snapshot;
 }
 
+/** Stable reference - a fresh object each call loops useSyncExternalStore. */
+const SERVER_SNAPSHOT: AuthSnapshot = {
+  status: "loading",
+  user: null,
+  signInError: null,
+  signingIn: false,
+};
+
 function getServerSnapshot(): AuthSnapshot {
-  return {
-    status: "loading",
-    user: null,
-    signInError: null,
-    signingIn: false,
-  };
+  return SERVER_SNAPSHOT;
 }
 
 export function useAdminAuth(): UseAdminAuthResult {
