@@ -170,7 +170,7 @@ export function JobsPageClient() {
               ) : null}
 
               {!loading && !error && filtered.length > 0 ? (
-                <div className="grid gap-6 md:grid-cols-2">
+                <div className="flex flex-col">
                   {filtered.map((job) => (
                     <JobCard key={job.id} job={job} />
                   ))}

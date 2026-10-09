@@ -3,57 +3,52 @@
 import Link from "next/link";
 import type { Job } from "@/lib/jobs";
 import {
-  categoryColors,
   categoryLabel,
   getRelativeTime,
   truncateText,
 } from "@/lib/jobs";
+import { formatEmploymentType } from "@/lib/yasmin/labels";
 
 type JobCardProps = {
   job: Job;
 };
 
 export function JobCard({ job }: JobCardProps) {
-  const colors = categoryColors(job.category);
-  const label = categoryLabel(job.category);
+  const meta = [
+    categoryLabel(job.category),
+    job.location?.trim() || null,
+    formatEmploymentType(
+      typeof job.employmentType === "string" ? job.employmentType : undefined,
+    ) || null,
+    getRelativeTime(job.createdAt) || null,
+  ].filter(Boolean);
 
   return (
     <Link
       href={`/jobs/?id=${job.slug}`}
-      className="premium-card shadow-card block min-h-[44px] min-w-[44px] cursor-pointer p-7"
+      className="block min-h-11 border-t border-secondary py-7 outline-none transition-colors focus-visible:bg-warm-dark/40 active:bg-warm-dark/50"
       aria-label={`View details for ${job.title}`}
     >
-      <div className="mb-3 flex items-start justify-between">
-        <span
-          className={`rounded-full px-3 py-1 text-xs font-semibold ${colors.bg} ${colors.text}`}
-        >
-          {label}
-        </span>
-      </div>
-      <h3 className="mb-1 text-lg font-bold">{job.title}</h3>
+      <h3 className="font-accent text-2xl leading-snug text-balance text-primary">
+        {job.title}
+      </h3>
       {job.titleAr?.trim() ? (
         <p
-          className="mb-2 text-sm font-semibold text-secondary"
+          className="mt-1 text-sm font-medium text-muted"
           dir="rtl"
           lang="ar"
         >
           {job.titleAr}
         </p>
       ) : null}
-      <p className="mb-3 text-sm leading-relaxed text-muted">
-        {truncateText(job.shortDescription, 120)}
+      {job.shortDescription?.trim() ? (
+        <p className="mt-3 max-w-[65ch] text-sm leading-relaxed text-muted">
+          {truncateText(job.shortDescription, 120)}
+        </p>
+      ) : null}
+      <p className="mt-4 text-xs font-medium tracking-wide text-muted">
+        {meta.join(" · ")}
       </p>
-      <div className="flex flex-wrap items-center gap-3 text-xs text-muted">
-        <span>📍 {job.location || ""}</span>
-        <span>•</span>
-        <span>{getRelativeTime(job.createdAt)}</span>
-        <span>•</span>
-        <span
-          className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${colors.bg} ${colors.text}`}
-        >
-          {job.employmentType || ""}
-        </span>
-      </div>
     </Link>
   );
 }

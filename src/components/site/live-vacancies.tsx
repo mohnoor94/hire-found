@@ -81,35 +81,22 @@ export function LiveVacancies() {
         <div id="vacancy-grid">
           {jobs === null && (
             <div
-              className="grid gap-6 md:grid-cols-2"
+              className="flex flex-col"
               aria-busy="true"
               aria-label="Loading open roles"
             >
               {[0, 1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="card-surface animate-pulse p-7"
-                >
-                  <div className="mb-3 flex items-start justify-between">
-                    <div className="h-6 w-20 rounded-full bg-warm-dark" />
-                  </div>
-                  <div className="mb-2 h-5 w-3/4 rounded bg-warm-dark" />
-                  <div className="mb-3 h-4 w-1/2 rounded bg-warm-dark" />
-                  <div className="mb-4 flex flex-col gap-2">
-                    <div className="h-3 w-full rounded bg-warm-dark" />
-                    <div className="h-3 w-5/6 rounded bg-warm-dark" />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="h-3 w-24 rounded bg-warm-dark" />
-                    <div className="h-6 w-16 rounded-full bg-warm-dark" />
-                  </div>
+                <div key={i} className="animate-pulse border-t border-secondary py-7">
+                  <div className="h-7 w-2/3 rounded bg-warm-dark" />
+                  <div className="mt-3 h-4 w-full max-w-md rounded bg-warm-dark" />
+                  <div className="mt-4 h-3 w-40 rounded bg-warm-dark" />
                 </div>
               ))}
             </div>
           )}
 
           {jobs && !error && filtered.length > 0 && (
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="flex flex-col">
               {filtered.map((job) => (
                 <JobCard key={job.id} job={job} />
               ))}

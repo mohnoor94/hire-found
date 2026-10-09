@@ -61,6 +61,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — shared-chrome Cursor must-fixes: CalDialog restores focus to a live control (menu button when book opens from the drawer); footer copy supports Book-a-Call as primary with WhatsApp secondary.
 - **2026-10-09** — shared-chrome `tagy` pass-with-fixes applied: focus rings no longer force `border-radius: 4px`; nav CTA is “Book a Call”; CalDialog + drawer animate; Cal error offers WhatsApp/email; desktop dialog widened to ~44rem × 620px; dropped duplicate `glass-nav` utility and hex scatter in chrome.
 - **2026-10-09** — Stage D2 homepage (review gate open, not `done`): linen brand fold with portrait and dual CTAs — “I'm Hiring Executive Talent” opens CalDialog, “Explore Open Roles” goes to `#vacancies`. Deleted `hero-effects`, `micro-interactions`, `scroll-reveals`, `services-effects`, and the WhatsApp typing hero. Services are Radix Tabs (Employers / Candidates). Trust is restyled and still `hidden` pending Yasmin. Dropped `.reveal` on job cards so that deletion does not hide the jobs page. Vitest **135**.
+- **2026-10-09** — homepage Cursor must-fixes: edge portrait hero plane; editorial job rows (no `premium-card`/pills/emoji); About without second portrait; Services contact strip removed; HowItWorks as a vertical step spine.
 
 ```mermaid
 flowchart LR

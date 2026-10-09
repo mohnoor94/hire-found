@@ -16,7 +16,7 @@ const STEPS = [
 export function HowItWorks() {
   return (
     <section id="how-it-works" className="bg-warm-dark px-6 py-20 lg:py-28">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-3xl">
         <h2 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
           How It Works
         </h2>
@@ -24,14 +24,20 @@ export function HowItWorks() {
           Three steps. One promise: I&apos;ll find your match.
         </p>
 
-        <ol className="mt-14 grid gap-12 md:grid-cols-3 md:gap-10">
+        <ol className="relative mt-14 flex flex-col gap-0 border-l border-secondary pl-8">
           {STEPS.map((step, index) => (
-            <li key={step.title} className="border-t border-secondary pt-6">
-              <p className="font-accent text-2xl text-primary">{index + 1}</p>
-              <h3 className="mt-3 text-xl font-semibold text-balance text-text-main">
+            <li key={step.title} className="relative pb-12 last:pb-0">
+              <span
+                className="absolute top-1.5 -left-8 size-2.5 -translate-x-1/2 rounded-full bg-primary"
+                aria-hidden="true"
+              />
+              <p className="text-xs font-semibold tracking-[0.14em] text-secondary uppercase">
+                Step {index + 1}
+              </p>
+              <h3 className="font-accent mt-2 text-3xl text-primary">
                 {step.title}
               </h3>
-              <p className="mt-3 max-w-[36ch] leading-relaxed text-muted">
+              <p className="mt-3 max-w-[42ch] text-base leading-relaxed text-muted">
                 {step.body}
               </p>
             </li>
