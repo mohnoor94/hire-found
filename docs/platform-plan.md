@@ -11,7 +11,7 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 | | |
 |---|---|
 | Current phase | Phase 6 — Cutover (in progress) |
-| Next work | Close Phase 6 dual reviews (high-risk gh-pages-export, high-risk firestore-rules `agy`, phase-6-gate), then Stage B delete vanilla. Custom-domain DNS deferred |
+| Next work | Close remaining Phase 6 reviews (high-risk firestore-rules `agy`, phase-6-gate), then Stage B delete vanilla. Custom-domain DNS deferred |
 | Last updated | 2026-10-09 |
 | Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). Smoke passed 2026-10-09. `hirefound.com` DNS deferred |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -51,6 +51,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — Fast-forward merged `v2` into `main` at `223bae1`. Actions run [37969404737](https://github.com/mohnoor94/hire-found/actions/runs/37969404737) succeeded: `out/index.html`, `out/jobs/index.html`, `out/yasmin/index.html`, `out/CNAME` = `hirefound.com`, and `deploy-pages` published that artifact.
 - **2026-10-09** — Pages source switched to GitHub Actions (`build_type: workflow`). Custom domain DNS deferred: keep serving at `mohnoor94.github.io/hire-found/` for smoke. Interim `basePath` / `assetPrefix` `/hire-found` (plus `withBasePath` for public assets and raw anchors). When attaching `hirefound.com`, set `NEXT_PUBLIC_BASE_PATH=""` / clear `basePath` and configure the custom domain in Pages settings. `public/CNAME` stays `hirefound.com` for that later step. Vitest after basePath helper: 192.
 - **2026-10-09** — Stage A smoke on project Pages URL: homepage vacancies, `/jobs/?id=` + apply path, Yasmin sign-in/create/edit → public HTML — all passed (user-confirmed). Phase 6 dual reviews still required before Stage B.
+- **2026-10-09** — high-risk:gh-pages-export Cursor + `agy` both pass-with-fixes. Must-fixes applied: metadata icons via `withBasePath` (`layout.tsx`, `yasmin/page.tsx`); `deploy.yml` runs `configure-pages` before build and passes `NEXT_PUBLIC_BASE_PATH` from `steps.pages.outputs.base_path`; confirm step greps interim basePath into `out/`.
 
 ```mermaid
 flowchart LR
@@ -306,9 +307,9 @@ Do this only after Phases 3–5 match the live site.
 - [ ] Firestore rules match the UI allowlist and are deployed — `in progress` (deployed; Cursor pass-with-fixes applied; `agy` deferred)
   - [x] Cursor review — 2026-10-07 pass-with-fixes (set-equality sync test for `isAdmin()` ↔ `ALLOWED_EMAILS`)
   - [ ] `agy` review — `deferred` (2026-10-07)
-- [ ] GH Pages workflow builds and deploys `out/` only — `in progress` (Actions green; Pages source = workflow; interim project URL + basePath; custom domain deferred; `agy` deferred)
-  - [x] Cursor review — 2026-10-07 fail → fixes started (CNAME confirm in workflow; hosting/DNS/Pages-source gap recorded in decision log)
-  - [ ] `agy` review — `deferred` (2026-10-07)
+- [x] GH Pages workflow builds and deploys `out/` only — `done` (2026-10-09; Actions + project Pages; custom domain deferred)
+  - [x] Cursor review — 2026-10-07 fail → 2026-10-09 pass-with-fixes → must-fixes verified in `out/`
+  - [x] `agy` review — 2026-10-09 pass-with-fixes → must-fixes applied
 
 ### Phase 6 gate
 

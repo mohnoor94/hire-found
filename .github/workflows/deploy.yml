@@ -22,16 +22,28 @@ jobs:
         with:
           node-version: "22"
           cache: npm
+      - id: pages
+        uses: actions/configure-pages@v4
       - run: npm ci
-      - run: npm run build
+      - name: Build static export
+        env:
+          # Project Pages → "/hire-found"; empty when a custom domain is attached.
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: npm run build
       - name: Confirm static export
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: |
           test -f out/index.html
           test -f out/jobs/index.html
           test -f out/yasmin/index.html
           test -f out/CNAME
           test "$(cat out/CNAME)" = "hirefound.com"
-      - uses: actions/configure-pages@v4
+          if [ -n "$NEXT_PUBLIC_BASE_PATH" ]; then
+            grep -F "${NEXT_PUBLIC_BASE_PATH}/_next/" out/index.html
+            grep -F "${NEXT_PUBLIC_BASE_PATH}/assets/" out/index.html
+            grep -F "${NEXT_PUBLIC_BASE_PATH}/assets/" out/yasmin/index.html
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Serif_Display, Inter, Noto_Sans_Arabic } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { withBasePath } from "@/lib/base-path";
 import { BookingModalProvider } from "@/components/site/booking-modal";
 import "./globals.css";
 import "./hirefound.css";
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
   description:
     "HireFound by Yasmin Blasi - Connecting the right people with where they belong. Executive search, recruitment, and career matchmaking across MENA.",
   icons: {
-    icon: "/assets/hirefound-signature.svg",
+    icon: withBasePath("/assets/hirefound-signature.svg"),
   },
   openGraph: {
     title: "HireFound - You want a hire? We got you found.",

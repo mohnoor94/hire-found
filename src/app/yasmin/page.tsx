@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Caveat } from "next/font/google";
 import { Toaster } from "sonner";
 import { YasminPageClient } from "@/components/yasmin/yasmin-page-client";
+import { withBasePath } from "@/lib/base-path";
 import { cn } from "@/lib/utils";
 import "./yasmin.css";
 
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   description: "HireFound admin panel for managing job listings.",
   robots: { index: false, follow: false },
   icons: {
-    icon: "/assets/butterfly-favicon.svg",
+    icon: withBasePath("/assets/butterfly-favicon.svg"),
   },
 };
 
