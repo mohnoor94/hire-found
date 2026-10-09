@@ -63,6 +63,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — Stage D2 homepage (review gate open, not `done`): linen brand fold with portrait and dual CTAs — “I'm Hiring Executive Talent” opens CalDialog, “Explore Open Roles” goes to `#vacancies`. Deleted `hero-effects`, `micro-interactions`, `scroll-reveals`, `services-effects`, and the WhatsApp typing hero. Services are Radix Tabs (Employers / Candidates). Trust is restyled and still `hidden` pending Yasmin. Dropped `.reveal` on job cards so that deletion does not hide the jobs page. Vitest **135**.
 - **2026-10-09** — homepage Cursor must-fixes: edge portrait hero plane; editorial job rows (no `premium-card`/pills/emoji); About without second portrait; Services contact strip removed; HowItWorks as a vertical step spine.
 - **2026-10-09** — homepage `tagy` pass-with-fixes: wave matches preceding `warm-dark`; step labels use `text-muted`; job-row hover; footer out of `<main>`; vacancy filter `aria-pressed`.
+- **2026-10-09** — Homepage hero drops Yasmin portrait (masked cutout / mobile card). Fold is brand type + linen/gold atmosphere + quiet signature watermark; dual CTAs unchanged.
 
 ```mermaid
 flowchart LR
