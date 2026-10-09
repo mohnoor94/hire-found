@@ -12,6 +12,7 @@ type JobCardProps = {
 export function JobCard({ job }: JobCardProps) {
   const meta = [
     formatCategoryLabel(job.category),
+    job.companyName?.trim() || null,
     job.location?.trim() || null,
     formatEmploymentType(
       typeof job.employmentType === "string" ? job.employmentType : undefined,
@@ -22,7 +23,7 @@ export function JobCard({ job }: JobCardProps) {
   return (
     <Link
       href={`/jobs/?id=${job.slug}`}
-      className="group block min-h-11 border-t border-secondary py-7 outline-none transition-colors last:border-b hover:bg-warm-dark/40 focus-visible:bg-warm-dark/40 active:bg-warm-dark/50"
+      className="group block min-h-11 border-t border-secondary py-7 transition-colors last:border-b hover:bg-warm-dark/40 focus-visible:bg-warm-dark/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:bg-warm-dark/50"
       aria-label={`View details for ${job.title}`}
     >
       <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">

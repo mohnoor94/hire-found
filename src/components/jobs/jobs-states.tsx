@@ -5,10 +5,10 @@ import { useBookingModal } from "@/components/site/cal-dialog";
 import { DEFAULTS } from "@/lib/jobs";
 
 const primaryAction =
-  "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark";
+  "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 const quietAction =
-  "inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10";
+  "inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 type JobsEmptyStateProps = {
   message: string;
@@ -83,7 +83,7 @@ type JobsNotFoundStateProps = {
 export function JobsNotFoundState({ onBack }: JobsNotFoundStateProps) {
   return (
     <div className="flex flex-col items-start py-10">
-      <h2 className="font-accent mb-2 text-3xl text-primary">Job Not Found</h2>
+      <h1 className="font-accent mb-2 text-3xl text-primary">Job Not Found</h1>
       <p className="mb-8 max-w-[65ch] text-sm leading-relaxed text-muted">
         This role is no longer available or may have been removed. Browse the
         current openings.

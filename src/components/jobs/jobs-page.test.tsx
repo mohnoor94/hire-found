@@ -137,7 +137,7 @@ describe("Phase 4 Jobs page", () => {
     ).toBe("/jobs/?id=senior-barista");
   });
 
-  it("keeps the page header on detail view", async () => {
+  it("lets the job title own the detail heading", async () => {
     mockSearchParams = new URLSearchParams("id=senior-barista");
 
     await act(async () => {
@@ -145,7 +145,8 @@ describe("Phase 4 Jobs page", () => {
     });
     await flushEffects();
 
-    expect(container.textContent).toContain("Find Your Match");
+    expect(container.querySelector("h1")?.textContent).toBe("Senior Barista");
+    expect(container.querySelector("#job-search")).toBeNull();
     expect(container.textContent).toContain("About This Role");
     expect(fetchJobsMock).toHaveBeenCalledTimes(1);
   });
@@ -213,7 +214,8 @@ describe("Phase 4 Jobs page", () => {
     await flushEffects();
 
     expect(container.textContent).toContain("Job Not Found");
-    expect(container.textContent).toContain("Find Your Match");
+    expect(container.querySelector("h1")?.textContent).toBe("Job Not Found");
+    expect(container.querySelector("#job-search")).toBeNull();
   });
 
   it("renders Arabic description and fallback apply CTAs", async () => {

@@ -27,10 +27,10 @@ declare global {
 }
 
 const primaryAction =
-  "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark";
+  "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 const quietAction =
-  "inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10";
+  "inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 export function JobDetail({ job, onBack }: JobDetailProps) {
   const { open } = useBookingModal();
@@ -117,7 +117,7 @@ export function JobDetail({ job, onBack }: JobDetailProps) {
     <div>
       <button
         type="button"
-        className="mb-8 inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-primary active:text-primary-dark"
+        className="mb-8 inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-primary active:text-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         aria-label="Back to all job listings"
         data-back-link="true"
         onClick={onBack}

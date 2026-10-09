@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { fetchJobs, getCategories, type Job } from "@/lib/jobs";
+import { formatCategoryLabel } from "@/lib/yasmin/labels";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { useServicesTab } from "@/components/site/services-tab";
 import { JobCard } from "@/components/jobs/job-card";
@@ -71,9 +72,7 @@ export function LiveVacancies() {
                 className={`filter-pill ${category === cat ? "active" : ""}`}
                 onClick={() => setCategory(cat)}
               >
-                {cat === "all"
-                  ? "All"
-                  : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                {cat === "all" ? "All" : formatCategoryLabel(cat)}
               </button>
             ))}
           </div>
@@ -109,7 +108,7 @@ export function LiveVacancies() {
               <p className="mb-2 text-lg font-semibold text-text-main">
                 {category === "all"
                   ? "No open roles right now"
-                  : `No jobs available in ${category.charAt(0).toUpperCase() + category.slice(1)}`}
+                  : `No jobs available in ${formatCategoryLabel(category)}`}
               </p>
               <p className="mb-8 max-w-md text-sm text-muted">
                 Interested in opportunities? Reach out directly. I&apos;d love

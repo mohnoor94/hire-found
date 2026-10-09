@@ -10,8 +10,8 @@ Historical specs in [`.kiro/specs/`](../.kiro/specs/) describe the vanilla site.
 
 | | |
 |---|---|
-| Current phase | Phase 7: Stage D jobs implemented; review gate open |
-| Next work | Stage D3 `jobs` Cursor + `tagy` review (do not mark done). Custom-domain DNS still deferred |
+| Current phase | Phase 7: Stage D jobs Cursor must-fixes applied; waiting on tagy |
+| Next work | Stage D3 `jobs` `tagy` review (Cursor pass-with-fixes applied). Custom-domain DNS still deferred |
 | Last updated | 2026-10-09 |
 | Live site | GitHub Actions Pages at `https://mohnoor94.github.io/hire-found/` (`basePath` `/hire-found`). Smoke passed 2026-10-09. `hirefound.com` DNS deferred |
 | Reviews | Dual Cursor + `agy` at each phase gate, on high-risk items, and on every Phase 7 surface |
@@ -66,6 +66,7 @@ Status values used below: `not started`, `in progress`, `done`, `deferred`.
 - **2026-10-09** — Homepage hero portrait returns as full-bleed editorial plane (burgundy wash + linen scrim + gold rule), not a cutout/card. HireFound type stays on the left; dual CTAs unchanged.
 - **2026-10-09** — Stage D3 jobs (review gate open, not `done`): editorial list with search across title, Arabic title, city, and company, plus category chips and bilingual rows. Detail stays `/jobs/?id=`. When `tallyFormId` is set, that job's Tally embed is the apply path; WhatsApp, email, and Book a Call stay as fallbacks. Dropped emoji, magnetic buttons, and category color pills. RTL descriptions use logical list padding and burgundy links. `src/lib/jobs/*` unchanged. Vitest **136**.
 - **2026-10-09** — Review prompts (`docs/ui-ux-review-prompt.md`, `docs/phase-review-prompt.md`) now target `main` and forbid `git checkout`. Stale `v2` wording made `tagy`/`agy` switch the working tree mid-review.
+- **2026-10-09** — jobs Cursor pass-with-fixes: detail drops listing masthead so the role `h1` owns the page; focus rings on rows/CTAs; `companyName` in row meta; homepage vacancy chips use `formatCategoryLabel`.
 
 ```mermaid
 flowchart LR
@@ -349,7 +350,7 @@ Use [`docs/ui-ux-review-prompt.md`](ui-ux-review-prompt.md). Each surface stays 
   - [x] Cursor review — 2026-10-09 pass-with-fixes → must-fixes applied
   - [x] `agy` review — 2026-10-09 pass-with-fixes via `tagy` → must-fixes applied
 - [ ] Jobs list and detail pass — `in progress` (2026-10-09, review gate open)
-  - [ ] Cursor review
+  - [x] Cursor review — 2026-10-09 pass-with-fixes → must-fixes applied
   - [ ] `agy` review
 - [ ] Yasmin dashboard pass — `not started`
   - [ ] Cursor review

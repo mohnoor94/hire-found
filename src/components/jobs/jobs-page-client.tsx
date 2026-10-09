@@ -99,19 +99,20 @@ export function JobsPageClient() {
 
   return (
     <>
-      <section className="bg-warm px-6 pt-6 pb-2 lg:pt-10">
-        <div className="mx-auto max-w-5xl">
-          <h1 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
-            Find Your Match
-          </h1>
-          <div className="mt-5 h-px w-12 bg-secondary" aria-hidden="true" />
-          <p className="mt-5 max-w-[65ch] text-lg text-muted">
-            {slug
-              ? "Open roles I'm hiring for right now."
-              : "Open roles I'm hiring for right now, in English and Arabic. Search by title, city, or company."}
-          </p>
-        </div>
-      </section>
+      {!slug ? (
+        <section className="bg-warm px-6 pt-6 pb-2 lg:pt-10">
+          <div className="mx-auto max-w-5xl">
+            <h1 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
+              Find Your Match
+            </h1>
+            <div className="mt-5 h-px w-12 bg-secondary" aria-hidden="true" />
+            <p className="mt-5 max-w-[65ch] text-lg text-muted">
+              Open roles I&apos;m hiring for right now, in English and Arabic.
+              Search by title, city, or company.
+            </p>
+          </div>
+        </section>
+      ) : null}
 
       {slug ? (
         <section
