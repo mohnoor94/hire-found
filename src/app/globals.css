@@ -223,11 +223,28 @@
   }
 }
 
-/* Homepage: two motions. Fold copy entrance, then the services panel. */
+/* Homepage: photo plane + fold copy, then services panel. */
+@keyframes hf-hero-photo-in {
+  from {
+    transform: scale(1.06);
+    filter: saturate(0.55) contrast(1.05);
+  }
+  to {
+    transform: scale(1);
+    filter: saturate(0.72) contrast(1.04);
+  }
+}
+
+.hf-hero-photo {
+  transform-origin: 68% 20%;
+  filter: saturate(0.72) contrast(1.04);
+  animation: hf-hero-photo-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @keyframes hf-fold-in {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(14px);
     filter: blur(6px);
   }
   to {
@@ -238,20 +255,7 @@
 }
 
 .hf-fold {
-  animation: hf-fold-in 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes hf-mark-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 0.07;
-  }
-}
-
-.hf-mark {
-  animation: hf-mark-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  animation: hf-fold-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
 }
 
 @keyframes hf-panel-in {
@@ -270,13 +274,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hf-hero-photo,
   .hf-fold,
-  .hf-mark,
   .hf-panel[data-state="active"] {
     animation: none;
   }
 
-  .hf-mark {
-    opacity: 0.07;
+  .hf-hero-photo {
+    transform: none;
+    filter: saturate(0.72) contrast(1.04);
   }
 }

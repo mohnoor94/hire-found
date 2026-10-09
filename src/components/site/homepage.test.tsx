@@ -83,7 +83,9 @@ describe("Homepage", () => {
     expect(container.querySelector("#typing-text")).toBeNull();
     expect(
       container.querySelector('img[src*="yasmin-blasi"]'),
-    ).toBeNull();
+    ).not.toBeNull();
+    expect(container.querySelector(".hf-hero-photo")).not.toBeNull();
+    expect(container.querySelector(".rounded-2xl")).toBeNull();
 
     const hiring = container.querySelector("#hero-hiring") as HTMLButtonElement;
     await act(async () => {
