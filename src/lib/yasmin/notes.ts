@@ -23,7 +23,7 @@ export const YASMIN_NOTES: YasminNote[] = [
     audience: "employers",
     tag: "Managers",
     ar: "فيا مدير، موظفك الشاطر، دير بالك عليه، وما تطفشه!",
-    gloss: "Managers: protect your top performers - do not push them away.",
+    gloss: "Managers: protect your top performers, do not push them away.",
     url: "https://www.linkedin.com/feed/update/urn:li:activity:7501206646296043520/",
   },
   {
@@ -40,7 +40,7 @@ export const YASMIN_NOTES: YasminNote[] = [
     audience: "candidates",
     tag: "Candidates",
     ar: "الدنيا كلها عشان تمشي بدها اسلوب … اسلوبك حلو وال attitude تاعك لطيف ومحترم، قديش حتكسب!",
-    gloss: "Your manner and attitude open doors - respectful wins so much.",
+    gloss: "Your manner and attitude open doors: respectful wins so much.",
     url: "https://www.linkedin.com/feed/update/urn:li:activity:7483198061951954944/",
   },
   {
@@ -48,7 +48,7 @@ export const YASMIN_NOTES: YasminNote[] = [
     audience: "candidates",
     tag: "Interviews",
     ar: "الذوق والرتابة والنظافة ابدا مش مربوطة لا بعمر ولا بمنصب",
-    gloss: "Grooming and neatness are not about age or title - show up well.",
+    gloss: "Grooming and neatness are not about age or title. Show up well.",
     url: ACTIVITY_URL,
   },
   {

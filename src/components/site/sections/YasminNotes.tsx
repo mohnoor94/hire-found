@@ -16,14 +16,14 @@ export function YasminNotes() {
   );
 
   return (
-    <section id="yasmins-notes" className="bg-warm px-6 py-20 lg:py-28">
-      <div className="mx-auto max-w-5xl">
+    <section id="yasmins-notes" className="bg-warm px-6 pt-12 pb-20 md:pt-16 md:pb-28">
+      <div className="mx-auto max-w-6xl">
         <header className="mb-6 md:mb-8">
-          <h2 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
+          <h2 className="font-accent select-none text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
             Yasmin&apos;s Notes
           </h2>
           <p className="mt-3 max-w-[48rem] text-lg text-muted">
-            Short advice from real posts - in her own words, plus a quick gloss.
+            Short advice from real posts: her words with a quick gloss.
           </p>
         </header>
 
@@ -47,13 +47,23 @@ function NotesCarousel({ notes }: { notes: YasminNote[] }) {
   return (
     <div className="relative">
       <div className="group relative">
+        {/*
+          On mobile: horizontal flex carousel with snap.
+          On desktop: responsive grid. Use 1/2/3 columns based on note count to avoid awkward empty space.
+        */}
         <div
           ref={scrollerRef}
-          className={cn(
+          className={cn({
             // Mobile: horizontal snap carousel
-            "flex snap-x snap-mandatory overflow-x-auto -mx-6 px-6 gap-4 pb-4",
-            "md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:snap-none",
-          )}
+            ["flex snap-x snap-mandatory overflow-x-auto -mx-6 px-6 gap-4 pb-4"]:
+              true,
+            // Desktop: grid with dynamic columns
+            ["md:mx-0 md:px-0 md:grid md:gap-6 md:overflow-visible md:snap-none"]:
+              true,
+            ["md:grid-cols-1"]: notes.length === 1,
+            ["md:grid-cols-2"]: notes.length === 2,
+            ["md:grid-cols-3"]: notes.length >= 3,
+          })}
           aria-label="Yasmin's advice notes"
         >
           {notes.map((note) => (
