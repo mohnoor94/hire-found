@@ -6,6 +6,7 @@ import {
   useServicesTab,
   type ServiceAudience,
 } from "@/components/site/services-tab";
+import { useI18n } from "@/components/site/i18n";
 
 const EMPLOYER_SERVICES = [
   {
@@ -42,6 +43,7 @@ function isAudience(value: string): value is ServiceAudience {
 }
 
 export function Services() {
+  const t = useI18n();
   const shared = useServicesTab();
   const [localTab, setLocalTab] = useState<ServiceAudience>("employers");
   const tab = shared?.tab ?? localTab;
@@ -51,10 +53,10 @@ export function Services() {
     <section id="services" className="bg-warm-dark px-6 py-20 lg:py-28">
       <div className="mx-auto max-w-3xl">
         <h2 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
-          How Can I Help?
+          {t.services.heading}
         </h2>
         <p className="mt-4 max-w-[36rem] text-lg text-muted">
-          Whether you&apos;re building a team or building a career.
+          {t.services.subheading}
         </p>
 
         <TabsPrimitive.Root
@@ -69,10 +71,10 @@ export function Services() {
             className="flex flex-wrap gap-2"
           >
             <TabsPrimitive.Trigger value="employers" className="filter-pill">
-              For Employers
+              {t.services.tabEmployers}
             </TabsPrimitive.Trigger>
             <TabsPrimitive.Trigger value="candidates" className="filter-pill">
-              For Candidates
+              {t.services.tabCandidates}
             </TabsPrimitive.Trigger>
           </TabsPrimitive.List>
 
@@ -80,13 +82,13 @@ export function Services() {
             value="employers"
             className="hf-panel mt-10 outline-none"
           >
-            <ServiceList items={EMPLOYER_SERVICES} />
+            <ServiceList items={t.services.employers} />
           </TabsPrimitive.Content>
           <TabsPrimitive.Content
             value="candidates"
             className="hf-panel mt-10 outline-none"
           >
-            <ServiceList items={CANDIDATE_SERVICES} />
+            <ServiceList items={t.services.candidates} />
           </TabsPrimitive.Content>
         </TabsPrimitive.Root>
       </div>

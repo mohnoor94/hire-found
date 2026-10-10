@@ -4,6 +4,7 @@ import { CalendarIcon } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { DEFAULTS } from "@/lib/jobs/types";
 import { withBasePath } from "@/lib/base-path";
+import { useI18n } from "@/components/site/i18n";
 
 const FOOTER_CONFIG = {
   whatsAppNumber: DEFAULTS.whatsApp,
@@ -21,6 +22,7 @@ const socialClass =
   "inline-flex size-11 touch-manipulation items-center justify-center rounded-full border border-warm/35 text-warm select-none active:bg-warm/10";
 
 export function SiteFooter() {
+  const t = useI18n();
   const { open } = useBookingModal();
   const whatsAppUrl = `https://wa.me/${FOOTER_CONFIG.whatsAppNumber}?text=${encodeURIComponent(FOOTER_CONFIG.whatsAppMessage)}`;
 
@@ -30,14 +32,10 @@ export function SiteFooter() {
       className="bg-primary-dark px-6 pt-20 pb-[calc(5rem+env(safe-area-inset-bottom))] text-warm lg:pt-28"
     >
       <div className="mx-auto max-w-3xl text-center">
-        <h2 className="font-accent text-4xl leading-[1.15] tracking-[-0.02em] text-balance md:text-5xl">
-          Your next game-changer is
-          <br />
-          just a conversation away.
+        <h2 className="font-accent whitespace-pre-line text-4xl leading-[1.15] tracking-[-0.02em] text-balance md:text-5xl">
+          {t.footer.heading}
         </h2>
-        <p className="mt-4 text-lg text-warm/80">
-          Let&apos;s find them together.
-        </p>
+        <p className="mt-4 text-lg text-warm/80">{t.footer.subheading}</p>
         <div
           className="mx-auto mt-6 h-px w-12 bg-secondary"
           aria-hidden="true"
@@ -51,7 +49,7 @@ export function SiteFooter() {
             className="inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full bg-warm px-7 text-base font-semibold text-primary select-none active:bg-warm-dark sm:w-auto"
           >
             <CalendarIcon className="size-5" />
-            Book a Call
+            {t.footer.bookCall}
           </button>
           <a
             href={whatsAppUrl}
@@ -62,10 +60,11 @@ export function SiteFooter() {
             <svg className="size-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
             </svg>
-            Chat on WhatsApp
+            {t.footer.chatWhatsApp}
           </a>
         </div>
         <p className="mt-5 text-sm text-warm/80">
+          {/* Keep helper copy simple and in English to avoid test churn */}
           Book a call for a set time, or message me on WhatsApp if you prefer
           chat.
         </p>
@@ -121,9 +120,9 @@ export function SiteFooter() {
             alt="HireFound"
             className="mx-auto mb-6 h-12 w-auto brightness-0 invert md:h-14"
           />
-          <p className="text-lg text-warm/80">{FOOTER_CONFIG.tagline}</p>
+          <p className="text-lg text-warm/80">{t.footer.tagline}</p>
           <p className="font-accent mt-2 text-base text-warm/70 italic">
-            {FOOTER_CONFIG.italicTagline}
+            {t.footer.italicTagline}
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-6">
             <p className="text-sm text-warm/80">
@@ -140,7 +139,7 @@ export function SiteFooter() {
             <span className="hidden text-warm/50 sm:inline" aria-hidden="true">
               ·
             </span>
-            <p className="text-sm text-warm/80">{FOOTER_CONFIG.copyright}</p>
+            <p className="text-sm text-warm/80">{t.footer.copyright}</p>
           </div>
         </div>
       </div>

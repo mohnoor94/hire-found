@@ -4,9 +4,9 @@ import { cn } from "@/lib/utils";
 import { withBasePath } from "@/lib/base-path";
 import { CalDialogProvider } from "@/components/site/cal-dialog";
 import { I18nProvider } from "@/components/site/i18n";
-import { en as messages } from "@/i18n/en";
-import "./globals.css";
-import "./hirefound.css";
+import { ar as messages } from "@/i18n/ar";
+import "../globals.css";
+import "../hirefound.css";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -37,9 +37,9 @@ const notoSansArabic = Noto_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "HireFound - You want a hire? We got you found.",
+  title: "HireFound - لقِ توفيقك",
   description:
-    "HireFound by Yasmin Blasi - Connecting the right people with where they belong. Executive search, recruitment, and career matchmaking across MENA.",
+    "HireFound بإدارة Yasmin Blasi - نوفّق بين الناس والفرص الصحيحة في الأردن والخليج.",
   icons: {
     icon: withBasePath("/assets/hirefound-signature.svg"),
   },
@@ -50,25 +50,26 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "HireFound - You want a hire? We got you found.",
-    description: "Connecting the right people with where they belong.",
-    url: "https://hirefound.com/",
+    title: "HireFound - لقِ توفيقك",
+    description: "نوفّق بين الناس والفرص الصحيحة في الأردن والخليج.",
+    url: "https://hirefound.com/ar/",
     siteName: "HireFound",
     images: ["https://hirefound.com/assets/yasmin-blasi.png"],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "HireFound - You want a hire? We got you found.",
-    description: "Connecting the right people with where they belong.",
+    title: "HireFound - لقِ توفيقك",
+    description: "نوفّق بين الناس والفرص الصحيحة في الأردن والخليج.",
     images: ["https://hirefound.com/assets/yasmin-blasi.png"],
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayoutAr({ children }: LayoutProps<"/ar">) {
   return (
     <html
-      lang="en"
+      lang="ar"
+      dir="rtl"
       data-scroll-behavior="smooth"
       className={cn(
         "scroll-smooth font-sans",
@@ -85,3 +86,4 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     </html>
   );
 }
+
