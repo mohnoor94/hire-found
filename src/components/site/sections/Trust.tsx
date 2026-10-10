@@ -125,7 +125,13 @@ export function Trust() {
   const reduced = usePrefersReducedMotion();
   if (!TRUST_BENTO_ENABLED) return null;
   return (
-    <section id="trust" className="bg-warm px-6 py-20 lg:py-28">
+    <section
+      id="trust"
+      className={cn(
+        "bg-warm px-6 py-20 lg:py-28",
+        !SHOW_PRESS && "pt-14 lg:pt-20 pb-20 lg:pb-28",
+      )}
+    >
       <div className="mx-auto max-w-6xl">
         {SHOW_PRESS && (
           <>
@@ -138,7 +144,12 @@ export function Trust() {
           </>
         )}
 
-        <div className="mt-10 grid grid-cols-1 gap-4 md:mt-12 md:grid-cols-12 md:gap-6">
+        <div
+          className={cn(
+            "grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-6",
+            SHOW_PRESS ? "mt-10 md:mt-12" : "mt-4 md:mt-6",
+          )}
+        >
           {/* Testimonial - large tile */}
           <blockquote className="md:col-span-7 rounded-2xl border border-secondary/30 bg-white/80 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-white hover:shadow-card">
             <p className="font-accent text-2xl leading-snug text-pretty text-text-main italic md:text-3xl">
@@ -158,15 +169,15 @@ export function Trust() {
           <div className="md:col-span-5 grid grid-cols-2 gap-4 md:gap-5">
             {/* LinkedIn followers - numeric */}
             <div className="col-span-1 rounded-2xl border border-secondary/30 bg-white/80 p-5 shadow-xs transition-all duration-300 hover:bg-white hover:shadow-card">
-              <div className="flex items-baseline gap-1">
-                <CountUp
-                  target={44}
-                  durationMs={1200}
-                  disabled={reduced}
-                  className="font-accent text-4xl leading-none text-primary"
-                />
-                <span className="font-accent text-2xl leading-none text-primary">
-                  K+
+              <div className="flex items-baseline">
+                <span className="font-accent text-4xl leading-none text-primary">
+                  <CountUp
+                    target={44}
+                    durationMs={1200}
+                    disabled={reduced}
+                    className="inline"
+                  />
+                  <span className="align-baseline text-2xl leading-none">K+</span>
                 </span>
               </div>
               <p className="mt-2 text-sm font-semibold text-muted">
