@@ -63,11 +63,7 @@ export function SiteFooter() {
             {t.footer.chatWhatsApp}
           </a>
         </div>
-        <p className="mt-5 text-sm text-warm/80">
-          {/* Keep helper copy simple and in English to avoid test churn */}
-          Book a call for a set time, or message me on WhatsApp if you prefer
-          chat.
-        </p>
+        <p className="mt-5 text-sm text-warm/80">{t.footer.helper}</p>
 
         <div className="mt-8 flex items-center justify-center gap-3">
           <a

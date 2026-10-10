@@ -227,19 +227,17 @@ export function LiveVacancies() {
 
         <div className="mt-16 max-w-xl border-t border-secondary pt-10">
           <h3 className="font-accent text-2xl text-primary">
-            {/* Keep English microcopy to avoid test churn */}
-            Looking for more than a job listing?
+            {t.liveVacancies.bridgeHeading}
           </h3>
           <p className="mt-3 max-w-[42rem] text-sm leading-relaxed text-muted">
-            Get your CV rewritten, nail your next interview, or let me
-            personally match you with your dream role.
+            {t.liveVacancies.bridgeBody}
           </p>
           <a
             href="#services"
             className="career-bridge mt-5 inline-flex min-h-11 touch-manipulation items-center text-sm font-semibold text-primary underline decoration-primary/40 underline-offset-4"
             onClick={() => servicesTab?.setTab("candidates")}
           >
-            Explore Career Services
+            {t.liveVacancies.bridgeCta}
           </a>
         </div>
       </div>

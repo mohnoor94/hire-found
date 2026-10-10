@@ -54,6 +54,9 @@ export type Messages = {
     interest: string;
     bookCall: string;
     whatsapp: string;
+    bridgeHeading: string;
+    bridgeBody: string;
+    bridgeCta: string;
   };
   footer: {
     heading: string;
@@ -63,6 +66,7 @@ export type Messages = {
     bookCall: string;
     chatWhatsApp: string;
     copyright: string;
+    helper: string;
   };
   cal: {
     title: string;
@@ -79,6 +83,22 @@ export type Messages = {
     industriesHeading: string;
     countries: readonly string[];
     industries: readonly string[];
+  };
+  trust: {
+    heading: string;
+    press: readonly string[];
+    testimonial: {
+      body: string;
+      citeName: string;
+      citeRole: string;
+    };
+    stats: {
+      followersLabel: string;
+      juniorToCsuite: string;
+      menaRegion: string;
+      talkLabel: string;
+      tedxTitle: string;
+    };
   };
 };
 
@@ -111,8 +131,8 @@ export const en: Messages = {
     ctaExplore: "Explore Open Roles",
     facts: [
       "Direct Founder Access",
-      "10+ years in HR",
-      "MENA Region",
+      "10+ years of experience",
+      "MENA region",
       "Junior to C-Suite",
       "TEDx Speaker",
     ] as const,
@@ -202,6 +222,10 @@ export const en: Messages = {
       "Interested in opportunities? Reach out directly. I'd love to hear from you.",
     bookCall: "Book a Call",
     whatsapp: "WhatsApp",
+    bridgeHeading: "Looking for more than a job listing?",
+    bridgeBody:
+      "Get your CV rewritten, nail your next interview, or let me personally match you with your dream role.",
+    bridgeCta: "Explore Career Services",
   },
   footer: {
     heading: "Your next game-changer is\njust a conversation away.",
@@ -211,6 +235,8 @@ export const en: Messages = {
     bookCall: "Book a Call",
     chatWhatsApp: "Chat on WhatsApp",
     copyright: "© 2026 HireFound. All rights reserved.",
+    helper:
+      "Book a call for a set time, or message me on WhatsApp if you prefer chat.",
   },
   cal: {
     title: "Book a Call with Yasmin",
