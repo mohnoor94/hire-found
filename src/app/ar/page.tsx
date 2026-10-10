@@ -11,11 +11,11 @@ import { Trust } from "@/components/site/sections/Trust";
 import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
 import { Markets } from "@/components/site/sections/Markets";
 
-export default function HomePage() {
+export default function HomePageAr() {
   return (
     <>
       <a href="#hero" className="skip-link">
-        Skip to content
+        تخطَّ إلى المحتوى
       </a>
       <SiteNav />
       <ServicesTabProvider>
@@ -35,3 +35,4 @@ export default function HomePage() {
     </>
   );
 }
+

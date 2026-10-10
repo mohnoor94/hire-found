@@ -14,6 +14,7 @@ import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
 import { DEFAULTS } from "@/lib/jobs/types";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/components/site/i18n";
 
 const NAV_ITEMS = [
   {
@@ -121,6 +122,7 @@ const mobileCardClass = (active: boolean) =>
   );
 
 export function SiteNav() {
+  const t = useI18n();
   const pathname = usePathname() || "/";
   const onHomepage = isHomepagePath(pathname);
   const onJobs = isJobsPath(pathname);
@@ -129,6 +131,45 @@ export function SiteNav() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const condensed = useCondensedNav();
   const activeSection = useActiveSection(onHomepage);
+
+  const NAV_LOCALIZED = [
+    {
+      label: t.nav.about,
+      descriptor: t.nav.descriptors.about,
+      homepageHref: "#about",
+      otherHref: "/#about",
+      sectionId: "about",
+    },
+    {
+      label: t.nav.findYourMatch,
+      descriptor: t.nav.descriptors.vacancies,
+      homepageHref: "#vacancies",
+      otherHref: "/jobs/",
+      sectionId: "vacancies",
+    },
+    {
+      label: t.nav.services,
+      descriptor: t.nav.descriptors.services,
+      homepageHref: "#services",
+      otherHref: "/#services",
+      sectionId: "services",
+    },
+    {
+      label: t.nav.process,
+      descriptor: t.nav.descriptors.process,
+      homepageHref: "#how-it-works",
+      otherHref: "/#how-it-works",
+      sectionId: "how-it-works",
+    },
+  ] as const;
+
+  const items = NAV_LOCALIZED;
+  const isArabic = pathname.startsWith("/ar");
+  const toPath = isArabic
+    ? pathname.replace(/^\/ar/, "") || "/"
+    : pathname === "/"
+      ? "/ar"
+      : `/ar${pathname}`;
 
   return (
     <>
@@ -163,7 +204,7 @@ export function SiteNav() {
               role="group"
               aria-label="Sections"
             >
-              {NAV_ITEMS.map((item) => {
+              {items.map((item) => {
                 const href = onHomepage ? item.homepageHref : item.otherHref;
                 const jobsActive =
                   item.otherHref === "/jobs/" && onJobs;
@@ -192,12 +233,19 @@ export function SiteNav() {
               type="button"
               id="nav-book-a-call-desktop"
               className={desktopBookClass}
-              aria-label="Book a Call"
+              aria-label={t.nav.bookCall}
               onClick={(e) => open(e.currentTarget)}
             >
               <CalendarIcon className="size-4" aria-hidden="true" />
-              <span>Book a Call</span>
+              <span>{t.nav.bookCall}</span>
             </button>
+            <Link
+              href={toPath}
+              aria-label={t.switcher.ariaLabel}
+              className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/15 bg-white/70 px-3 text-xs font-semibold text-primary select-none transition-all duration-200 hover:bg-white active:scale-[0.98]"
+            >
+              {isArabic ? t.switcher.toEn : t.switcher.toAr}
+            </Link>
           </div>
 
           <button
@@ -251,7 +299,7 @@ export function SiteNav() {
 
             <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-5">
               <ul className="flex flex-col gap-3">
-                {NAV_ITEMS.map((item, index) => {
+                {items.map((item, index) => {
                   const href = onHomepage ? item.homepageHref : item.otherHref;
                   const jobsActive =
                     item.otherHref === "/jobs/" && onJobs;
@@ -328,7 +376,7 @@ export function SiteNav() {
                 }}
               >
                 <CalendarIcon className="size-5" aria-hidden="true" />
-                Book a Call
+                {t.nav.bookCall}
               </button>
               <a
                 id="nav-whatsapp-mobile"
@@ -347,6 +395,14 @@ export function SiteNav() {
                 </svg>
                 Chat on WhatsApp
               </a>
+              <Link
+                href={toPath}
+                onClick={() => setMenuOpen(false)}
+                aria-label={t.switcher.ariaLabel}
+                className="mt-3 inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-full border border-primary/20 px-5 text-sm font-semibold text-primary select-none transition-all duration-200 active:scale-[0.99] active:bg-primary/10"
+              >
+                {isArabic ? t.switcher.toEn : t.switcher.toAr}
+              </Link>
             </div>
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>

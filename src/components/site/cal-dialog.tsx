@@ -14,6 +14,7 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { ArrowUpRightIcon, XIcon } from "lucide-react";
 import { DEFAULTS } from "@/lib/jobs/types";
 import { withBasePath } from "@/lib/base-path";
+import { useI18n } from "@/components/site/i18n";
 
 type BookingModalContextValue = {
   open: (trigger?: HTMLElement | null) => void;
@@ -69,6 +70,7 @@ export function CalDialog({
 }) {
   const embedSrc = calEmbedSrc(DEFAULTS.calLink);
   const whatsAppUrl = `https://wa.me/${DEFAULTS.whatsApp}?text=${encodeURIComponent("Hi Yasmin! I found you through your website.")}`;
+  const t = useI18n();
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
@@ -89,7 +91,7 @@ export function CalDialog({
               id="booking-modal-title"
               className="font-accent flex-1 text-lg text-primary"
             >
-              Book a Call with Yasmin
+              {t.cal.title}
             </DialogPrimitive.Title>
             <DialogPrimitive.Close asChild>
               <button
@@ -115,11 +117,10 @@ export function CalDialog({
                 className="flex flex-col items-center justify-center px-6 py-16 text-center"
               >
                 <p className="font-accent text-xl text-text-main">
-                  Calendar unavailable
+                  {t.cal.unavailable}
                 </p>
                 <p className="mt-2 max-w-xs text-sm text-muted">
-                  The scheduling page didn&apos;t load. Try Cal.com, WhatsApp,
-                  or email instead.
+                  {t.cal.unavailableHint}
                 </p>
                 <div className="mt-6 flex w-full max-w-sm flex-col gap-3">
                   <a
@@ -128,7 +129,7 @@ export function CalDialog({
                     rel="noopener noreferrer"
                     className="inline-flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-warm select-none active:bg-primary-dark"
                   >
-                    Book on Cal.com
+                    {t.cal.bookOnCal}
                     <ArrowUpRightIcon className="size-4" />
                   </a>
                   <a
@@ -137,13 +138,13 @@ export function CalDialog({
                     rel="noopener noreferrer"
                     className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/20 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10"
                   >
-                    Chat on WhatsApp
+                    {t.cal.chatWhatsApp}
                   </a>
                   <a
                     href={`mailto:${DEFAULTS.email}`}
                     className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/20 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10"
                   >
-                    Email Yasmin
+                    {t.cal.emailYasmin}
                   </a>
                 </div>
               </div>
@@ -159,7 +160,7 @@ export function CalDialog({
                       aria-hidden="true"
                     />
                     <p className="mt-4 text-sm text-muted">
-                      Loading calendar...
+                      {t.cal.loading}
                     </p>
                   </div>
                 ) : null}

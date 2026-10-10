@@ -3,6 +3,7 @@
 import { CalendarIcon, ArrowUpRightIcon } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
+import { useI18n } from "@/components/site/i18n";
 
 const primaryCta =
   "group inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none transition-all duration-200 hover:bg-primary-light active:scale-[0.98] active:bg-primary-dark sm:w-auto shadow-warm";
@@ -12,6 +13,7 @@ const secondaryCta =
 
 export function Hero() {
   const { open } = useBookingModal();
+  const t = useI18n();
 
   return (
     <section
@@ -38,17 +40,17 @@ export function Hero() {
             </h1>
 
             <p className="mt-2 text-sm font-semibold tracking-[0.08em] text-muted uppercase">
-              by Yasmin Blasi
+              {t.hero.byline}
             </p>
 
             {/* Her Tagline: Simple, Bold, Direct */}
             <p className="font-accent mt-6 max-w-[34rem] text-3xl leading-[1.12] tracking-[-0.02em] text-primary sm:text-4xl md:text-[2.75rem]">
-              You want a hire? We got you found.
+              {t.hero.tagline}
             </p>
 
             {/* Simple Supporting Note */}
             <p className="mt-4 max-w-[32rem] text-base leading-relaxed text-muted sm:text-lg">
-              Matchmakers for meaningful careers across Jordan and the Gulf.
+              {t.hero.subline}
             </p>
 
             <div
@@ -65,7 +67,7 @@ export function Hero() {
                 className={primaryCta}
               >
                 <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
-                <span>I&apos;m Hiring Executive Talent</span>
+                <span>{t.hero.ctaHiring}</span>
                 <span
                   className="ml-0.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   aria-hidden="true"
@@ -74,7 +76,7 @@ export function Hero() {
                 </span>
               </button>
               <a href="#vacancies" id="hero-explore" className={secondaryCta}>
-                <span>Explore Open Roles</span>
+                <span>{t.hero.ctaExplore}</span>
                 <span
                   className="size-2 rounded-full bg-secondary transition-transform duration-200 group-hover:scale-125"
                   aria-hidden="true"
@@ -84,17 +86,20 @@ export function Hero() {
 
             {/* Authentic Facts (from About.tsx) with generous breathing room */}
             <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-t border-secondary/35 pt-6 text-xs text-muted">
-              <span className="flex items-center gap-1.5 font-semibold text-text-main">
+              {t.hero.facts.map((fact, i) => (
                 <span
-                  className="size-1.5 rounded-full bg-success"
-                  aria-hidden="true"
-                />
-                Direct Founder Access
-              </span>
-              <span>10+ Years of Experience</span>
-              <span>MENA Region</span>
-              <span>Junior to C-Suite</span>
-              <span>TEDx Speaker</span>
+                  key={`${fact}-${i}`}
+                  className="flex items-center gap-1.5 font-semibold text-text-main"
+                >
+                  {i === 0 ? (
+                    <span
+                      className="size-1.5 rounded-full bg-success"
+                      aria-hidden="true"
+                    />
+                  ) : null}
+                  {fact}
+                </span>
+              ))}
             </div>
           </div>
 
