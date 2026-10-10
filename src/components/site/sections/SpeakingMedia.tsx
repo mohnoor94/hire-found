@@ -1,74 +1,119 @@
 import { cn } from "@/lib/utils";
-import { ExternalLinkIcon, TvIcon, Mic2Icon, UsersIcon, GraduationCapIcon, BookOpenIcon } from "lucide-react";
-import Link from "next/link";
-import React from "react";
+import {
+  BookOpenIcon,
+  ExternalLinkIcon,
+  GraduationCapIcon,
+  Mic2Icon,
+  TvIcon,
+  UsersIcon,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+type AppearanceKind = "talk" | "tv" | "panel" | "conference" | "program";
 
 type Appearance = {
   id: string;
   title: string;
-  kind: "talk" | "tv" | "panel" | "conference" | "program";
+  kind: AppearanceKind;
   details?: string;
+  quote?: string;
   href?: string;
+  cta?: string;
 };
 
+// Verified from LinkedIn research (Oct 10 2026). Do not invent details.
+// TODO: "أثر 2" is mentioned in that research but details are unverified. Omit until confirmed.
 const APPEARANCES: Appearance[] = [
   {
     id: "tedx-zarqa",
     title: "TEDx Zarqa University",
     kind: "talk",
-    details:
-      'Message: "انت حر … ادعس ولا تسأل / اطلق العنان لأفكارك وطموحاتك"',
+    quote: "انت حر … ادعس ولا تسأل / اطلق العنان لأفكارك وطموحاتك",
   },
   {
     id: "almamlaka-tv-1",
-    title: "Al Mamlaka TV - Live interview",
+    title: "Al Mamlaka TV",
     kind: "tv",
-    details:
-      "Value of a university degree",
+    details: "Live interview on the value of a university degree",
     href: "https://lnkd.in/dYzurw9H",
+    cta: "Watch interview",
   },
   {
     id: "almamlaka-tv-2",
-    title: "Al Mamlaka TV - Live interview",
+    title: "Al Mamlaka TV",
     kind: "tv",
-    details:
-      "Professionalism at work",
+    details: "Live interview on professionalism at work",
+    quote: "المهنية يعني مهارات سلوكية ووزنها ٨٠% … الاحتراف يعني مهارات فنية ووزنها ٢٠%",
   },
   {
     id: "parachute16-meetup",
-    title: "Digital Graduates Industry Meetup - Parachute16",
+    title: "Parachute16 Digital Graduates Industry Meetup",
     kind: "panel",
-    details: "Panelist · Sep 2026 · ~200 graduates",
+    details: "Panelist · Sep 2026 · ~200 graduates · moderated by Ghassan Halawa",
   },
   {
     id: "graduates-conference-2025",
     title: "Graduates Conference 2025",
     kind: "conference",
-    details: "Sat 22/11/2025",
+    details: "مؤتمر الخريجين ٢٠٢٥ · Sat 22/11/2025",
   },
   {
     id: "800arabia-travel-to-learn",
-    title: "800Arabia - Travel To Learn",
+    title: "800Arabia Travel To Learn",
     kind: "program",
     details: "Emotional intelligence & leadership · Doha · Oct 2026",
   },
 ];
 
-function KindIcon({ kind }: { kind: Appearance["kind"] }) {
-  switch (kind) {
-    case "tv":
-      return <TvIcon className="size-4" aria-hidden="true" />;
-    case "talk":
-      return <Mic2Icon className="size-4" aria-hidden="true" />;
-    case "panel":
-      return <UsersIcon className="size-4" aria-hidden="true" />;
-    case "conference":
-      return <GraduationCapIcon className="size-4" aria-hidden="true" />;
-    case "program":
-      return <BookOpenIcon className="size-4" aria-hidden="true" />;
-    default:
-      return null;
-  }
+const KIND_META: Record<
+  AppearanceKind,
+  { label: string; Icon: LucideIcon }
+> = {
+  talk: { label: "Talk", Icon: Mic2Icon },
+  tv: { label: "Live TV", Icon: TvIcon },
+  panel: { label: "Panel", Icon: UsersIcon },
+  conference: { label: "Conference", Icon: GraduationCapIcon },
+  program: { label: "Program", Icon: BookOpenIcon },
+};
+
+const cardClass =
+  "group flex h-full flex-col rounded-2xl border border-secondary/30 bg-white/80 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 motion-reduce:transition-none hover:bg-white hover:shadow-card";
+
+function AppearanceBody({ item }: { item: Appearance }) {
+  const { label, Icon } = KIND_META[item.kind];
+  return (
+    <>
+      <div className="flex items-center gap-3">
+        <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
+          <Icon className="size-4" aria-hidden="true" />
+        </span>
+        <p className="text-xs font-semibold tracking-[0.12em] text-muted uppercase">
+          {label}
+        </p>
+      </div>
+      <h3 className="font-accent mt-4 text-xl leading-snug text-pretty text-primary">
+        {item.title}
+      </h3>
+      {item.details ? (
+        <p className="mt-2 text-sm leading-relaxed text-muted">{item.details}</p>
+      ) : null}
+      {item.quote ? (
+        <blockquote
+          dir="rtl"
+          lang="ar"
+          className="mt-3 text-sm leading-relaxed text-pretty text-text-main"
+        >
+          {item.quote}
+        </blockquote>
+      ) : null}
+      {item.cta ? (
+        <span className="mt-auto inline-flex min-h-11 items-center gap-1.5 pt-4 text-sm font-semibold text-primary">
+          {item.cta}
+          <ExternalLinkIcon className="size-3.5" aria-hidden="true" />
+        </span>
+      ) : null}
+    </>
+  );
 }
 
 export function SpeakingMedia() {
@@ -76,104 +121,47 @@ export function SpeakingMedia() {
     <section
       id="speaking-media"
       aria-labelledby="speaking-media-heading"
-      className="bg-warm px-6 py-16 sm:py-20"
+      className="bg-warm-dark px-6 py-20 lg:py-28"
     >
       <div className="mx-auto max-w-6xl">
         <div className="max-w-3xl">
           <h2
             id="speaking-media-heading"
-            className="font-accent text-3xl tracking-[-0.02em] text-primary md:text-4xl"
+            className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl"
           >
             Speaking & Media
           </h2>
-          <p className="mt-3 text-base text-muted">
-            Selected verified appearances: TEDx, live TV interviews, industry panels, and programs.
+          <p className="mt-4 max-w-[36rem] text-lg text-muted">
+            Verified talks, live interviews, panels, and programs, from TEDx
+            Zarqa University to Al Mamlaka TV.
           </p>
         </div>
 
-        <ul
-          className={cn(
-            "mt-8 grid gap-4",
-            "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
-          )}
-        >
-          {APPEARANCES.map((item, index) => {
-            return (
-              <li
-                key={item.id}
-                className="nav-mobile-card opacity-100 [animation-delay:calc(80ms+var(--i)*40ms)]"
-                style={
-                  {
-                    // used to stagger entry; disabled by prefers-reduced-motion rules below
-                    ["--i" as string]: String(index),
-                  } as React.CSSProperties
-                }
-              >
-                {item.href ? (
-                  <Link
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      "group block rounded-2xl border border-primary/10 bg-white/80 p-4 shadow-card transition-colors duration-200 hover:border-primary/20 hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
-                    )}
-                  >
-                    <div className="flex items-start gap-3">
-                      <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
-                        <KindIcon kind={item.kind} />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-start gap-2">
-                          <h3 className="min-w-0 flex-1 text-base leading-snug font-semibold text-text-main">
-                            {item.title}
-                          </h3>
-                          <span
-                            className="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/5 text-primary transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                            aria-hidden="true"
-                            title="Opens in new tab"
-                          >
-                            <ExternalLinkIcon className="size-3.5" />
-                          </span>
-                        </div>
-                        {item.details ? (
-                          <p className="mt-1 text-sm leading-snug text-muted">
-                            {item.details}
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-                  </Link>
-                ) : (
-                  <div
-                    className={cn(
-                      "group block rounded-2xl border border-primary/10 bg-white/80 p-4 shadow-card",
-                    )}
-                  >
-                    <div className="flex items-start gap-3">
-                      <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
-                        <KindIcon kind={item.kind} />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-start gap-2">
-                          <h3 className="min-w-0 flex-1 text-base leading-snug font-semibold text-text-main">
-                            {item.title}
-                          </h3>
-                        </div>
-                        {item.details ? (
-                          <p className="mt-1 text-sm leading-snug text-muted">
-                            {item.details}
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </li>
-            );
-          })}
+        <ul className="mt-12 grid list-none grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
+          {APPEARANCES.map((item) => (
+            <li key={item.id} className="h-full">
+              {item.href ? (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    cardClass,
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+                  )}
+                >
+                  <AppearanceBody item={item} />
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              ) : (
+                <div className={cardClass}>
+                  <AppearanceBody item={item} />
+                </div>
+              )}
+            </li>
+          ))}
         </ul>
       </div>
     </section>
   );
 }
-
