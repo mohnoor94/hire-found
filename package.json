@@ -40,6 +40,7 @@
     "fast-check": "^4.8.0",
     "firebase-tools": "^15.18.0",
     "jsdom": "^29.1.1",
+    "puppeteer": "^22.15.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.7"

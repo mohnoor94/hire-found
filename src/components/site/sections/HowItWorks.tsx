@@ -24,11 +24,11 @@ export function HowItWorks() {
           Three steps. One promise: I&apos;ll find your match.
         </p>
 
-        <ol className="relative mt-14 flex flex-col gap-0 border-l border-secondary pl-8">
+        <ol className="hiw-list relative mt-14 flex flex-col gap-0 border-l border-secondary pl-8">
           {STEPS.map((step, index) => (
-            <li key={step.title} className="relative pb-12 last:pb-0">
+            <li key={step.title} className="hiw-step relative pb-12 last:pb-0">
               <span
-                className="absolute top-1.5 -left-8 size-2.5 -translate-x-1/2 rounded-full bg-primary"
+                className="hiw-dot absolute top-1.5 -left-8 size-2.5 -translate-x-1/2 rounded-full bg-secondary/50"
                 aria-hidden="true"
               />
               <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">
