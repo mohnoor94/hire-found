@@ -24,6 +24,7 @@ import {
 } from "./types";
 import { deduplicateSlug } from "./slug";
 import type { JobFormData } from "./validation";
+import { clearJobsCache } from "./fetch-jobs";
 
 export type AdminFetchOptions = {
   db?: Firestore | undefined;
@@ -143,6 +144,7 @@ export async function createJob(
   }
 
   const ref = await addDoc(collection(db, "jobs"), payload);
+  clearJobsCache();
   return { id: ref.id, slug: uniqueSlug };
 }
 
@@ -165,6 +167,7 @@ export async function updateJob(
   }
 
   await updateDoc(doc(db, "jobs", jobId), payload);
+  clearJobsCache();
 }
 
 /** Delete a job document. */
@@ -174,6 +177,7 @@ export async function deleteJob(
 ): Promise<void> {
   const db = requireDb(options.db ?? defaultDb);
   await deleteDoc(doc(db, "jobs", jobId));
+  clearJobsCache();
 }
 
 /** Toggle isActive with a 10s timeout (vanilla parity). */
@@ -192,4 +196,5 @@ export async function toggleJobActive(
   });
 
   await Promise.race([updatePromise, timeoutPromise]);
+  clearJobsCache();
 }
