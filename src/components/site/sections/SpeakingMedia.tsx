@@ -55,7 +55,8 @@ const APPEARANCES: Appearance[] = [
     id: "graduates-conference-2025",
     title: "Graduates Conference 2025",
     kind: "conference",
-    details: "مؤتمر الخريجين ٢٠٢٥ · Sat 22/11/2025",
+    details: "Sat 22/11/2025",
+    quote: "مؤتمر الخريجين ٢٠٢٥",
   },
   {
     id: "800arabia-travel-to-learn",
@@ -77,7 +78,7 @@ const KIND_META: Record<
 };
 
 const cardClass =
-  "group flex h-full flex-col rounded-2xl border border-secondary/30 bg-white/80 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 motion-reduce:transition-none hover:bg-white hover:shadow-card";
+  "group flex h-full min-h-0 w-full flex-col rounded-2xl border border-secondary/30 bg-white/80 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 motion-reduce:transition-none hover:bg-white hover:shadow-card lg:min-h-[19rem]";
 
 function AppearanceBody({ item }: { item: Appearance }) {
   const { label, Icon } = KIND_META[item.kind];
@@ -137,9 +138,9 @@ export function SpeakingMedia() {
           </p>
         </div>
 
-        <ul className="mt-12 grid list-none grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
+        <ul className="mt-12 grid list-none grid-cols-1 items-stretch gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
           {APPEARANCES.map((item) => (
-            <li key={item.id} className="h-full">
+            <li key={item.id} className="grid [&>*]:h-full">
               {item.href ? (
                 <a
                   href={item.href}
