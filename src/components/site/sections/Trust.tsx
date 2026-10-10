@@ -7,9 +7,8 @@ import { TRUST_BENTO_ENABLED } from "@/lib/flags";
 
 const PRESS = [
   "TEDx Zarqa University",
-  "Leaders of Arabia",
-  "Arab Icons",
-  "Career Spotlight Jordan",
+  "Al Mamlaka TV (two live interviews)",
+  "parachute16 Digital Graduates Industry Meetup (panelist)",
 ] as const;
 
 /**
@@ -139,36 +138,37 @@ export function Trust() {
           {/* Testimonial - large tile */}
           <blockquote className="md:col-span-7 rounded-2xl border border-secondary/30 bg-white/80 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-white hover:shadow-card">
             <p className="font-accent text-2xl leading-snug text-pretty text-text-main italic md:text-3xl">
-              Yasmin didn&apos;t just find us a candidate, she found us a team
-              member. Someone who gets our culture, our speed, our vision.
-              That&apos;s rare.
+              I appreciate your professional support and valuable advice. Thank
+              you for taking the time to guide me.
             </p>
             <footer className="mt-6 text-sm text-muted">
               <cite className="font-semibold text-text-main not-italic">
-                Sarah A.
+                Kholoud Joudeh
               </cite>
               <span aria-hidden="true"> · </span>
-              CEO, Tech Startup
+              Client (Food Quality &amp; Safety / QA lead)
             </footer>
           </blockquote>
 
           {/* Right column - stats and TEDx */}
           <div className="md:col-span-5 grid grid-cols-2 gap-4 md:gap-5">
-            {/* 10+ years in HR - numeric */}
+            {/* LinkedIn followers - numeric */}
             <div className="col-span-1 rounded-2xl border border-secondary/30 bg-white/80 p-5 shadow-xs transition-all duration-300 hover:bg-white hover:shadow-card">
               <div className="flex items-baseline gap-1">
                 <CountUp
-                  target={10}
+                  target={44}
                   durationMs={1200}
                   disabled={reduced}
                   className="font-accent text-4xl leading-none text-primary"
                 />
                 <span className="font-accent text-2xl leading-none text-primary">
-                  +
+                  K+
                 </span>
               </div>
-              <p className="mt-2 text-sm font-semibold text-muted">years in HR</p>
-              <p className="sr-only">10 plus years in HR</p>
+              <p className="mt-2 text-sm font-semibold text-muted">
+                LinkedIn followers
+              </p>
+              <p className="sr-only">44,016 LinkedIn followers</p>
             </div>
 
             {/* Junior to C-suite */}

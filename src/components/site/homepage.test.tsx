@@ -152,7 +152,7 @@ describe("Homepage", () => {
     const trust = container.querySelector("#trust");
     expect(trust?.hasAttribute("hidden")).toBe(true);
     expect(trust?.textContent).toContain("TEDx Zarqa University");
-    expect(trust?.textContent).toContain("Sarah A.");
+    expect(trust?.textContent).toContain("Kholoud Joudeh");
   });
 
   it("renders the founder editorial portrait, credentials, and facts in About", async () => {
@@ -167,7 +167,7 @@ describe("Homepage", () => {
     expect(about?.textContent).toContain("And that's exactly the point.");
     expect(about?.textContent).toContain("Yasmin Blasi");
     expect(about?.textContent).toContain("Founder & Executive Matchmaker");
-    expect(about?.textContent).toContain("10+ years in HR");
+    expect(about?.textContent).toContain("10+ years of experience");
     expect(about?.textContent).toContain("Matchmaking, Not Seat-Filling");
     expect(about?.textContent).toContain("Your Story, Not Just Keywords");
     expect(about?.textContent).toContain("From First Call to First Day");
