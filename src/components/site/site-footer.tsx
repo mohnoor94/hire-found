@@ -13,7 +13,7 @@ const FOOTER_CONFIG = {
   email: DEFAULTS.email,
   tagline: "Looking for a Hire? We've got you Found.",
   italicTagline: "Find your match. Find your future.",
-  credit: { text: "by Noor", url: "https://bynoor.io" },
+  credit: { name: "Noor", url: "https://bynoor.io" },
   copyright: "© 2026 HireFound. All rights reserved.",
 };
 
@@ -133,22 +133,34 @@ export function SiteFooter() {
           <p className="font-accent mt-2 text-base text-linen/70 italic">
             {FOOTER_CONFIG.italicTagline}
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-6">
-            <p className="text-sm text-linen/80">
-              Built{" "}
-              <a
-                href={FOOTER_CONFIG.credit.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-linen/50 underline-offset-4 hover:text-linen"
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 text-xs tracking-wide text-linen/55 sm:flex-row sm:gap-4">
+            <p className="inline-flex items-center gap-1.5">
+              <span>Built with</span>
+              <svg
+                className="size-3.5 shrink-0 text-secondary"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
               >
-                {FOOTER_CONFIG.credit.text}
-              </a>
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+              <span className="sr-only">love</span>
+              <span>
+                by{" "}
+                <a
+                  href={FOOTER_CONFIG.credit.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-linen/75 underline decoration-linen/35 underline-offset-4 transition-colors hover:text-linen hover:decoration-linen/60"
+                >
+                  {FOOTER_CONFIG.credit.name}
+                </a>
+              </span>
             </p>
-            <span className="hidden text-linen/50 sm:inline" aria-hidden="true">
+            <span className="hidden text-linen/35 sm:inline" aria-hidden="true">
               ·
             </span>
-            <p className="text-sm text-linen/80">{FOOTER_CONFIG.copyright}</p>
+            <p>{FOOTER_CONFIG.copyright}</p>
           </div>
         </div>
       </div>
