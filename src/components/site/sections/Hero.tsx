@@ -83,8 +83,10 @@ function RevealWords({ text }: { text: string }) {
       aria-label={text}
     >
       {words.map((w, i) => (
-        <span key={`${w}-${i}`} className="text-reveal-wrap">
-          <span className="text-reveal">{w}</span>
+        <span key={`${w}-${i}`}>
+          <span className="text-reveal-wrap">
+            <span className="text-reveal">{w}</span>
+          </span>
           {i < words.length - 1 ? " " : ""}
         </span>
       ))}
