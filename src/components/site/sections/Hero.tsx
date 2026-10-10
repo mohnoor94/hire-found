@@ -1,23 +1,122 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { CalendarIcon, ArrowUpRightIcon } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
+import { useServicesTab } from "@/components/site/services-tab";
 
 const primaryCta =
-  "group inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none transition-all duration-200 hover:bg-primary-light active:scale-[0.98] active:bg-primary-dark sm:w-auto shadow-warm";
+  "group relative inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 overflow-hidden rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none transition-all duration-200 hover:bg-primary-light hover:shadow-glow active:scale-[0.98] active:bg-primary-dark sm:w-auto shadow-warm ring-1 ring-primary/0 hover:ring-primary/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 const secondaryCta =
-  "group inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full border border-primary/25 bg-white/70 px-6 text-base font-semibold text-primary select-none transition-all duration-200 hover:bg-white hover:border-primary/45 active:scale-[0.98] active:bg-warm-dark sm:w-auto";
+  "group inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full border border-primary/25 bg-card/70 px-6 text-base font-semibold text-primary select-none transition-all duration-200 hover:bg-card hover:border-primary/45 active:scale-[0.98] active:bg-card sm:w-auto";
+
+function useHeroPointer(ref: React.RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")
+      .matches;
+    if (reduce) return;
+    if (window.matchMedia?.("(pointer: coarse)").matches) return;
+    let raf = 0;
+    const onMove = (e: MouseEvent) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        el.style.setProperty("--mx", `${x}%`);
+        el.style.setProperty("--my", `${y}%`);
+      });
+    };
+    el.addEventListener("mousemove", onMove);
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("mousemove", onMove);
+    };
+  }, [ref]);
+}
+
+function RevealWords({ text }: { text: string }) {
+  const hostRef = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")
+      .matches;
+    if (reduce) {
+      hostRef.current?.querySelectorAll(".text-reveal").forEach((n) => {
+        n.classList.add("visible");
+      });
+      return;
+    }
+    if (typeof IntersectionObserver === "undefined") {
+      hostRef.current?.querySelectorAll(".text-reveal").forEach((n) => {
+        n.classList.add("visible");
+      });
+      return;
+    }
+    const target = hostRef.current;
+    if (!target) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0]) return;
+        if (entries[0].isIntersecting) {
+          const words = target.querySelectorAll<HTMLElement>(".text-reveal");
+          words.forEach((el, i) => {
+            el.style.transitionDelay = `${Math.min(i * 70, 800)}ms`;
+            requestAnimationFrame(() => el.classList.add("visible"));
+          });
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -15% 0px", threshold: 0 },
+    );
+    io.observe(target);
+    return () => io.disconnect();
+  }, []);
+  const words = text.split(" ");
+  return (
+    <p
+      ref={hostRef}
+      className="font-accent mt-6 max-w-[34rem] text-3xl leading-[1.12] tracking-[-0.02em] text-primary sm:text-4xl md:text-[2.75rem]"
+      aria-label={text}
+    >
+      {words.map((w, i) => (
+        <span key={`${w}-${i}`}>
+          <span className="text-reveal-wrap">
+            <span className="text-reveal">{w}</span>
+          </span>
+          {i < words.length - 1 ? " " : ""}
+        </span>
+      ))}
+    </p>
+  );
+}
 
 export function Hero() {
   const { open } = useBookingModal();
+  const services = useServicesTab();
+  const tab = services?.tab ?? "employers";
+  const isEmployers = tab === "employers";
+  const heroRef = useRef<HTMLElement>(null);
+  useHeroPointer(heroRef);
 
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-[min(100svh,54rem)] flex-col justify-center overflow-hidden bg-warm pt-[calc(var(--site-nav-offset)+1.5rem)] pb-16 md:py-20 lg:py-24"
+      ref={heroRef}
+      className="relative isolate flex min-h-[min(100svh,54rem)] flex-col justify-center overflow-hidden bg-background pt-[calc(var(--site-nav-offset)+1.5rem)] pb-16 md:py-20 lg:py-24"
     >
+      {/* Animated gradient mesh that softly follows the cursor (desktop only) */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.55] blur-2xl will-change-transform motion-safe:transition-[background-position] motion-safe:duration-200"
+        style={{
+          background:
+            "radial-gradient(720px circle at var(--mx,50%) var(--my,50%), color-mix(in oklch, var(--primary) 18%, transparent), transparent 60%), radial-gradient(560px circle at calc(100% - var(--mx,50%)) calc(100% - var(--my,50%)), color-mix(in oklch, var(--secondary) 12%, transparent), transparent 65%)",
+        }}
+        aria-hidden="true"
+      />
       {/* Ambient background glow for warmth and depth */}
       <div
         className="pointer-events-none absolute -top-32 right-1/4 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(212,165,116,0.14)_0%,transparent_70%)] blur-3xl"
@@ -41,14 +140,34 @@ export function Hero() {
               by Yasmin Blasi
             </p>
 
-            {/* Her Tagline: Simple, Bold, Direct */}
-            <p className="font-accent mt-6 max-w-[34rem] text-3xl leading-[1.12] tracking-[-0.02em] text-primary sm:text-4xl md:text-[2.75rem]">
-              You want a hire? We got you found.
-            </p>
+            {/* Her Tagline with reveal */}
+            <RevealWords text="You want a hire? We got you found." />
 
-            {/* Simple Supporting Note */}
+            {/* Audience toggle */}
+            <div className="mt-5 inline-flex items-center gap-1 rounded-full bg-primary/[0.06] p-1">
+              <button
+                type="button"
+                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${isEmployers ? "bg-card text-primary shadow-sm" : "text-muted hover:text-primary"}`}
+                aria-pressed={isEmployers}
+                onClick={() => services?.setTab("employers")}
+              >
+                Employers
+              </button>
+              <button
+                type="button"
+                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${!isEmployers ? "bg-card text-primary shadow-sm" : "text-muted hover:text-primary"}`}
+                aria-pressed={!isEmployers}
+                onClick={() => services?.setTab("candidates")}
+              >
+                Candidates
+              </button>
+            </div>
+
+            {/* Supporting Note (swaps by audience) */}
             <p className="mt-4 max-w-[32rem] text-base leading-relaxed text-muted sm:text-lg">
-              Matchmakers for meaningful careers across Jordan and the Gulf.
+              {isEmployers
+                ? "Executive search and culture-first hiring across Jordan and the Gulf."
+                : "Career matchmaking and coaching for roles across Jordan and the Gulf."}
             </p>
 
             <div
@@ -56,30 +175,54 @@ export function Hero() {
               aria-hidden="true"
             />
 
-            {/* Dual CTAs */}
+            {/* Dual CTAs - primary swaps by audience */}
             <div className="mt-8 flex flex-col gap-3.5 sm:flex-row sm:items-center">
-              <button
-                type="button"
-                id="hero-hiring"
-                onClick={(e) => open(e.currentTarget)}
-                className={primaryCta}
-              >
-                <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
-                <span>I&apos;m Hiring Executive Talent</span>
-                <span
-                  className="ml-0.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  aria-hidden="true"
+              {isEmployers ? (
+                <button
+                  type="button"
+                  id="hero-hiring"
+                  onClick={(e) => open(e.currentTarget)}
+                  className={primaryCta}
                 >
-                  <ArrowUpRightIcon className="size-3.5" />
-                </span>
-              </button>
-              <a href="#vacancies" id="hero-explore" className={secondaryCta}>
-                <span>Explore Open Roles</span>
-                <span
-                  className="size-2 rounded-full bg-secondary transition-transform duration-200 group-hover:scale-125"
-                  aria-hidden="true"
-                />
-              </a>
+                  <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
+                  <span>I&apos;m Hiring Executive Talent</span>
+                  <span
+                    className="ml-0.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    aria-hidden="true"
+                  >
+                    <ArrowUpRightIcon className="size-3.5" />
+                  </span>
+                </button>
+              ) : (
+                <a href="#vacancies" id="hero-see-roles" className={primaryCta}>
+                  <span>See Open Roles</span>
+                  <span
+                    className="ml-1 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    aria-hidden="true"
+                  >
+                    <ArrowUpRightIcon className="size-3.5" />
+                  </span>
+                </a>
+              )}
+              {isEmployers ? (
+                <a href="#vacancies" id="hero-explore" className={secondaryCta}>
+                  <span>Explore Open Roles</span>
+                  <span
+                    className="size-2 rounded-full bg-secondary transition-transform duration-200 group-hover:scale-125"
+                    aria-hidden="true"
+                  />
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  id="hero-talk"
+                  onClick={(e) => open(e.currentTarget)}
+                  className={secondaryCta}
+                >
+                  <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
+                  <span>Talk to Yasmin</span>
+                </button>
+              )}
             </div>
 
             {/* Authentic Facts (from About.tsx) with generous breathing room */}
@@ -99,9 +242,9 @@ export function Hero() {
           </div>
 
           {/* Right Column: Spacious & Calm Atelier Cards (No giant photo, no cramped stats) */}
-          <div className="hf-atelier-deck flex flex-col gap-5">
+          <div className="hf-atelier-deck hidden flex-col gap-5 md:flex">
             {/* Atelier Card 1: Founder Cameo Seal */}
-            <figure className="relative overflow-hidden rounded-xl border border-secondary/40 bg-white/90 p-6 shadow-card backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
+            <figure className="relative overflow-hidden rounded-xl border border-secondary/40 bg-card/90 p-6 shadow-card backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
               <div className="flex items-center gap-4">
                 <div className="relative size-16 shrink-0 sm:size-20">
                   <div
@@ -136,7 +279,7 @@ export function Hero() {
             </figure>
 
             {/* Atelier Card 2: Simple Standard (from AntiPitch.tsx) */}
-            <div className="rounded-xl border border-primary/15 bg-white p-6 shadow-card transition-all duration-300 hover:shadow-card-hover">
+            <div className="rounded-xl border border-primary/15 bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover">
               <div className="flex items-center justify-between border-b border-warm-dark pb-3.5">
                 <p className="text-[11px] font-bold tracking-[0.14em] text-muted uppercase">
                   How We Work

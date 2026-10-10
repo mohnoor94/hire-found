@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -98,7 +97,7 @@ function PressMarquee() {
   const items = useMemo(() => [...PRESS, ...PRESS], []);
   return (
     <div
-      className="group relative overflow-hidden rounded-2xl border border-secondary/30 bg-white/70 shadow-xs hover:shadow-card"
+      className="group relative overflow-hidden rounded-2xl border border-secondary/30 bg-card/70 shadow-xs hover:shadow-card"
       aria-label="Press"
     >
       <div
@@ -151,7 +150,7 @@ export function Trust() {
           )}
         >
           {/* Testimonial - large tile */}
-          <blockquote className="md:col-span-7 rounded-2xl border border-secondary/30 bg-white/80 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-white hover:shadow-card">
+          <blockquote className="md:col-span-7 rounded-2xl border border-secondary/30 bg-card/80 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-card hover:shadow-card">
             <p className="font-accent text-2xl leading-snug text-pretty text-text-main italic md:text-3xl">
               I appreciate your professional support and valuable advice. Thank
               you for taking the time to guide me.
@@ -168,7 +167,7 @@ export function Trust() {
           {/* Right column - stats and TEDx */}
           <div className="md:col-span-5 grid grid-cols-2 gap-4 md:gap-5">
             {/* LinkedIn followers - numeric */}
-            <div className="col-span-1 rounded-2xl border border-secondary/30 bg-white/80 p-5 shadow-xs transition-all duration-300 hover:bg-white hover:shadow-card">
+            <div className="col-span-1 rounded-2xl border border-secondary/30 bg-card/80 p-5 shadow-xs transition-all duration-300 hover:bg-card hover:shadow-card">
               <div className="flex items-baseline">
                 <span className="font-accent text-4xl leading-none text-primary">
                   <CountUp
@@ -187,21 +186,21 @@ export function Trust() {
             </div>
 
             {/* Junior to C-suite */}
-            <div className="col-span-1 rounded-2xl border border-secondary/30 bg-white/80 p-5 shadow-xs transition-all duration-300 hover:bg-white hover:shadow-card">
+            <div className="col-span-1 rounded-2xl border border-secondary/30 bg-card/80 p-5 shadow-xs transition-all duration-300 hover:bg-card hover:shadow-card">
               <p className="font-accent text-xl leading-snug text-primary">
                 Junior to C-suite
               </p>
             </div>
 
             {/* MENA region */}
-            <div className="col-span-1 rounded-2xl border border-secondary/30 bg-white/80 p-5 shadow-xs transition-all duration-300 hover:bg-white hover:shadow-card">
+            <div className="col-span-1 rounded-2xl border border-secondary/30 bg-card/80 p-5 shadow-xs transition-all duration-300 hover:bg-card hover:shadow-card">
               <p className="font-accent text-xl leading-snug text-primary">
                 MENA region
               </p>
             </div>
 
             {/* TEDx tile */}
-            <div className="col-span-1 rounded-2xl border border-secondary/30 bg-white/85 p-5 shadow-xs transition-all duration-300 hover:bg-white hover:shadow-card">
+            <div className="col-span-1 rounded-2xl border border-secondary/30 bg-card/85 p-5 shadow-xs transition-all duration-300 hover:bg-card hover:shadow-card">
               <p className="text-xs font-semibold tracking-[0.12em] text-muted uppercase">
                 Talk
               </p>

@@ -31,10 +31,10 @@ export function About() {
           {/* Founder Editorial Portrait */}
           <figure className="relative mx-auto w-full max-w-sm lg:max-w-none">
             <div
-              className="absolute -inset-2 -rotate-1 rounded-3xl border border-secondary/35 bg-white/40 sm:-inset-2.5"
+              className="absolute -inset-2 -rotate-1 rounded-3xl border border-secondary/35 bg-card/40 sm:-inset-2.5"
               aria-hidden="true"
             />
-            <div className="relative overflow-hidden rounded-2xl border border-secondary/40 bg-white shadow-card transition-all duration-300 hover:shadow-card-hover">
+            <div className="relative overflow-hidden rounded-2xl border border-secondary/40 bg-card shadow-card transition-all duration-300 hover:shadow-card-hover">
               <img
                 src={withBasePath("/assets/yasmin-blasi.png")}
                 alt="Yasmin Blasi, founder of HireFound"
@@ -43,7 +43,7 @@ export function About() {
                 className="aspect-[4/4.5] w-full object-cover object-[center_12%]"
                 loading="lazy"
               />
-              <div className="border-t border-secondary/25 bg-white/95 p-4 sm:p-5">
+              <div className="border-t border-secondary/25 bg-card/95 p-4 sm:p-5">
                 <figcaption className="font-accent text-lg font-bold text-primary">
                   Yasmin Blasi
                 </figcaption>
@@ -83,7 +83,7 @@ export function About() {
               {FACTS.map((fact) => (
                 <span
                   key={fact}
-                  className="rounded-full border border-primary/15 bg-white/70 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-primary shadow-xs"
+                  className="rounded-full border border-primary/15 bg-card/70 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-primary shadow-xs"
                 >
                   {fact}
                 </span>
@@ -98,7 +98,7 @@ export function About() {
             {PILLARS.map((point) => (
               <div
                 key={point.title}
-                className="reveal-on-scroll rounded-2xl border border-secondary/30 bg-white/70 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-white hover:shadow-card"
+                className="reveal-on-scroll rounded-2xl border border-secondary/30 bg-card/70 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-card hover:shadow-card"
               >
                 <h3 className="font-accent text-2xl leading-snug text-balance text-primary">
                   {point.title}

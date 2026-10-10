@@ -101,14 +101,14 @@ export function RichTextEditor({
   if (!editor) {
     return (
       <div
-        className="min-h-56 rounded-2xl border border-primary/15 bg-white"
+        className="min-h-56 rounded-2xl border border-primary/15 bg-card"
         aria-hidden="true"
       />
     );
   }
 
   return (
-    <div className="tiptap-frame max-w-full min-w-0 overflow-x-clip scroll-mb-32 rounded-2xl border border-primary/25 bg-white has-[.tiptap-editor:focus]:border-primary has-[.tiptap-editor:focus]:outline-2 has-[.tiptap-editor:focus]:outline-offset-2 has-[.tiptap-editor:focus]:outline-primary">
+    <div className="tiptap-frame max-w-full min-w-0 overflow-x-clip scroll-mb-32 rounded-2xl border border-primary/25 bg-card has-[.tiptap-editor:focus]:border-primary has-[.tiptap-editor:focus]:outline-2 has-[.tiptap-editor:focus]:outline-offset-2 has-[.tiptap-editor:focus]:outline-primary">
       <EditorToolbar editor={editor} label={ariaLabel} fieldId={id} />
       <EditorContent editor={editor} className="max-w-full min-w-0 overflow-x-clip" />
     </div>
@@ -236,7 +236,7 @@ function EditorToolbar({
   return (
     <div
       dir="ltr"
-      className="max-w-full min-w-0 overflow-x-clip rounded-t-2xl border-b border-primary/15 bg-warm"
+      className="max-w-full min-w-0 overflow-x-clip rounded-t-2xl border-b border-primary/15 bg-background"
     >
       <div
         ref={barRef}

@@ -700,7 +700,7 @@ export function JobEditor({
           </div>
         </section>
 
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-primary/15 bg-warm pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-primary/15 bg-background pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-3 sm:flex-row sm:items-center sm:justify-end">
             {errorCount > 0 ? (
               <p
@@ -747,7 +747,7 @@ export function JobEditor({
         }}
       >
         <DialogContent
-          className="rounded-2xl border border-primary/15 bg-warm p-6 shadow-card sm:max-w-md"
+          className="rounded-2xl border border-primary/15 bg-card p-6 shadow-card sm:max-w-md"
           showCloseButton={false}
         >
           <DialogHeader>
@@ -760,7 +760,7 @@ export function JobEditor({
                 : "Nothing is published until you save."}
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="-mx-6 -mb-6 border-primary/15 bg-warm p-6 sm:justify-stretch">
+          <DialogFooter className="-mx-6 -mb-6 border-primary/15 bg-card p-6 sm:justify-stretch">
             <button
               type="button"
               onClick={dismissDiscard}

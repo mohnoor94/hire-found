@@ -159,7 +159,7 @@ export function JobsPageClient() {
                     placeholder="Role, city, or company"
                     autoComplete="off"
                     enterKeyHint="search"
-                    className="h-12 w-full rounded-full border border-primary/25 bg-white px-5 text-base text-text-main placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                    className="h-12 w-full rounded-full border border-primary/25 bg-card px-5 text-base text-text-main placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                   />
                 </div>
 
