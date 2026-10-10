@@ -104,7 +104,7 @@ function ServiceList({
       {items.map((item) => (
         <li
           key={item.title}
-          className="border-t border-border py-8 first:border-t-0 first:pt-0"
+          className="reveal-on-scroll border-t border-border py-8 first:border-t-0 first:pt-0"
         >
           <h3 className="font-accent text-2xl text-primary">{item.title}</h3>
           <p className="mt-3 max-w-[65ch] leading-relaxed text-muted">
