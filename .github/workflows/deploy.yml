@@ -30,8 +30,8 @@ jobs:
         env:
           # Project Pages → "/hire-found"; empty when a custom domain is attached.
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-          # Enable Trust/social proof section in production build
-          NEXT_PUBLIC_ENABLE_TRUST_BENTO: "1"
+          # Disable Trust/social proof section in production build
+          NEXT_PUBLIC_ENABLE_TRUST_BENTO: "0"
         run: npm run build
       - name: Confirm static export
         env:
