@@ -45,7 +45,10 @@ export default function JobsPage() {
         Skip to content
       </a>
       <SiteNav />
-      <main id="main-content" className="pt-[calc(var(--site-nav-offset)+1.5rem)]">
+      <main
+        id="main-content"
+        className="page-transition-enter pt-[calc(var(--site-nav-offset)+1.5rem)]"
+      >
         <Suspense fallback={<JobsFallback />}>
           <JobsPageClient />
         </Suspense>

@@ -18,7 +18,7 @@ export default function HomePage() {
       </a>
       <AmbientBackdrop />
       <SiteNav />
-      <main className="relative z-10">
+      <main className="page-transition-enter relative z-10">
         <Hero />
         <About />
         <LiveVacancies />

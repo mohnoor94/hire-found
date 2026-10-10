@@ -71,6 +71,12 @@ export function JobsPageClient() {
     setRetryKey((key) => key + 1);
   }
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [slug]);
+
   const detailJob = slug
     ? loading
       ? undefined
@@ -91,7 +97,7 @@ export function JobsPageClient() {
     filtered.length === 1 ? "1 open role" : `${filtered.length} open roles`;
 
   return (
-    <>
+    <div key={slug || "directory"} className="job-view-transition">
       {!slug ? (
         <section className="bg-warm px-6 pt-6 pb-2 lg:pt-10">
           <div className="mx-auto max-w-5xl">
@@ -218,6 +224,6 @@ export function JobsPageClient() {
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 }
