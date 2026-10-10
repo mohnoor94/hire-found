@@ -3,7 +3,7 @@ import { withBasePath } from "@/lib/base-path";
 import { useI18n } from "@/components/site/i18n";
 
 const FACTS = [
-  "10+ years in HR",
+  "10+ years of experience",
   "MENA region",
   "Junior to C-suite",
   "TEDx speaker",
@@ -97,7 +97,7 @@ export function About() {
             {t.about.pillars.map((point) => (
               <div
                 key={point.title}
-                className="rounded-2xl border border-secondary/30 bg-white/70 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-white hover:shadow-card"
+                className="reveal-on-scroll rounded-2xl border border-secondary/30 bg-white/70 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-white hover:shadow-card"
               >
                 <h3 className="font-accent text-2xl leading-snug text-balance text-primary">
                   {point.title}
