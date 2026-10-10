@@ -61,11 +61,13 @@ export function CalDialog({
   onOpenChange,
   status,
   onFrameLoad,
+  vtName,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   status: LoadStatus;
   onFrameLoad: () => void;
+  vtName?: string | null;
 }) {
   const embedSrc = calEmbedSrc(DEFAULTS.calLink);
   const whatsAppUrl = `https://wa.me/${DEFAULTS.whatsApp}?text=${encodeURIComponent("Hi Yasmin! I found you through your website.")}`;
@@ -78,6 +80,13 @@ export function CalDialog({
           id="booking-modal"
           aria-describedby="booking-modal-description"
           className="fixed inset-0 z-[70] flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-warm pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] outline-none data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:h-auto sm:max-h-[min(92dvh,840px)] sm:w-[min(calc(100%-2rem),44rem)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:card-surface sm:pt-0 sm:pb-0 sm:data-open:zoom-in-95 sm:data-closed:zoom-out-95"
+          style={
+            vtName
+              ? ({
+                  viewTransitionName: vtName,
+                } as React.CSSProperties)
+              : undefined
+          }
         >
           <div className="flex h-16 shrink-0 items-center gap-3 border-b border-primary/10 pr-[max(0.5rem,env(safe-area-inset-right))] pl-[max(1rem,env(safe-area-inset-left))]">
             <img
@@ -198,6 +207,7 @@ export function CalDialogProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<LoadStatus>("loading");
   const triggerRef = useRef<HTMLElement | null>(null);
   const loadedRef = useRef(false);
+  const [vtName, setVtName] = useState<string | null>(null);
 
   const restoreFocus = useCallback(() => {
     focusBookingReturn(triggerRef.current);
@@ -205,6 +215,7 @@ export function CalDialogProvider({ children }: { children: ReactNode }) {
 
   const close = useCallback(() => {
     setIsOpen(false);
+    setVtName(null);
     queueMicrotask(restoreFocus);
   }, [restoreFocus]);
 
@@ -216,7 +227,25 @@ export function CalDialogProvider({ children }: { children: ReactNode }) {
         : null);
     loadedRef.current = false;
     setStatus("loading");
-    setIsOpen(true);
+    const reduce =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+    const supportsVT = typeof document.startViewTransition === "function";
+    const willVt = supportsVT && !reduce && !!triggerRef.current;
+    if (willVt) {
+      // Shared element name for CTA → dialog morph
+      setVtName("booking-cta");
+      try {
+        (triggerRef.current as HTMLElement).style.viewTransitionName =
+          "booking-cta";
+      } catch {
+        // Ignore
+      }
+      document.startViewTransition?.(() => {
+        setIsOpen(true);
+      });
+    } else {
+      setIsOpen(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -256,6 +285,7 @@ export function CalDialogProvider({ children }: { children: ReactNode }) {
         onOpenChange={onOpenChange}
         status={status}
         onFrameLoad={onFrameLoad}
+        vtName={vtName}
       />
     </BookingModalContext.Provider>
   );

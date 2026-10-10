@@ -14,6 +14,7 @@ import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
 import { DEFAULTS } from "@/lib/jobs/types";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/site/theme-toggle";
 
 const NAV_ITEMS = [
   {
@@ -198,6 +199,7 @@ export function SiteNav() {
               <CalendarIcon className="size-4" aria-hidden="true" />
               <span>Book a Call</span>
             </button>
+            <ThemeToggle />
           </div>
 
           <button
@@ -347,6 +349,9 @@ export function SiteNav() {
                 </svg>
                 Chat on WhatsApp
               </a>
+              <div className="mt-3 flex justify-end">
+                <ThemeToggle />
+              </div>
             </div>
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>

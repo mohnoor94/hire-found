@@ -231,6 +231,9 @@
     scroll-padding-top: var(--site-nav-offset);
     -webkit-tap-highlight-color: transparent;
   }
+  html.dark {
+    color-scheme: dark;
+  }
   body {
     @apply bg-warm text-text-main;
   }
@@ -323,6 +326,14 @@
     filter: saturate(0.92) contrast(1.03);
   }
 }
+
+  /* View Transitions tune for booking CTA → dialog */
+  @media (prefers-reduced-motion: no-preference) {
+    ::view-transition-group(booking-cta) {
+      animation-timing-function: cubic-bezier(0.2, 0.9, 0.2, 1);
+      animation-duration: 0.35s;
+    }
+  }
 
 /* Yasmin editor: draft text matches the public job description. */
 .tiptap-frame {
