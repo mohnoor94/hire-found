@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { VacanciesEmptyIllustration } from "@/components/jobs/vacancies-empty-illustration";
+import {
+  LoupeSearchEmptyIllustration,
+  FolderArchivedJobIllustration,
+} from "@/components/illustrations";
 
 const primaryAction =
   "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
@@ -11,12 +15,22 @@ type JobsEmptyStateProps = {
 };
 
 export function JobsEmptyState({ message }: JobsEmptyStateProps) {
+  const isSearchFilter =
+    message.toLowerCase().includes("search") ||
+    message.toLowerCase().includes("match");
+
   return (
     <div className="flex flex-col items-start py-10">
-      <VacanciesEmptyIllustration />
+      {isSearchFilter ? (
+        <LoupeSearchEmptyIllustration width={140} height={122} />
+      ) : (
+        <VacanciesEmptyIllustration />
+      )}
       <p className="mt-6 mb-2 text-lg font-semibold text-text-main">{message}</p>
       <p className="max-w-[65ch] text-sm leading-relaxed text-muted">
-        New openings show up here as they come in. Check back soon.
+        {isSearchFilter
+          ? "Try a different search term or clear filters to see all live openings."
+          : "New openings show up here as they come in. Check back soon."}
       </p>
     </div>
   );
@@ -50,6 +64,9 @@ export function JobsErrorState({ onRetry }: JobsErrorStateProps) {
 export function JobsNotFoundState() {
   return (
     <div className="flex flex-col items-start py-10">
+      <div className="mb-6">
+        <FolderArchivedJobIllustration width={140} height={122} />
+      </div>
       <h1 className="font-accent mb-2 text-3xl text-primary">Job Not Found</h1>
       <p className="mb-8 max-w-[65ch] text-sm leading-relaxed text-muted">
         This role is no longer available or may have been removed. Browse the

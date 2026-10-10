@@ -14,6 +14,7 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { ArrowUpRightIcon, XIcon } from "lucide-react";
 import { DEFAULTS } from "@/lib/jobs/types";
 import { withBasePath } from "@/lib/base-path";
+import { PhoneDirectLineIllustration } from "@/components/illustrations";
 
 type BookingModalContextValue = {
   open: (trigger?: HTMLElement | null) => void;
@@ -138,8 +139,11 @@ export function CalDialog({
             {status === "error" ? (
               <div
                 id="booking-error"
-                className="flex flex-col items-center justify-center px-6 py-16 text-center"
+                className="flex flex-col items-center justify-center px-6 py-12 text-center"
               >
+                <div className="mb-3">
+                  <PhoneDirectLineIllustration width={140} height={120} />
+                </div>
                 <p className="font-accent text-xl text-text-main">
                   Calendar unavailable
                 </p>

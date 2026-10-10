@@ -1,4 +1,9 @@
 import { withBasePath } from "@/lib/base-path";
+import {
+  PillarArmchair,
+  PillarManuscript,
+  PillarDoorway,
+} from "@/components/illustrations";
 
 const FACTS = [
   "10+ years of experience",
@@ -11,14 +16,17 @@ const PILLARS = [
   {
     title: "Matchmaking, Not Seat-Filling",
     body: "I find people who fit your culture, not just your job description.",
+    Emblem: PillarArmchair,
   },
   {
     title: "Your Story, Not Just Keywords",
     body: "Every candidate is more than a CV. Every company is more than a job post.",
+    Emblem: PillarManuscript,
   },
   {
     title: "From First Call to First Day",
     body: "I don't disappear after the offer letter. I'm here for the whole journey.",
+    Emblem: PillarDoorway,
   },
 ] as const;
 
@@ -95,19 +103,27 @@ export function About() {
         {/* Bottom: The Matchmaking Standard (3 Pillars) */}
         <div className="mt-16 border-t border-secondary/35 pt-12 lg:mt-20 lg:pt-14">
           <div className="grid gap-6 md:grid-cols-3 md:gap-8">
-            {PILLARS.map((point) => (
-              <div
-                key={point.title}
-                className="reveal-on-scroll rounded-2xl border border-secondary/30 bg-card/70 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-card hover:shadow-card"
-              >
-                <h3 className="font-accent text-2xl leading-snug text-balance text-primary">
-                  {point.title}
-                </h3>
-                <p className="mt-3 text-base leading-relaxed text-muted">
-                  {point.body}
-                </p>
-              </div>
-            ))}
+            {PILLARS.map((point) => {
+              const EmblemComponent = point.Emblem;
+              return (
+                <div
+                  key={point.title}
+                  className="reveal-on-scroll group flex flex-col justify-between rounded-2xl border border-secondary/30 bg-card/70 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-card hover:shadow-card"
+                >
+                  <div>
+                    <div className="mb-4 inline-flex rounded-xl border border-secondary/20 bg-warm/50 p-2 shadow-xs transition-transform duration-300 group-hover:scale-105">
+                      <EmblemComponent width={48} height={48} />
+                    </div>
+                    <h3 className="font-accent text-2xl leading-snug text-balance text-primary">
+                      {point.title}
+                    </h3>
+                    <p className="mt-3 text-base leading-relaxed text-muted">
+                      {point.body}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

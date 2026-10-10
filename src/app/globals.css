@@ -534,9 +534,189 @@
   animation: vacancies-empty-sway 4s ease-in-out infinite;
 }
 
+/* HireFound Editorial Illustration System: Motion choreography */
+@keyframes hf-ill-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes hf-ill-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes hf-ill-steam {
+  0% {
+    opacity: 0.25;
+    transform: translateY(0) scaleX(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: translateY(-3px) scaleX(1.1);
+  }
+  100% {
+    opacity: 0.25;
+    transform: translateY(0) scaleX(1);
+  }
+}
+
+@keyframes hf-ill-pulse-glow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes hf-butterfly-hover-flutter {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  25% {
+    transform: scaleX(0.7) rotate(-3deg);
+  }
+  50% {
+    transform: scaleX(0.9) rotate(2deg);
+  }
+  75% {
+    transform: scaleX(0.65) rotate(-2deg);
+  }
+}
+
+.hf-ill-bob {
+  animation: hf-ill-bob 3.2s ease-in-out infinite;
+}
+
+.hf-ill-sway {
+  animation: hf-ill-sway 4s ease-in-out infinite;
+}
+
+.hf-ill-steam {
+  animation: hf-ill-steam 2.8s ease-in-out infinite;
+}
+
+.hf-ill-pulse-glow {
+  animation: hf-ill-pulse-glow 3.5s ease-in-out infinite;
+}
+
+.group:hover .hf-butterfly-flutter {
+  animation: hf-butterfly-hover-flutter 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .vacancies-empty-butterfly,
-  .vacancies-empty-nameplate {
-    animation: none;
+  .vacancies-empty-nameplate,
+  .hf-ill-bob,
+  .hf-ill-sway,
+  .hf-ill-steam,
+  .hf-ill-pulse-glow,
+  .hf-butterfly-flutter {
+    animation: none !important;
+  }
+}
+
+/* Yasmin's Space: a personal, lively world apart from the public site. */
+@keyframes ys-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ys-drift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(3deg);
+  }
+}
+
+@keyframes ys-glow-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+
+.ys-enter {
+  animation: ys-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: var(--ys-delay, 0ms);
+}
+
+.ys-butterfly {
+  animation: ys-drift 4.5s ease-in-out infinite;
+}
+
+.ys-ambient {
+  background:
+    radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--primary) 14%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      closest-side at 70% 75%,
+      color-mix(in srgb, var(--secondary) 22%, transparent),
+      transparent
+    );
+  animation: ys-glow-breathe 7s ease-in-out infinite;
+}
+
+.ys-card {
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ys-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--primary) 30%, var(--secondary));
+    box-shadow: 0 16px 36px rgba(122, 30, 74, 0.14);
+  }
+}
+
+.ys-card:active {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ys-enter,
+  .ys-butterfly,
+  .ys-ambient {
+    animation: none !important;
+  }
+  .ys-card,
+  .ys-card:hover,
+  .ys-card:active {
+    transform: none;
   }
 }

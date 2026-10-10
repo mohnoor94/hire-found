@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { CalendarIcon, ArrowUpRightIcon } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
+import { ButterflyMicro } from "@/components/illustrations";
 
 const primaryCta =
   "group relative inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 overflow-hidden rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none transition-all duration-200 hover:bg-primary-light hover:shadow-glow active:scale-[0.98] active:bg-primary-dark sm:w-auto shadow-warm ring-1 ring-primary/0 hover:ring-primary/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
@@ -158,7 +159,14 @@ export function Hero() {
                 className={primaryCta}
               >
                 <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
-                <span>I&apos;m Hiring Executive Talent</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <span>I&apos;m Hiring Executive Talent</span>
+                  <ButterflyMicro
+                    width={18}
+                    height={14}
+                    className="hf-butterfly-flutter transition-transform duration-200 group-hover:scale-110"
+                  />
+                </span>
                 <span
                   className="ml-0.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   aria-hidden="true"
@@ -234,9 +242,12 @@ export function Hero() {
                 <p className="text-[11px] font-bold tracking-[0.14em] text-muted uppercase">
                   How We Work
                 </p>
-                <span className="text-[11px] font-semibold text-primary">
-                  Jordan &amp; The Gulf
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-semibold text-primary">
+                    Jordan &amp; The Gulf
+                  </span>
+                  <ButterflyMicro width={16} height={13} className="opacity-75" />
+                </div>
               </div>
 
               <div className="mt-4 space-y-3">
