@@ -242,23 +242,14 @@ describe("Phase 3 Site Components Parity", () => {
   });
 
   describe("LiveVacancies", () => {
-    it("renders jobs, category filters, and a Career Bridge to services", async () => {
+    it("renders jobs and category filters", async () => {
       await act(async () => {
-        root.render(
-          <CalDialogProvider>
-            <LiveVacancies />
-          </CalDialogProvider>,
-        );
+        root.render(<LiveVacancies />);
       });
 
       // Filter pills should be rendered when multiple categories exist
       const pills = container.querySelectorAll(".filter-pill");
       expect(pills.length).toBeGreaterThanOrEqual(2); // "All", "Hospitality", "Tech"
-
-      // Career bridge link
-      const careerBridge = container.querySelector(".career-bridge");
-      expect(careerBridge).not.toBeNull();
-      expect(careerBridge?.getAttribute("href")).toBe("#services");
 
       // Job titles
       expect(container.textContent).toContain("Senior Barista");

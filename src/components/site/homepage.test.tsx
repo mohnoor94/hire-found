@@ -5,9 +5,7 @@ import { Hero } from "./sections/Hero";
 import { About } from "./sections/About";
 import { Services } from "./sections/Services";
 import { Trust } from "./sections/Trust";
-import { LiveVacancies } from "./live-vacancies";
 import { CalDialogProvider } from "./cal-dialog";
-import { ServicesTabProvider } from "./services-tab";
 
 vi.mock("next/link", () => ({
   default: ({
@@ -66,7 +64,7 @@ describe("Homepage", () => {
     container.remove();
   });
 
-  it("leads with HireFound and the two fold actions, without a WhatsApp chat", async () => {
+  it("leads with HireFound employer focus and dual CTAs, without audience toggle or candidate coaching", async () => {
     await act(async () => {
       root.render(
         <CalDialogProvider>
@@ -77,11 +75,19 @@ describe("Homepage", () => {
 
     expect(container.querySelector("h1")?.textContent).toBe("HireFound");
     expect(container.textContent).toContain("I'm Hiring Executive Talent");
+    expect(container.textContent).toContain(
+      "Executive search and culture-first hiring across Jordan and the Gulf.",
+    );
     expect(container.querySelector("#hero-explore")?.getAttribute("href")).toBe(
       "#vacancies",
     );
     expect(container.querySelector("#hero-chat")).toBeNull();
     expect(container.querySelector("#typing-text")).toBeNull();
+    expect(container.querySelector("#hero-talk")).toBeNull();
+    expect(container.textContent).not.toContain(
+      "Career matchmaking and coaching",
+    );
+    expect(container.querySelector("button[aria-pressed]")).toBeNull();
     expect(
       container.querySelector('img[src*="yasmin-blasi"]'),
     ).not.toBeNull();
@@ -101,9 +107,7 @@ describe("Homepage", () => {
     await act(async () => {
       root.render(
         <CalDialogProvider>
-          <ServicesTabProvider>
-            <Services />
-          </ServicesTabProvider>
+          <Services />
         </CalDialogProvider>,
       );
     });
@@ -131,39 +135,6 @@ describe("Homepage", () => {
     ) as HTMLButtonElement;
     await act(async () => {
       bookBtn.click();
-    });
-    expect(
-      document.getElementById("booking-modal")?.getAttribute("data-state"),
-    ).toBe("open");
-  });
-
-  it("bridges from live vacancies to employer services and booking", async () => {
-    await act(async () => {
-      root.render(
-        <CalDialogProvider>
-          <ServicesTabProvider>
-            <LiveVacancies />
-            <Services />
-          </ServicesTabProvider>
-        </CalDialogProvider>,
-      );
-    });
-
-    expect(container.textContent).toContain(
-      "Need to fill a role like one of these?",
-    );
-    const bridge = container.querySelector(
-      ".career-bridge",
-    ) as HTMLAnchorElement;
-    expect(bridge).not.toBeNull();
-    expect(bridge.getAttribute("href")).toBe("#services");
-
-    const hireTalentBtn = container.querySelector(
-      "#vacancies-hire-talent",
-    ) as HTMLButtonElement;
-    expect(hireTalentBtn).not.toBeNull();
-    await act(async () => {
-      hireTalentBtn.click();
     });
     expect(
       document.getElementById("booking-modal")?.getAttribute("data-state"),

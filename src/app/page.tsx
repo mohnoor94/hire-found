@@ -1,7 +1,6 @@
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
 import { ActionStack } from "@/components/site/action-stack";
-import { ServicesTabProvider } from "@/components/site/services-tab";
 import { LiveVacancies } from "@/components/site/live-vacancies";
 import { Hero } from "@/components/site/sections/Hero";
 import { About } from "@/components/site/sections/About";
@@ -17,18 +16,16 @@ export default function HomePage() {
         Skip to content
       </a>
       <SiteNav />
-      <ServicesTabProvider>
-        <main>
-          <Hero />
-          <About />
-          <LiveVacancies />
-          <Services />
-          <HowItWorks />
-          <Trust />
-        </main>
-        <WaveWarmToDark from="warm" />
-        <SiteFooter />
-      </ServicesTabProvider>
+      <main>
+        <Hero />
+        <About />
+        <LiveVacancies />
+        <Services />
+        <HowItWorks />
+        <Trust />
+      </main>
+      <WaveWarmToDark from="warm" />
+      <SiteFooter />
       <ActionStack />
     </>
   );

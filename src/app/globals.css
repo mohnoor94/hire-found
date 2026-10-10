@@ -502,3 +502,41 @@
   content: attr(data-placeholder);
   pointer-events: none;
 }
+
+/* Vacancies empty state: gentle waiting-room motion */
+@keyframes vacancies-empty-bob {
+  0%,
+  100% {
+    transform: translate(98px, 28px) translateY(0);
+  }
+  50% {
+    transform: translate(98px, 28px) translateY(-3px);
+  }
+}
+
+@keyframes vacancies-empty-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+.vacancies-empty-butterfly {
+  transform-origin: 8px 14px;
+  animation: vacancies-empty-bob 3.2s ease-in-out infinite;
+}
+
+.vacancies-empty-nameplate {
+  transform-origin: 80px 40px;
+  animation: vacancies-empty-sway 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vacancies-empty-butterfly,
+  .vacancies-empty-nameplate {
+    animation: none;
+  }
+}

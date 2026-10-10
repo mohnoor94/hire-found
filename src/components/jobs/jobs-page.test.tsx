@@ -173,9 +173,7 @@ describe("Phase 4 Jobs page", () => {
     });
     await flushEffects();
 
-    expect(container.textContent).toContain(
-      "No open roles available right now.",
-    );
+    expect(container.textContent).toContain("Quiet on the board");
   });
 
   it("shows error state and retries", async () => {
@@ -215,7 +213,7 @@ describe("Phase 4 Jobs page", () => {
     expect(container.querySelector("#job-search")).toBeNull();
   });
 
-  it("renders Arabic description and fallback apply CTAs", async () => {
+  it("renders Arabic description and fallback apply CTAs without employer booking", async () => {
     await act(async () => {
       root.render(
         renderWithProviders(<JobDetail job={sampleJobs[0]!} />),
@@ -230,7 +228,7 @@ describe("Phase 4 Jobs page", () => {
     ).toBeTruthy();
     expect(
       container.querySelector('[aria-label="Book a call with Yasmin"]'),
-    ).toBeTruthy();
+    ).toBeNull();
     expect(container.querySelector("iframe")).toBeNull();
     expect(
       container.querySelector('[data-back-link="true"]')?.getAttribute("href"),
@@ -238,7 +236,7 @@ describe("Phase 4 Jobs page", () => {
     expect(document.title).toBe("Senior Barista | HireFound");
   });
 
-  it("embeds Tally when tallyFormId is set", async () => {
+  it("embeds Tally when tallyFormId is set without employer booking", async () => {
     await act(async () => {
       root.render(
         renderWithProviders(<JobDetail job={sampleJobs[1]!} />),
@@ -258,7 +256,7 @@ describe("Phase 4 Jobs page", () => {
     expect(container.textContent).toContain("Have Questions?");
     expect(
       container.querySelector('[aria-label="Book a call with Yasmin"]'),
-    ).toBeTruthy();
+    ).toBeNull();
     expect(
       container.querySelector('[aria-label="Contact via WhatsApp"]'),
     ).toBeTruthy();

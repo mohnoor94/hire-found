@@ -85,8 +85,8 @@ export function JobsPageClient() {
   const emptyMessage = query.trim()
     ? "No roles match that search."
     : activeCategory === "all"
-      ? "No open roles available right now."
-      : `No jobs available in ${formatCategoryLabel(activeCategory)}.`;
+      ? "Quiet on the board"
+      : `Nothing in ${formatCategoryLabel(activeCategory)} just yet`;
   const countLabel =
     filtered.length === 1 ? "1 open role" : `${filtered.length} open roles`;
 

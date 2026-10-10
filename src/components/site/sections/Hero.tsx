@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { CalendarIcon, ArrowUpRightIcon } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
-import { useServicesTab } from "@/components/site/services-tab";
 
 const primaryCta =
   "group relative inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 overflow-hidden rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none transition-all duration-200 hover:bg-primary-light hover:shadow-glow active:scale-[0.98] active:bg-primary-dark sm:w-auto shadow-warm ring-1 ring-primary/0 hover:ring-primary/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
@@ -96,9 +95,6 @@ function RevealWords({ text }: { text: string }) {
 
 export function Hero() {
   const { open } = useBookingModal();
-  const services = useServicesTab();
-  const tab = services?.tab ?? "employers";
-  const isEmployers = tab === "employers";
   const heroRef = useRef<HTMLElement>(null);
   useHeroPointer(heroRef);
 
@@ -143,31 +139,9 @@ export function Hero() {
             {/* Her Tagline with reveal */}
             <RevealWords text="You want a hire? We got you found." />
 
-            {/* Audience toggle */}
-            <div className="mt-5 inline-flex items-center gap-1 rounded-full bg-primary/[0.06] p-1">
-              <button
-                type="button"
-                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${isEmployers ? "bg-card text-primary shadow-sm" : "text-muted hover:text-primary"}`}
-                aria-pressed={isEmployers}
-                onClick={() => services?.setTab("employers")}
-              >
-                Employers
-              </button>
-              <button
-                type="button"
-                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${!isEmployers ? "bg-card text-primary shadow-sm" : "text-muted hover:text-primary"}`}
-                aria-pressed={!isEmployers}
-                onClick={() => services?.setTab("candidates")}
-              >
-                Candidates
-              </button>
-            </div>
-
-            {/* Supporting Note (swaps by audience) */}
+            {/* Supporting Note */}
             <p className="mt-4 max-w-[32rem] text-base leading-relaxed text-muted sm:text-lg">
-              {isEmployers
-                ? "Executive search and culture-first hiring across Jordan and the Gulf."
-                : "Career matchmaking and coaching for roles across Jordan and the Gulf."}
+              Executive search and culture-first hiring across Jordan and the Gulf.
             </p>
 
             <div
@@ -175,54 +149,30 @@ export function Hero() {
               aria-hidden="true"
             />
 
-            {/* Dual CTAs - primary swaps by audience */}
+            {/* Dual CTAs: Employer Consultation & Candidate Open Roles */}
             <div className="mt-8 flex flex-col gap-3.5 sm:flex-row sm:items-center">
-              {isEmployers ? (
-                <button
-                  type="button"
-                  id="hero-hiring"
-                  onClick={(e) => open(e.currentTarget)}
-                  className={primaryCta}
+              <button
+                type="button"
+                id="hero-hiring"
+                onClick={(e) => open(e.currentTarget)}
+                className={primaryCta}
+              >
+                <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
+                <span>I&apos;m Hiring Executive Talent</span>
+                <span
+                  className="ml-0.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  aria-hidden="true"
                 >
-                  <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
-                  <span>I&apos;m Hiring Executive Talent</span>
-                  <span
-                    className="ml-0.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    aria-hidden="true"
-                  >
-                    <ArrowUpRightIcon className="size-3.5" />
-                  </span>
-                </button>
-              ) : (
-                <a href="#vacancies" id="hero-see-roles" className={primaryCta}>
-                  <span>See Open Roles</span>
-                  <span
-                    className="ml-1 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    aria-hidden="true"
-                  >
-                    <ArrowUpRightIcon className="size-3.5" />
-                  </span>
-                </a>
-              )}
-              {isEmployers ? (
-                <a href="#vacancies" id="hero-explore" className={secondaryCta}>
-                  <span>Explore Open Roles</span>
-                  <span
-                    className="size-2 rounded-full bg-secondary transition-transform duration-200 group-hover:scale-125"
-                    aria-hidden="true"
-                  />
-                </a>
-              ) : (
-                <button
-                  type="button"
-                  id="hero-talk"
-                  onClick={(e) => open(e.currentTarget)}
-                  className={secondaryCta}
-                >
-                  <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
-                  <span>Talk to Yasmin</span>
-                </button>
-              )}
+                  <ArrowUpRightIcon className="size-3.5" />
+                </span>
+              </button>
+              <a href="#vacancies" id="hero-explore" className={secondaryCta}>
+                <span>Explore Open Roles</span>
+                <span
+                  className="size-2 rounded-full bg-secondary transition-transform duration-200 group-hover:scale-125"
+                  aria-hidden="true"
+                />
+              </a>
             </div>
 
             {/* Authentic Facts (from About.tsx) with generous breathing room */}

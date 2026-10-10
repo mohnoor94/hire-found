@@ -1,15 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Calendar } from "lucide-react";
-import { useBookingModal } from "@/components/site/cal-dialog";
-import { DEFAULTS } from "@/lib/jobs";
+import { VacanciesEmptyIllustration } from "@/components/jobs/vacancies-empty-illustration";
 
 const primaryAction =
   "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
-
-const quietAction =
-  "inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 type JobsEmptyStateProps = {
   message: string;
@@ -18,9 +13,10 @@ type JobsEmptyStateProps = {
 export function JobsEmptyState({ message }: JobsEmptyStateProps) {
   return (
     <div className="flex flex-col items-start py-10">
-      <p className="mb-2 text-lg font-semibold text-text-main">{message}</p>
+      <VacanciesEmptyIllustration />
+      <p className="mt-6 mb-2 text-lg font-semibold text-text-main">{message}</p>
       <p className="max-w-[65ch] text-sm leading-relaxed text-muted">
-        New client mandates are published regularly. Check back soon or clear your filters to view all active openings.
+        New openings show up here as they come in. Check back soon.
       </p>
     </div>
   );
