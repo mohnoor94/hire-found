@@ -100,6 +100,80 @@ export function About() {
           </div>
         </div>
 
+        {/* My story - compact career timeline */}
+        <div className="mt-16 border-t border-secondary/35 pt-12 lg:mt-20 lg:pt-14">
+          <div className="max-w-3xl">
+            <h3 className="font-accent text-3xl leading-tight text-primary md:text-4xl">
+              My story
+            </h3>
+            <ol
+              className="relative mt-6 space-y-6 pl-7 before:absolute before:left-1 before:top-0.5 before:bottom-0.5 before:w-px before:bg-secondary/40"
+              aria-label="Career timeline"
+            >
+              <li className="relative pl-6 reveal-on-scroll">
+                <span
+                  className="absolute left-0 top-2.5 h-3 w-3 -translate-x-1/2 rounded-full bg-primary ring-4 ring-warm-dark"
+                  aria-hidden="true"
+                />
+                <time className="block text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                  2013 to 2017
+                </time>
+                <p className="mt-1 text-base leading-relaxed text-text-main">
+                  Advertising, operations, VIP sales, and business support.
+                </p>
+              </li>
+              <li className="relative pl-6 reveal-on-scroll">
+                <span
+                  className="absolute left-0 top-2.5 h-3 w-3 -translate-x-1/2 rounded-full bg-primary ring-4 ring-warm-dark"
+                  aria-hidden="true"
+                />
+                <time className="block text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                  2017 to 2019
+                </time>
+                <p className="mt-1 text-base leading-relaxed text-text-main">
+                  Senior HR Officer, Manaseer Group - Magnesia.
+                </p>
+              </li>
+              <li className="relative pl-6 reveal-on-scroll">
+                <span
+                  className="absolute left-0 top-2.5 h-3 w-3 -translate-x-1/2 rounded-full bg-secondary ring-4 ring-warm-dark"
+                  aria-hidden="true"
+                />
+                <time className="block text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                  2019 to 2023
+                </time>
+                <p className="mt-1 text-base leading-relaxed text-text-main">
+                  Four years at home raising my daughters, then back to work with fresh focus.
+                </p>
+              </li>
+              <li className="relative pl-6 reveal-on-scroll">
+                <span
+                  className="absolute left-0 top-2.5 h-3 w-3 -translate-x-1/2 rounded-full bg-primary ring-4 ring-warm-dark"
+                  aria-hidden="true"
+                />
+                <time className="block text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                  2024
+                </time>
+                <p className="mt-1 text-base leading-relaxed text-text-main">
+                  Back to recruiting with HCDmena as a part-time Recruitment Specialist.
+                </p>
+              </li>
+              <li className="relative pl-6 reveal-on-scroll">
+                <span
+                  className="absolute left-0 top-2.5 h-3 w-3 -translate-x-1/2 rounded-full bg-primary ring-4 ring-warm-dark"
+                  aria-hidden="true"
+                />
+                <time className="block text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                  May 2025 to present
+                </time>
+                <p className="mt-1 text-base leading-relaxed text-text-main">
+                  Founded HireFound. A boutique recruiting practice focused on lasting matches.
+                </p>
+              </li>
+            </ol>
+          </div>
+        </div>
+
         {/* Bottom: The Matchmaking Standard (3 Pillars) */}
         <div className="mt-16 border-t border-secondary/35 pt-12 lg:mt-20 lg:pt-14">
           <div className="grid gap-6 md:grid-cols-3 md:gap-8">
