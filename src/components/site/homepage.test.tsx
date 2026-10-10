@@ -5,6 +5,7 @@ import { Hero } from "./sections/Hero";
 import { About } from "./sections/About";
 import { Services } from "./sections/Services";
 import { Trust } from "./sections/Trust";
+import { YasminNotes } from "./sections/YasminNotes";
 import { LiveVacancies } from "./live-vacancies";
 import { CalDialogProvider } from "./cal-dialog";
 import { ServicesTabProvider } from "./services-tab";
@@ -173,5 +174,46 @@ describe("Homepage", () => {
 
     const img = about?.querySelector('img[src*="yasmin-blasi"]');
     expect(img).not.toBeNull();
+  });
+
+  it("renders Yasmin's Notes with verbatim Arabic, tags, and source links", async () => {
+    await act(async () => {
+      root.render(<YasminNotes />);
+    });
+
+    const section = container.querySelector("#yasmins-notes");
+    expect(section).not.toBeNull();
+    expect(section?.querySelector("h2")?.textContent).toBe("Yasmin's Notes");
+    expect(section?.querySelector("h2")?.className).toContain("bg-transparent");
+    expect(section?.querySelector("h2")?.className).toContain("text-primary");
+    expect(section?.textContent).toContain(
+      "Short advice from real posts: her words, with a quick gloss.",
+    );
+    expect(section?.textContent).not.toMatch(/ - /);
+
+    const quotes = section?.querySelectorAll("blockquote[lang='ar'][dir='rtl']");
+    expect(quotes?.length).toBe(7);
+    expect(section?.textContent).toContain(
+      "فيا مدير، موظفك الشاطر، دير بالك عليه، وما تطفشه!",
+    );
+    expect(section?.textContent).toContain("تفاصيل صغيرة بتزيد من فرصك");
+
+    expect(section?.textContent).toContain("Managers");
+    expect(section?.textContent).toContain("Candidates");
+    expect(section?.textContent).toContain("Interviews");
+    expect(section?.textContent).toContain("CVs");
+
+    const postLink = section?.querySelector(
+      'a[href="https://www.linkedin.com/feed/update/urn:li:activity:7501206646296043520/"]',
+    );
+    expect(postLink).not.toBeNull();
+    const activityLink = section?.querySelector(
+      'a[href="https://www.linkedin.com/in/yasminblasi/recent-activity/all/"]',
+    );
+    expect(activityLink).not.toBeNull();
+
+    const scroller = section?.querySelector("[data-notes-scroller]");
+    expect(scroller?.className).toContain("md:grid-cols-3");
+    expect(section?.textContent).toContain("سلام ✌🏼");
   });
 });
