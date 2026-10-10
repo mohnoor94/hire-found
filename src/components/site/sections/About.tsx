@@ -1,7 +1,7 @@
 import { withBasePath } from "@/lib/base-path";
 
 const FACTS = [
-  "10+ years in HR",
+  "10+ years of experience",
   "MENA region",
   "Junior to C-suite",
   "TEDx speaker",
