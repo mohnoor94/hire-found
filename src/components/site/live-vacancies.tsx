@@ -6,12 +6,17 @@ import { fetchJobs, getCategories, type Job } from "@/lib/jobs";
 import { formatCategoryLabel } from "@/lib/yasmin/labels";
 import { JobCard } from "@/components/jobs/job-card";
 import { VacanciesEmptyIllustration } from "@/components/jobs/vacancies-empty-illustration";
-import { ButterflyMicro } from "@/components/illustrations";
+import { ArrowUpRightIcon } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export function LiveVacancies() {
   const [jobs, setJobs] = useState<Job[] | null>(null);
   const [error, setError] = useState(false);
   const [category, setCategory] = useState("all");
+  const containerRef = useScrollReveal<HTMLElement>({
+    selector: ".reveal-on-scroll",
+    staggerMs: 60,
+  });
 
   useEffect(() => {
     let cancelled = false;
@@ -43,10 +48,12 @@ export function LiveVacancies() {
   return (
     <section
       id="vacancies"
-      className="bg-warm px-6 py-20 lg:py-28"
+      ref={containerRef}
+      className="relative px-6 py-20 lg:py-28"
     >
+      <div className="section-divider mx-auto mb-16 max-w-5xl opacity-50" aria-hidden="true" />
       <div className="mx-auto max-w-5xl">
-        <div className="mb-10">
+        <div className="reveal-on-scroll mb-10">
           <h2 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
             Find Your Match
           </h2>
@@ -152,13 +159,12 @@ export function LiveVacancies() {
           </p>
           <Link
             href="/jobs/"
-            className="group inline-flex min-h-12 shrink-0 touch-manipulation items-center gap-2.5 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-warm transition-all duration-200 hover:bg-primary-light hover:shadow-glow active:scale-[0.98] active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary select-none"
+            className="group inline-flex min-h-12 shrink-0 touch-manipulation items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-warm transition-all duration-200 hover:bg-primary-light hover:shadow-glow active:scale-[0.98] active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary select-none"
           >
             <span>View All Open Roles</span>
-            <ButterflyMicro
-              width={14}
-              height={12}
-              className="opacity-80 transition-transform duration-200 group-hover:scale-110"
+            <ArrowUpRightIcon
+              className="size-4 opacity-80 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              aria-hidden="true"
             />
           </Link>
         </div>

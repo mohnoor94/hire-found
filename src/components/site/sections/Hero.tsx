@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { CalendarIcon, ArrowUpRightIcon } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
-import { ButterflyMicro } from "@/components/illustrations";
+import { ButterflyMicro } from "@/components/illustrations/butterfly-micro";
 
 const primaryCta =
   "group relative inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 overflow-hidden rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-primary-light hover:shadow-glow active:scale-[0.97] active:bg-primary-dark sm:w-auto shadow-warm ring-1 ring-primary/0 hover:ring-primary/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
@@ -195,7 +195,7 @@ export function Hero() {
           {/* Right Column: Spacious & Calm Atelier Cards (No giant photo, no cramped stats) */}
           <div className="hf-atelier-deck hidden flex-col gap-5 md:flex">
             {/* Atelier Card 1: Founder Cameo Seal */}
-            <figure className="relative overflow-hidden rounded-xl border border-secondary/40 bg-card/90 p-6 shadow-card backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
+            <figure className="card-interactive-sheen relative overflow-hidden rounded-xl border border-secondary/40 bg-card/90 p-6 shadow-card backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
               <div className="flex items-center gap-4">
                 <div className="relative size-16 shrink-0 sm:size-20">
                   <div
@@ -230,7 +230,7 @@ export function Hero() {
             </figure>
 
             {/* Atelier Card 2: Practice Areas & Executive Mandates */}
-            <div className="rounded-xl border border-primary/15 bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover">
+            <div className="card-interactive-sheen rounded-xl border border-primary/15 bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover">
               <div className="flex items-center justify-between border-b border-warm-dark pb-3.5">
                 <p className="text-[11px] font-bold tracking-[0.14em] text-muted uppercase">
                   Executive Mandates
@@ -239,7 +239,6 @@ export function Hero() {
                   <span className="text-[11px] font-semibold text-primary">
                     Jordan &amp; The Gulf
                   </span>
-                  <ButterflyMicro width={16} height={13} className="opacity-75" />
                 </div>
               </div>
 
@@ -270,6 +269,12 @@ export function Hero() {
           </div>
         </div>
       </div>
+
+      {/* Subtle bottom gradient transition into canvas */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-warm"
+        aria-hidden="true"
+      />
     </section>
   );
 }

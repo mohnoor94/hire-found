@@ -9,6 +9,7 @@ import {
   SealDiscProfiling,
   SealDirectPartnership,
 } from "@/components/illustrations";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const EMPLOYER_SERVICES = [
   {
@@ -34,20 +35,31 @@ const EMPLOYER_WHATSAPP_URL = `https://wa.me/${DEFAULTS.whatsApp}?text=${encodeU
 
 export function Services() {
   const { open } = useBookingModal();
+  const containerRef = useScrollReveal<HTMLElement>({
+    selector: ".reveal-on-scroll",
+    staggerMs: 65,
+  });
 
   return (
-    <section id="services" className="bg-warm-dark px-6 py-20 lg:py-28">
+    <section
+      id="services"
+      ref={containerRef}
+      className="relative px-6 py-20 lg:py-28"
+    >
+      <div className="section-divider mx-auto mb-16 max-w-3xl opacity-50" aria-hidden="true" />
       <div className="mx-auto max-w-3xl">
-        <span className="text-xs font-semibold tracking-[0.14em] text-secondary uppercase">
-          Employer Services
-        </span>
-        <h2 className="font-accent mt-2 text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
-          How I Help Companies Hire
-        </h2>
-        <p className="mt-4 max-w-[36rem] text-lg text-muted">
-          Boutique executive search, talent recruitment, and leadership
-          assessments across Jordan and the Gulf.
-        </p>
+        <div className="reveal-on-scroll">
+          <span className="text-xs font-semibold tracking-[0.14em] text-secondary uppercase">
+            Employer Services
+          </span>
+          <h2 className="font-accent mt-2 text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
+            How I Help Companies Hire
+          </h2>
+          <p className="mt-4 max-w-[36rem] text-lg text-muted">
+            Boutique executive search, talent recruitment, and leadership
+            assessments across Jordan and the Gulf.
+          </p>
+        </div>
 
         <div className="mt-10">
           <ul className="flex flex-col">
@@ -58,7 +70,7 @@ export function Services() {
                   key={item.title}
                   className="reveal-on-scroll flex flex-col gap-4 border-t border-border py-8 first:border-t-0 first:pt-0 sm:flex-row sm:items-start sm:gap-6"
                 >
-                  <div className="shrink-0 self-start rounded-xl border border-secondary/25 bg-card/70 p-2 shadow-xs">
+                  <div className="shrink-0 self-start rounded-xl border border-secondary/25 bg-card/70 p-2 shadow-xs transition-transform duration-300 hover:scale-105">
                     <SealComponent width={48} height={48} />
                   </div>
                   <div>
@@ -74,7 +86,7 @@ export function Services() {
         </div>
 
         {/* Dedicated Employer Conversion Card */}
-        <div className="mt-12 rounded-2xl border border-primary/20 bg-white/85 p-6 sm:p-8 shadow-card">
+        <div className="reveal-on-scroll card-interactive-sheen mt-12 rounded-2xl border border-primary/20 bg-card/90 p-6 sm:p-8 shadow-card">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-4 sm:gap-5">
               <div className="hidden shrink-0 sm:block">

@@ -91,44 +91,8 @@ export function VignetteAlignmentCompass({
       <circle cx="56" cy="72" r="2" fill="#7A1E4A" />
       <circle cx="104" cy="72" r="2" fill="#7A1E4A" />
 
-      {/* Central Match Butterfly perched at the focal point */}
-      <g className="hf-ill-bob" transform="translate(80, 64) translate(-6, -7)">
-        {/* Left wings */}
-        <path
-          d="M6 7 C4 4 1 2 -1 1.5 C-3 1 -4 2.5 -4 4.5 C-4 6.5 -2 8 0 8.5 C2 9 4.5 8 6 7 Z"
-          fill="#C4B5FD"
-        />
-        <path
-          d="M6 7 C4.5 8.5 2 11 0 12 C-2 13 -3.5 12.5 -3.5 10.5 C-3.5 8.5 -2 7.5 0 7.5 C2 7.5 4.5 7.2 6 7 Z"
-          fill="#FDA4AF"
-        />
-        {/* Right wings */}
-        <path
-          d="M6 7 C8 4 11 2 13 1.5 C15 1 16 2.5 16 4.5 C16 6.5 14 8 12 8.5 C10 9 7.5 8 6 7 Z"
-          fill="#C4B5FD"
-        />
-        <path
-          d="M6 7 C7.5 8.5 10 11 12 12 C14 13 15.5 12.5 15.5 10.5 C15.5 8.5 14 7.5 12 7.5 C10 7.5 7.5 7.2 6 7 Z"
-          fill="#FDA4AF"
-        />
-        {/* Body */}
-        <ellipse cx="6" cy="8" rx="0.8" ry="3.2" fill="#7C3AED" />
-        {/* Antennae */}
-        <path
-          d="M5.5 5 C4.5 3 3 2 2.2 1.5"
-          stroke="#7C3AED"
-          strokeWidth="0.65"
-          fill="none"
-          strokeLinecap="round"
-        />
-        <path
-          d="M6.5 5 C7.5 3 9 2 9.8 1.5"
-          stroke="#7C3AED"
-          strokeWidth="0.65"
-          fill="none"
-          strokeLinecap="round"
-        />
-      </g>
+      {/* Central alignment pivot dot */}
+      <circle cx="80" cy="72" r="3.5" fill="#7A1E4A" stroke="#FCF9F5" strokeWidth="1.5" />
     </svg>
   );
 }

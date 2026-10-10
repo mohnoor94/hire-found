@@ -8,6 +8,7 @@ import { Services } from "@/components/site/sections/Services";
 import { HowItWorks } from "@/components/site/sections/HowItWorks";
 import { Trust } from "@/components/site/sections/Trust";
 import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
+import { AmbientBackdrop } from "@/components/site/ambient-backdrop";
 
 export default function HomePage() {
   return (
@@ -15,8 +16,9 @@ export default function HomePage() {
       <a href="#hero" className="skip-link">
         Skip to content
       </a>
+      <AmbientBackdrop />
       <SiteNav />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <About />
         <LiveVacancies />

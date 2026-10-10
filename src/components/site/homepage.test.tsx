@@ -5,6 +5,8 @@ import { Hero } from "./sections/Hero";
 import { About } from "./sections/About";
 import { Services } from "./sections/Services";
 import { Trust } from "./sections/Trust";
+import { HowItWorks } from "./sections/HowItWorks";
+import { AmbientBackdrop } from "./ambient-backdrop";
 import { CalDialogProvider } from "./cal-dialog";
 
 vi.mock("next/link", () => ({
@@ -171,4 +173,30 @@ describe("Homepage", () => {
     const img = about?.querySelector('img[src*="yasmin-blasi"]');
     expect(img).not.toBeNull();
   });
+
+  it("renders AmbientBackdrop with radial ambient lighting", async () => {
+    await act(async () => {
+      root.render(<AmbientBackdrop />);
+    });
+
+    const backdrop = container.querySelector('[aria-hidden="true"]');
+    expect(backdrop).not.toBeNull();
+  });
+
+  it("renders HowItWorks with process cards and section dividers", async () => {
+    await act(async () => {
+      root.render(<HowItWorks />);
+    });
+
+    const howItWorks = container.querySelector("section#how-it-works");
+    expect(howItWorks).not.toBeNull();
+    expect(howItWorks?.textContent).toContain("The Matchmaking Process");
+    expect(howItWorks?.textContent).toContain("How It Works");
+    expect(howItWorks?.textContent).toContain("Step 01");
+    expect(howItWorks?.textContent).toContain("Step 02");
+    expect(howItWorks?.textContent).toContain("Step 03");
+    expect(container.querySelector(".section-divider")).not.toBeNull();
+    expect(container.querySelectorAll(".reveal-on-scroll").length).toBeGreaterThan(0);
+  });
 });
+

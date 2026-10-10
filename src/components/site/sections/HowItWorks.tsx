@@ -1,27 +1,42 @@
+"use client";
+
 import {
   VignetteConsultationDesk,
   VignetteAlignmentCompass,
   VignetteFlourishingLaurel,
 } from "@/components/illustrations";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export function HowItWorks() {
+  const containerRef = useScrollReveal<HTMLElement>({
+    selector: ".reveal-on-scroll",
+    staggerMs: 70,
+  });
+
   return (
-    <section id="how-it-works" className="bg-background px-6 py-20 lg:py-28">
+    <section
+      id="how-it-works"
+      ref={containerRef}
+      className="relative px-6 py-20 lg:py-28"
+    >
+      <div className="section-divider mx-auto mb-16 max-w-5xl opacity-50" aria-hidden="true" />
       <div className="mx-auto max-w-5xl">
-        <span className="text-xs font-semibold tracking-[0.14em] text-secondary uppercase">
-          The Matchmaking Process
-        </span>
-        <h2 className="font-accent mt-2 text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
-          How It Works
-        </h2>
-        <p className="mt-4 max-w-[36rem] text-lg text-muted">
-          Three steps. One promise: I&apos;ll find your match.
-        </p>
+        <div className="reveal-on-scroll">
+          <span className="text-xs font-semibold tracking-[0.14em] text-secondary uppercase">
+            The Matchmaking Process
+          </span>
+          <h2 className="font-accent mt-2 text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
+            How It Works
+          </h2>
+          <p className="mt-4 max-w-[36rem] text-lg text-muted">
+            Three steps. One promise: I&apos;ll find your match.
+          </p>
+        </div>
 
         {/* Asymmetrical Atelier Grid */}
         <div className="mt-14 flex flex-col gap-6">
           {/* Step 1: Featured Wide Hero Card (We Talk) */}
-          <div className="group rounded-2xl border border-secondary/35 bg-card/40 p-1.5 shadow-card transition-all duration-300 hover:shadow-card-hover">
+          <div className="reveal-on-scroll card-interactive-sheen group rounded-2xl border border-secondary/35 bg-card/60 p-1.5 shadow-card hover:shadow-card-hover">
             <div className="flex flex-col items-center justify-between gap-8 rounded-xl border border-secondary/20 bg-card p-6 sm:p-8 md:flex-row md:items-center">
               <div className="max-w-xl">
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-warm px-3 py-1 text-[11px] font-bold tracking-[0.14em] text-primary uppercase">
@@ -39,7 +54,7 @@ export function HowItWorks() {
                 <VignetteConsultationDesk
                   width={200}
                   height={155}
-                  className="transition-transform duration-300 group-hover:scale-[1.02]"
+                  className="transition-transform duration-300 group-hover:scale-[1.03]"
                 />
               </div>
             </div>
@@ -48,7 +63,7 @@ export function HowItWorks() {
           {/* Steps 2 & 3: Paired Editorial Double-Bezel Cards */}
           <div className="grid gap-6 md:grid-cols-2">
             {/* Step 2: We Match */}
-            <div className="group flex flex-col rounded-2xl border border-secondary/35 bg-card/40 p-1.5 shadow-card transition-all duration-300 hover:shadow-card-hover">
+            <div className="reveal-on-scroll card-interactive-sheen group flex flex-col rounded-2xl border border-secondary/35 bg-card/60 p-1.5 shadow-card hover:shadow-card-hover">
               <div className="flex flex-1 flex-col justify-between rounded-xl border border-secondary/20 bg-card p-6 sm:p-8">
                 <div>
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-warm px-3 py-1 text-[11px] font-bold tracking-[0.14em] text-primary uppercase">
@@ -66,14 +81,14 @@ export function HowItWorks() {
                   <VignetteAlignmentCompass
                     width={180}
                     height={155}
-                    className="transition-transform duration-300 group-hover:scale-[1.02]"
+                    className="transition-transform duration-300 group-hover:scale-[1.03]"
                   />
                 </div>
               </div>
             </div>
 
             {/* Step 3: You Grow */}
-            <div className="group flex flex-col rounded-2xl border border-secondary/35 bg-card/40 p-1.5 shadow-card transition-all duration-300 hover:shadow-card-hover">
+            <div className="reveal-on-scroll card-interactive-sheen group flex flex-col rounded-2xl border border-secondary/35 bg-card/60 p-1.5 shadow-card hover:shadow-card-hover">
               <div className="flex flex-1 flex-col justify-between rounded-xl border border-secondary/20 bg-card p-6 sm:p-8">
                 <div>
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-warm px-3 py-1 text-[11px] font-bold tracking-[0.14em] text-primary uppercase">
@@ -91,7 +106,7 @@ export function HowItWorks() {
                   <VignetteFlourishingLaurel
                     width={180}
                     height={155}
-                    className="transition-transform duration-300 group-hover:scale-[1.02]"
+                    className="transition-transform duration-300 group-hover:scale-[1.03]"
                   />
                 </div>
               </div>
