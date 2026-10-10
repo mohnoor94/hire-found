@@ -91,7 +91,7 @@ export function Hero() {
                 />
                 Direct Founder Access
               </span>
-              <span>10+ Years in HR</span>
+              <span>10+ Years of Experience</span>
               <span>MENA Region</span>
               <span>Junior to C-Suite</span>
               <span>TEDx Speaker</span>
