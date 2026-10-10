@@ -120,12 +120,9 @@ function PressMarquee() {
 
 export function Trust() {
   const reduced = usePrefersReducedMotion();
+  if (!TRUST_BENTO_ENABLED) return null;
   return (
-    <section
-      id="trust"
-      hidden={!TRUST_BENTO_ENABLED}
-      className="bg-warm px-6 py-20 lg:py-28"
-    >
+    <section id="trust" className="bg-warm px-6 py-20 lg:py-28">
       <div className="mx-auto max-w-6xl">
         <h2 className="font-accent text-3xl tracking-[-0.02em] text-primary md:text-4xl">
           As seen in
