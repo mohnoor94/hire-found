@@ -635,8 +635,49 @@
   animation: hf-ill-pulse-glow 3.5s ease-in-out infinite;
 }
 
-.group:hover .hf-butterfly-flutter {
+.group:hover .hf-butterfly-flutter,
+.hf-butterfly-flutter:hover {
   animation: hf-butterfly-hover-flutter 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1;
+}
+
+@keyframes hf-butterfly-drift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(1.5deg);
+  }
+}
+
+.hf-butterfly-drift {
+  animation: hf-butterfly-drift 3.5s ease-in-out infinite;
+}
+
+/* Heartbeat pulse for footer credit love icon (subtle 2.4s pulse) */
+@keyframes hf-heart-beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.18);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.12);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+.hf-heart-beat {
+  display: inline-block;
+  transform-origin: center;
+  animation: hf-heart-beat 2.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -646,10 +687,13 @@
   .hf-ill-sway,
   .hf-ill-steam,
   .hf-ill-pulse-glow,
-  .hf-butterfly-flutter {
+  .hf-butterfly-flutter,
+  .hf-butterfly-drift,
+  .hf-heart-beat {
     animation: none !important;
   }
 }
+
 
 /* Yasmin's Space: a personal, lively world apart from the public site. */
 @keyframes ys-rise {

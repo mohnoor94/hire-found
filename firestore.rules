@@ -18,5 +18,22 @@ service cloud.firestore {
       // Admins only create/update/delete.
       allow create, update, delete: if isAdmin();
     }
+
+    match /reels/{reelId} {
+      function isAdmin() {
+        return request.auth != null
+          && request.auth.token.email_verified == true
+          && request.auth.token.email in [
+            'moh.noor94@gmail.com',
+            'yasmin@hirefound.com'
+          ];
+      }
+
+      // Public: active reels only. Admins: all reels (incl. inactive).
+      allow read: if resource.data.isActive == true || isAdmin();
+
+      // Admins only create/update/delete.
+      allow create, update, delete: if isAdmin();
+    }
   }
 }

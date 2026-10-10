@@ -8,6 +8,8 @@ import { formatCategoryLabel } from "@/lib/yasmin/labels";
 import { GreetingCard } from "./greeting-card";
 import { QuickLinks } from "./quick-links";
 import { DashboardJobCard } from "./dashboard-job-card";
+import { ReelsManager } from "./reels/reels-manager";
+import { ButterflyMicro } from "@/components/illustrations/butterfly-micro";
 import {
   Plus,
   RefreshCw,
@@ -40,6 +42,12 @@ type DashboardProps = {
   onDelete: (job: Job) => void;
   onToggleActive: (job: Job) => void;
   togglingId: string | null;
+  reels?: import("@/lib/reels/types").Reel[];
+  onNewReel?: () => void;
+  onEditReel?: (reel: import("@/lib/reels/types").Reel) => void;
+  onDeleteReel?: (reel: import("@/lib/reels/types").Reel) => void;
+  onToggleReelActive?: (reel: import("@/lib/reels/types").Reel) => void;
+  togglingReelId?: string | null;
 };
 
 type StatusFilter = "all" | "active" | "inactive";
@@ -55,7 +63,14 @@ export function YasminDashboard({
   onDelete,
   onToggleActive,
   togglingId,
+  reels = [],
+  onNewReel,
+  onEditReel,
+  onDeleteReel,
+  onToggleReelActive,
+  togglingReelId,
 }: DashboardProps) {
+  const [deskTab, setDeskTab] = useState<"opportunities" | "reels">("opportunities");
   const [searchText, setSearchText] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [category, setCategory] = useState("all");
@@ -119,13 +134,85 @@ export function YasminDashboard({
 
       {/* Quick Access */}
       <QuickLinks />
-      {/* Action Header & Curation Desk */}
-      <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <h2 className="font-accent text-2xl tracking-tight text-[#7A1E4A] sm:text-3xl">
-              Curated Opportunities
-            </h2>
+
+      {/* Studio Desk View Switcher */}
+      <div className="mt-8 flex items-center justify-start border-b border-[#D4A574]/20 pb-4">
+        <div
+          role="tablist"
+          aria-label="Studio Views"
+          className="inline-flex rounded-full border border-[#D4A574]/25 bg-white/70 p-1 shadow-2xs backdrop-blur-xs"
+        >
+          <button
+            type="button"
+            role="tab"
+            aria-selected={deskTab === "opportunities"}
+            onClick={() => setDeskTab("opportunities")}
+            className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+              deskTab === "opportunities"
+                ? "bg-[#7A1E4A] text-white shadow-xs"
+                : "text-[#5E534C] hover:text-[#7A1E4A]"
+            }`}
+          >
+            <span>Curated Opportunities</span>
+            <span
+              className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                deskTab === "opportunities"
+                  ? "bg-white/20 text-white"
+                  : "bg-[#F3EBE3] text-[#5E534C]"
+              }`}
+            >
+              {jobs.length}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            role="tab"
+            aria-selected={deskTab === "reels"}
+            onClick={() => setDeskTab("reels")}
+            className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+              deskTab === "reels"
+                ? "bg-[#7A1E4A] text-white shadow-xs"
+                : "text-[#5E534C] hover:text-[#7A1E4A]"
+            }`}
+          >
+            <ButterflyMicro className="size-3.5" />
+            <span>Featured Reels</span>
+            <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-900">
+              In progress
+            </span>
+            <span
+              className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                deskTab === "reels"
+                  ? "bg-white/20 text-white"
+                  : "bg-[#F3EBE3] text-[#5E534C]"
+              }`}
+            >
+              {reels.length}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {deskTab === "reels" ? (
+        <ReelsManager
+          reels={reels}
+          loading={loading}
+          onNewReel={onNewReel ?? (() => {})}
+          onEditReel={onEditReel ?? (() => {})}
+          onDeleteReel={onDeleteReel ?? (() => {})}
+          onToggleActive={onToggleReelActive ?? (() => {})}
+          togglingId={togglingReelId ?? null}
+        />
+      ) : (
+        <>
+          {/* Action Header & Curation Desk */}
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-accent text-2xl tracking-tight text-[#7A1E4A] sm:text-3xl">
+                  Curated Opportunities
+                </h2>
             <span className="rounded-full bg-[#7A1E4A]/10 px-2 py-0.5 text-xs font-medium text-[#7A1E4A]">
               {listLabel}
             </span>
@@ -336,6 +423,8 @@ export function YasminDashboard({
             ))
           : null}
       </div>
+        </>
+      )}
 
     </div>
   );

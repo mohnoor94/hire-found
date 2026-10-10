@@ -23,6 +23,16 @@ import { YasminDashboard } from "./dashboard";
 import { JobEditor, type JobEditorHandle } from "./job-editor";
 import { DeleteJobDialog } from "./delete-job-dialog";
 import { CelebrationButterfly } from "./celebration-butterfly";
+import { ReelEditorDialog } from "./reels/reel-editor-dialog";
+import {
+  fetchAllReels,
+  createReel,
+  updateReel,
+  deleteReel,
+  toggleReelActive,
+  type Reel,
+  type ReelFormData,
+} from "@/lib/reels";
 import { ExternalLink, Sparkles } from "lucide-react";
 
 type ViewMode = "dashboard" | "create" | "edit";
@@ -39,6 +49,11 @@ export function YasminPageClient() {
   const [deleting, setDeleting] = useState(false);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [celebrating, setCelebrating] = useState(false);
+  const [reels, setReels] = useState<Reel[]>([]);
+  const [editingReel, setEditingReel] = useState<Reel | null>(null);
+  const [isReelDialogOpen, setIsReelDialogOpen] = useState(false);
+  const [savingReel, setSavingReel] = useState(false);
+  const [togglingReelId, setTogglingReelId] = useState<string | null>(null);
   const loadedRef = useRef(false);
   const editorRef = useRef<JobEditorHandle>(null);
   const prevAuthStatus = useRef(auth.status);
@@ -47,6 +62,15 @@ export function YasminPageClient() {
 
   const isEditorOpen = view !== "dashboard";
   const isModalOpen = Boolean(deleteTarget);
+
+  const refreshReels = useCallback(async () => {
+    try {
+      const list = await fetchAllReels();
+      setReels(list);
+    } catch (err) {
+      console.error("Failed to fetch reels:", err);
+    }
+  }, []);
 
   const refreshJobs = useCallback(async () => {
     if (refreshInFlight.current) return;
@@ -73,7 +97,10 @@ export function YasminPageClient() {
     if (prev === "authenticated" && auth.status !== "authenticated") {
       loadedRef.current = false;
       setJobs([]);
+      setReels([]);
       setEditingJob(null);
+      setEditingReel(null);
+      setIsReelDialogOpen(false);
       setDeleteTarget(null);
       setView("dashboard");
       setError(false);
@@ -88,7 +115,8 @@ export function YasminPageClient() {
     if (loadedRef.current) return;
     loadedRef.current = true;
     void refreshJobs();
-  }, [auth.status, refreshJobs]);
+    void refreshReels();
+  }, [auth.status, refreshJobs, refreshReels]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -210,6 +238,83 @@ export function YasminPageClient() {
     }
   }, [deleteTarget]);
 
+  const handleNewReel = useCallback(() => {
+    setEditingReel(null);
+    setIsReelDialogOpen(true);
+  }, []);
+
+  const handleEditReel = useCallback((reel: Reel) => {
+    setEditingReel(reel);
+    setIsReelDialogOpen(true);
+  }, []);
+
+  const handleSaveReel = useCallback(
+    async (formData: ReelFormData) => {
+      setSavingReel(true);
+      try {
+        if (editingReel) {
+          await updateReel(editingReel.id, formData);
+          toast.success("Featured reel updated.");
+        } else {
+          await createReel(formData);
+          setCelebrating(true);
+          toast.success("Featured reel added to your studio!");
+        }
+        await refreshReels();
+      } catch (err) {
+        console.error("Failed to save reel:", err);
+        throw err;
+      } finally {
+        setSavingReel(false);
+      }
+    },
+    [editingReel, refreshReels],
+  );
+
+  const handleDeleteReel = useCallback(
+    async (reel: Reel) => {
+      const confirmed = window.confirm(`Delete "${reel.title}" from your studio?`);
+      if (!confirmed) return;
+      try {
+        await deleteReel(reel.id);
+        setReels((prev) => prev.filter((r) => r.id !== reel.id));
+        toast.success("Reel removed from studio.");
+      } catch (err) {
+        console.error("Failed to delete reel:", err);
+        toast.error("Failed to delete reel. Please try again.");
+      }
+    },
+    [],
+  );
+
+  const handleToggleReelActive = useCallback(
+    async (reel: Reel) => {
+      setTogglingReelId(reel.id);
+      const next = !reel.isActive;
+      setReels((prev) =>
+        prev.map((r) => (r.id === reel.id ? { ...r, isActive: next } : r)),
+      );
+      try {
+        await toggleReelActive(reel.id, reel.isActive);
+        if (next) {
+          setCelebrating(true);
+          toast.success("Reel is now active on public site.");
+        } else {
+          toast.info("Reel is now hidden from public site.");
+        }
+      } catch (err) {
+        console.error("Failed to toggle reel status:", err);
+        setReels((prev) =>
+          prev.map((r) => (r.id === reel.id ? { ...r, isActive: reel.isActive } : r)),
+        );
+        toast.error("Failed to update reel status. Please try again.");
+      } finally {
+        setTogglingReelId(null);
+      }
+    },
+    [],
+  );
+
   if (auth.status !== "authenticated" || !auth.user) {
     return (
       <AuthViews
@@ -287,12 +392,21 @@ export function YasminPageClient() {
             jobs={jobs}
             loading={loading}
             error={error}
-            onRefresh={() => void refreshJobs()}
+            onRefresh={() => {
+              void refreshJobs();
+              void refreshReels();
+            }}
             onNewJob={handleNewJob}
             onEdit={handleEdit}
             onDelete={setDeleteTarget}
             onToggleActive={(job) => void handleToggleActive(job)}
             togglingId={togglingId}
+            reels={reels}
+            onNewReel={handleNewReel}
+            onEditReel={handleEditReel}
+            onDeleteReel={(reel) => void handleDeleteReel(reel)}
+            onToggleReelActive={(reel) => void handleToggleReelActive(reel)}
+            togglingReelId={togglingReelId}
           />
         ) : (
           <JobEditor
@@ -314,6 +428,14 @@ export function YasminPageClient() {
           if (!open) setDeleteTarget(null);
         }}
         onConfirm={() => void handleConfirmDelete()}
+      />
+
+      <ReelEditorDialog
+        open={isReelDialogOpen}
+        onOpenChange={setIsReelDialogOpen}
+        reel={editingReel}
+        onSave={handleSaveReel}
+        saving={savingReel}
       />
     </>
   );

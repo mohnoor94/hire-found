@@ -234,8 +234,13 @@ describe("Phase 3 Site Components Parity", () => {
 
       const footer = container.querySelector("footer#contact");
       expect(footer?.textContent).toContain(
-        "Employers: Book a discovery call",
+        "Employers: Book a discovery call, or message me directly on WhatsApp.",
       );
+      expect(footer?.textContent).toContain("Yasmin Blasi");
+      expect(footer?.textContent).toContain("Chat on WhatsApp");
+      expect(footer?.querySelector(".hf-butterfly-drift")).not.toBeNull();
+      expect(footer?.querySelector(".hf-heart-beat")).not.toBeNull();
+      expect(footer?.querySelector(".hf-heart-beat")?.getAttribute("class")).toContain("text-linen/75");
       expect(footer?.textContent).toContain("Looking for open positions?");
       expect(footer?.querySelector('a[href="/jobs/"]')).not.toBeNull();
     });
