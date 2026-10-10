@@ -98,14 +98,6 @@ export function SpeakingMedia() {
           )}
         >
           {APPEARANCES.map((item, index) => {
-            const Card = item.href ? Link : "div";
-            const cardProps = item.href
-              ? {
-                  href: item.href,
-                  target: "_blank",
-                  rel: "noopener noreferrer",
-                }
-              : {};
             return (
               <li
                 key={item.id}
@@ -117,22 +109,24 @@ export function SpeakingMedia() {
                   } as React.CSSProperties
                 }
               >
-                <Card
-                  {...(cardProps as any)}
-                  className={cn(
-                    "group block rounded-2xl border border-primary/10 bg-white/80 p-4 shadow-card transition-colors duration-200 hover:border-primary/20 hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
-                  )}
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
-                      <KindIcon kind={item.kind} />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-start gap-2">
-                        <h3 className="min-w-0 flex-1 text-base leading-snug font-semibold text-text-main">
-                          {item.title}
-                        </h3>
-                        {item.href ? (
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      "group block rounded-2xl border border-primary/10 bg-white/80 p-4 shadow-card transition-colors duration-200 hover:border-primary/20 hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+                    )}
+                  >
+                    <div className="flex items-start gap-3">
+                      <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
+                        <KindIcon kind={item.kind} />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start gap-2">
+                          <h3 className="min-w-0 flex-1 text-base leading-snug font-semibold text-text-main">
+                            {item.title}
+                          </h3>
                           <span
                             className="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/5 text-primary transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                             aria-hidden="true"
@@ -140,31 +134,45 @@ export function SpeakingMedia() {
                           >
                             <ExternalLinkIcon className="size-3.5" />
                           </span>
+                        </div>
+                        {item.details ? (
+                          <p className="mt-1 text-sm leading-snug text-muted">
+                            {item.details}
+                          </p>
                         ) : null}
                       </div>
-                      {item.details ? (
-                        <p className="mt-1 text-sm leading-snug text-muted">
-                          {item.details}
-                        </p>
-                      ) : null}
+                    </div>
+                  </Link>
+                ) : (
+                  <div
+                    className={cn(
+                      "group block rounded-2xl border border-primary/10 bg-white/80 p-4 shadow-card",
+                    )}
+                  >
+                    <div className="flex items-start gap-3">
+                      <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
+                        <KindIcon kind={item.kind} />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start gap-2">
+                          <h3 className="min-w-0 flex-1 text-base leading-snug font-semibold text-text-main">
+                            {item.title}
+                          </h3>
+                        </div>
+                        {item.details ? (
+                          <p className="mt-1 text-sm leading-snug text-muted">
+                            {item.details}
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
-                </Card>
+                )}
               </li>
             );
           })}
         </ul>
       </div>
-
-      <style jsx>{`
-        @media (prefers-reduced-motion: reduce) {
-          #speaking-media .nav-mobile-card {
-            animation: none !important;
-            opacity: 1 !important;
-            transform: none !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }
