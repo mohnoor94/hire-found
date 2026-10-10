@@ -5,6 +5,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { TRUST_BENTO_ENABLED } from "@/lib/flags";
 
+// Temporary gate: hide press marquee on live site while keeping testimonial and stats.
+const SHOW_PRESS = false;
+
 const PRESS = [
   "TEDx Zarqa University",
   "Al Mamlaka TV (two live interviews)",
@@ -124,12 +127,16 @@ export function Trust() {
   return (
     <section id="trust" className="bg-warm px-6 py-20 lg:py-28">
       <div className="mx-auto max-w-6xl">
-        <h2 className="font-accent text-3xl tracking-[-0.02em] text-primary md:text-4xl">
-          As seen in
-        </h2>
-        <div className="mt-6">
-          <PressMarquee />
-        </div>
+        {SHOW_PRESS && (
+          <>
+            <h2 className="font-accent text-3xl tracking-[-0.02em] text-primary md:text-4xl">
+              As seen in
+            </h2>
+            <div className="mt-6">
+              <PressMarquee />
+            </div>
+          </>
+        )}
 
         <div className="mt-10 grid grid-cols-1 gap-4 md:mt-12 md:grid-cols-12 md:gap-6">
           {/* Testimonial - large tile */}
