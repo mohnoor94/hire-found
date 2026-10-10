@@ -5,6 +5,7 @@ import { Hero } from "./sections/Hero";
 import { About } from "./sections/About";
 import { Services } from "./sections/Services";
 import { Trust } from "./sections/Trust";
+import { SpeakingMedia } from "./sections/SpeakingMedia";
 import { LiveVacancies } from "./live-vacancies";
 import { CalDialogProvider } from "./cal-dialog";
 import { ServicesTabProvider } from "./services-tab";
@@ -142,6 +143,30 @@ describe("Homepage", () => {
       bridge.click();
     });
     expect(container.textContent).toContain("Career Matchmaking");
+  });
+
+  it("renders verified speaking and media appearances without unverified events", async () => {
+    await act(async () => {
+      root.render(<SpeakingMedia />);
+    });
+
+    const section = container.querySelector("#speaking-media");
+    expect(section).not.toBeNull();
+    expect(section?.textContent).toContain("Speaking & Media");
+    expect(section?.textContent).toContain("TEDx Zarqa University");
+    expect(section?.textContent).toContain("Al Mamlaka TV");
+    expect(section?.textContent).toContain("Parachute16 Digital Graduates Industry Meetup");
+    expect(section?.textContent).toContain("Graduates Conference 2025");
+    expect(section?.textContent).toContain("800Arabia Travel To Learn");
+    expect(section?.textContent).not.toContain("أثر 2");
+    expect(section?.textContent).not.toContain("Leaders of Arabia");
+
+    const video = section?.querySelector(
+      'a[href="https://lnkd.in/dYzurw9H"]',
+    );
+    expect(video).not.toBeNull();
+    expect(video?.getAttribute("target")).toBe("_blank");
+    expect(video?.textContent).toContain("Watch interview");
   });
 
   it("keeps the modernized trust section gated off by default", async () => {

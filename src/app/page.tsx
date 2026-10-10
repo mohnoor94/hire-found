@@ -8,7 +8,9 @@ import { About } from "@/components/site/sections/About";
 import { Services } from "@/components/site/sections/Services";
 import { HowItWorks } from "@/components/site/sections/HowItWorks";
 import { Trust } from "@/components/site/sections/Trust";
+import { SpeakingMedia } from "@/components/site/sections/SpeakingMedia";
 import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
+import { TRUST_BENTO_ENABLED } from "@/lib/flags";
 
 export default function HomePage() {
   return (
@@ -24,9 +26,10 @@ export default function HomePage() {
           <LiveVacancies />
           <Services />
           <HowItWorks />
+          <SpeakingMedia />
           <Trust />
         </main>
-        <WaveWarmToDark from="warm" />
+        <WaveWarmToDark from={TRUST_BENTO_ENABLED ? "warm" : "warm-dark"} />
         <SiteFooter />
       </ServicesTabProvider>
       <ActionStack />
