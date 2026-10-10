@@ -41,14 +41,14 @@ export function QuickLinks() {
     <nav
       id="quick-links"
       aria-label="Quick Actions"
-      className="mt-5"
+      className="mt-6 rounded-2xl border border-[#D4A574]/20 bg-linear-to-b from-white/70 to-white/40 p-3 sm:p-3.5 backdrop-blur-xs shadow-[0_2px_12px_rgba(212,165,116,0.04)]"
     >
-      <div className="flex items-center gap-2 mb-2.5">
+      <div className="flex items-center gap-2 mb-2 px-1">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-[#7A1E4A]">
           Quick Access
         </span>
         <span className="text-xs text-[#D4A574]">·</span>
-        <span className="text-[11px] text-[#5E534C]/70">
+        <span className="text-[11px] font-medium text-[#5E534C]/70">
           Daily links
         </span>
       </div>
@@ -62,11 +62,11 @@ export function QuickLinks() {
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center justify-between rounded-xl border border-[#D4A574]/25 bg-white/80 px-3.5 py-2.5 shadow-2xs backdrop-blur-xs transition-all duration-150 ease-out hover:border-[#D4A574]/60 hover:bg-white hover:shadow-xs active:scale-[0.97]"
+              className="group flex items-center justify-between rounded-xl border border-[#D4A574]/15 bg-white/80 px-3.5 py-2.5 shadow-2xs backdrop-blur-xs transition-all duration-150 ease-out hover:border-[#D4A574]/60 hover:bg-white hover:shadow-xs active:scale-[0.98]"
             >
               <div className="flex items-center gap-2.5 min-w-0">
                 <div
-                  className="flex size-6 shrink-0 items-center justify-center rounded-lg bg-[#F3EBE3] text-[#7A1E4A] transition-colors group-hover:bg-[#7A1E4A] group-hover:text-white"
+                  className="flex size-6.5 shrink-0 items-center justify-center rounded-lg bg-[#F3EBE3] text-[#7A1E4A] transition-colors duration-150 group-hover:bg-[#7A1E4A] group-hover:text-white"
                   aria-hidden="true"
                 >
                   <Icon className="size-3.5" />

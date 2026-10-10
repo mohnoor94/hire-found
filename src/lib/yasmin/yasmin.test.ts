@@ -6,6 +6,7 @@ import {
 import {
   DAILY_AFFIRMATIONS,
   extractFirstName,
+  formatAtelierDate,
   getCelebrationToast,
   getContextualGreetings,
   getGreeting,
@@ -97,6 +98,13 @@ describe("greeting helpers", () => {
     const greetingText = templates[0]!("Yasmin");
     expect(greetingText).toContain("Yasmin");
     expect(greetingText).not.toContain("—");
+  });
+
+  it("formats atelier date cleanly without em-dashes", () => {
+    const testDate = new Date("2026-10-10T12:00:00");
+    const formatted = formatAtelierDate(testDate);
+    expect(formatted).toContain("October");
+    expect(formatted).not.toContain("—");
   });
 });
 

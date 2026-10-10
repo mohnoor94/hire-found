@@ -10,6 +10,8 @@
   --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
   --ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+  --ease-snappy: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Shared chrome (nav-glass, filter-pill, card-surface) lives in globals.css. */
@@ -211,7 +213,7 @@ button:focus-visible,
       border-radius: 9999px;
       font-size: 14px; font-weight: 600;
       color: #8A8380;
-      transition: color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     }
     .pill-tab.active {
       background: white;
@@ -457,7 +459,7 @@ button:focus-visible,
       cursor: pointer;
       border: none;
       position: relative;
-      transition: background 0.2s ease, transform 0.15s ease;
+      transition: background-color 0.2s ease, transform 0.15s ease;
     }
     .wa-send-btn:hover { background: #20BD5A; }
     .wa-send-btn:active { transform: scale(0.92); }

@@ -110,7 +110,12 @@ export function YasminDashboard({
   return (
     <div className="mx-auto max-w-6xl px-4 pt-4 pb-[max(3rem,env(safe-area-inset-bottom))] sm:px-6 sm:pt-6">
       {/* Centerpiece Greeting Masthead */}
-      <GreetingCard key={user.uid} user={user} />
+      <GreetingCard
+        key={user.uid}
+        user={user}
+        activeJobsCount={activeCount}
+        totalJobsCount={jobs.length}
+      />
 
       {/* Quick Access */}
       <QuickLinks />

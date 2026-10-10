@@ -114,7 +114,27 @@ export const DAILY_AFFIRMATIONS = [
   "This space is yours to breathe, create, and thrive 🏡 - you belong here.",
   "Trust the timing of your life and the brilliance of your craft 🕊️",
   "You bring light to every corner of your work and life 💫",
+  "Pour a warm cup of coffee, pause, and celebrate how much you have already built, Yasmin ☕",
+  "You do not have to carry the whole world today; just one thoughtful conversation at a time 🌿",
+  "Trust your intuition today. You recognize genuine leadership before anyone else 🌟",
+  "Your empathy is your greatest superpower, Yasmin. Leaders always remember how you made them feel 🤍",
+  "Breathe in peace, breathe out doubt. You are walking in your purpose 🕊️",
+  "Quiet moments of rest are just as vital as the deals you close. Be kind to yourself today 🌷",
+  "You bring elegance, warmth, and relentless excellence wherever you go 👑",
+  "Every introduction you make plants the seed for someone's future success 🍃",
 ] as const;
+
+export function formatAtelierDate(date: Date = new Date()): string {
+  try {
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    }).format(date);
+  } catch {
+    return "Today";
+  }
+}
 
 export const CELEBRATION_TOASTS = {
   create: [

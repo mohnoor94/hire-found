@@ -84,4 +84,47 @@ describe("GreetingCard & YasminOracleNote", () => {
       "Crafted with love · HireFound Executive Practice",
     );
   });
+
+  it("renders active jobs count in editorial masthead pulse badge", async () => {
+    const user = {
+      uid: "u-yasmin",
+      displayName: "Yasmin Blasi",
+      email: "yasmin@hirefound.com",
+      photoURL: null,
+    };
+
+    await act(async () => {
+      root.render(<GreetingCard user={user as any} activeJobsCount={3} />);
+    });
+
+    expect(container.textContent).toContain("3 roles active · In flow");
+    expect(container.textContent).toContain("Personal Atelier");
+    expect(container.textContent).not.toContain("—");
+  });
+
+  it("allows refreshing affirmation via refresh button in YasminOracleNote", async () => {
+    vi.useFakeTimers();
+    await act(async () => {
+      root.render(
+        <YasminOracleNote initialAffirmation="Initial affirmation for Yasmin 🌸" />,
+      );
+    });
+
+    const refreshBtn = container.querySelector(
+      '[aria-label="Refresh daily spark"]',
+    ) as HTMLButtonElement | null;
+    expect(refreshBtn).toBeTruthy();
+
+    await act(async () => {
+      refreshBtn?.click();
+    });
+
+    await act(async () => {
+      vi.advanceTimersByTime(200);
+    });
+
+    expect(container.textContent).toContain("A Note for Yasmin");
+    expect(container.textContent).not.toContain("—");
+    vi.useRealTimers();
+  });
 });
