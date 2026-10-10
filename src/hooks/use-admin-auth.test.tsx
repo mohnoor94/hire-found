@@ -14,18 +14,12 @@ const authMocks = vi.hoisted(() => {
   const listeners: Array<(user: unknown) => void> = [];
   const state = {
     currentUser: null as null | { email: string; uid: string },
-    persistenceShouldFail: false,
     readyShouldFail: false,
   };
 
   return {
     listeners,
     state,
-    setPersistence: vi.fn(async () => {
-      if (state.persistenceShouldFail) {
-        throw new Error("persistence blocked");
-      }
-    }),
     authStateReady: vi.fn(async () => {
       if (state.readyShouldFail) {
         throw new Error("ready failed");
@@ -46,15 +40,12 @@ const authMocks = vi.hoisted(() => {
     }),
     signInWithPopup: vi.fn(),
     GoogleAuthProvider: vi.fn(),
-    browserLocalPersistence: {},
   };
 });
 
 vi.mock("firebase/auth", () => ({
   GoogleAuthProvider: authMocks.GoogleAuthProvider,
   onAuthStateChanged: authMocks.onAuthStateChanged,
-  setPersistence: authMocks.setPersistence,
-  browserLocalPersistence: authMocks.browserLocalPersistence,
   signInWithPopup: authMocks.signInWithPopup,
   signOut: authMocks.signOut,
 }));
@@ -113,9 +104,7 @@ describe("useAdminAuth", () => {
     vi.useFakeTimers();
     authMocks.listeners.length = 0;
     authMocks.state.currentUser = null;
-    authMocks.state.persistenceShouldFail = false;
     authMocks.state.readyShouldFail = false;
-    authMocks.setPersistence.mockClear();
     authMocks.authStateReady.mockClear();
     authMocks.onAuthStateChanged.mockClear();
     authMocks.signOut.mockClear();
@@ -161,8 +150,8 @@ describe("useAdminAuth", () => {
     expect(latest?.user?.email).toBe("moh.noor94@gmail.com");
   });
 
-  it("still registers the listener when setPersistence fails", async () => {
-    authMocks.state.persistenceShouldFail = true;
+  it("still registers the listener when authStateReady fails", async () => {
+    authMocks.state.readyShouldFail = true;
     authMocks.state.currentUser = {
       email: "yasmin@hirefound.com",
       uid: "u2",

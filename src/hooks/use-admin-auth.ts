@@ -4,8 +4,6 @@ import { useCallback, useEffect, useSyncExternalStore } from "react";
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
-  setPersistence,
-  browserLocalPersistence,
   signInWithPopup,
   signOut as firebaseSignOut,
   type User,
@@ -49,17 +47,6 @@ type AuthSnapshot = {
   signingIn: boolean;
 };
 
-const SESSION_FLAG = "hf-yasmin-auth";
-
-function writeSessionFlag(authenticated: boolean) {
-  try {
-    if (authenticated) sessionStorage.setItem(SESSION_FLAG, "1");
-    else sessionStorage.removeItem(SESSION_FLAG);
-  } catch {
-    // Ignore quota / private-mode failures.
-  }
-}
-
 function initialStatus(): AdminAuthStatus {
   if (!auth) return "unavailable";
   if (auth.currentUser) return resolveAuthStatus(auth.currentUser).status;
@@ -78,17 +65,14 @@ let snapshot: AuthSnapshot = {
 const storeListeners = new Set<() => void>();
 let authStarted = false;
 let denyTimer: ReturnType<typeof setTimeout> | null = null;
-let persistenceStarted = false;
 
 function emit(next: Partial<AuthSnapshot>) {
+  const hasChanges = Object.entries(next).some(
+    ([key, value]) => snapshot[key as keyof AuthSnapshot] !== value,
+  );
+  if (!hasChanges) return;
+
   snapshot = { ...snapshot, ...next };
-  if (snapshot.status === "authenticated") writeSessionFlag(true);
-  else if (
-    snapshot.status === "signed-out" ||
-    snapshot.status === "denied"
-  ) {
-    writeSessionFlag(false);
-  }
   storeListeners.forEach((listener) => listener());
 }
 
@@ -132,15 +116,6 @@ function startAuthStore() {
   const authInstance = auth;
 
   void (async () => {
-    if (!persistenceStarted) {
-      persistenceStarted = true;
-      try {
-        await setPersistence(authInstance, browserLocalPersistence);
-      } catch (error) {
-        console.error("Failed to set auth persistence:", error);
-      }
-    }
-
     try {
       await authInstance.authStateReady();
     } catch (error) {
@@ -254,7 +229,6 @@ export function useAdminAuth(): UseAdminAuthResult {
 export function __resetAdminAuthStoreForTests() {
   clearDenyTimer();
   authStarted = false;
-  persistenceStarted = false;
   snapshot = {
     status: initialStatus(),
     user: auth?.currentUser
