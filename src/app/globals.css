@@ -2,8 +2,6 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
 
     /* HireFound - Stage C direction: linen, burgundy, gold */
@@ -117,48 +115,6 @@
     --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
-    /* On-brand dark: navy surfaces, linen type, lifted plum, gold */
-    --hf-warm: #1A1A2E;
-    --hf-warm-dark: #252540;
-    --hf-text-main: #FCF9F5;
-    --hf-primary-light: #D47A9E;
-    --hf-primary-dark: #5E1639;
-
-    --background: #1A1A2E;
-    --foreground: #FCF9F5;
-    --card: #252540;
-    --card-foreground: #FCF9F5;
-    --popover: #252540;
-    --popover-foreground: #FCF9F5;
-    --primary: #C45A84;
-    --primary-foreground: #FCF9F5;
-    --secondary: #D4A574;
-    --secondary-foreground: #1A1A2E;
-    /* Text color in this app (`text-muted`), not a shadcn surface. */
-    --muted: #C9BDB4;
-    --muted-foreground: #C9BDB4;
-    --accent: #252540;
-    --accent-foreground: #FCF9F5;
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: color-mix(in srgb, #D4A574 22%, #1A1A2E);
-    --input: color-mix(in srgb, #D4A574 18%, #1A1A2E);
-    --ring: #D4A574;
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
-}
-
 @utility nav-glass {
   /* Opaque surface so the bar stays solid over the hero. */
   background-color: color-mix(in srgb, var(--hf-warm) 97%, transparent);
@@ -244,9 +200,6 @@
     color-scheme: light;
     scroll-padding-top: var(--site-nav-offset);
     -webkit-tap-highlight-color: transparent;
-  }
-  html.dark {
-    color-scheme: dark;
   }
   body {
     @apply bg-warm text-text-main;

@@ -49,10 +49,7 @@ const LOAD_TIMEOUT_MS = 12_000;
 function calEmbedSrc(calLink: string) {
   const url = new URL(calLink);
   url.searchParams.set("embed", "true");
-  const dark =
-    typeof document !== "undefined" &&
-    document.documentElement.classList.contains("dark");
-  url.searchParams.set("theme", dark ? "dark" : "light");
+  url.searchParams.set("theme", "light");
   url.searchParams.set("brandColor", CAL_BRAND);
   return url.toString();
 }
