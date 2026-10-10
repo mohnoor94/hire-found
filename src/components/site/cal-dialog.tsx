@@ -123,18 +123,6 @@ export function CalDialog({
           >
             Choose a time to talk with Yasmin about executive hiring.
           </DialogPrimitive.Description>
-          <div className="border-b border-primary/10 bg-warm-dark/50 px-4 py-2 text-xs text-muted">
-            <span className="font-semibold text-text-main">Job seeker?</span>{" "}
-            This calendar is reserved for employer hiring consultations. To explore open positions, please{" "}
-            <a
-              href="#vacancies"
-              onClick={() => onOpenChange(false)}
-              className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:text-primary-light"
-            >
-              browse our open roles
-            </a>
-            .
-          </div>
           <div className="relative min-h-0 flex-1">
             {status === "error" ? (
               <div

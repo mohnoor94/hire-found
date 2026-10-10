@@ -379,7 +379,7 @@ describe("Phase 3 Site Components Parity", () => {
       interval.mockRestore();
     });
 
-    it("displays executive consultation title and job seeker deflection banner", async () => {
+    it("displays executive consultation title and does not show job seeker banner", async () => {
       await act(async () => {
         root.render(
           <CalDialogProvider>
@@ -396,10 +396,8 @@ describe("Phase 3 Site Components Parity", () => {
       const modal = document.getElementById("booking-modal");
       expect(modal?.textContent).toContain("Book an Executive Consultation");
       expect(modal?.textContent).toContain("For founders, CEOs & hiring leaders");
-      expect(modal?.textContent).toContain("Job seeker?");
-      expect(modal?.textContent).toContain("browse our open roles");
-      const roleLink = modal?.querySelector('a[href="#vacancies"]');
-      expect(roleLink).not.toBeNull();
+      expect(modal?.textContent).not.toContain("Job seeker?");
+      expect(modal?.textContent).not.toContain("browse our open roles");
     });
   });
 });
