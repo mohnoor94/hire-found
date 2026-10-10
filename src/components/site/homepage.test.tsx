@@ -144,15 +144,14 @@ describe("Homepage", () => {
     expect(container.textContent).toContain("Career Matchmaking");
   });
 
-  it("keeps the modernized trust section hidden until sign-off", async () => {
+  it("keeps the modernized trust section gated off by default", async () => {
     await act(async () => {
       root.render(<Trust />);
     });
 
     const trust = container.querySelector("#trust");
-    expect(trust?.hasAttribute("hidden")).toBe(true);
-    expect(trust?.textContent).toContain("TEDx Zarqa University");
-    expect(trust?.textContent).toContain("Kholoud Joudeh");
+    // By default the feature flag is disabled, so the section should not render.
+    expect(trust).toBeNull();
   });
 
   it("renders the founder editorial portrait, credentials, and facts in About", async () => {
