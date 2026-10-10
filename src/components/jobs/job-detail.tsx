@@ -26,10 +26,10 @@ declare global {
 }
 
 const primaryAction =
-  "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+  "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none transition-transform transition-colors duration-150 ease-out active:scale-[0.97] active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 const quietAction =
-  "inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+  "inline-flex min-h-12 touch-manipulation items-center gap-2 rounded-full border border-primary/30 px-6 text-sm font-semibold text-primary select-none transition-transform transition-colors duration-150 ease-out active:scale-[0.97] active:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 export function JobDetail({ job }: JobDetailProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -111,6 +111,18 @@ export function JobDetail({ job }: JobDetailProps) {
   }, [hasTally, job.tallyFormId]);
 
   async function handleShare() {
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({
+          title: `${job.title} | HireFound`,
+          url: window.location.href,
+        });
+        return;
+      } catch {
+        // User cancelled or unsupported - fallback to clipboard copy
+      }
+    }
+
     try {
       await navigator.clipboard.writeText(window.location.href);
       setCopied(true);

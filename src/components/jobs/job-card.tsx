@@ -23,7 +23,11 @@ export function JobCard({ job }: JobCardProps) {
   return (
     <Link
       href={`/jobs/?id=${job.slug}`}
-      className="group block min-h-11 rounded-xl border border-secondary/30 bg-card/75 p-6 shadow-xs backdrop-blur-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-card hover:shadow-card active:translate-y-0 active:scale-[0.99] mb-3 last:mb-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      style={{
+        transition:
+          "transform 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms ease-out, border-color 180ms ease-out",
+      }}
+      className="group block min-h-11 rounded-xl border border-secondary/30 bg-card/75 p-6 shadow-xs backdrop-blur-xs hover:-translate-y-0.5 hover:border-primary/30 hover:bg-card hover:shadow-card active:scale-[0.99] active:translate-y-0 mb-3 last:mb-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
     >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">

@@ -103,14 +103,14 @@ function useActiveSection(onHomepage: boolean) {
 
 const desktopLinkClass = (active: boolean) =>
   cn(
-    "inline-flex min-h-10 touch-manipulation items-center rounded-full px-4 text-sm font-semibold transition-all duration-200 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+    "inline-flex min-h-10 touch-manipulation items-center rounded-full px-4 text-sm font-semibold [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] active:scale-[0.97] select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
     active
       ? "bg-primary text-primary-foreground shadow-warm"
-      : "text-muted hover:bg-primary/5 hover:text-primary active:scale-[0.98]",
+      : "text-muted hover:bg-primary/5 hover:text-primary",
   );
 
 const desktopBookClass =
-  "group inline-flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-warm select-none transition-all duration-200 hover:bg-primary-light hover:shadow-glow active:scale-[0.98] active:bg-primary-dark";
+  "group inline-flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-warm select-none [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-primary-light hover:shadow-glow active:scale-[0.97] active:bg-primary-dark";
 
 const mobileCardClass = (active: boolean) =>
   cn(

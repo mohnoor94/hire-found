@@ -110,7 +110,7 @@ export function CalDialog({
               <button
                 id="booking-close-btn"
                 type="button"
-                className="inline-flex size-11 touch-manipulation items-center justify-center rounded-full text-text-main select-none active:bg-primary/10"
+                className="inline-flex size-11 touch-manipulation items-center justify-center rounded-full text-text-main select-none transition-transform duration-150 active:scale-95 active:bg-primary/10"
                 aria-label="Close booking"
               >
                 <XIcon className="size-5" />
@@ -156,7 +156,7 @@ export function CalDialog({
                     href={DEFAULTS.calLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark"
+                    className="inline-flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none transition-transform duration-150 active:scale-95 active:bg-primary-dark"
                   >
                     Book on Cal.com
                     <ArrowUpRightIcon className="size-4" />
@@ -165,13 +165,13 @@ export function CalDialog({
                     href={whatsAppUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/20 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10"
+                    className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/20 px-6 text-sm font-semibold text-primary select-none transition-transform duration-150 active:scale-95 active:bg-primary/10"
                   >
                     Chat on WhatsApp
                   </a>
                   <a
                     href={`mailto:${DEFAULTS.email}`}
-                    className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/20 px-6 text-sm font-semibold text-primary select-none active:bg-primary/10"
+                    className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/20 px-6 text-sm font-semibold text-primary select-none transition-transform duration-150 active:scale-95 active:bg-primary/10"
                   >
                     Email Yasmin
                   </a>
@@ -186,6 +186,7 @@ export function CalDialog({
                   >
                     <div
                       className="size-10 rounded-full border-2 border-primary/20 border-t-primary motion-safe:animate-spin"
+                      style={{ animationDuration: "0.65s" }}
                       aria-hidden="true"
                     />
                     <p className="mt-4 text-sm text-muted">

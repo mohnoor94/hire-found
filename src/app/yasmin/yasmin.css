@@ -1,0 +1,237 @@
+/* Yasmin Space - Personal Atelier Styles & Motion Design */
+
+/* Butterfly pulse: gentle breathing scale and opacity animation */
+@keyframes butterfly-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.94;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+.butterfly-pulse {
+  animation: butterfly-pulse 3.6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Sparkle twinkle: subtle rotation and scale for spark buttons */
+@keyframes sparkle-twinkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.12) rotate(15deg);
+    opacity: 1;
+  }
+}
+
+.sparkle-twinkle {
+  animation: sparkle-twinkle 2.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Particle float: gentle floating upward */
+@keyframes particle-float {
+  0% {
+    transform: translateY(0px) scale(0.85);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.85;
+  }
+  75% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-20px) scale(1.1);
+    opacity: 0;
+  }
+}
+
+.particle-float {
+  animation: particle-float 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+  will-change: transform, opacity;
+}
+
+/* Wing flutter for celebratory butterflies */
+@keyframes celebration-wing-flutter-left-kf {
+  0%, 100% {
+    transform: perspective(220px) rotateY(0deg) skewY(0deg);
+  }
+  50% {
+    transform: perspective(220px) rotateY(64deg) skewY(-6deg);
+  }
+}
+
+@keyframes celebration-wing-flutter-right-kf {
+  0%, 100% {
+    transform: perspective(220px) rotateY(0deg) skewY(0deg);
+  }
+  50% {
+    transform: perspective(220px) rotateY(-64deg) skewY(6deg);
+  }
+}
+
+.celebration-wing-flutter-left {
+  animation: celebration-wing-flutter-left-kf 0.24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.celebration-wing-flutter-right {
+  animation: celebration-wing-flutter-right-kf 0.24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Flight paths drifting upward and dissolving gracefully */
+@keyframes celebration-flight-1-kf {
+  0% {
+    transform: translate(0, 40px) scale(0.65) rotate(-10deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-20px, -70px) scale(0.9) rotate(-14deg);
+  }
+  45% {
+    transform: translate(-50px, -220px) scale(1.05) rotate(-8deg);
+  }
+  75% {
+    opacity: 0.95;
+    transform: translate(-30px, -380px) scale(1.02) rotate(-16deg);
+  }
+  100% {
+    transform: translate(-65px, -520px) scale(1.1) rotate(-18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes celebration-flight-2-kf {
+  0% {
+    transform: translate(0, 40px) scale(0.7) rotate(8deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    transform: translate(25px, -80px) scale(0.95) rotate(12deg);
+  }
+  50% {
+    transform: translate(55px, -240px) scale(1.08) rotate(6deg);
+  }
+  75% {
+    opacity: 0.95;
+    transform: translate(30px, -400px) scale(1.06) rotate(14deg);
+  }
+  100% {
+    transform: translate(70px, -540px) scale(1.15) rotate(10deg);
+    opacity: 0;
+  }
+}
+
+@keyframes celebration-flight-3-kf {
+  0% {
+    transform: translate(0, 40px) scale(0.6) rotate(14deg);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+    transform: translate(25px, -65px) scale(0.85) rotate(18deg);
+  }
+  45% {
+    transform: translate(50px, -200px) scale(1.02) rotate(10deg);
+  }
+  75% {
+    opacity: 0.9;
+    transform: translate(35px, -360px) scale(1) rotate(16deg);
+  }
+  100% {
+    transform: translate(75px, -490px) scale(1.06) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes celebration-flight-4-kf {
+  0% {
+    transform: translate(0, 40px) scale(0.65) rotate(-6deg);
+    opacity: 0;
+  }
+  16% {
+    opacity: 1;
+    transform: translate(-15px, -75px) scale(0.9) rotate(-10deg);
+  }
+  50% {
+    transform: translate(-40px, -230px) scale(1.06) rotate(-4deg);
+  }
+  75% {
+    opacity: 0.95;
+    transform: translate(-15px, -390px) scale(1.04) rotate(-12deg);
+  }
+  100% {
+    transform: translate(-50px, -530px) scale(1.12) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+.celebration-fly-1 {
+  animation: celebration-flight-1-kf 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+.celebration-fly-2 {
+  animation: celebration-flight-2-kf 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+.celebration-fly-3 {
+  animation: celebration-flight-3-kf 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+.celebration-fly-4 {
+  animation: celebration-flight-4-kf 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+/* Sparkle burst keyframes */
+@keyframes celebration-sparkle-burst-kf {
+  0% {
+    transform: scale(0.95) rotate(0deg);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(1) rotate(45deg);
+    opacity: 0.95;
+  }
+  65% {
+    transform: scale(0.9) rotate(90deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0.95) rotate(135deg);
+    opacity: 0;
+  }
+}
+
+.celebration-sparkle-item {
+  animation-name: celebration-sparkle-burst-kf;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+
+/* Accessibility: prefers-reduced-motion safely turns off transforms and loops */
+@media (prefers-reduced-motion: reduce) {
+  .celebration-butterflies-root {
+    display: none !important;
+  }
+  .butterfly-pulse,
+  .sparkle-twinkle,
+  .particle-float {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

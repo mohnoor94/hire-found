@@ -255,6 +255,21 @@ describe("Phase 3 Site Components Parity", () => {
       expect(container.textContent).toContain("Senior Barista");
       expect(container.textContent).toContain("Frontend Engineer");
     });
+
+    it("renders candidate WhatsApp fallback when no jobs match or board is empty", async () => {
+      fetchJobsMock.mockResolvedValueOnce([]);
+      await act(async () => {
+        root.render(<LiveVacancies />);
+      });
+
+      expect(container.textContent).toContain("Quiet on the board");
+      const waFallback = container.querySelector('a[href*="wa.me/962793001043"]');
+      expect(waFallback).not.toBeNull();
+      expect(waFallback?.textContent).toContain("Submit CV via WhatsApp");
+      expect(waFallback?.getAttribute("href")).toContain(
+        encodeURIComponent("Hi Yasmin! I'd like to submit my CV for upcoming searches."),
+      );
+    });
   });
 
   describe("ActionStack", () => {

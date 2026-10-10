@@ -98,7 +98,7 @@ export function Services() {
                 type="button"
                 id="services-book-employer"
                 onClick={(e) => open(e.currentTarget)}
-                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground select-none transition-all duration-200 hover:bg-primary-light active:bg-primary-dark shadow-warm"
+                className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground select-none [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-primary-light active:scale-[0.97] active:bg-primary-dark shadow-warm"
               >
                 <CalendarIcon className="size-4" aria-hidden="true" />
                 <span>Book Consultation</span>
@@ -108,7 +108,7 @@ export function Services() {
                 href={EMPLOYER_WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-primary/25 bg-white px-5 text-sm font-semibold text-primary select-none transition-all duration-200 hover:bg-warm-dark active:bg-warm"
+                className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center gap-2 rounded-full border border-primary/25 bg-white px-5 text-sm font-semibold text-primary select-none [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-warm-dark active:scale-[0.97] active:bg-warm"
               >
                 <span>Discuss on WhatsApp</span>
               </a>

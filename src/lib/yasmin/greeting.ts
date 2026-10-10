@@ -1,5 +1,6 @@
 /**
- * Greeting helpers - from yasmin/js/app.js.
+ * Greeting helpers for Yasmin's Space.
+ * Provides personalized greetings, warm daily affirmations, and celebration toasts.
  */
 
 export const GREETING_TEMPLATES: Array<(name: string) => string> = [
@@ -78,6 +79,62 @@ export const SUBTITLES = [
   "Making the job world a better place 🌈",
 ] as const;
 
+export const DAILY_AFFIRMATIONS = [
+  "Today is filled with wonderful possibilities 🌸",
+  "You don't just place talent, Yasmin; you transform leadership teams and lives 💫",
+  "Every conversation you have opens a life-changing door for someone 🦋",
+  "Your intuition for exceptional people is unmatched ☀️",
+  "Executive recruitment is an art, and your curation is pure brilliance 💎",
+  "Trust your instincts today; you always recognize true potential before anyone else 🌟",
+  "Your warmth and dedication set a standard of excellence 🌷",
+  "You are building the future of remarkable companies, one placement at a time 🏛️",
+  "A thoughtful leader will find their dream role because of your guidance today 🎯",
+  "Bring that signature spark to every search 🌺",
+  "Your empathy and strategic eye make you an unstoppable force in recruitment 💜",
+  "Never underestimate the ripple effect of placing the right leader in the right seat 🌊",
+  "Keep shining, Yasmin; you bring heart, elegance, and integrity to every deal ✨",
+  "Momentum is building with every introduction you make 🌿",
+  "Candidates remember how you made them feel: valued, seen, and empowered 🤍",
+  "Your taste in executive talent is second to none; lead with confidence today 👑",
+  "Every great company started with one key hire. You are making that happen 🚀",
+  "Take a deep breath, you've got this completely 🌻",
+  "You craft career stories that inspire generations. Keep weaving magic 🪄",
+  "Quiet confidence and deep care: that is your superpower, Yasmin 🕊️",
+  "Clients trust you because you listen deeply and deliver with flawless precision 🤝",
+  "Another day to celebrate your unique talent 🌈",
+  "The best founders in the region seek your counsel; own your expertise 🏆",
+  "You change the trajectory of careers and families with every offer signed 📝",
+  "Lead with grace, negotiate with poise, and celebrate every win 🥂",
+  "Your positive energy lights up every room you enter 🌸",
+  "You are more than a recruiter; you are an architect of high-performing teams 🏗️",
+  "Big impact happens in subtle moments: one message, one phone call, one introduction 💫",
+  "Your resilience and grace inspire everyone around you, Yasmin 🌷",
+  "Step forward today knowing you are extraordinary 💎",
+  "Take a quiet moment to savor your coffee today, Yasmin ☕ - beauty is in the pause.",
+  "This space is yours to breathe, create, and thrive 🏡 - you belong here.",
+  "Trust the timing of your life and the brilliance of your craft 🕊️",
+  "You bring light to every corner of your work and life 💫",
+] as const;
+
+export const CELEBRATION_TOASTS = {
+  create: [
+    "Live and glowing! Someone's dream career is out there now ✨🦋",
+    "Published with love! Another future shaped by Yasmin 🌸",
+    "A new door is officially open 🚪✨",
+    "Opportunity unleashed! The right leader is on their way 🌟",
+    "Crafted with care, live for the world 💎",
+  ],
+  activate: [
+    "Turned on! Go find that superstar 💫",
+    "Active and radiating opportunity 🦋",
+    "Back in flight! Ready for talent 🌟",
+    "Reactivated and shining bright! Let's connect great minds ✨",
+    "Open for talent again! Exciting times ahead 🚀",
+  ],
+} as const;
+
+export type CelebrationToastType = keyof typeof CELEBRATION_TOASTS;
+
 export function extractFirstName(
   displayName: string | null | undefined,
 ): string {
@@ -115,17 +172,98 @@ export function truncateUserIdentifier(user: {
   return identifier.substring(0, 30) + "…";
 }
 
+export function getContextualGreetings(date: Date = new Date()): Array<(name: string) => string> {
+  const hour = date.getHours();
+  const day = date.getDay();
+  const greetings: Array<(name: string) => string> = [];
+
+  if (hour >= 5 && hour <= 11) {
+    greetings.push(
+      (name) => `Good morning, ${name} ☀️`,
+      (name) => `Morning sunshine, ${name} ☕`,
+      (name) => `Early morning momentum, ${name} 🌅`,
+    );
+  } else if (hour >= 12 && hour <= 16) {
+    greetings.push(
+      (name) => `Good afternoon, ${name} 🌤️`,
+      (name) => `Afternoon inspiration, ${name} 💫`,
+      (name) => `Midday brilliance, ${name} 🌷`,
+    );
+  } else {
+    greetings.push(
+      (name) => `Good evening, ${name} 🌙`,
+      (name) => `Evening glow, ${name} ✨`,
+      (name) => `Unwinding in style, ${name} 🕯️`,
+    );
+  }
+
+  switch (day) {
+    case 0: // Sunday
+      greetings.push(
+        (name) => `Happy Sunday, ${name} 🌸`,
+        (name) => `Sunday serenity, ${name} 🌿`,
+      );
+      break;
+    case 1: // Monday
+      greetings.push(
+        (name) => `Happy Monday, ${name}! Fresh week ahead 🚀`,
+        (name) => `Monday energy, ${name} 💫`,
+      );
+      break;
+    case 2: // Tuesday
+      greetings.push((name) => `Terrific Tuesday, ${name} 🌟`);
+      break;
+    case 3: // Wednesday
+      greetings.push((name) => `Happy Wednesday, ${name}! Halfway through 🌈`);
+      break;
+    case 4: // Thursday
+      greetings.push((name) => `Thriving Thursday, ${name} ✨`);
+      break;
+    case 5: // Friday
+      greetings.push(
+        (name) => `Happy Friday, ${name}! Finishing strong 🎉`,
+        (name) => `Friday magic, ${name} 🥂`,
+      );
+      break;
+    case 6: // Saturday
+      greetings.push(
+        (name) => `Happy Saturday, ${name} 🌷`,
+        (name) => `Weekend peace, ${name} 🍃`,
+      );
+      break;
+  }
+
+  return greetings;
+}
+
 export function pickGreeting(
   displayName: string | null | undefined,
   random = Math.random,
+  date = new Date(),
 ): { greeting: string; subtitle: string; subtitleText: string; subtitleEmoji: string } {
   const firstName = extractFirstName(displayName);
+  const contextual = getContextualGreetings(date);
+  const templates = [...GREETING_TEMPLATES, ...contextual];
   const template =
-    GREETING_TEMPLATES[Math.floor(random() * GREETING_TEMPLATES.length)]!;
+    templates[Math.floor(random() * templates.length)]!;
   const greeting = template(firstName);
   const subtitle =
     SUBTITLES[Math.floor(random() * SUBTITLES.length)]!;
   const { text: subtitleText, emoji: subtitleEmoji } =
     splitTrailingEmoji(subtitle);
   return { greeting, subtitle, subtitleText, subtitleEmoji };
+}
+
+export function pickAffirmation(random = Math.random): string {
+  const index = Math.floor(random() * DAILY_AFFIRMATIONS.length);
+  return DAILY_AFFIRMATIONS[index]!;
+}
+
+export function getCelebrationToast(
+  type: CelebrationToastType,
+  random = Math.random,
+): string {
+  const pool = CELEBRATION_TOASTS[type];
+  const index = Math.floor(random() * pool.length);
+  return pool[index]!;
 }

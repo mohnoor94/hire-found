@@ -4,8 +4,12 @@ import {
   isEmailAllowed,
 } from "@/lib/yasmin/auth";
 import {
+  DAILY_AFFIRMATIONS,
   extractFirstName,
+  getCelebrationToast,
+  getContextualGreetings,
   getGreeting,
+  pickAffirmation,
   pickGreeting,
   splitTrailingEmoji,
   truncateUserIdentifier,
@@ -66,6 +70,33 @@ describe("greeting helpers", () => {
     const result = pickGreeting("Noor", () => 0);
     expect(result.greeting).toContain("Noor");
     expect(result.subtitle.length).toBeGreaterThan(0);
+  });
+
+  it("picks a daily affirmation spark without em-dashes", () => {
+    const aff = pickAffirmation(() => 0);
+    expect(aff.length).toBeGreaterThan(10);
+    for (const affirmation of DAILY_AFFIRMATIONS) {
+      expect(affirmation).not.toContain("—");
+      expect(affirmation).not.toContain("&mdash;");
+    }
+  });
+
+  it("returns celebration toasts for create and activate without em-dashes", () => {
+    const createToast = getCelebrationToast("create", () => 0);
+    const activateToast = getCelebrationToast("activate", () => 0);
+    expect(createToast).toBeTruthy();
+    expect(activateToast).toBeTruthy();
+    expect(createToast).not.toContain("—");
+    expect(activateToast).not.toContain("—");
+  });
+
+  it("generates contextual greetings across day and hour", () => {
+    const morningSunday = new Date("2026-10-11T09:00:00");
+    const templates = getContextualGreetings(morningSunday);
+    expect(templates.length).toBeGreaterThan(0);
+    const greetingText = templates[0]!("Yasmin");
+    expect(greetingText).toContain("Yasmin");
+    expect(greetingText).not.toContain("—");
   });
 });
 

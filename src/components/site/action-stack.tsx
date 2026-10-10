@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useBookingModal } from "@/components/site/cal-dialog";
+import { DEFAULTS } from "@/lib/jobs/types";
 
 export function ActionStack() {
   const { open } = useBookingModal();
@@ -31,14 +32,18 @@ export function ActionStack() {
   return (
     <div
       id="action-stack"
-      className={`fixed right-6 bottom-6 z-50 flex flex-col gap-3 transition-opacity duration-500 ${visible ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+      className={`fixed right-6 bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-50 flex flex-col gap-3 [transition:transform_220ms_cubic-bezier(0.23,1,0.32,1),opacity_220ms_ease-out] ${visible ? "pointer-events-auto opacity-100 translate-y-0 scale-100" : "pointer-events-none opacity-0 translate-y-2 scale-95"}`}
+      style={{
+        transition:
+          "transform 220ms cubic-bezier(0.23, 1, 0.32, 1), opacity 220ms ease-out",
+      }}
       aria-label="Quick actions"
     >
       <button
         id="fab-book"
         type="button"
         onClick={(e) => open(e.currentTarget)}
-        className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-primary-light hover:shadow-xl max-md:size-12 max-md:justify-center max-md:rounded-full max-md:px-0"
+        className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg transition-[transform,background-color,box-shadow] duration-200 hover:bg-primary-light hover:shadow-xl active:scale-[0.95] max-md:size-12 max-md:justify-center max-md:rounded-full max-md:px-0"
         aria-label="Book a Call"
       >
         <svg
@@ -59,10 +64,10 @@ export function ActionStack() {
 
       <a
         id="fab-whatsapp"
-        href="https://wa.me/962793001043?text=Hi%20Yasmin!%20I%20found%20you%20through%20your%20website."
+        href={`https://wa.me/${DEFAULTS.whatsApp}?text=${encodeURIComponent("Hi Yasmin! I found you through your website.")}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="bg-whatsapp inline-flex touch-manipulation items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg select-none active:brightness-95 max-md:size-12 max-md:justify-center max-md:rounded-full max-md:px-0"
+        className="bg-whatsapp inline-flex touch-manipulation items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg select-none transition-[transform,filter,box-shadow] duration-200 hover:shadow-xl active:brightness-95 active:scale-[0.95] max-md:size-12 max-md:justify-center max-md:rounded-full max-md:px-0"
         aria-label="WhatsApp"
       >
         <svg

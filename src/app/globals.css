@@ -71,9 +71,13 @@
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
+    --ease-snappy: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-out-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
+    --ease-snappy: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-out-smooth: cubic-bezier(0.16, 1, 0.3, 1);
     --site-nav-offset: calc(4rem + env(safe-area-inset-top, 0px));
     --hf-warm: #FCF9F5;
     --hf-warm-dark: #F3EBE3;
@@ -166,6 +170,7 @@
   font-weight: 600;
   cursor: pointer;
   touch-action: manipulation;
+  transition: transform 140ms var(--ease-snappy, cubic-bezier(0.23, 1, 0.32, 1)), background-color 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
@@ -175,6 +180,7 @@
   }
 
   &:active {
+    transform: scale(0.97);
     background-color: color-mix(in srgb, var(--primary) 18%, var(--hf-warm));
   }
 

@@ -108,7 +108,7 @@ export function About() {
               return (
                 <div
                   key={point.title}
-                  className="reveal-on-scroll group flex flex-col justify-between rounded-2xl border border-secondary/30 bg-card/70 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-card hover:shadow-card"
+                  className="reveal-on-scroll group flex flex-col justify-between rounded-2xl border border-secondary/30 bg-card/70 p-6 shadow-xs backdrop-blur-xs [transition:transform_240ms_cubic-bezier(0.23,1,0.32,1),box-shadow_240ms_ease-out,background-color_240ms_ease-out] hover:-translate-y-1 hover:bg-card hover:shadow-card"
                 >
                   <div>
                     <div className="mb-4 inline-flex rounded-xl border border-secondary/20 bg-warm/50 p-2 shadow-xs transition-transform duration-300 group-hover:scale-105">

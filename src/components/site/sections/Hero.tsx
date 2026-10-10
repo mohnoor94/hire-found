@@ -7,10 +7,10 @@ import { withBasePath } from "@/lib/base-path";
 import { ButterflyMicro } from "@/components/illustrations";
 
 const primaryCta =
-  "group relative inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 overflow-hidden rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none transition-all duration-200 hover:bg-primary-light hover:shadow-glow active:scale-[0.98] active:bg-primary-dark sm:w-auto shadow-warm ring-1 ring-primary/0 hover:ring-primary/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+  "group relative inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 overflow-hidden rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-primary-light hover:shadow-glow active:scale-[0.97] active:bg-primary-dark sm:w-auto shadow-warm ring-1 ring-primary/0 hover:ring-primary/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 const secondaryCta =
-  "group inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full border border-primary/25 bg-card/70 px-6 text-base font-semibold text-primary select-none transition-all duration-200 hover:bg-card hover:border-primary/45 active:scale-[0.98] active:bg-card sm:w-auto";
+  "group inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full border border-primary/25 bg-card/70 px-6 text-base font-semibold text-primary select-none [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-card hover:border-primary/45 active:scale-[0.97] active:bg-card sm:w-auto";
 
 function useHeroPointer(ref: React.RefObject<HTMLElement | null>) {
   useEffect(() => {
@@ -229,11 +229,11 @@ export function Hero() {
               </div>
             </figure>
 
-            {/* Atelier Card 2: Simple Standard (from AntiPitch.tsx) */}
+            {/* Atelier Card 2: Practice Areas & Executive Mandates */}
             <div className="rounded-xl border border-primary/15 bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover">
               <div className="flex items-center justify-between border-b border-warm-dark pb-3.5">
                 <p className="text-[11px] font-bold tracking-[0.14em] text-muted uppercase">
-                  How We Work
+                  Executive Mandates
                 </p>
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] font-semibold text-primary">
@@ -246,23 +246,23 @@ export function Hero() {
               <div className="mt-4 space-y-3">
                 <div>
                   <h2 className="font-accent text-xl text-primary">
-                    Matchmaking, Not Seat-Filling
+                    Practice Areas &amp; Executive Mandates
                   </h2>
                   <p className="mt-1 text-xs leading-relaxed text-muted">
-                    Finding people who fit your culture, not just your job
-                    description. Every candidate is more than a CV.
+                    C-Suite &amp; Board Appointments, Headhunting &amp; Retained
+                    Search, and Behavioral Profiling for leadership teams.
                   </p>
                 </div>
 
                 <div className="flex flex-wrap gap-2 pt-1.5">
                   <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
-                    Executive Search
+                    Executive Retainers
+                  </span>
+                  <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
+                    C-Suite &amp; Board
                   </span>
                   <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
                     DISC Profiling
-                  </span>
-                  <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
-                    First Call to First Day
                   </span>
                 </div>
               </div>
