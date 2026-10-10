@@ -112,7 +112,7 @@ export const en: Messages = {
     ctaExplore: "Explore Open Roles",
     facts: [
       "Direct Founder Access",
-      "10+ Years in HR",
+      "10+ years in HR",
       "MENA Region",
       "Junior to C-Suite",
       "TEDx Speaker",
