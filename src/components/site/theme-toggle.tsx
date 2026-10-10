@@ -54,7 +54,7 @@ export function ThemeToggle() {
       aria-label={label}
       title={label}
       onClick={cycle}
-      className="inline-flex size-11 touch-manipulation items-center justify-center rounded-full border border-primary/15 bg-white/70 text-primary transition-colors duration-200 hover:bg-white active:scale-[0.98] active:bg-primary/10"
+      className="inline-flex size-11 touch-manipulation items-center justify-center rounded-full border border-primary/15 bg-card/70 text-primary transition-colors duration-200 hover:bg-card active:scale-[0.98] active:bg-primary/10"
     >
       {choice === "system" ? (
         <MonitorIcon className="size-5" aria-hidden="true" />

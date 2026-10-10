@@ -49,7 +49,10 @@ const LOAD_TIMEOUT_MS = 12_000;
 function calEmbedSrc(calLink: string) {
   const url = new URL(calLink);
   url.searchParams.set("embed", "true");
-  url.searchParams.set("theme", "light");
+  const dark =
+    typeof document !== "undefined" &&
+    document.documentElement.classList.contains("dark");
+  url.searchParams.set("theme", dark ? "dark" : "light");
   url.searchParams.set("brandColor", CAL_BRAND);
   return url.toString();
 }
@@ -75,11 +78,11 @@ export function CalDialog({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[70] bg-text-main/55 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[70] bg-black/55 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
         <DialogPrimitive.Content
           id="booking-modal"
           aria-describedby="booking-modal-description"
-          className="fixed inset-0 z-[70] flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-warm pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] outline-none data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:h-auto sm:max-h-[min(92dvh,840px)] sm:w-[min(calc(100%-2rem),44rem)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:card-surface sm:pt-0 sm:pb-0 sm:data-open:zoom-in-95 sm:data-closed:zoom-out-95"
+          className="fixed inset-0 z-[70] flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-background pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] outline-none data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:h-auto sm:max-h-[min(92dvh,840px)] sm:w-[min(calc(100%-2rem),44rem)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:card-surface sm:pt-0 sm:pb-0 sm:data-open:zoom-in-95 sm:data-closed:zoom-out-95"
           style={
             vtName
               ? ({
@@ -135,7 +138,7 @@ export function CalDialog({
                     href={DEFAULTS.calLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-warm select-none active:bg-primary-dark"
+                    className="inline-flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark"
                   >
                     Book on Cal.com
                     <ArrowUpRightIcon className="size-4" />
@@ -161,7 +164,7 @@ export function CalDialog({
                 {status === "loading" ? (
                   <div
                     id="booking-loading"
-                    className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-warm"
+                    className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background"
                   >
                     <div
                       className="size-10 rounded-full border-2 border-primary/20 border-t-primary motion-safe:animate-spin"

@@ -4,16 +4,16 @@ import { formatCategoryLabel, formatOptionLabel } from "@/lib/yasmin/labels";
 import { cn } from "@/lib/utils";
 
 export const editorControlClass =
-  "h-12 w-full scroll-mb-32 rounded-full border border-primary/25 bg-white px-5 text-base text-text-main placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:bg-warm-dark disabled:text-muted";
+  "h-12 w-full scroll-mb-32 rounded-full border border-primary/25 bg-card px-5 text-base text-text-main placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:bg-warm-dark disabled:text-muted";
 
 export const editorTextareaClass =
-  "min-h-36 w-full max-w-full min-w-0 scroll-mb-32 resize-y overflow-x-hidden break-words rounded-2xl border border-primary/25 bg-white px-5 py-3 text-base text-text-main placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+  "min-h-36 w-full max-w-full min-w-0 scroll-mb-32 resize-y overflow-x-hidden break-words rounded-2xl border border-primary/25 bg-card px-5 py-3 text-base text-text-main placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 export const editorPrimaryButton =
   "inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";
 
 export const editorQuietButton =
-  "inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/25 bg-white px-5 text-sm font-semibold text-primary select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";
+  "inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/25 bg-card px-5 text-sm font-semibold text-primary select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";
 
 export const editorTextButton =
   "inline-flex min-h-11 touch-manipulation items-center px-3 text-sm font-semibold text-primary select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";

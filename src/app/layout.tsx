@@ -11,7 +11,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#FCF9F5",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FCF9F5" },
+    { media: "(prefers-color-scheme: dark)", color: "#1A1A2E" },
+  ],
 };
 
 const inter = Inter({
@@ -62,6 +65,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={cn(
         "scroll-smooth font-sans",
@@ -79,7 +83,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
       </head>
-      <body className="overflow-x-hidden bg-warm font-sans text-text-main antialiased">
+      <body className="overflow-x-hidden bg-background font-sans text-foreground antialiased">
         <CalDialogProvider>{children}</CalDialogProvider>
       </body>
     </html>

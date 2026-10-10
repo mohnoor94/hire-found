@@ -212,7 +212,7 @@ export function JobDetail({ job }: JobDetailProps) {
             data-tally-src={tallyUrl}
             src={tallyUrl}
             title="Application Form"
-            className="mt-6 min-h-[400px] w-full rounded-[16px] border border-primary/15 bg-white"
+            className="mt-6 min-h-[400px] w-full rounded-[16px] border border-primary/15 bg-card"
           />
           <p className="mt-3 text-sm text-muted">
             <a

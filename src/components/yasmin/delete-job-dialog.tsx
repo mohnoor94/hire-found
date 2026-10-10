@@ -11,7 +11,7 @@ import {
 import type { Job } from "@/lib/jobs/types";
 
 const quietButton =
-  "inline-flex min-h-11 flex-1 touch-manipulation items-center justify-center rounded-full border border-primary/25 bg-white px-4 text-sm font-semibold text-muted select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";
+  "inline-flex min-h-11 flex-1 touch-manipulation items-center justify-center rounded-full border border-primary/25 bg-card px-4 text-sm font-semibold text-muted select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";
 
 const dangerButton =
   "inline-flex min-h-11 flex-1 touch-manipulation items-center justify-center rounded-full bg-destructive px-4 text-sm font-semibold text-white select-none active:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-destructive disabled:opacity-60";
@@ -34,7 +34,7 @@ export function DeleteJobDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="rounded-2xl border border-primary/15 bg-warm p-6 shadow-card sm:max-w-md"
+        className="rounded-2xl border border-primary/15 bg-card p-6 shadow-card sm:max-w-md"
         showCloseButton={false}
       >
         <DialogHeader>
@@ -45,7 +45,7 @@ export function DeleteJobDialog({
             This action is permanent and cannot be undone.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="-mx-6 -mb-6 border-primary/15 bg-warm p-6 sm:justify-stretch">
+        <DialogFooter className="-mx-6 -mb-6 border-primary/15 bg-card p-6 sm:justify-stretch">
           <button
             type="button"
             disabled={deleting}

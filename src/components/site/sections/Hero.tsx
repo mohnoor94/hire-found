@@ -10,7 +10,7 @@ const primaryCta =
   "group relative inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 overflow-hidden rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none transition-all duration-200 hover:bg-primary-light hover:shadow-glow active:scale-[0.98] active:bg-primary-dark sm:w-auto shadow-warm ring-1 ring-primary/0 hover:ring-primary/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 const secondaryCta =
-  "group inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full border border-primary/25 bg-white/70 px-6 text-base font-semibold text-primary select-none transition-all duration-200 hover:bg-white hover:border-primary/45 active:scale-[0.98] active:bg-warm-dark sm:w-auto";
+  "group inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full border border-primary/25 bg-card/70 px-6 text-base font-semibold text-primary select-none transition-all duration-200 hover:bg-card hover:border-primary/45 active:scale-[0.98] active:bg-card sm:w-auto";
 
 function useHeroPointer(ref: React.RefObject<HTMLElement | null>) {
   useEffect(() => {
@@ -104,7 +104,7 @@ export function Hero() {
     <section
       id="hero"
       ref={heroRef}
-      className="relative isolate flex min-h-[min(100svh,54rem)] flex-col justify-center overflow-hidden bg-warm pt-[calc(var(--site-nav-offset)+1.5rem)] pb-16 md:py-20 lg:py-24"
+      className="relative isolate flex min-h-[min(100svh,54rem)] flex-col justify-center overflow-hidden bg-background pt-[calc(var(--site-nav-offset)+1.5rem)] pb-16 md:py-20 lg:py-24"
     >
       {/* Animated gradient mesh that softly follows the cursor (desktop only) */}
       <div
@@ -145,7 +145,7 @@ export function Hero() {
             <div className="mt-5 inline-flex items-center gap-1 rounded-full bg-primary/[0.06] p-1">
               <button
                 type="button"
-                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${isEmployers ? "bg-white text-primary shadow-sm" : "text-muted hover:text-primary"}`}
+                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${isEmployers ? "bg-card text-primary shadow-sm" : "text-muted hover:text-primary"}`}
                 aria-pressed={isEmployers}
                 onClick={() => services?.setTab("employers")}
               >
@@ -153,7 +153,7 @@ export function Hero() {
               </button>
               <button
                 type="button"
-                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${!isEmployers ? "bg-white text-primary shadow-sm" : "text-muted hover:text-primary"}`}
+                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${!isEmployers ? "bg-card text-primary shadow-sm" : "text-muted hover:text-primary"}`}
                 aria-pressed={!isEmployers}
                 onClick={() => services?.setTab("candidates")}
               >
@@ -242,7 +242,7 @@ export function Hero() {
           {/* Right Column: Spacious & Calm Atelier Cards (No giant photo, no cramped stats) */}
           <div className="hf-atelier-deck hidden flex-col gap-5 md:flex">
             {/* Atelier Card 1: Founder Cameo Seal */}
-            <figure className="relative overflow-hidden rounded-xl border border-secondary/40 bg-white/90 p-6 shadow-card backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
+            <figure className="relative overflow-hidden rounded-xl border border-secondary/40 bg-card/90 p-6 shadow-card backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
               <div className="flex items-center gap-4">
                 <div className="relative size-16 shrink-0 sm:size-20">
                   <div
@@ -277,7 +277,7 @@ export function Hero() {
             </figure>
 
             {/* Atelier Card 2: Simple Standard (from AntiPitch.tsx) */}
-            <div className="rounded-xl border border-primary/15 bg-white p-6 shadow-card transition-all duration-300 hover:shadow-card-hover">
+            <div className="rounded-xl border border-primary/15 bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover">
               <div className="flex items-center justify-between border-b border-warm-dark pb-3.5">
                 <p className="text-[11px] font-bold tracking-[0.14em] text-muted uppercase">
                   How We Work

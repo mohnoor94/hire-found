@@ -6,7 +6,7 @@ const primaryButton =
   "inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60";
 
 const quietButton =
-  "inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/25 bg-white px-6 text-sm font-semibold text-primary select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+  "inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/25 bg-card px-6 text-sm font-semibold text-primary select-none active:bg-warm-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 type AuthViewsProps = {
   status: "loading" | "signed-out" | "denied" | "unavailable";
