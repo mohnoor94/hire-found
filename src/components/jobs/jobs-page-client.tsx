@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { fetchJobs, getCategories, type Job } from "@/lib/jobs";
+import { useFocusRevalidate } from "@/hooks/use-focus-revalidate";
 import { formatCategoryLabel } from "@/lib/yasmin/labels";
 import { JobCard } from "@/components/jobs/job-card";
 import { JobDetail } from "@/components/jobs/job-detail";
@@ -39,24 +40,36 @@ export function JobsPageClient() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [retryKey, setRetryKey] = useState(0);
+  const [isRetrying, setIsRetrying] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
   const [query, setQuery] = useState("");
 
+  const isMountedRef = useRef(true);
+  const allJobsRef = useRef(allJobs);
+
   useEffect(() => {
+    allJobsRef.current = allJobs;
+  }, [allJobs]);
+
+  useEffect(() => {
+    isMountedRef.current = true;
     let cancelled = false;
 
     (async () => {
       try {
         const jobs = await fetchJobs({ bypassCache: retryKey > 0 });
-        if (cancelled) return;
+        if (cancelled || !isMountedRef.current) return;
         setAllJobs(jobs);
         setError(false);
       } catch {
-        if (cancelled) return;
+        if (cancelled || !isMountedRef.current) return;
         setAllJobs([]);
         setError(true);
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled && isMountedRef.current) {
+          setLoading(false);
+          setIsRetrying(false);
+        }
       }
     })();
 
@@ -66,10 +79,26 @@ export function JobsPageClient() {
   }, [retryKey]);
 
   function handleRetry() {
-    setLoading(true);
+    setIsRetrying(true);
     setError(false);
+    recordRun();
     setRetryKey((key) => key + 1);
   }
+
+  const { recordRun } = useFocusRevalidate(async () => {
+    try {
+      const jobs = await fetchJobs({ bypassCache: true });
+      if (!isMountedRef.current) return;
+      setAllJobs(jobs);
+      setError(false);
+    } catch {
+      // Resilience: keep existing open roles rendered if tab focus background fetch fails.
+      if (!isMountedRef.current) return;
+      if (allJobsRef.current.length === 0 && error) {
+        // preserve current error state if we were already in an error state
+      }
+    }
+  }, { cooldownMs: 60_000 });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -130,7 +159,7 @@ export function JobsPageClient() {
             ) : null}
 
             {!loading && error ? (
-              <JobsErrorState onRetry={handleRetry} />
+              <JobsErrorState onRetry={handleRetry} isRetrying={isRetrying} />
             ) : null}
 
             {!loading && !error && detailJob === null ? (
@@ -203,7 +232,7 @@ export function JobsPageClient() {
               {loading ? <JobsSkeletons count={4} /> : null}
 
               {!loading && error ? (
-                <JobsErrorState onRetry={handleRetry} />
+                <JobsErrorState onRetry={handleRetry} isRetrying={isRetrying} />
               ) : null}
 
               {!loading && !error && filtered.length === 0 ? (

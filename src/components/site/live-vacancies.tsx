@@ -9,6 +9,7 @@ import { VacanciesEmptyIllustration } from "@/components/jobs/vacancies-empty-il
 import { JobsErrorState } from "@/components/jobs/jobs-states";
 import { ArrowUpRightIcon } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { useFocusRevalidate } from "@/hooks/use-focus-revalidate";
 
 export function LiveVacancies() {
   const [jobs, setJobs] = useState<Job[] | null>(null);
@@ -16,10 +17,15 @@ export function LiveVacancies() {
   const [isReloading, setIsReloading] = useState(false);
   const [category, setCategory] = useState("all");
   const isMountedRef = useRef(true);
+  const jobsRef = useRef(jobs);
   const containerRef = useScrollReveal<HTMLElement>({
     selector: ".reveal-on-scroll",
     staggerMs: 60,
   });
+
+  useEffect(() => {
+    jobsRef.current = jobs;
+  }, [jobs]);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -47,6 +53,7 @@ export function LiveVacancies() {
   }, []);
 
   const handleReload = async () => {
+    recordRun();
     setIsReloading(true);
     try {
       const list = await fetchJobs({ limit: 4, bypassCache: true });
@@ -65,6 +72,23 @@ export function LiveVacancies() {
       }
     }
   };
+
+  const { recordRun } = useFocusRevalidate(async () => {
+    try {
+      const list = await fetchJobs({ limit: 4, bypassCache: true });
+      if (isMountedRef.current) {
+        setJobs(list);
+        setError(false);
+      }
+    } catch {
+      // Resilience: if the user already has jobs rendered, keep them on screen
+      // rather than flashing an error card on background fetch failure.
+      if (isMountedRef.current && jobsRef.current === null) {
+        setJobs([]);
+        setError(true);
+      }
+    }
+  }, { cooldownMs: 60_000 });
 
   const categories = ["all", ...getCategories(jobs || [])];
   const filtered =
