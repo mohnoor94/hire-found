@@ -135,8 +135,7 @@ export function About() {
                   2019 to 2023
                 </time>
                 <p className="mt-1 text-base leading-relaxed text-text-main">
-                  At home raising my daughters. That season made me a steadier leader and a more
-                  empathetic recruiter.
+                  Four years at home raising my daughters, then back to work with fresh focus.
                 </p>
               </li>
               <li className="relative pl-6 reveal-on-scroll">
