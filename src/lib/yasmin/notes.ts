@@ -5,7 +5,7 @@ export type YasminNote = {
   id: string;
   audience: YasminNoteAudience;
   tag: YasminNoteTag;
-  /** Original Arabic quote - must be verbatim; render with dir=rtl, lang=ar. */
+  /** Original Arabic quote, verbatim. Render with dir=rtl and lang=ar. */
   ar: string;
   /** Short faithful English gloss for non-Arabic readers. */
   gloss: string;
