@@ -324,6 +324,25 @@
   }
 }
 
+/* Trust section: press marquee */
+@keyframes hf-marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.hf-marquee-track {
+  animation: hf-marquee-left 45s linear infinite;
+  will-change: transform;
+}
+.group:hover .hf-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hf-marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
 /* How It Works: scroll-driven journey line and step reveals */
 @keyframes hiw-line-fill {
   from {
