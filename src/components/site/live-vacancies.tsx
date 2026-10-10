@@ -47,19 +47,12 @@ export function LiveVacancies() {
     >
       <div className="mx-auto max-w-5xl">
         <div className="mb-10">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-secondary/40 bg-card/60 px-3 py-1 text-xs font-medium text-text-main shadow-xs backdrop-blur-xs">
-            <span className="relative flex size-2" aria-hidden="true">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75 motion-reduce:hidden" />
-              <span className="relative inline-flex size-2 rounded-full bg-emerald-600" />
-            </span>
-            <span>Active Opportunities</span>
-          </div>
           <h2 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
             Find Your Match
           </h2>
           <p className="mt-4 max-w-xl text-lg text-muted">
-            Open roles I&apos;m hiring for right now. Something catch your eye?
-            Let&apos;s talk.
+            Current openings I&apos;m actively matching for. Take a look, and
+            let&apos;s start a conversation if there is a spark.
           </p>
         </div>
 
@@ -156,7 +149,7 @@ export function LiveVacancies() {
         {/* Permanently rendered directory link bar across all states */}
         <div className="mt-10 flex flex-col items-start justify-between gap-4 border-t border-secondary/30 pt-8 sm:flex-row sm:items-center">
           <p className="max-w-md text-sm text-muted">
-            Looking for something specific? Browse all active roles and search by keyword or department in the directory.
+            Looking for a different craft or city? Explore all live searches in the directory.
           </p>
           <Link
             href="/jobs/"

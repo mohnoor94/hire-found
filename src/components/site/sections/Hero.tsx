@@ -159,14 +159,7 @@ export function Hero() {
                 className={primaryCta}
               >
                 <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
-                <span className="inline-flex items-center gap-1.5">
-                  <span>I&apos;m Hiring Executive Talent</span>
-                  <ButterflyMicro
-                    width={18}
-                    height={14}
-                    className="hf-butterfly-flutter transition-transform duration-200 group-hover:scale-110"
-                  />
-                </span>
+                <span>I&apos;m Hiring Executive Talent</span>
                 <span
                   className="ml-0.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   aria-hidden="true"

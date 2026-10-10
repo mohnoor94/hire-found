@@ -100,8 +100,8 @@ export function JobsPageClient() {
             </h1>
             <div className="mt-5 h-px w-12 bg-secondary" aria-hidden="true" />
             <p className="mt-5 max-w-[65ch] text-lg text-muted">
-              Open roles I&apos;m hiring for right now, in English and Arabic.
-              Search by title, city, or company.
+              Active searches and career moves across the region, presented in
+              English and Arabic. Search by role, city, or team.
             </p>
           </div>
         </section>
