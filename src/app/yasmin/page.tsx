@@ -5,8 +5,8 @@ import { withBasePath } from "@/lib/base-path";
 import "./yasmin.css";
 
 export const metadata: Metadata = {
-  title: "Yasmin's Space - Personal Atelier",
-  description: "HireFound personal atelier for Yasmin Blasi to curate and manage opportunities.",
+  title: "Yasmin's Space - Yasmin's Studio",
+  description: "HireFound studio for Yasmin Blasi to curate and manage opportunities.",
   robots: { index: false, follow: false },
   icons: {
     icon: withBasePath("/assets/butterfly-favicon.svg"),

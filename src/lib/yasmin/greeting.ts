@@ -1,6 +1,7 @@
 /**
  * Greeting helpers for Yasmin's Space.
  * Provides personalized greetings, warm daily affirmations, and celebration toasts.
+ * Infused with energetic, lovely, and feminine energy.
  */
 
 export const GREETING_TEMPLATES: Array<(name: string) => string> = [
@@ -34,6 +35,21 @@ export const GREETING_TEMPLATES: Array<(name: string) => string> = [
   (name) => `${name}, you're a whole mood 💅`,
   (name) => `Look at you showing up, ${name} 🌈`,
   (name) => `${name}, the world is better with you 🌍`,
+  (name) => `Radiant as ever, ${name} ✨`,
+  (name) => `Step into your power, ${name} ⚡`,
+  (name) => `Confidence looks divine on you, ${name} 💖`,
+  (name) => `Leading with grace, ${name} 🕊️`,
+  (name) => `Hey visionary, ${name} 🔮`,
+  (name) => `Unstoppable energy, ${name} 🔥`,
+  (name) => `Pure elegance, ${name} 🦢`,
+  (name) => `Your daily dose of magic, ${name} 🪄`,
+  (name) => `Time to sparkle, ${name} 💎`,
+  (name) => `Making history today, ${name} 👑`,
+  (name) => `Effortless excellence, ${name} 🌸`,
+  (name) => `Here to thrive, ${name} 🌷`,
+  (name) => `Queen of executive curation, ${name} 🏛️`,
+  (name) => `Sweet greetings, ${name} 🍯`,
+  (name) => `Glowing and growing, ${name} 🌱`,
 ];
 
 export const SUBTITLES = [
@@ -77,6 +93,22 @@ export const SUBTITLES = [
   "Your next success story starts now 📝",
   "Curating careers with grace 🦢",
   "Making the job world a better place 🌈",
+  "Energy is your greatest currency: spend it where it glows ✨",
+  "Own your sparkle: the world will adjust its eyes 🪄",
+  "High conviction, graceful patience, and decisive timing 🕊️",
+  "True abundance is doing what you love with effortless grace 💎",
+  "Crafting executive dream teams with precision and care 🏛️",
+  "A little coffee, a lot of vision, and infinite ambition ☕",
+  "Elegance in every conversation, excellence in every result 👑",
+  "Stay magnetic, stay grounded, stay unstoppable 🌺",
+  "Connecting extraordinary leaders with iconic teams 🦋",
+  "Dream big, execute with style, and celebrate every win 🥂",
+  "Your intuition for greatness is your highest superpower 🔮",
+  "Walking into today with poise, purpose, and passion 💃",
+  "One placement can transform an entire organization 🚀",
+  "Radiate warmth, lead with strength, and shine bright ☀️",
+  "Beauty in every detail, power in every placement 🌸",
+  "Where exceptional talent meets visionary leadership 🤍",
 ] as const;
 
 export const DAILY_AFFIRMATIONS = [
@@ -122,6 +154,14 @@ export const DAILY_AFFIRMATIONS = [
   "Quiet moments of rest are just as vital as the deals you close. Be kind to yourself today 🌷",
   "You bring elegance, warmth, and relentless excellence wherever you go 👑",
   "Every introduction you make plants the seed for someone's future success 🍃",
+  "Energy is your greatest currency today: spend it where it glows and inspires ✨",
+  "Walk in with quiet confidence: your taste in executive leadership is peerless 💅",
+  "You are designing your own destiny and shaping the future with every move 💃",
+  "A queen is not afraid to fail: every step is another steppingstone to greatness 👑",
+  "True abundance flows effortlessly when you honor your craft and your boundaries 💎",
+  "Protect your peace, celebrate your momentum, and know you are unstoppable 🌺",
+  "Never dim your light: you bring elegance and mastery to everything you touch 🔮",
+  "Success looks so natural on you, Yasmin. Keep trusting your vision 🌟",
 ] as const;
 
 export function formatAtelierDate(date: Date = new Date()): string {
@@ -143,6 +183,8 @@ export const CELEBRATION_TOASTS = {
     "A new door is officially open 🚪✨",
     "Opportunity unleashed! The right leader is on their way 🌟",
     "Crafted with care, live for the world 💎",
+    "A sparkling new listing is live! Let the magic begin 🪄",
+    "Curated with perfection, ready for the best candidates 👑",
   ],
   activate: [
     "Turned on! Go find that superstar 💫",
@@ -150,6 +192,7 @@ export const CELEBRATION_TOASTS = {
     "Back in flight! Ready for talent 🌟",
     "Reactivated and shining bright! Let's connect great minds ✨",
     "Open for talent again! Exciting times ahead 🚀",
+    "Reignited and glowing with potential 💖",
   ],
 } as const;
 
@@ -202,18 +245,21 @@ export function getContextualGreetings(date: Date = new Date()): Array<(name: st
       (name) => `Good morning, ${name} ☀️`,
       (name) => `Morning sunshine, ${name} ☕`,
       (name) => `Early morning momentum, ${name} 🌅`,
+      (name) => `Rise and glow, ${name} 🌸`,
     );
   } else if (hour >= 12 && hour <= 16) {
     greetings.push(
       (name) => `Good afternoon, ${name} 🌤️`,
       (name) => `Afternoon inspiration, ${name} 💫`,
       (name) => `Midday brilliance, ${name} 🌷`,
+      (name) => `Afternoon flow, ${name} ✨`,
     );
   } else {
     greetings.push(
       (name) => `Good evening, ${name} 🌙`,
       (name) => `Evening glow, ${name} ✨`,
       (name) => `Unwinding in style, ${name} 🕯️`,
+      (name) => `Late night magic, ${name} 💫`,
     );
   }
 
@@ -263,9 +309,14 @@ export function pickGreeting(
 ): { greeting: string; subtitle: string; subtitleText: string; subtitleEmoji: string } {
   const firstName = extractFirstName(displayName);
   const contextual = getContextualGreetings(date);
-  const templates = [...GREETING_TEMPLATES, ...contextual];
-  const template =
-    templates[Math.floor(random() * templates.length)]!;
+  
+  // High probability for time-of-day greetings (morning/afternoon/evening/night)
+  const isTimeContextual = random() < 0.65;
+  const pool = isTimeContextual && contextual.length > 0
+    ? contextual
+    : [...contextual, ...GREETING_TEMPLATES];
+    
+  const template = pool[Math.floor(random() * pool.length)]!;
   const greeting = template(firstName);
   const subtitle =
     SUBTITLES[Math.floor(random() * SUBTITLES.length)]!;

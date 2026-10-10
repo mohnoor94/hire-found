@@ -252,7 +252,7 @@ export function YasminPageClient() {
             </button>
             <span className="hidden items-center gap-1 rounded-full border border-[#D4A574]/30 bg-[#FCF9F5] px-2.5 py-0.5 text-[11px] font-medium text-[#7A1E4A] sm:inline-flex">
               <Sparkles className="size-3 text-amber-500" aria-hidden="true" />
-              <span>Personal Atelier</span>
+              <span>Yasmin&apos;s Studio</span>
             </span>
           </div>
 

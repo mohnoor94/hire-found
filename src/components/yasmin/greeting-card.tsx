@@ -120,7 +120,7 @@ export function GreetingCard({
         <div className="flex items-center gap-2">
           <span className="size-2 rounded-full bg-[#D4A574]/80 shadow-[0_0_8px_rgba(212,165,116,0.8)]" />
           <span className="font-accent text-xs font-semibold uppercase tracking-wider text-[#7A1E4A]">
-            Personal Atelier
+            Yasmin&apos;s Studio
           </span>
           <span className="text-xs text-[#D4A574]">·</span>
           <span className="text-xs font-serif italic text-[#5E534C]">

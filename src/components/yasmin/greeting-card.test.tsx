@@ -38,8 +38,9 @@ describe("GreetingCard & YasminOracleNote", () => {
     });
 
     expect(container.textContent).toContain("Yasmin");
-    expect(container.textContent).toContain("A Note for Yasmin");
-    expect(container.textContent).toContain("Daily Spark");
+    expect(container.textContent).toContain("💌");
+    expect(container.textContent).not.toContain("A Note for Yasmin");
+    expect(container.textContent).not.toContain("Daily Spark");
 
     // Ensure buttons and executive footer are absent as requested
     expect(container.textContent).not.toContain("Spark ✨");
@@ -70,15 +71,17 @@ describe("GreetingCard & YasminOracleNote", () => {
     expect(img?.getAttribute("src")).toBe("https://example.com/yasmin.jpg");
   });
 
-  it("renders custom initial affirmation in YasminOracleNote cleanly", async () => {
+  it("renders custom initial affirmation in YasminOracleNote cleanly with inline 💌", async () => {
     await act(async () => {
       root.render(
         <YasminOracleNote initialAffirmation="Initial affirmation for Yasmin 🌸" />,
       );
     });
 
+    expect(container.textContent).toContain("💌");
     expect(container.textContent).toContain("Initial affirmation for Yasmin 🌸");
-    expect(container.textContent).toContain("A Note for Yasmin");
+    expect(container.textContent).not.toContain("A Note for Yasmin");
+    expect(container.textContent).not.toContain("Daily Spark");
     expect(container.textContent).not.toContain("Draw another");
     expect(container.textContent).not.toContain(
       "Crafted with love · HireFound Executive Practice",
@@ -98,7 +101,7 @@ describe("GreetingCard & YasminOracleNote", () => {
     });
 
     expect(container.textContent).toContain("3 roles active · In flow");
-    expect(container.textContent).toContain("Personal Atelier");
+    expect(container.textContent).toContain("Yasmin's Studio");
     expect(container.textContent).not.toContain("—");
   });
 
@@ -123,7 +126,8 @@ describe("GreetingCard & YasminOracleNote", () => {
       vi.advanceTimersByTime(200);
     });
 
-    expect(container.textContent).toContain("A Note for Yasmin");
+    expect(container.textContent).toContain("💌");
+    expect(container.textContent).not.toContain("A Note for Yasmin");
     expect(container.textContent).not.toContain("—");
     vi.useRealTimers();
   });
