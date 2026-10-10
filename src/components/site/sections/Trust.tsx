@@ -4,15 +4,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { TRUST_BENTO_ENABLED } from "@/lib/flags";
+import { useI18n } from "@/components/site/i18n";
 
 // Temporary gate: hide press marquee on live site while keeping testimonial and stats.
-const SHOW_PRESS = false;
-
-const PRESS = [
-  "TEDx Zarqa University",
-  "Al Mamlaka TV (two live interviews)",
-  "parachute16 Digital Graduates Industry Meetup (panelist)",
-] as const;
+const SHOW_PRESS =
+  (process.env.NEXT_PUBLIC_SHOW_PRESS || process.env.SHOW_PRESS) === "1";
 
 /**
  * Modernized, still not visible. Unhide only after Yasmin signs off on the
@@ -93,9 +89,9 @@ function CountUp({
   );
 }
 
-function PressMarquee() {
+function PressMarquee({ items }: { items: readonly string[] }) {
   const reduced = usePrefersReducedMotion();
-  const items = useMemo(() => [...PRESS, ...PRESS], []);
+  const looped = useMemo(() => [...items, ...items], [items]);
   return (
     <div
       className="group relative overflow-hidden rounded-2xl border border-secondary/30 bg-white/70 shadow-xs hover:shadow-card"
@@ -108,7 +104,7 @@ function PressMarquee() {
         )}
         aria-hidden={!reduced}
       >
-        {items.map((name, idx) => (
+        {looped.map((name, idx) => (
           <span
             key={`${name}-${idx}`}
             className="font-accent text-lg md:text-xl"
@@ -123,6 +119,7 @@ function PressMarquee() {
 
 export function Trust() {
   const reduced = usePrefersReducedMotion();
+  const t = useI18n();
   if (!TRUST_BENTO_ENABLED) return null;
   return (
     <section
@@ -136,10 +133,10 @@ export function Trust() {
         {SHOW_PRESS && (
           <>
             <h2 className="font-accent text-3xl tracking-[-0.02em] text-primary md:text-4xl">
-              As seen in
+              {t.trust.heading}
             </h2>
             <div className="mt-6">
-              <PressMarquee />
+              <PressMarquee items={t.trust.press} />
             </div>
           </>
         )}
@@ -153,15 +150,14 @@ export function Trust() {
           {/* Testimonial - large tile */}
           <blockquote className="md:col-span-7 rounded-2xl border border-secondary/30 bg-white/80 p-6 shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-white hover:shadow-card">
             <p className="font-accent text-2xl leading-snug text-pretty text-text-main italic md:text-3xl">
-              I appreciate your professional support and valuable advice. Thank
-              you for taking the time to guide me.
+              {t.trust.testimonial.body}
             </p>
             <footer className="mt-6 text-sm text-muted">
               <cite className="font-semibold text-text-main not-italic">
-                Kholoud Joudeh
+                {t.trust.testimonial.citeName}
               </cite>
               <span aria-hidden="true"> · </span>
-              Client (Food Quality &amp; Safety / QA lead)
+              {t.trust.testimonial.citeRole}
             </footer>
           </blockquote>
 
@@ -181,32 +177,32 @@ export function Trust() {
                 </span>
               </div>
               <p className="mt-2 text-sm font-semibold text-muted">
-                LinkedIn followers
+                {t.trust.stats.followersLabel}
               </p>
-              <p className="sr-only">44,016 LinkedIn followers</p>
+              <p className="sr-only">44,016 {t.trust.stats.followersLabel}</p>
             </div>
 
             {/* Junior to C-suite */}
             <div className="col-span-1 rounded-2xl border border-secondary/30 bg-white/80 p-5 shadow-xs transition-all duration-300 hover:bg-white hover:shadow-card">
               <p className="font-accent text-xl leading-snug text-primary">
-                Junior to C-suite
+                {t.trust.stats.juniorToCsuite}
               </p>
             </div>
 
             {/* MENA region */}
             <div className="col-span-1 rounded-2xl border border-secondary/30 bg-white/80 p-5 shadow-xs transition-all duration-300 hover:bg-white hover:shadow-card">
               <p className="font-accent text-xl leading-snug text-primary">
-                MENA region
+                {t.trust.stats.menaRegion}
               </p>
             </div>
 
             {/* TEDx tile */}
             <div className="col-span-1 rounded-2xl border border-secondary/30 bg-white/85 p-5 shadow-xs transition-all duration-300 hover:bg-white hover:shadow-card">
               <p className="text-xs font-semibold tracking-[0.12em] text-muted uppercase">
-                Talk
+                {t.trust.stats.talkLabel}
               </p>
               <p className="font-accent mt-1.5 text-xl leading-snug text-primary">
-                TEDx Zarqa University
+                {t.trust.stats.tedxTitle}
               </p>
             </div>
           </div>

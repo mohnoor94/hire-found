@@ -158,5 +158,26 @@ export const ar: Messages = {
       "الرخام / التصنيع",
     ] as const,
   },
+  trust: {
+    heading: "كما ظهر في",
+    press: [
+      "TEDx Zarqa University",
+      "قناة المملكة (مقابلتان مباشرتان)",
+      "لقاء parachute16 لخريجي الاقتصاد الرقمي (متحدّثة)",
+    ] as const,
+    testimonial: {
+      body:
+        "بقدّر دعمك المهني ونصائحك القيّمة. شكرًا إنك خصصتِ وقتك لتوجّهيني.",
+      citeName: "Kholoud Joudeh",
+      citeRole: "عميلة (قائدة جودة وسلامة الغذاء)",
+    },
+    stats: {
+      followersLabel: "متابعون على لينكدإن",
+      juniorToCsuite: "من المبتدئ حتى الإدارة العليا",
+      menaRegion: "منطقة الشرق الأوسط وشمال أفريقيا",
+      talkLabel: "حديث",
+      tedxTitle: "TEDx Zarqa University",
+    },
+  },
 };
 

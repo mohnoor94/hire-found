@@ -240,5 +240,26 @@ export const en: Messages = {
       "Marble / Manufacturing",
     ] as const,
   },
+  trust: {
+    heading: "As seen in",
+    press: [
+      "TEDx Zarqa University",
+      "Al Mamlaka TV (two live interviews)",
+      "parachute16 Digital Graduates Industry Meetup (panelist)",
+    ] as const,
+    testimonial: {
+      body:
+        "I appreciate your professional support and valuable advice. Thank you for taking the time to guide me.",
+      citeName: "Kholoud Joudeh",
+      citeRole: "Client (Food Quality & Safety / QA lead)",
+    },
+    stats: {
+      followersLabel: "LinkedIn followers",
+      juniorToCsuite: "Junior to C-suite",
+      menaRegion: "MENA region",
+      talkLabel: "Talk",
+      tedxTitle: "TEDx Zarqa University",
+    },
+  },
 };
 
