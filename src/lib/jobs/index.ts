@@ -10,7 +10,11 @@ export {
   type FirestoreTimestampLike,
 } from "./types";
 
-export { fetchJobs, type FetchJobsOptions } from "./fetch-jobs";
+export {
+  fetchJobs,
+  clearJobsCache,
+  type FetchJobsOptions,
+} from "./fetch-jobs";
 export {
   fetchAllJobs,
   createJob,

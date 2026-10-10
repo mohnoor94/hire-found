@@ -272,6 +272,42 @@ describe("Phase 3 Site Components Parity", () => {
       const emptyGrid = container.querySelector("#vacancy-grid");
       expect(emptyGrid?.querySelector('a[href*="wa.me"]')).toBeNull();
     });
+
+    it("renders board pause state when jobs fetch fails and allows reloading", async () => {
+      fetchJobsMock
+        .mockRejectedValueOnce(new Error("network error"))
+        .mockResolvedValueOnce([
+          {
+            id: "barista-1",
+            title: "Senior Barista",
+            slug: "senior-barista",
+            category: "hospitality",
+            location: "Amman, Jordan",
+            employmentType: "full-time",
+            isActive: true,
+          },
+        ]);
+
+      await act(async () => {
+        root.render(<LiveVacancies />);
+      });
+
+      expect(container.textContent).toContain("The board is taking a breath");
+      expect(container.textContent).toContain(
+        "We are having trouble connecting to live roles right now",
+      );
+
+      const checkAgainBtn = container.querySelector(
+        'button[aria-label="Check again for open roles"]',
+      ) as HTMLButtonElement;
+      expect(checkAgainBtn).not.toBeNull();
+
+      await act(async () => {
+        checkAgainBtn.click();
+      });
+
+      expect(container.textContent).toContain("Senior Barista");
+    });
   });
 
   describe("ActionStack", () => {

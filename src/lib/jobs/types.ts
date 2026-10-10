@@ -43,7 +43,7 @@ export const DEFAULTS = {
   whatsApp: "962793001043",
   email: "yasmin@hirefound.com",
   calLink: "https://cal.com/yasminblasi",
-  queryTimeout: 10_000,
+  queryTimeout: 15_000,
 } as const;
 
 export const EMPLOYMENT_TYPES: readonly EmploymentType[] = [

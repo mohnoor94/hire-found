@@ -13,7 +13,7 @@ describe("job domain types and constants", () => {
     expect(DEFAULTS.whatsApp).toBe("962793001043");
     expect(DEFAULTS.email).toBe("yasmin@hirefound.com");
     expect(DEFAULTS.calLink).toBe("https://cal.com/yasminblasi");
-    expect(DEFAULTS.queryTimeout).toBe(10_000);
+    expect(DEFAULTS.queryTimeout).toBe(15_000);
   });
 
   it("exposes the employment type enum from the data contract", () => {

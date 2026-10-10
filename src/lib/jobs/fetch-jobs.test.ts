@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   collection,
   query,
@@ -7,7 +7,7 @@ import {
   limit as firestoreLimit,
   getDocs,
 } from "firebase/firestore";
-import { fetchJobs } from "./fetch-jobs";
+import { fetchJobs, clearJobsCache } from "./fetch-jobs";
 import type { Firestore } from "firebase/firestore";
 
 vi.mock("firebase/firestore", () => ({
@@ -36,10 +36,82 @@ function makeSnapshot(
 }
 
 describe("fetchJobs", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    clearJobsCache();
+  });
+
   it("throws when Firestore is not initialized", async () => {
     await expect(fetchJobs({ db: undefined })).rejects.toThrow(
       /not initialized/i,
     );
+  });
+
+  it("retries once on transient failure and succeeds", async () => {
+    const mockDb = {} as Firestore;
+    vi.mocked(getDocs)
+      .mockRejectedValueOnce(new Error("network blip"))
+      .mockResolvedValueOnce(
+        makeSnapshot([
+          {
+            id: "recovered",
+            data: {
+              title: "Recovered Role",
+              slug: "recovered-role",
+              category: "tech",
+              location: "Remote",
+              employmentType: "full-time",
+              isActive: true,
+              createdAt: { toDate: () => new Date("2026-10-05T00:00:00Z") },
+            },
+          },
+        ]) as never,
+      );
+
+    const jobs = await fetchJobs({ db: mockDb, retryDelay: 0 });
+    expect(jobs).toHaveLength(1);
+    expect(jobs[0]?.id).toBe("recovered");
+    expect(getDocs).toHaveBeenCalledTimes(2);
+  });
+
+  it("falls back to in-memory cache when network fails repeatedly", async () => {
+    const mockDb = {} as Firestore;
+    vi.mocked(getDocs).mockResolvedValueOnce(
+      makeSnapshot([
+        {
+          id: "cached-role",
+          data: {
+            title: "Cached Role",
+            slug: "cached-role",
+            category: "hospitality",
+            location: "Jordan",
+            employmentType: "full-time",
+            isActive: true,
+            createdAt: { toDate: () => new Date("2026-10-05T00:00:00Z") },
+          },
+        },
+      ]) as never,
+    );
+
+    // Initial successful fetch caches the role
+    const initialJobs = await fetchJobs({ db: mockDb, retryDelay: 0 });
+    expect(initialJobs).toHaveLength(1);
+
+    // Subsequent failure falls back to cached role
+    vi.mocked(getDocs).mockRejectedValue(new Error("offline"));
+    const fallbackJobs = await fetchJobs({ db: mockDb, retryDelay: 0 });
+    expect(fallbackJobs).toHaveLength(1);
+    expect(fallbackJobs[0]?.id).toBe("cached-role");
+  });
+
+  it("throws error when both attempts fail and no cache exists", async () => {
+    const mockDb = {} as Firestore;
+    vi.mocked(getDocs).mockRejectedValue(new Error("server error"));
+
+    await expect(
+      fetchJobs({ db: mockDb, retryDelay: 0, retries: 1 }),
+    ).rejects.toThrow("server error");
+    expect(getDocs).toHaveBeenCalledTimes(2);
   });
 
   it("queries active jobs newest-first and drops expired ones", async () => {

@@ -22,3 +22,4 @@ export * from "./system/compass-404";
 export * from "./system/folder-archived-job";
 export * from "./system/loupe-search-empty";
 export * from "./system/phone-direct-line";
+export * from "./system/board-pause";

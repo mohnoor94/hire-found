@@ -47,7 +47,7 @@ export function JobsPageClient() {
 
     (async () => {
       try {
-        const jobs = await fetchJobs();
+        const jobs = await fetchJobs({ bypassCache: retryKey > 0 });
         if (cancelled) return;
         setAllJobs(jobs);
         setError(false);

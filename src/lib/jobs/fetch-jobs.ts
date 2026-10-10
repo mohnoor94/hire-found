@@ -23,7 +23,19 @@ export type FetchJobsOptions = {
   db?: Firestore | undefined;
   /** Override now for expiry checks (tests). */
   now?: Date;
+  /** Bypass in-memory cache to force a fresh server query. */
+  bypassCache?: boolean;
+  /** Delay between retries in ms. Defaults to 800ms in production, 0ms in test. */
+  retryDelay?: number;
+  /** Max retry attempts. Defaults to 1. */
+  retries?: number;
 };
+
+let memoryCache: Job[] | null = null;
+
+export function clearJobsCache(): void {
+  memoryCache = null;
+}
 
 function toDate(
   value: FirestoreTimestampLike | Date | null | undefined,
@@ -36,7 +48,7 @@ function toDate(
 
 /**
  * Public job list: isActive == true, newest first, optional limit,
- * 10s timeout, then drop expired jobs client-side.
+ * 15s timeout with automatic retry, then drop expired jobs client-side.
  * Mirrors js/jobs.js fetchJobs.
  */
 export async function fetchJobs(
@@ -62,18 +74,59 @@ export async function fetchJobs(
   const jobsRef = collection(db, "jobs");
   const q = query(jobsRef, ...constraints);
 
-  const timeoutPromise = new Promise<never>((_, reject) => {
-    setTimeout(() => {
-      reject(new Error("Query timed out after 10 seconds."));
-    }, DEFAULTS.queryTimeout);
-  });
-
-  const snapshot = (await Promise.race([
-    getDocs(q),
-    timeoutPromise,
-  ])) as QuerySnapshot<DocumentData>;
-
+  const maxRetries = options.retries ?? 1;
+  const delayMs =
+    options.retryDelay ?? (process.env.NODE_ENV === "test" ? 0 : 800);
   const now = options.now ?? new Date();
+  const totalTimeout = DEFAULTS.queryTimeout;
+  const attemptTimeout =
+    maxRetries > 0
+      ? Math.max(6_000, Math.floor(totalTimeout / (maxRetries + 1)))
+      : totalTimeout;
+
+  let lastError: unknown;
+  let snapshot: QuerySnapshot<DocumentData> | null = null;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        timer = setTimeout(() => {
+          reject(
+            new Error(
+              `Query timed out after ${Math.round(attemptTimeout / 1000)} seconds.`,
+            ),
+          );
+        }, attemptTimeout);
+      });
+
+      snapshot = (await Promise.race([
+        getDocs(q),
+        timeoutPromise,
+      ])) as QuerySnapshot<DocumentData>;
+      break;
+    } catch (err) {
+      lastError = err;
+      if (attempt < maxRetries && delayMs > 0) {
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+      }
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+  }
+
+  if (!snapshot) {
+    if (memoryCache && !options.bypassCache) {
+      const fresh = memoryCache.filter(
+        (job) => !job.expiresAt || job.expiresAt >= now,
+      );
+      if (fresh.length > 0) {
+        return options.limit ? fresh.slice(0, options.limit) : fresh;
+      }
+    }
+    throw lastError;
+  }
+
   const jobs: Job[] = [];
 
   snapshot.forEach((docSnap) => {
@@ -95,6 +148,12 @@ export async function fetchJobs(
       isActive: data.isActive === true,
     } as Job);
   });
+
+  if (!options.limit) {
+    memoryCache = jobs;
+  } else if (!memoryCache || memoryCache.length === 0) {
+    memoryCache = jobs;
+  }
 
   return jobs;
 }

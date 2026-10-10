@@ -1,43 +1,70 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { fetchJobs, getCategories, type Job } from "@/lib/jobs";
 import { formatCategoryLabel } from "@/lib/yasmin/labels";
 import { JobCard } from "@/components/jobs/job-card";
 import { VacanciesEmptyIllustration } from "@/components/jobs/vacancies-empty-illustration";
+import { JobsErrorState } from "@/components/jobs/jobs-states";
 import { ArrowUpRightIcon } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export function LiveVacancies() {
   const [jobs, setJobs] = useState<Job[] | null>(null);
   const [error, setError] = useState(false);
+  const [isReloading, setIsReloading] = useState(false);
   const [category, setCategory] = useState("all");
+  const isMountedRef = useRef(true);
   const containerRef = useScrollReveal<HTMLElement>({
     selector: ".reveal-on-scroll",
     staggerMs: 60,
   });
 
   useEffect(() => {
+    isMountedRef.current = true;
     let cancelled = false;
+
     (async () => {
       try {
         const list = await fetchJobs({ limit: 4 });
-        if (!cancelled) {
+        if (!cancelled && isMountedRef.current) {
           setJobs(list);
           setError(false);
         }
       } catch {
-        if (!cancelled) {
+        if (!cancelled && isMountedRef.current) {
           setJobs([]);
           setError(true);
         }
       }
     })();
+
     return () => {
       cancelled = true;
+      isMountedRef.current = false;
     };
   }, []);
+
+  const handleReload = async () => {
+    setIsReloading(true);
+    try {
+      const list = await fetchJobs({ limit: 4, bypassCache: true });
+      if (isMountedRef.current) {
+        setJobs(list);
+        setError(false);
+      }
+    } catch {
+      if (isMountedRef.current) {
+        setJobs([]);
+        setError(true);
+      }
+    } finally {
+      if (isMountedRef.current) {
+        setIsReloading(false);
+      }
+    }
+  };
 
   const categories = ["all", ...getCategories(jobs || [])];
   const filtered =
@@ -131,7 +158,7 @@ export function LiveVacancies() {
                   <button
                     type="button"
                     onClick={() => setCategory("all")}
-                    className="mt-5 inline-flex min-h-10 touch-manipulation cursor-pointer items-center justify-center rounded-full border border-primary/25 bg-warm px-5 text-xs font-semibold text-primary transition-all duration-200 hover:border-primary/40 hover:bg-card active:scale-[0.98]"
+                    className="mt-5 inline-flex min-h-10 touch-manipulation cursor-pointer items-center justify-center rounded-full border border-primary/25 bg-warm px-5 text-xs font-semibold text-primary transition-all duration-200 hover:border-primary/40 hover:bg-card active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                   >
                     Show all active roles
                   </button>
@@ -141,14 +168,10 @@ export function LiveVacancies() {
           )}
 
           {error && (
-            <div className="my-2 rounded-2xl border border-destructive/20 bg-destructive/5 p-6 sm:p-8">
-              <p className="mb-2 text-lg font-semibold text-text-main">
-                Jobs temporarily unavailable
-              </p>
-              <p className="max-w-md text-sm text-muted">
-                We are having trouble loading open roles right now. Please refresh the page or check back shortly.
-              </p>
-            </div>
+            <JobsErrorState
+              onRetry={handleReload}
+              isRetrying={isReloading}
+            />
           )}
         </div>
 

@@ -186,10 +186,10 @@ describe("Phase 4 Jobs page", () => {
     });
     await flushEffects();
 
-    expect(container.textContent).toContain("Unable to load jobs");
+    expect(container.textContent).toContain("The board is taking a breath");
 
     const retry = container.querySelector(
-      '[aria-label="Retry loading jobs"]',
+      '[aria-label="Check again for open roles"]',
     ) as HTMLButtonElement;
     await act(async () => {
       retry.click();

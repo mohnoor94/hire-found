@@ -5,7 +5,9 @@ import { VacanciesEmptyIllustration } from "@/components/jobs/vacancies-empty-il
 import {
   LoupeSearchEmptyIllustration,
   FolderArchivedJobIllustration,
+  BoardPauseIllustration,
 } from "@/components/illustrations";
+import { RefreshCwIcon } from "lucide-react";
 
 const primaryAction =
   "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
@@ -38,25 +40,43 @@ export function JobsEmptyState({ message }: JobsEmptyStateProps) {
 
 type JobsErrorStateProps = {
   onRetry: () => void;
+  isRetrying?: boolean;
 };
 
-export function JobsErrorState({ onRetry }: JobsErrorStateProps) {
+export function JobsErrorState({
+  onRetry,
+  isRetrying = false,
+}: JobsErrorStateProps) {
   return (
-    <div className="flex flex-col items-start py-10">
-      <p className="mb-2 text-lg font-semibold text-text-main">
-        Unable to load jobs
-      </p>
-      <p className="mb-8 max-w-[65ch] text-sm leading-relaxed text-muted">
-        Something went wrong while fetching job listings. Please try again.
-      </p>
-      <button
-        type="button"
-        className={primaryAction}
-        aria-label="Retry loading jobs"
-        onClick={onRetry}
-      >
-        Retry
-      </button>
+    <div
+      role="alert"
+      aria-live="polite"
+      className="my-4 rounded-2xl border border-secondary/35 bg-card/40 p-2 shadow-xs"
+    >
+      <div className="flex flex-col items-center justify-center rounded-xl border border-secondary/30 bg-card/80 px-6 py-12 text-center backdrop-blur-xs">
+        <div className="mb-5 flex justify-center">
+          <BoardPauseIllustration width={140} height={122} />
+        </div>
+        <h3 className="font-accent text-2xl text-primary text-balance">
+          The board is taking a breath
+        </h3>
+        <p className="mt-2 max-w-[50ch] text-sm leading-relaxed text-muted text-pretty">
+          We are having trouble connecting to live roles right now. Give it a moment, or try checking again below.
+        </p>
+        <button
+          type="button"
+          onClick={onRetry}
+          disabled={isRetrying}
+          className="mt-6 inline-flex min-h-11 touch-manipulation cursor-pointer items-center justify-center gap-2 rounded-full border border-primary/25 bg-warm px-6 text-sm font-semibold text-primary shadow-xs transition-all duration-200 hover:border-primary/40 hover:bg-card active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60 select-none"
+          aria-label={isRetrying ? "Checking for open roles" : "Check again for open roles"}
+        >
+          <RefreshCwIcon
+            className={`size-4 transition-transform ${isRetrying ? "animate-spin" : ""}`}
+            aria-hidden="true"
+          />
+          <span>{isRetrying ? "Checking..." : "Check again"}</span>
+        </button>
+      </div>
     </div>
   );
 }
