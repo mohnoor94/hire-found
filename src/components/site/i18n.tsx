@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext } from "react";
 import type { Messages } from "@/i18n/en";
 import { en as defaultMessages } from "@/i18n/en";

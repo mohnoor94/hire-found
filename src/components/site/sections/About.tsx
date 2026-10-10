@@ -1,3 +1,4 @@
+"use client";
 import { withBasePath } from "@/lib/base-path";
 import { useI18n } from "@/components/site/i18n";
 

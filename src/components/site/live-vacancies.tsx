@@ -109,7 +109,10 @@ export function LiveVacancies() {
               <p className="mb-2 text-lg font-semibold text-text-main">
                 {category === "all"
                   ? t.liveVacancies.noneAll
-                  : t.liveVacancies.noneCategory(formatCategoryLabel(category))}
+                  : t.liveVacancies.noneCategoryPattern.replace(
+                      "{category}",
+                      formatCategoryLabel(category),
+                    )}
               </p>
               <p className="mb-8 max-w-md text-sm text-muted">
                 {t.liveVacancies.interest}

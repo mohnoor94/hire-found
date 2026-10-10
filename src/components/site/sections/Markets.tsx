@@ -1,3 +1,4 @@
+"use client";
 import { useI18n } from "@/components/site/i18n";
 import type { Messages } from "@/i18n/en";
 

@@ -50,7 +50,7 @@ export type Messages = {
     subheading: string;
     all: string;
     noneAll: string;
-    noneCategory: (categoryLabel: string) => string;
+    noneCategoryPattern: string;
     interest: string;
     bookCall: string;
     whatsapp: string;
@@ -62,7 +62,6 @@ export type Messages = {
     italicTagline: string;
     bookCall: string;
     chatWhatsApp: string;
-    builtBy: (by: string) => string;
     copyright: string;
   };
   cal: {
@@ -198,7 +197,7 @@ export const en: Messages = {
       "Open roles I'm hiring for right now. Something catch your eye? Let's talk.",
     all: "All",
     noneAll: "No open roles right now",
-    noneCategory: (categoryLabel) => `No jobs available in ${categoryLabel}`,
+    noneCategoryPattern: "No jobs available in {category}",
     interest:
       "Interested in opportunities? Reach out directly. I'd love to hear from you.",
     bookCall: "Book a Call",
@@ -211,7 +210,6 @@ export const en: Messages = {
     italicTagline: "Find your match. Find your future.",
     bookCall: "Book a Call",
     chatWhatsApp: "Chat on WhatsApp",
-    builtBy: (by) => `by ${by}`,
     copyright: "© 2026 HireFound. All rights reserved.",
   },
   cal: {

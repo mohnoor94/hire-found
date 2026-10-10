@@ -115,7 +115,7 @@ export const ar: Messages = {
       "وظائف متاحة أعمل عليها الآن. إذا لفتك شيء، خلّينا نحكي.",
     all: "الكل",
     noneAll: "لا توجد وظائف متاحة الآن",
-    noneCategory: (categoryLabel) => `لا توجد وظائف متاحة في ${categoryLabel}`,
+    noneCategoryPattern: "لا توجد وظائف متاحة في {category}",
     interest:
       "مهتم بالفرص؟ تواصل مباشرة. بسعدني أسمع منك.",
     bookCall: "احجز مكالمة",
@@ -128,7 +128,6 @@ export const ar: Messages = {
     italicTagline: "لقِ توفيقك. لقِ مستقبلك.",
     bookCall: "احجز مكالمة",
     chatWhatsApp: "تحدّث عبر واتساب",
-    builtBy: (by) => `بواسطة ${by}`,
     copyright: "© 2026 HireFound. جميع الحقوق محفوظة.",
   },
   cal: {
