@@ -105,7 +105,7 @@ export function CalDialog({
                 Book an Executive Consultation
               </DialogPrimitive.Title>
               <p className="text-xs text-muted">
-                For founders, CEOs & hiring leaders (30 min discovery call)
+                For founders, CEOs & hiring leaders
               </p>
             </div>
             <DialogPrimitive.Close asChild>

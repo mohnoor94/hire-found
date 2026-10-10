@@ -66,7 +66,7 @@ export function SiteFooter() {
           </a>
         </div>
         <p className="mt-5 text-sm text-linen/80">
-          Employers: Book a 30-minute discovery call, or message Yasmin directly on WhatsApp.
+          Employers: Book a discovery call, or message Yasmin directly on WhatsApp.
         </p>
         <p className="mt-2 text-xs text-linen/60">
           Looking for open positions?{" "}

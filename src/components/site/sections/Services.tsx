@@ -67,7 +67,7 @@ export function Services() {
                 Have an open role or leadership search?
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                Book a 30-minute discovery call directly with Yasmin to review
+                Book a discovery call directly with Yasmin to review
                 your mandate, culture, and hiring timeline.
               </p>
             </div>
@@ -94,24 +94,17 @@ export function Services() {
           </div>
         </div>
 
-        {/* Quiet Job Seeker Notice */}
-        <div className="mt-8 rounded-xl border border-secondary/35 bg-warm/60 p-4 text-xs leading-relaxed text-muted">
-          <p>
-            <strong className="text-text-main font-semibold">
-              Looking for open roles?
-            </strong>{" "}
-            HireFound works exclusively on behalf of hiring companies. Job
-            seekers can browse and apply to all active positions on our{" "}
-            <a
-              href="#vacancies"
-              className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:text-primary-light"
-            >
-              Open Roles board
-            </a>{" "}
-            free of charge. We do not provide paid resume editing or candidate
-            services.
-          </p>
-        </div>
+        {/* Job Seeker Link */}
+        <p className="mt-6 text-center text-xs text-muted">
+          Looking for open roles? Explore all active positions on our{" "}
+          <a
+            href="#vacancies"
+            className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:text-primary-light"
+          >
+            Open Roles board
+          </a>
+          .
+        </p>
       </div>
     </section>
   );

@@ -120,9 +120,10 @@ describe("Homepage", () => {
     expect(container.textContent).not.toContain("Interview Preparation");
 
     // Verify job seeker guidance
-    expect(container.textContent).toContain(
-      "HireFound works exclusively on behalf of hiring companies",
-    );
+    expect(container.textContent).toContain("Looking for open roles?");
+    expect(container.textContent).toContain("Open Roles board");
+    expect(container.textContent).not.toContain("free of charge");
+    expect(container.textContent).not.toContain("paid resume editing");
 
     // Clicking Book Consultation opens booking modal
     const bookBtn = container.querySelector(

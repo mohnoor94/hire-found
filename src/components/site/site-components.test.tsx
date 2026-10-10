@@ -234,7 +234,7 @@ describe("Phase 3 Site Components Parity", () => {
 
       const footer = container.querySelector("footer#contact");
       expect(footer?.textContent).toContain(
-        "Employers: Book a 30-minute discovery call",
+        "Employers: Book a discovery call",
       );
       expect(footer?.textContent).toContain("Looking for open positions?");
       expect(footer?.querySelector('a[href="/jobs/"]')).not.toBeNull();
