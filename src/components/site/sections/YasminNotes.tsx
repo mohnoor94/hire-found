@@ -21,11 +21,7 @@ export function YasminNotes() {
 
         <NotesCarousel notes={YASMIN_NOTES} />
 
-        <p
-          className="mt-6 text-end text-sm text-muted/80"
-          lang="ar"
-          dir="rtl"
-        >
+        <p className="mt-6 text-right text-sm text-muted/80" lang="ar">
           سلام ✌🏼
         </p>
       </div>
@@ -59,9 +55,9 @@ function NotesCarousel({ notes }: { notes: readonly YasminNote[] }) {
         data-notes-scroller=""
         className={cn(
           "flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-2",
-          "scroll-smooth motion-reduce:scroll-auto",
+          "-mx-6 px-6 scroll-smooth motion-reduce:scroll-auto",
           "[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-          "md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:pb-0 md:snap-none",
+          "md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:snap-none",
         )}
         aria-label="Yasmin's advice notes"
       >
@@ -70,7 +66,7 @@ function NotesCarousel({ notes }: { notes: readonly YasminNote[] }) {
             key={note.id}
             data-note-card=""
             className={cn(
-              "card-surface w-[min(85vw,22rem)] shrink-0 snap-center rounded-2xl border border-border p-5",
+                "card-surface w-[min(78vw,20rem)] shrink-0 snap-center rounded-2xl border border-border p-5",
               "md:w-auto md:min-w-0 md:p-6",
             )}
           >

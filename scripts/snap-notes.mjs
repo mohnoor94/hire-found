@@ -23,11 +23,16 @@ async function snap(filePath, viewport, userAgent) {
     const page = await browser.newPage();
     if (userAgent) await page.setUserAgent(userAgent);
     await page.setViewport(viewport);
-    await page.goto(BASE_URL, { waitUntil: "networkidle0", timeout: 30000 });
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded", timeout: 30000 });
+    await page.addStyleTag({
+      content:
+        "nextjs-portal, [data-next-badge-root] { display: none !important; }",
+    });
     await page.waitForSelector("#yasmins-notes", {
       visible: true,
       timeout: 10000,
     });
+    await page.evaluate(() => document.fonts.ready);
     await page.evaluate(() => {
       window.getSelection()?.removeAllRanges();
       document.querySelector("#yasmins-notes")?.scrollIntoView({
@@ -35,7 +40,7 @@ async function snap(filePath, viewport, userAgent) {
         block: "start",
       });
     });
-    await new Promise((resolve) => setTimeout(resolve, 250));
+    await new Promise((resolve) => setTimeout(resolve, 400));
     await page.evaluate(() => window.getSelection()?.removeAllRanges());
     const el = await page.$("#yasmins-notes");
     if (!el) throw new Error("Element not found: #yasmins-notes");
@@ -45,17 +50,55 @@ async function snap(filePath, viewport, userAgent) {
   }
 }
 
+async function snapViewport(filePath, viewport, userAgent, scrollTo) {
+  const browser = await puppeteer.launch({
+    headless: "new",
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+  try {
+    const page = await browser.newPage();
+    if (userAgent) await page.setUserAgent(userAgent);
+    await page.setViewport(viewport);
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded", timeout: 30000 });
+    await page.addStyleTag({
+      content:
+        "nextjs-portal, [data-next-badge-root] { display: none !important; }",
+    });
+    await page.waitForSelector(scrollTo, { visible: true, timeout: 10000 });
+    await page.evaluate(() => document.fonts.ready);
+    await page.evaluate((sel) => {
+      window.getSelection()?.removeAllRanges();
+      document.querySelector(sel)?.scrollIntoView({
+        behavior: "instant",
+        block: "end",
+      });
+    }, scrollTo);
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.evaluate(() => window.getSelection()?.removeAllRanges());
+    await page.screenshot({ path: filePath, type: "png" });
+  } finally {
+    await browser.close();
+  }
+}
+
 async function main() {
   await ensureDir(OUT_DIR);
   const desktopOut = path.join(OUT_DIR, "yasmins_notes_desktop_1440.png");
   const mobileOut = path.join(OUT_DIR, "yasmins_notes_mobile_390.png");
+  const gapOut = path.join(OUT_DIR, "yasmins_notes_gap_check_1440.png");
   await snap(desktopOut, { width: 1440, height: 900, deviceScaleFactor: 1 });
   await snap(
     mobileOut,
     { width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true },
     "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
   );
-  console.log(JSON.stringify({ desktopOut, mobileOut }, null, 2));
+  await snapViewport(
+    gapOut,
+    { width: 1440, height: 900, deviceScaleFactor: 1 },
+    undefined,
+    "#yasmins-notes h2",
+  );
+  console.log(JSON.stringify({ desktopOut, mobileOut, gapOut }, null, 2));
 }
 
 main().catch((err) => {
