@@ -66,8 +66,16 @@ export function SiteFooter() {
           </a>
         </div>
         <p className="mt-5 text-sm text-linen/80">
-          Book a call for a set time, or message me on WhatsApp if you prefer
-          chat.
+          Employers: Book a 30-minute discovery call, or message Yasmin directly on WhatsApp.
+        </p>
+        <p className="mt-2 text-xs text-linen/60">
+          Looking for open positions?{" "}
+          <a
+            href="/jobs/"
+            className="underline decoration-linen/40 underline-offset-2 hover:text-linen"
+          >
+            Browse all open roles
+          </a>
         </p>
 
         <div className="mt-8 flex items-center justify-center gap-3">

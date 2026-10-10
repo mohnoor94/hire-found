@@ -97,12 +97,17 @@ export function CalDialog({
               alt=""
               className="size-10 rounded-full object-cover"
             />
-            <DialogPrimitive.Title
-              id="booking-modal-title"
-              className="font-accent flex-1 text-lg text-primary"
-            >
-              Book a Call with Yasmin
-            </DialogPrimitive.Title>
+            <div className="min-w-0 flex-1">
+              <DialogPrimitive.Title
+                id="booking-modal-title"
+                className="font-accent text-base sm:text-lg leading-tight text-primary"
+              >
+                Book an Executive Consultation
+              </DialogPrimitive.Title>
+              <p className="text-xs text-muted">
+                For founders, CEOs & hiring leaders (30 min discovery call)
+              </p>
+            </div>
             <DialogPrimitive.Close asChild>
               <button
                 id="booking-close-btn"
@@ -118,8 +123,20 @@ export function CalDialog({
             id="booking-modal-description"
             className="sr-only"
           >
-            Choose a time to talk with Yasmin about hiring.
+            Choose a time to talk with Yasmin about executive hiring.
           </DialogPrimitive.Description>
+          <div className="border-b border-primary/10 bg-warm-dark/50 px-4 py-2 text-xs text-muted">
+            <span className="font-semibold text-text-main">Job seeker?</span>{" "}
+            This calendar is reserved for employer hiring consultations. To explore open positions, please{" "}
+            <a
+              href="#vacancies"
+              onClick={() => onOpenChange(false)}
+              className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:text-primary-light"
+            >
+              browse our open roles
+            </a>
+            .
+          </div>
           <div className="relative min-h-0 flex-1">
             {status === "error" ? (
               <div

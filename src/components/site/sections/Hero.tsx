@@ -305,7 +305,7 @@ export function Hero() {
                     Executive Search
                   </span>
                   <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
-                    Career Matchmaking
+                    DISC Profiling
                   </span>
                   <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
                     First Call to First Day

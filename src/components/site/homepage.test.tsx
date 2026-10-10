@@ -97,7 +97,7 @@ describe("Homepage", () => {
     );
   });
 
-  it("switches employer and candidate services with Radix tabs", async () => {
+  it("renders employer hiring services and consultation CTAs without candidate services", async () => {
     await act(async () => {
       root.render(
         <CalDialogProvider>
@@ -109,22 +109,34 @@ describe("Homepage", () => {
     });
 
     expect(container.textContent).toContain("Executive Search & Headhunting");
+    expect(container.textContent).toContain("Recruitment & Job Matching");
+    expect(container.textContent).toContain("DISC Assessments");
+    expect(container.querySelector("#services-book-employer")).not.toBeNull();
+    expect(container.querySelector("#services-whatsapp-employer")).not.toBeNull();
+
+    // Verify candidate services are absent
     expect(container.textContent).not.toContain("Career Matchmaking");
+    expect(container.textContent).not.toContain("CV Optimization");
+    expect(container.textContent).not.toContain("Interview Preparation");
 
-    const candidates = Array.from(container.querySelectorAll("button")).find(
-      (button) => button.textContent === "For Candidates",
+    // Verify job seeker guidance
+    expect(container.textContent).toContain(
+      "HireFound works exclusively on behalf of hiring companies",
     );
-    await act(async () => {
-      candidates?.dispatchEvent(
-        new MouseEvent("mousedown", { bubbles: true, button: 0 }),
-      );
-    });
 
-    expect(container.textContent).toContain("Career Matchmaking");
-    expect(container.textContent).not.toContain("Executive Search & Headhunting");
+    // Clicking Book Consultation opens booking modal
+    const bookBtn = container.querySelector(
+      "#services-book-employer",
+    ) as HTMLButtonElement;
+    await act(async () => {
+      bookBtn.click();
+    });
+    expect(
+      document.getElementById("booking-modal")?.getAttribute("data-state"),
+    ).toBe("open");
   });
 
-  it("opens candidate services from the vacancies bridge", async () => {
+  it("bridges from live vacancies to employer services and booking", async () => {
     await act(async () => {
       root.render(
         <CalDialogProvider>
@@ -136,12 +148,25 @@ describe("Homepage", () => {
       );
     });
 
-    const bridge = container.querySelector(".career-bridge") as HTMLAnchorElement;
+    expect(container.textContent).toContain(
+      "Need to fill a role like one of these?",
+    );
+    const bridge = container.querySelector(
+      ".career-bridge",
+    ) as HTMLAnchorElement;
     expect(bridge).not.toBeNull();
+    expect(bridge.getAttribute("href")).toBe("#services");
+
+    const hireTalentBtn = container.querySelector(
+      "#vacancies-hire-talent",
+    ) as HTMLButtonElement;
+    expect(hireTalentBtn).not.toBeNull();
     await act(async () => {
-      bridge.click();
+      hireTalentBtn.click();
     });
-    expect(container.textContent).toContain("Career Matchmaking");
+    expect(
+      document.getElementById("booking-modal")?.getAttribute("data-state"),
+    ).toBe("open");
   });
 
   it("keeps the modernized trust section gated off by default", async () => {

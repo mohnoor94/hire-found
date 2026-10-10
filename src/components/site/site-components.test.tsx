@@ -222,6 +222,23 @@ describe("Phase 3 Site Components Parity", () => {
       expect(container.querySelector('a[href*="instagram.com"]')).not.toBeNull();
       expect(container.querySelector('a[href*="mailto:yasmin@hirefound.com"]')).not.toBeNull();
     });
+
+    it("renders employer consultation helper and job seeker link in footer", async () => {
+      await act(async () => {
+        root.render(
+          <CalDialogProvider>
+            <SiteFooter />
+          </CalDialogProvider>,
+        );
+      });
+
+      const footer = container.querySelector("footer#contact");
+      expect(footer?.textContent).toContain(
+        "Employers: Book a 30-minute discovery call",
+      );
+      expect(footer?.textContent).toContain("Looking for open positions?");
+      expect(footer?.querySelector('a[href="/jobs/"]')).not.toBeNull();
+    });
   });
 
   describe("LiveVacancies", () => {
@@ -316,6 +333,29 @@ describe("Phase 3 Site Components Parity", () => {
       expect(document.getElementById("booking-modal")).toBeNull();
       expect(document.activeElement).toBe(trigger);
       interval.mockRestore();
+    });
+
+    it("displays executive consultation title and job seeker deflection banner", async () => {
+      await act(async () => {
+        root.render(
+          <CalDialogProvider>
+            <TestTrigger />
+          </CalDialogProvider>,
+        );
+      });
+
+      const trigger = container.querySelector("#test-open") as HTMLButtonElement;
+      await act(async () => {
+        trigger.click();
+      });
+
+      const modal = document.getElementById("booking-modal");
+      expect(modal?.textContent).toContain("Book an Executive Consultation");
+      expect(modal?.textContent).toContain("For founders, CEOs & hiring leaders");
+      expect(modal?.textContent).toContain("Job seeker?");
+      expect(modal?.textContent).toContain("browse our open roles");
+      const roleLink = modal?.querySelector('a[href="#vacancies"]');
+      expect(roleLink).not.toBeNull();
     });
   });
 });

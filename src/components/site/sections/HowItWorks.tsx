@@ -1,15 +1,15 @@
 const STEPS = [
   {
     title: "We Talk",
-    body: "Tell me everything. The role, the culture, the dream. I listen like it matters, because it does.",
+    body: "Tell me everything: the mandate, the leadership dynamic, the vision. I listen like it matters, because it does.",
   },
   {
     title: "We Match",
-    body: "I go find your person. Not the most available, but the most right.",
+    body: "Discreet headhunting, cultural vetting, and DISC behavioral profiling. You only meet vetted finalists who fit.",
   },
   {
     title: "You Grow",
-    body: "The hire sticks. The career takes off. And I'm still just a message away.",
+    body: "The hire sticks. The leadership team gains momentum. And I stay closely connected for ongoing retention.",
   },
 ] as const;
 

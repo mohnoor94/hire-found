@@ -33,7 +33,7 @@ const NAV_ITEMS = [
   },
   {
     label: "Services",
-    descriptor: "Hiring support and career matchmaking",
+    descriptor: "Executive search and hiring solutions",
     homepageHref: "#services",
     otherHref: "/#services",
     sectionId: "services",
@@ -193,7 +193,7 @@ export function SiteNav() {
               type="button"
               id="nav-book-a-call-desktop"
               className={desktopBookClass}
-              aria-label="Book a Call"
+              aria-label="Book an executive hiring consultation with Yasmin"
               onClick={(e) => open(e.currentTarget)}
             >
               <CalendarIcon className="size-4" aria-hidden="true" />
@@ -319,6 +319,9 @@ export function SiteNav() {
             </div>
 
             <div className="shrink-0 border-t border-primary/10 bg-background/95 px-4 pt-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:px-5">
+              <p className="mb-2.5 text-[11px] font-bold tracking-[0.14em] text-muted uppercase">
+                For Employers
+              </p>
               <button
                 type="button"
                 id="nav-book-a-call-mobile"
@@ -349,6 +352,16 @@ export function SiteNav() {
                 </svg>
                 Chat on WhatsApp
               </a>
+              <p className="mt-4 text-center text-xs text-muted">
+                Looking for open positions?{" "}
+                <Link
+                  href={onHomepage ? "#vacancies" : "/jobs/"}
+                  onClick={() => setMenuOpen(false)}
+                  className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:text-primary-light"
+                >
+                  Browse open roles
+                </Link>
+              </p>
               <div className="mt-3 flex justify-end">
                 <ThemeToggle />
               </div>
