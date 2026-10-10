@@ -14,4 +14,4 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **NO EM DASHES**: Never use em dashes (`—` or `&mdash;`) in any copy, UI text, documentation, or code comments. Use standard hyphens (`-`), commas, colons, or clean sentence breaks instead.
 
 ## Reminders & Next Priorities
-- **REMIND USER AT START OF NEXT SESSION**: Remind the user to work on the live preview card on social media when sharing links (Open Graph image / Twitter card previews for homepage and shared job links).
+- Live preview cards for social media sharing (Open Graph and Twitter previews for homepage and jobs page) are implemented.

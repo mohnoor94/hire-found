@@ -16,7 +16,14 @@ export const metadata: Metadata = {
       "Browse open roles and find your next career match with HireFound.",
     url: "https://hirefound.com/jobs/",
     siteName: "HireFound",
-    images: ["https://hirefound.com/assets/yasmin-blasi.png"],
+    images: [
+      {
+        url: "https://hirefound.com/assets/og-jobs.png",
+        width: 1200,
+        height: 630,
+        alt: "HireFound - Open Roles & Career Matching",
+      },
+    ],
     type: "website",
   },
   twitter: {
@@ -24,7 +31,7 @@ export const metadata: Metadata = {
     title: "Find Your Match - Open Roles | HireFound",
     description:
       "Browse open roles and find your next career match with HireFound.",
-    images: ["https://hirefound.com/assets/yasmin-blasi.png"],
+    images: ["https://hirefound.com/assets/og-jobs.png"],
   },
 };
 
