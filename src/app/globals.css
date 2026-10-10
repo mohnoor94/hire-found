@@ -324,29 +324,111 @@
   }
 }
 
-/* Trust section: press marquee */
-@keyframes hf-marquee-left {
+/* How It Works: scroll-driven journey line and step reveals */
+@keyframes hiw-line-fill {
   from {
-    transform: translateX(0);
+    height: 0%;
   }
   to {
-    transform: translateX(-50%);
+    height: 100%;
   }
 }
 
-.hf-marquee-track {
-  animation: hf-marquee-left 45s linear infinite;
-  will-change: transform;
+@keyframes hiw-step-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
-.group:hover .hf-marquee-track {
-  animation-play-state: paused;
+@keyframes hiw-dot-activate {
+  from {
+    transform: scale(0.85);
+    background-color: color-mix(in srgb, var(--primary) 0%, var(--background));
+    box-shadow: 0 0 0 0 rgba(122, 30, 74, 0);
+  }
+  to {
+    transform: scale(1);
+    background-color: var(--primary);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--primary) 10%, transparent);
+  }
+}
+
+/* Default static fallback: no special opacity or transforms. */
+.reveal-on-scroll {}
+.hiw-list {}
+.hiw-step {}
+.hiw-dot {}
+
+@supports (animation-timeline: view()) {
+  /* Vertical line fill overlay */
+  .hiw-list {
+    position: relative;
+    /* keeps children dots above overlay */
+    isolation: isolate;
+  }
+  .hiw-list::after {
+    content: "";
+    position: absolute;
+    left: -1px; /* aligns over the border-left */
+    top: 0;
+    width: 2px;
+    height: 0%;
+    background: var(--primary);
+    border-radius: 9999px;
+    z-index: -1; /* sit behind dots */
+    animation: hiw-line-fill linear both;
+    animation-timeline: view();
+    /* Fill as the whole list scrolls from entry to near full cover */
+    animation-range: entry 0% cover 90%;
+  }
+
+  /* Use a named view timeline so children sync to each step's visibility */
+  .hiw-step {
+    view-timeline-name: --hiw-step;
+    view-timeline-axis: block;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: hiw-step-reveal 1 both cubic-bezier(0.16, 1, 0.3, 1);
+    animation-timeline: --hiw-step;
+    animation-range: entry 15% cover 35%;
+  }
+
+  .hiw-dot {
+    animation: hiw-dot-activate 1 both ease-out;
+    animation-timeline: --hiw-step;
+    animation-range: entry 5% cover 30%;
+    will-change: transform, background-color, box-shadow;
+  }
+
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: hiw-step-reveal 1 both cubic-bezier(0.16, 1, 0.3, 1);
+    animation-timeline: view();
+    animation-range: entry 10% cover 35%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hf-marquee-track {
+  .reveal-on-scroll,
+  .hiw-step,
+  .hiw-dot,
+  .hiw-list::after {
     animation: none !important;
+    transition: none !important;
+  }
+  .reveal-on-scroll,
+  .hiw-step {
+    opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
   }
 }
 
