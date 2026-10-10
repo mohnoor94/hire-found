@@ -5,7 +5,8 @@ import Link from "next/link";
 import { fetchJobs, getCategories, type Job } from "@/lib/jobs";
 import { formatCategoryLabel } from "@/lib/yasmin/labels";
 import { JobCard } from "@/components/jobs/job-card";
-import { JobsEmptyState } from "@/components/jobs/jobs-states";
+import { VacanciesEmptyIllustration } from "@/components/jobs/vacancies-empty-illustration";
+import { ButterflyMicro } from "@/components/illustrations";
 
 export function LiveVacancies() {
   const [jobs, setJobs] = useState<Job[] | null>(null);
@@ -46,6 +47,13 @@ export function LiveVacancies() {
     >
       <div className="mx-auto max-w-5xl">
         <div className="mb-10">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-secondary/40 bg-card/60 px-3 py-1 text-xs font-medium text-text-main shadow-xs backdrop-blur-xs">
+            <span className="relative flex size-2" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75 motion-reduce:hidden" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-600" />
+            </span>
+            <span>Active Opportunities</span>
+          </div>
           <h2 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
             Find Your Match
           </h2>
@@ -83,8 +91,12 @@ export function LiveVacancies() {
               aria-label="Loading open roles"
             >
               {[0, 1, 2, 3].map((i) => (
-                <div key={i} className="animate-pulse border-t border-secondary py-7">
-                  <div className="h-7 w-2/3 rounded bg-warm-dark" />
+                <div
+                  key={i}
+                  className="mb-3 animate-pulse rounded-xl border border-secondary/25 bg-card/50 p-6 last:mb-0"
+                >
+                  <div className="mb-3 h-4 w-24 rounded-full bg-warm-dark" />
+                  <div className="h-7 w-2/3 rounded-md bg-warm-dark" />
                   <div className="mt-3 h-4 w-full max-w-md rounded bg-warm-dark" />
                   <div className="mt-4 h-3 w-40 rounded bg-warm-dark" />
                 </div>
@@ -101,17 +113,36 @@ export function LiveVacancies() {
           )}
 
           {jobs && !error && filtered.length === 0 && (
-            <JobsEmptyState
-              message={
-                category === "all"
-                  ? "Quiet on the board"
-                  : `Nothing in ${formatCategoryLabel(category)} just yet`
-              }
-            />
+            <div className="my-2 rounded-2xl border border-secondary/35 bg-card/40 p-2 shadow-xs">
+              <div className="flex flex-col items-center justify-center rounded-xl border border-secondary/30 bg-card/80 px-6 py-12 text-center backdrop-blur-xs">
+                <div className="mb-5 flex justify-center">
+                  <VacanciesEmptyIllustration />
+                </div>
+                <h3 className="font-accent text-2xl text-primary">
+                  {category === "all"
+                    ? "Quiet on the board"
+                    : `Nothing in ${formatCategoryLabel(category)} just yet`}
+                </h3>
+                <p className="mt-2 max-w-[50ch] text-sm leading-relaxed text-muted">
+                  {category === "all"
+                    ? "New openings show up here as they come in. Check back soon."
+                    : `There are currently no active openings filed under ${formatCategoryLabel(category)}.`}
+                </p>
+                {category !== "all" && (
+                  <button
+                    type="button"
+                    onClick={() => setCategory("all")}
+                    className="mt-5 inline-flex min-h-10 touch-manipulation cursor-pointer items-center justify-center rounded-full border border-primary/25 bg-warm px-5 text-xs font-semibold text-primary transition-all duration-200 hover:border-primary/40 hover:bg-card active:scale-[0.98]"
+                  >
+                    Show all active roles
+                  </button>
+                )}
+              </div>
+            </div>
           )}
 
           {error && (
-            <div className="flex flex-col items-start py-12">
+            <div className="my-2 rounded-2xl border border-destructive/20 bg-destructive/5 p-6 sm:p-8">
               <p className="mb-2 text-lg font-semibold text-text-main">
                 Jobs temporarily unavailable
               </p>
@@ -122,16 +153,23 @@ export function LiveVacancies() {
           )}
         </div>
 
-        {jobs && jobs.length > 0 && (
-          <div className="mt-10">
-            <Link
-              href="/jobs/"
-              className="inline-flex min-h-12 touch-manipulation items-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark"
-            >
-              View All Open Roles
-            </Link>
-          </div>
-        )}
+        {/* Permanently rendered directory link bar across all states */}
+        <div className="mt-10 flex flex-col items-start justify-between gap-4 border-t border-secondary/30 pt-8 sm:flex-row sm:items-center">
+          <p className="max-w-md text-sm text-muted">
+            Looking for something specific? Browse all active roles and search by keyword or department in the directory.
+          </p>
+          <Link
+            href="/jobs/"
+            className="group inline-flex min-h-12 shrink-0 touch-manipulation items-center gap-2.5 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-warm transition-all duration-200 hover:bg-primary-light hover:shadow-glow active:scale-[0.98] active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary select-none"
+          >
+            <span>View All Open Roles</span>
+            <ButterflyMicro
+              width={14}
+              height={12}
+              className="opacity-80 transition-transform duration-200 group-hover:scale-110"
+            />
+          </Link>
+        </div>
       </div>
     </section>
   );

@@ -8,6 +8,9 @@ export function VacanciesEmptyIllustration() {
       aria-hidden="true"
       focusable="false"
     >
+      {/* Ambient background warmth halo */}
+      <circle cx="80" cy="74" r="48" fill="#D4A574" opacity="0.08" />
+
       {/* Floor shadow */}
       <ellipse cx="80" cy="128" rx="48" ry="6" fill="#D4A574" opacity="0.28" />
 
@@ -34,6 +37,17 @@ export function VacanciesEmptyIllustration() {
         fill="#F3EBE3"
         stroke="#7A1E4A"
         strokeWidth="2"
+      />
+      {/* Seat gold tailoring stitch */}
+      <line
+        x1="56"
+        y1="87"
+        x2="104"
+        y2="87"
+        stroke="#D4A574"
+        strokeWidth="1"
+        strokeDasharray="3 3"
+        opacity="0.8"
       />
 
       {/* Backrest */}
