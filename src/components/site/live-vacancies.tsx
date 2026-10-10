@@ -51,8 +51,7 @@ export function LiveVacancies() {
             Find Your Match
           </h2>
           <p className="mt-4 max-w-xl text-lg text-muted">
-            Current openings I&apos;m actively matching for. Take a look, and
-            let&apos;s start a conversation if there is a spark.
+            Roles I&apos;m actively matching for. If one feels right, let&apos;s talk.
           </p>
         </div>
 
@@ -149,7 +148,7 @@ export function LiveVacancies() {
         {/* Permanently rendered directory link bar across all states */}
         <div className="mt-10 flex flex-col items-start justify-between gap-4 border-t border-secondary/30 pt-8 sm:flex-row sm:items-center">
           <p className="max-w-md text-sm text-muted">
-            Looking for a different craft or city? Explore all live searches in the directory.
+            Looking for a different role or city? Browse the full directory.
           </p>
           <Link
             href="/jobs/"
