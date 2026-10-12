@@ -17,7 +17,7 @@ export function HowItWorks() {
     <section
       id="how-it-works"
       ref={containerRef}
-      className="relative px-6 py-20 lg:py-28"
+      className="relative px-6 pt-20 pb-8 lg:pt-28 lg:pb-6"
     >
       <div className="section-divider mx-auto mb-16 max-w-5xl opacity-50" aria-hidden="true" />
       <div className="mx-auto max-w-5xl">

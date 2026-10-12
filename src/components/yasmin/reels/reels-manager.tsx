@@ -17,7 +17,6 @@ interface ReelsManagerProps {
 
 export function ReelsManager({
   reels,
-  loading,
   onNewReel,
   onEditReel,
   onDeleteReel,

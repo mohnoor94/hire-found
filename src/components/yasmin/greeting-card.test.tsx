@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import React, { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { GreetingCard } from "./greeting-card";
+import { GreetingCard, type GreetingCardProps } from "./greeting-card";
 import { YasminOracleNote } from "./yasmin-oracle-note";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT =
@@ -34,7 +34,9 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} />);
+      root.render(
+        <GreetingCard user={user as GreetingCardProps["user"]} />,
+      );
     });
 
     expect(container.textContent).toContain("Yasmin");
@@ -63,7 +65,9 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} />);
+      root.render(
+        <GreetingCard user={user as GreetingCardProps["user"]} />,
+      );
     });
 
     const img = container.querySelector("img");
@@ -97,7 +101,12 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} activeJobsCount={3} />);
+      root.render(
+        <GreetingCard
+          user={user as GreetingCardProps["user"]}
+          activeJobsCount={3}
+        />,
+      );
     });
 
     expect(container.textContent).toContain("3 roles active · In flow");

@@ -10,7 +10,7 @@ import {
   type DocumentData,
 } from "firebase/firestore";
 import { db as defaultDb } from "@/lib/firebase";
-import { DEFAULTS, type FirestoreTimestampLike } from "@/lib/jobs/types";
+import type { FirestoreTimestampLike } from "@/lib/jobs/types";
 import type { Reel, ReelFormData } from "./types";
 import { extractInstagramShortcode } from "./instagram-url";
 import { SEED_REELS } from "./seed";

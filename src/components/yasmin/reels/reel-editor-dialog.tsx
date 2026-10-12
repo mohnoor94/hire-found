@@ -37,7 +37,9 @@ export function ReelEditorDialog({
   const [isActive, setIsActive] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  /* eslint-disable react-hooks/set-state-in-effect -- reset form fields when the dialog target changes */
   useEffect(() => {
+    // Reset fields when the dialog opens or the edited reel changes.
     if (reel) {
       setUrl(reel.instagramUrl || (reel.shortcode ? `https://www.instagram.com/reel/${reel.shortcode}/` : ""));
       setTitle(reel.title || "");
@@ -57,6 +59,7 @@ export function ReelEditorDialog({
     }
     setError(null);
   }, [reel, open]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const extractedShortcode = extractInstagramShortcode(url);
 

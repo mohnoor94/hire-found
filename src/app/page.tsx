@@ -9,6 +9,7 @@ import { HowItWorks } from "@/components/site/sections/HowItWorks";
 import { Trust } from "@/components/site/sections/Trust";
 import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
 import { AmbientBackdrop } from "@/components/site/ambient-backdrop";
+import { YasminNotes } from "@/components/site/sections/YasminNotes";
 
 export default function HomePage() {
   return (
@@ -24,6 +25,7 @@ export default function HomePage() {
         <LiveVacancies />
         <Services />
         <HowItWorks />
+        <YasminNotes />
         <Trust />
       </main>
       <WaveWarmToDark from="warm" />
