@@ -1,8 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import React, { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { GreetingCard } from "./greeting-card";
+import { GreetingCard, type GreetingCardProps } from "./greeting-card";
 import { YasminOracleNote } from "./yasmin-oracle-note";
+
+type GreetingUser = GreetingCardProps["user"];
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT =
   true;
@@ -26,7 +28,7 @@ describe("GreetingCard & YasminOracleNote", () => {
   });
 
   it("renders personal greeting card with fallback avatar and serene oracle note", async () => {
-    const user = {
+    const user: GreetingUser = {
       uid: "u-yasmin",
       displayName: "Yasmin Blasi",
       email: "yasmin@hirefound.com",
@@ -34,7 +36,7 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} />);
+      root.render(<GreetingCard user={user} />);
     });
 
     expect(container.textContent).toContain("Yasmin");
@@ -55,7 +57,7 @@ describe("GreetingCard & YasminOracleNote", () => {
   });
 
   it("renders user photo when photoURL is provided", async () => {
-    const user = {
+    const user: GreetingUser = {
       uid: "u-yasmin",
       displayName: "Yasmin Blasi",
       email: "yasmin@hirefound.com",
@@ -63,7 +65,7 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} />);
+      root.render(<GreetingCard user={user} />);
     });
 
     const img = container.querySelector("img");
@@ -89,7 +91,7 @@ describe("GreetingCard & YasminOracleNote", () => {
   });
 
   it("renders active jobs count in editorial masthead pulse badge", async () => {
-    const user = {
+    const user: GreetingUser = {
       uid: "u-yasmin",
       displayName: "Yasmin Blasi",
       email: "yasmin@hirefound.com",
@@ -97,7 +99,7 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} activeJobsCount={3} />);
+      root.render(<GreetingCard user={user} activeJobsCount={3} />);
     });
 
     expect(container.textContent).toContain("3 roles active · In flow");

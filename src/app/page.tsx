@@ -7,6 +7,7 @@ import { About } from "@/components/site/sections/About";
 import { Services } from "@/components/site/sections/Services";
 import { HowItWorks } from "@/components/site/sections/HowItWorks";
 import { Trust } from "@/components/site/sections/Trust";
+import { SpeakingMedia } from "@/components/site/sections/SpeakingMedia";
 import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
 import { AmbientBackdrop } from "@/components/site/ambient-backdrop";
 
@@ -24,6 +25,7 @@ export default function HomePage() {
         <LiveVacancies />
         <Services />
         <HowItWorks />
+        <SpeakingMedia />
         <Trust />
       </main>
       <WaveWarmToDark from="warm" />
