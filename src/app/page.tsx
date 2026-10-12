@@ -9,12 +9,14 @@ import { HowItWorks } from "@/components/site/sections/HowItWorks";
 import { Trust } from "@/components/site/sections/Trust";
 import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
 import { AmbientBackdrop } from "@/components/site/ambient-backdrop";
+import { Markets } from "@/components/site/sections/Markets";
+import { en as messages } from "@/i18n/en";
 
 export default function HomePage() {
   return (
     <>
       <a href="#hero" className="skip-link">
-        Skip to content
+        {messages.skipToContent}
       </a>
       <AmbientBackdrop />
       <SiteNav />
@@ -23,6 +25,7 @@ export default function HomePage() {
         <About />
         <LiveVacancies />
         <Services />
+        <Markets />
         <HowItWorks />
         <Trust />
       </main>

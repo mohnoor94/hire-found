@@ -7,33 +7,12 @@ import {
   PillarDoorway,
 } from "@/components/illustrations";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { useI18n } from "@/components/site/i18n";
 
-const FACTS = [
-  "10+ years of experience",
-  "MENA region",
-  "Junior to C-suite",
-  "TEDx speaker",
-] as const;
-
-const PILLARS = [
-  {
-    title: "Matchmaking, Not Seat-Filling",
-    body: "I find people who fit your culture, not just your job description.",
-    Emblem: PillarArmchair,
-  },
-  {
-    title: "Your Story, Not Just Keywords",
-    body: "Every candidate is more than a CV. Every company is more than a job post.",
-    Emblem: PillarManuscript,
-  },
-  {
-    title: "From First Call to First Day",
-    body: "I don't disappear after the offer letter. I'm here for the whole journey.",
-    Emblem: PillarDoorway,
-  },
-] as const;
+const PILLAR_EMBLEMS = [PillarArmchair, PillarManuscript, PillarDoorway] as const;
 
 export function About() {
+  const t = useI18n();
   const containerRef = useScrollReveal<HTMLElement>({
     selector: ".reveal-on-scroll",
     staggerMs: 65,
@@ -47,10 +26,8 @@ export function About() {
     >
       <div className="section-divider mx-auto mb-16 max-w-5xl opacity-50" aria-hidden="true" />
       <div className="mx-auto max-w-5xl">
-        {/* Top: Founder Story & Portrait Inset Panel */}
         <div className="reveal-on-scroll rounded-3xl border border-secondary/30 bg-warm-dark/45 p-7 sm:p-10 lg:p-12 shadow-xs backdrop-blur-xs">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-14 xl:gap-18">
-            {/* Founder Editorial Portrait */}
             <figure className="relative mx-auto w-full max-w-sm lg:max-w-none">
               <div
                 className="absolute -inset-2 -rotate-1 rounded-3xl border border-secondary/35 bg-card/40 sm:-inset-2.5"
@@ -59,7 +36,7 @@ export function About() {
               <div className="relative overflow-hidden rounded-2xl border border-secondary/40 bg-card shadow-card transition-all duration-300 hover:shadow-card-hover">
                 <img
                   src={withBasePath("/assets/yasmin-blasi.png")}
-                  alt="Yasmin Blasi, founder of HireFound"
+                  alt={t.hero.portraitAlt}
                   width={800}
                   height={800}
                   className="aspect-[4/4.5] w-full object-cover object-[center_12%]"
@@ -70,39 +47,30 @@ export function About() {
                     Yasmin Blasi
                   </figcaption>
                   <p className="text-xs text-muted">
-                    Founder &amp; Executive Matchmaker
+                    {t.about.founderRole}
                   </p>
                 </div>
               </div>
             </figure>
 
-            {/* Founder Story and Philosophy */}
             <div>
               <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">
-                Meet the Founder
+                {t.about.meetTheFounder}
               </p>
               <h2 className="font-accent mt-2 text-4xl leading-[1.1] tracking-[-0.02em] text-balance text-primary md:text-5xl">
-                I&apos;m not your usual recruiter.
+                {t.about.notUsual}
               </h2>
               <p className="mt-3 text-lg text-muted">
-                And that&apos;s exactly the point.
+                {t.about.point}
               </p>
 
               <div className="mt-6 flex max-w-[65ch] flex-col gap-4 text-lg leading-relaxed text-text-main">
-                <p>
-                  Yasmin Blasi spent a decade in HR and recruitment: talent
-                  acquisition, senior leadership, coaching executives, and reading
-                  thousands of CVs across Jordan and the broader MENA region.
-                </p>
-                <p>
-                  HireFound is the practice she built after leaving corporate HR:
-                  fewer seats filled, more lasting matches, and a direct line to
-                  the person you actually book.
-                </p>
+                <p>{t.about.p1}</p>
+                <p>{t.about.p2}</p>
               </div>
 
               <div className="mt-8 flex flex-wrap gap-2.5">
-                {FACTS.map((fact) => (
+                {t.about.facts.map((fact) => (
                   <span
                     key={fact}
                     className="rounded-full border border-primary/15 bg-card/70 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-primary shadow-xs"
@@ -115,11 +83,11 @@ export function About() {
           </div>
         </div>
 
-        {/* Bottom: The Matchmaking Standard (3 Pillars) */}
         <div className="mt-16 pt-4 lg:mt-20">
           <div className="grid gap-6 md:grid-cols-3 md:gap-8">
-            {PILLARS.map((point) => {
-              const EmblemComponent = point.Emblem;
+            {t.about.pillars.map((point, index) => {
+              const EmblemComponent = PILLAR_EMBLEMS[index];
+              if (!EmblemComponent) return null;
               return (
                 <div
                   key={point.title}

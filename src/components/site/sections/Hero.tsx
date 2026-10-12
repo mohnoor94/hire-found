@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { CalendarIcon, ArrowUpRightIcon } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
-import { ButterflyMicro } from "@/components/illustrations/butterfly-micro";
+import { useI18n } from "@/components/site/i18n";
 
 const primaryCta =
   "group relative inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 overflow-hidden rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-primary-light hover:shadow-glow active:scale-[0.97] active:bg-primary-dark sm:w-auto shadow-warm ring-1 ring-primary/0 hover:ring-primary/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
@@ -95,6 +95,7 @@ function RevealWords({ text }: { text: string }) {
 }
 
 export function Hero() {
+  const t = useI18n();
   const { open } = useBookingModal();
   const heroRef = useRef<HTMLElement>(null);
   useHeroPointer(heroRef);
@@ -116,33 +117,29 @@ export function Hero() {
       />
       {/* Ambient background glow for warmth and depth */}
       <div
-        className="pointer-events-none absolute -top-32 right-1/4 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(212,165,116,0.14)_0%,transparent_70%)] blur-3xl"
+        className="pointer-events-none absolute -top-32 end-1/4 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(212,165,116,0.14)_0%,transparent_70%)] blur-3xl"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute bottom-4 left-6 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(122,30,74,0.06)_0%,transparent_70%)] blur-2xl"
+        className="pointer-events-none absolute bottom-4 start-6 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(122,30,74,0.06)_0%,transparent_70%)] blur-2xl"
         aria-hidden="true"
       />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 lg:px-10">
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-14 xl:gap-18">
-          {/* Left Column: Clean Brand & Her Exact Tagline */}
           <div className="hf-fold">
-            {/* Brand Title */}
             <h1 className="font-accent text-5xl leading-[1.02] tracking-[-0.03em] text-primary sm:text-6xl md:text-7xl">
               HireFound
             </h1>
 
             <p className="mt-2 text-sm font-semibold tracking-[0.08em] text-muted uppercase">
-              by Yasmin Blasi
+              {t.hero.byline}
             </p>
 
-            {/* Her Tagline with reveal */}
-            <RevealWords text="You want a hire? We got you found." />
+            <RevealWords text={t.hero.tagline} />
 
-            {/* Supporting Note */}
             <p className="mt-4 max-w-[32rem] text-base leading-relaxed text-muted sm:text-lg">
-              Executive search and culture-first hiring across Jordan and the Gulf.
+              {t.hero.subline}
             </p>
 
             <div
@@ -150,7 +147,6 @@ export function Hero() {
               aria-hidden="true"
             />
 
-            {/* Dual CTAs: Employer Consultation & Candidate Open Roles */}
             <div className="mt-8 flex flex-col gap-3.5 sm:flex-row sm:items-center">
               <button
                 type="button"
@@ -159,16 +155,16 @@ export function Hero() {
                 className={primaryCta}
               >
                 <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
-                <span>I&apos;m Hiring Executive Talent</span>
+                <span>{t.hero.ctaHiring}</span>
                 <span
-                  className="ml-0.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  className="ms-0.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5"
                   aria-hidden="true"
                 >
                   <ArrowUpRightIcon className="size-3.5" />
                 </span>
               </button>
               <a href="#vacancies" id="hero-explore" className={secondaryCta}>
-                <span>Explore Open Roles</span>
+                <span>{t.hero.ctaExplore}</span>
                 <span
                   className="size-2 rounded-full bg-secondary transition-transform duration-200 group-hover:scale-125"
                   aria-hidden="true"
@@ -176,25 +172,27 @@ export function Hero() {
               </a>
             </div>
 
-            {/* Authentic Facts (from About.tsx) with generous breathing room */}
             <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-t border-secondary/35 pt-6 text-xs text-muted">
-              <span className="flex items-center gap-1.5 font-semibold text-text-main">
-                <span
-                  className="size-1.5 rounded-full bg-success"
-                  aria-hidden="true"
-                />
-                Direct Founder Access
-              </span>
-              <span>10+ Years of Experience</span>
-              <span>MENA Region</span>
-              <span>Junior to C-Suite</span>
-              <span>TEDx Speaker</span>
+              {t.hero.facts.map((fact, i) =>
+                i === 0 ? (
+                  <span
+                    key={fact}
+                    className="flex items-center gap-1.5 font-semibold text-text-main"
+                  >
+                    <span
+                      className="size-1.5 rounded-full bg-success"
+                      aria-hidden="true"
+                    />
+                    {fact}
+                  </span>
+                ) : (
+                  <span key={fact}>{fact}</span>
+                ),
+              )}
             </div>
           </div>
 
-          {/* Right Column: Spacious & Calm Atelier Cards (No giant photo, no cramped stats) */}
           <div className="hf-atelier-deck hidden flex-col gap-5 md:flex">
-            {/* Atelier Card 1: Founder Cameo Seal */}
             <figure className="card-interactive-sheen relative overflow-hidden rounded-xl border border-secondary/40 bg-card/90 p-6 shadow-card backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
               <div className="flex items-center gap-4">
                 <div className="relative size-16 shrink-0 sm:size-20">
@@ -204,7 +202,7 @@ export function Hero() {
                   />
                   <img
                     src={withBasePath("/assets/yasmin-blasi.png")}
-                    alt="Yasmin Blasi, founder of HireFound"
+                    alt={t.hero.portraitAlt}
                     width={800}
                     height={800}
                     className="hf-hero-portrait size-full rounded-md object-cover object-[center_12%]"
@@ -218,26 +216,24 @@ export function Hero() {
                       Yasmin Blasi
                     </figcaption>
                     <span className="rounded-full bg-secondary/20 px-2 py-0.5 text-[10px] font-bold tracking-wider text-primary uppercase">
-                      Founder
+                      {t.hero.founderBadge}
                     </span>
                   </div>
                   <p className="mt-1.5 text-xs leading-relaxed text-muted italic">
-                    &ldquo;Fewer seats filled, more lasting matches, and a
-                    direct line to the person you actually book.&rdquo;
+                    &ldquo;{t.hero.quote}&rdquo;
                   </p>
                 </div>
               </div>
             </figure>
 
-            {/* Atelier Card 2: Practice Areas & Executive Mandates */}
             <div className="card-interactive-sheen rounded-xl border border-primary/15 bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover">
               <div className="flex items-center justify-between border-b border-warm-dark pb-3.5">
                 <p className="text-[11px] font-bold tracking-[0.14em] text-muted uppercase">
-                  Executive Mandates
+                  {t.hero.mandatesEyebrow}
                 </p>
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] font-semibold text-primary">
-                    Jordan &amp; The Gulf
+                    {t.hero.region}
                   </span>
                 </div>
               </div>
@@ -245,24 +241,22 @@ export function Hero() {
               <div className="mt-4 space-y-3">
                 <div>
                   <h2 className="font-accent text-xl text-primary">
-                    Practice Areas &amp; Executive Mandates
+                    {t.hero.mandatesHeading}
                   </h2>
                   <p className="mt-1 text-xs leading-relaxed text-muted">
-                    C-Suite &amp; Board Appointments, Headhunting &amp; Retained
-                    Search, and Behavioral Profiling for leadership teams.
+                    {t.hero.mandatesBody}
                   </p>
                 </div>
 
                 <div className="flex flex-wrap gap-2 pt-1.5">
-                  <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
-                    Executive Retainers
-                  </span>
-                  <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
-                    C-Suite &amp; Board
-                  </span>
-                  <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
-                    DISC Profiling
-                  </span>
+                  {t.hero.pills.map((pill) => (
+                    <span
+                      key={pill}
+                      className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main"
+                    >
+                      {pill}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
@@ -270,7 +264,6 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Subtle bottom gradient transition into canvas */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-warm"
         aria-hidden="true"

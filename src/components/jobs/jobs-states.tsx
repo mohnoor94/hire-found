@@ -8,6 +8,7 @@ import {
   BoardPauseIllustration,
 } from "@/components/illustrations";
 import { RefreshCwIcon } from "lucide-react";
+import { useI18n } from "@/components/site/i18n";
 
 const primaryAction =
   "inline-flex min-h-12 touch-manipulation cursor-pointer items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
@@ -47,6 +48,7 @@ export function JobsErrorState({
   onRetry,
   isRetrying = false,
 }: JobsErrorStateProps) {
+  const t = useI18n();
   return (
     <div
       role="alert"
@@ -58,23 +60,23 @@ export function JobsErrorState({
           <BoardPauseIllustration width={140} height={122} />
         </div>
         <h3 className="font-accent text-2xl text-primary text-balance">
-          The board is taking a breath
+          {t.liveVacancies.errorHeading}
         </h3>
         <p className="mt-2 max-w-[50ch] text-sm leading-relaxed text-muted text-pretty">
-          We are having trouble connecting to live roles right now. Give it a moment, or try checking again below.
+          {t.liveVacancies.errorBody}
         </p>
         <button
           type="button"
           onClick={onRetry}
           disabled={isRetrying}
           className="mt-6 inline-flex min-h-11 touch-manipulation cursor-pointer items-center justify-center gap-2 rounded-full border border-primary/25 bg-warm px-6 text-sm font-semibold text-primary shadow-xs transition-all duration-200 hover:border-primary/40 hover:bg-card active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60 select-none"
-          aria-label={isRetrying ? "Checking for open roles" : "Check again for open roles"}
+          aria-label={isRetrying ? t.liveVacancies.checkingAria : t.liveVacancies.checkAgainAria}
         >
           <RefreshCwIcon
             className={`size-4 transition-transform ${isRetrying ? "animate-spin" : ""}`}
             aria-hidden="true"
           />
-          <span>{isRetrying ? "Checking..." : "Check again"}</span>
+          <span>{isRetrying ? t.liveVacancies.checking : t.liveVacancies.checkAgain}</span>
         </button>
       </div>
     </div>

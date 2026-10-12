@@ -10,8 +10,11 @@ import { JobsErrorState } from "@/components/jobs/jobs-states";
 import { ArrowUpRightIcon } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useFocusRevalidate } from "@/hooks/use-focus-revalidate";
+import { useI18n } from "@/components/site/i18n";
 
 export function LiveVacancies() {
+  const t = useI18n();
+  const jobsHref = t.locale === "ar" ? "/ar/jobs/" : "/jobs/";
   const [jobs, setJobs] = useState<Job[] | null>(null);
   const [error, setError] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
@@ -96,6 +99,8 @@ export function LiveVacancies() {
       ? jobs || []
       : (jobs || []).filter((j) => j.category === category);
 
+  const categoryLabel = formatCategoryLabel(category);
+
   return (
     <section
       id="vacancies"
@@ -106,10 +111,10 @@ export function LiveVacancies() {
       <div className="mx-auto max-w-5xl">
         <div className="reveal-on-scroll mb-10">
           <h2 className="font-accent text-4xl tracking-[-0.02em] text-balance text-primary md:text-5xl">
-            Find Your Match
+            {t.liveVacancies.heading}
           </h2>
           <p className="mt-4 max-w-xl text-lg text-muted">
-            Roles I&apos;m actively matching for. If one feels right, let&apos;s talk.
+            {t.liveVacancies.subheading}
           </p>
         </div>
 
@@ -117,7 +122,7 @@ export function LiveVacancies() {
           <div
             className="mb-8 flex flex-wrap gap-2"
             role="group"
-            aria-label="Filter jobs by category"
+            aria-label={t.liveVacancies.filterAria}
           >
             {categories.map((cat) => (
               <button
@@ -127,7 +132,7 @@ export function LiveVacancies() {
                 className={`filter-pill ${category === cat ? "active" : ""}`}
                 onClick={() => setCategory(cat)}
               >
-                {cat === "all" ? "All" : formatCategoryLabel(cat)}
+                {cat === "all" ? t.liveVacancies.all : formatCategoryLabel(cat)}
               </button>
             ))}
           </div>
@@ -138,7 +143,7 @@ export function LiveVacancies() {
             <div
               className="flex flex-col"
               aria-busy="true"
-              aria-label="Loading open roles"
+              aria-label={t.liveVacancies.loadingAria}
             >
               {[0, 1, 2, 3].map((i) => (
                 <div
@@ -170,13 +175,19 @@ export function LiveVacancies() {
                 </div>
                 <h3 className="font-accent text-2xl text-primary">
                   {category === "all"
-                    ? "Quiet on the board"
-                    : `Nothing in ${formatCategoryLabel(category)} just yet`}
+                    ? t.liveVacancies.quietHeading
+                    : t.liveVacancies.noneCategoryHeadingPattern.replace(
+                        "{category}",
+                        categoryLabel,
+                      )}
                 </h3>
                 <p className="mt-2 max-w-[50ch] text-sm leading-relaxed text-muted">
                   {category === "all"
-                    ? "New openings show up here as they come in. Check back soon."
-                    : `There are currently no active openings filed under ${formatCategoryLabel(category)}.`}
+                    ? t.liveVacancies.quietBody
+                    : t.liveVacancies.noneCategoryBodyPattern.replace(
+                        "{category}",
+                        categoryLabel,
+                      )}
                 </p>
                 {category !== "all" && (
                   <button
@@ -184,7 +195,7 @@ export function LiveVacancies() {
                     onClick={() => setCategory("all")}
                     className="mt-5 inline-flex min-h-10 touch-manipulation cursor-pointer items-center justify-center rounded-full border border-primary/25 bg-warm px-5 text-xs font-semibold text-primary transition-all duration-200 hover:border-primary/40 hover:bg-card active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                   >
-                    Show all active roles
+                    {t.liveVacancies.showAll}
                   </button>
                 )}
               </div>
@@ -199,18 +210,17 @@ export function LiveVacancies() {
           )}
         </div>
 
-        {/* Permanently rendered directory link bar across all states */}
         <div className="mt-10 flex flex-col items-start justify-between gap-4 border-t border-secondary/30 pt-8 sm:flex-row sm:items-center">
           <p className="max-w-md text-sm text-muted">
-            Looking for a different role or city? Browse the full directory.
+            {t.liveVacancies.directoryPrompt}
           </p>
           <Link
-            href="/jobs/"
+            href={jobsHref}
             className="group inline-flex min-h-12 shrink-0 touch-manipulation items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-warm transition-all duration-200 hover:bg-primary-light hover:shadow-glow active:scale-[0.98] active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary select-none"
           >
-            <span>View All Open Roles</span>
+            <span>{t.liveVacancies.viewAll}</span>
             <ArrowUpRightIcon
-              className="size-4 opacity-80 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              className="size-4 opacity-80 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5"
               aria-hidden="true"
             />
           </Link>

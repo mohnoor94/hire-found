@@ -15,6 +15,7 @@ import { ArrowUpRightIcon, XIcon } from "lucide-react";
 import { DEFAULTS } from "@/lib/jobs/types";
 import { withBasePath } from "@/lib/base-path";
 import { PhoneDirectLineIllustration } from "@/components/illustrations";
+import { useI18n } from "@/components/site/i18n";
 
 type BookingModalContextValue = {
   open: (trigger?: HTMLElement | null) => void;
@@ -70,6 +71,7 @@ export function CalDialog({
   onFrameLoad: () => void;
   vtName?: string | null;
 }) {
+  const t = useI18n();
   const embedSrc = calEmbedSrc(DEFAULTS.calLink);
   const whatsAppUrl = `https://wa.me/${DEFAULTS.whatsApp}?text=${encodeURIComponent("Hi Yasmin! I found you through your website.")}`;
 
@@ -100,10 +102,10 @@ export function CalDialog({
                 id="booking-modal-title"
                 className="font-accent text-base sm:text-lg leading-tight text-primary"
               >
-                Book an Executive Consultation
+                {t.cal.title}
               </DialogPrimitive.Title>
               <p className="text-xs text-muted">
-                For founders, CEOs & hiring leaders
+                {t.cal.subtitle}
               </p>
             </div>
             <DialogPrimitive.Close asChild>
@@ -111,7 +113,7 @@ export function CalDialog({
                 id="booking-close-btn"
                 type="button"
                 className="inline-flex size-11 touch-manipulation items-center justify-center rounded-full text-text-main select-none transition-transform duration-150 active:scale-95 active:bg-primary/10"
-                aria-label="Close booking"
+                aria-label={t.cal.closeAria}
               >
                 <XIcon className="size-5" />
               </button>
@@ -121,7 +123,7 @@ export function CalDialog({
             id="booking-modal-description"
             className="sr-only"
           >
-            Choose a time to talk with Yasmin about executive hiring.
+            {t.cal.description}
           </DialogPrimitive.Description>
           <div className="relative min-h-0 flex-1">
             {status === "error" ? (
@@ -133,11 +135,10 @@ export function CalDialog({
                   <PhoneDirectLineIllustration width={140} height={120} />
                 </div>
                 <p className="font-accent text-xl text-text-main">
-                  Calendar unavailable
+                  {t.cal.unavailable}
                 </p>
                 <p className="mt-2 max-w-xs text-sm text-muted">
-                  The scheduling page didn&apos;t load. Try Cal.com, WhatsApp,
-                  or email instead.
+                  {t.cal.unavailableHint}
                 </p>
                 <div className="mt-6 flex w-full max-w-sm flex-col gap-3">
                   <a
@@ -146,7 +147,7 @@ export function CalDialog({
                     rel="noopener noreferrer"
                     className="inline-flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none transition-transform duration-150 active:scale-95 active:bg-primary-dark"
                   >
-                    Book on Cal.com
+                    {t.cal.bookOnCal}
                     <ArrowUpRightIcon className="size-4" />
                   </a>
                   <a
@@ -155,13 +156,13 @@ export function CalDialog({
                     rel="noopener noreferrer"
                     className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/20 px-6 text-sm font-semibold text-primary select-none transition-transform duration-150 active:scale-95 active:bg-primary/10"
                   >
-                    Chat on WhatsApp
+                    {t.cal.chatWhatsApp}
                   </a>
                   <a
                     href={`mailto:${DEFAULTS.email}`}
                     className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-primary/20 px-6 text-sm font-semibold text-primary select-none transition-transform duration-150 active:scale-95 active:bg-primary/10"
                   >
-                    Email Yasmin
+                    {t.cal.emailYasmin}
                   </a>
                 </div>
               </div>
@@ -178,13 +179,13 @@ export function CalDialog({
                       aria-hidden="true"
                     />
                     <p className="mt-4 text-sm text-muted">
-                      Loading calendar...
+                      {t.cal.loading}
                     </p>
                   </div>
                 ) : null}
                 <iframe
                   id="booking-cal-container"
-                  title="Book a call with Yasmin on Cal.com"
+                  title={t.cal.iframeTitle}
                   src={embedSrc}
                   onLoad={onFrameLoad}
                   className="h-[calc(100dvh-4rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full border-0 sm:h-[min(620px,calc(92dvh-4rem))]"

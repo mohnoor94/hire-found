@@ -3,6 +3,8 @@ import { DM_Serif_Display, Inter, Noto_Sans_Arabic } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { withBasePath } from "@/lib/base-path";
 import { CalDialogProvider } from "@/components/site/cal-dialog";
+import { I18nProvider } from "@/components/site/i18n";
+import { en as messages } from "@/i18n/en";
 import "./globals.css";
 import "./hirefound.css";
 
@@ -41,6 +43,12 @@ export const metadata: Metadata = {
   icons: {
     icon: withBasePath("/assets/hirefound-signature.svg"),
   },
+  alternates: {
+    languages: {
+      en: "https://hirefound.com/",
+      ar: "https://hirefound.com/ar/",
+    },
+  },
   openGraph: {
     title: "HireFound - You want a hire? We got you found.",
     description: "Connecting the right people with where they belong.",
@@ -77,7 +85,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       )}
     >
       <body className="overflow-x-hidden bg-background font-sans text-foreground antialiased">
-        <CalDialogProvider>{children}</CalDialogProvider>
+        <I18nProvider messages={messages}>
+          <CalDialogProvider>{children}</CalDialogProvider>
+        </I18nProvider>
       </body>
     </html>
   );

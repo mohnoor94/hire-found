@@ -8,6 +8,7 @@ import { withBasePath } from "@/lib/base-path";
 import { cn } from "@/lib/utils";
 import { FooterButterfly } from "@/components/site/footer-butterfly";
 import { FooterPresenceBadge } from "@/components/site/footer-presence-badge";
+import { useI18n } from "@/components/site/i18n";
 
 const FOOTER_CONFIG = {
   whatsAppNumber: DEFAULTS.whatsApp,
@@ -15,20 +16,20 @@ const FOOTER_CONFIG = {
   linkedIn: "https://www.linkedin.com/in/yasminblasi",
   instagram: "https://www.instagram.com/hirefound",
   email: DEFAULTS.email,
-  tagline: "Looking for a Hire? We've got you Found.",
-  italicTagline: "Find your match. Find your future.",
   credit: { name: "Noor", url: "https://bynoor.io" },
-  copyright: "© 2026 HireFound. All rights reserved.",
 };
 
 const socialClass =
   "inline-flex size-11 touch-manipulation items-center justify-center rounded-full border border-linen/35 text-linen select-none transition-all duration-200 hover:border-linen/70 hover:bg-linen/10 hover:scale-105 active:scale-95 active:bg-linen/15";
 
 export function SiteFooter() {
+  const t = useI18n();
   const { open } = useBookingModal();
   const whatsAppUrl = `https://wa.me/${FOOTER_CONFIG.whatsAppNumber}?text=${encodeURIComponent(FOOTER_CONFIG.whatsAppMessage)}`;
   const footerRef = useRef<HTMLElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const jobsHref = t.locale === "ar" ? "/ar/jobs/" : "/jobs/";
+  const [headingMain, headingRest] = t.footer.heading.split("\n");
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const el = footerRef.current;
@@ -49,7 +50,6 @@ export function SiteFooter() {
       onMouseLeave={() => setIsHovered(false)}
       className="group/footer relative overflow-hidden bg-primary-dark px-6 pt-20 pb-[calc(5rem+env(safe-area-inset-bottom))] text-linen lg:pt-28"
     >
-      {/* Ambient warm radial glow (feathered softly away from the top wave seam) */}
       <div
         className="pointer-events-none absolute inset-0 -z-0 overflow-hidden opacity-60"
         aria-hidden="true"
@@ -67,7 +67,6 @@ export function SiteFooter() {
         />
       </div>
 
-      {/* Interactive cursor-tracking spotlight (delicate warm ember aura) */}
       <div
         className={cn(
           "pointer-events-none absolute inset-0 -z-0 transition-opacity duration-700 ease-out",
@@ -83,25 +82,27 @@ export function SiteFooter() {
       />
 
       <div className="relative z-10 mx-auto max-w-3xl text-center">
-        {/* Brand butterfly companion */}
         <div className="mb-4 flex items-center justify-center">
           <FooterButterfly className="size-8 -rotate-6 transition-transform duration-300 hover:rotate-0" />
         </div>
 
         <h2 className="font-accent text-4xl leading-[1.15] tracking-[-0.02em] text-balance md:text-5xl">
-          Your next game-changer is
-          <br />
-          just a conversation away.
+          {headingMain}
+          {headingRest ? (
+            <>
+              <br />
+              {headingRest}
+            </>
+          ) : null}
         </h2>
         <p className="mt-4 text-lg text-linen/80">
-          Let&apos;s find them together.
+          {t.footer.subheading}
         </p>
         <div
           className="mx-auto mt-6 h-px w-12 bg-secondary"
           aria-hidden="true"
         />
 
-        {/* Founder Presence Badge */}
         <div className="mt-8 flex justify-center">
           <FooterPresenceBadge href={whatsAppUrl} />
         </div>
@@ -114,19 +115,19 @@ export function SiteFooter() {
             className="inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full bg-linen px-8 text-base font-semibold text-primary-dark select-none shadow-xs [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-linen/95 active:scale-[0.97] active:bg-linen/90 sm:w-auto"
           >
             <CalendarIcon className="size-5" />
-            Book a Call
+            {t.footer.bookCall}
           </button>
         </div>
         <p className="mt-5 text-sm text-linen/80">
-          Employers: Book a discovery call, or message me directly on WhatsApp.
+          {t.footer.helper}
         </p>
         <p className="mt-2 text-xs text-linen/60">
-          Looking for open positions?{" "}
+          {t.footer.helperSeekers}{" "}
           <a
-            href="/jobs/"
+            href={jobsHref}
             className="underline decoration-linen/40 underline-offset-2 hover:text-linen"
           >
-            Browse all open roles
+            {t.footer.browseAllRoles}
           </a>
         </p>
 
@@ -183,13 +184,13 @@ export function SiteFooter() {
               className="h-12 w-auto brightness-0 invert transition-all duration-300 md:h-14 group-hover:scale-105 group-hover:opacity-95"
             />
           </div>
-          <p className="text-lg text-linen/80">{FOOTER_CONFIG.tagline}</p>
+          <p className="text-lg text-linen/80">{t.footer.tagline}</p>
           <p className="font-accent mt-2 text-base text-linen/70 italic">
-            {FOOTER_CONFIG.italicTagline}
+            {t.footer.italicTagline}
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 text-xs tracking-wide text-linen/55 sm:flex-row sm:gap-4">
             <p className="group/heart inline-flex items-center gap-1.5 cursor-default select-none">
-              <span>Built with</span>
+              <span>{t.footer.builtWith}</span>
               <svg
                 className="hf-heart-beat size-3.5 shrink-0 text-linen/75 transition-colors duration-250 ease-out group-hover/heart:text-butterfly-rose hover:text-butterfly-rose"
                 viewBox="0 0 24 24"
@@ -198,20 +199,20 @@ export function SiteFooter() {
               >
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
               </svg>
-              <span className="sr-only">love</span>
+              <span className="sr-only">{t.footer.love}</span>
               <a
                 href={FOOTER_CONFIG.credit.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium text-linen/75 underline decoration-linen/35 underline-offset-4 transition-colors hover:text-linen hover:decoration-linen/60"
               >
-                by {FOOTER_CONFIG.credit.name}
+                {t.footer.byCreditPattern.replace("{name}", FOOTER_CONFIG.credit.name)}
               </a>
             </p>
             <span className="hidden text-linen/35 sm:inline" aria-hidden="true">
               ·
             </span>
-            <p>{FOOTER_CONFIG.copyright}</p>
+            <p>{t.footer.copyright}</p>
           </div>
         </div>
       </div>

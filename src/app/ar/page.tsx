@@ -1,0 +1,37 @@
+import { SiteNav } from "@/components/site/site-nav";
+import { SiteFooter } from "@/components/site/site-footer";
+import { ActionStack } from "@/components/site/action-stack";
+import { LiveVacancies } from "@/components/site/live-vacancies";
+import { Hero } from "@/components/site/sections/Hero";
+import { About } from "@/components/site/sections/About";
+import { Services } from "@/components/site/sections/Services";
+import { HowItWorks } from "@/components/site/sections/HowItWorks";
+import { Trust } from "@/components/site/sections/Trust";
+import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
+import { AmbientBackdrop } from "@/components/site/ambient-backdrop";
+import { Markets } from "@/components/site/sections/Markets";
+import { ar as messages } from "@/i18n/ar";
+
+export default function HomePageAr() {
+  return (
+    <>
+      <a href="#hero" className="skip-link">
+        {messages.skipToContent}
+      </a>
+      <AmbientBackdrop />
+      <SiteNav />
+      <main className="page-transition-enter relative z-10">
+        <Hero />
+        <About />
+        <LiveVacancies />
+        <Services />
+        <Markets />
+        <HowItWorks />
+        <Trust />
+      </main>
+      <WaveWarmToDark from="warm" />
+      <SiteFooter />
+      <ActionStack />
+    </>
+  );
+}
