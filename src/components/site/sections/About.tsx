@@ -13,6 +13,7 @@ const FACTS = [
   "MENA region",
   "Junior to C-suite",
   "TEDx speaker",
+  "Speaker & Trainer",
 ] as const;
 
 const PILLARS = [
@@ -70,7 +71,7 @@ export function About() {
                     Yasmin Blasi
                   </figcaption>
                   <p className="text-xs text-muted">
-                    Founder &amp; Executive Matchmaker
+                    Founder &amp; Executive Matchmaker &bull; Speaker &amp; Trainer
                   </p>
                 </div>
               </div>
@@ -89,15 +90,23 @@ export function About() {
               </p>
 
               <div className="mt-6 flex max-w-[65ch] flex-col gap-4 text-lg leading-relaxed text-text-main">
-                <p>
-                  Yasmin Blasi spent a decade in HR and recruitment: talent
-                  acquisition, senior leadership, coaching executives, and reading
-                  thousands of CVs across Jordan and the broader MENA region.
+                <p className="font-accent text-xl leading-snug text-primary">
+                  The Right People Change Everything.
                 </p>
                 <p>
-                  HireFound is the practice she built after leaving corporate HR:
-                  fewer seats filled, more lasting matches, and a direct line to
-                  the person you actually book.
+                  We help businesses find the talent they need, build stronger
+                  teams, and make better hiring decisions. Yasmin Blasi spent a
+                  decade in HR and recruitment: talent acquisition, senior leadership,
+                  coaching executives, and reading thousands of CVs across Jordan
+                  and the broader MENA region.
+                </p>
+                <p>
+                  Beyond executive search, Yasmin is an active keynote speaker and
+                  corporate trainer. From end-to-end recruitment and executive search
+                  to training and career development, HireFound brings people and
+                  opportunities together through a personal, practical, and
+                  transparent approach: fewer seats filled, more lasting matches,
+                  and direct founder partnership.
                 </p>
               </div>
 

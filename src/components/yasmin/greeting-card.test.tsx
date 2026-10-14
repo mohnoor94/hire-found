@@ -34,7 +34,7 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} />);
+      root.render(<GreetingCard user={user} />);
     });
 
     expect(container.textContent).toContain("Yasmin");
@@ -63,7 +63,7 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} />);
+      root.render(<GreetingCard user={user} />);
     });
 
     const img = container.querySelector("img");
@@ -97,7 +97,7 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} activeJobsCount={3} />);
+      root.render(<GreetingCard user={user} activeJobsCount={3} />);
     });
 
     expect(container.textContent).toContain("3 roles active · In flow");

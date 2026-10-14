@@ -37,13 +37,14 @@ const notoSansArabic = Noto_Sans_Arabic({
 export const metadata: Metadata = {
   title: "HireFound - You want a hire? We got you found.",
   description:
-    "HireFound by Yasmin Blasi - Connecting the right people with where they belong. Executive search, recruitment, and career matchmaking across MENA.",
+    "HireFound by Yasmin Blasi - The Right People Change Everything. Executive search, recruitment, corporate training, and keynote speaking across Jordan and MENA.",
   icons: {
     icon: withBasePath("/assets/hirefound-signature.svg"),
   },
   openGraph: {
     title: "HireFound - You want a hire? We got you found.",
-    description: "Connecting the right people with where they belong.",
+    description:
+      "The Right People Change Everything. Executive search, recruitment, corporate training, and keynote speaking across MENA.",
     url: "https://hirefound.com/",
     siteName: "HireFound",
     images: [
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
         url: "https://hirefound.com/assets/og-image.png",
         width: 1200,
         height: 630,
-        alt: "HireFound by Yasmin Blasi - Executive Search & Recruitment",
+        alt: "HireFound by Yasmin Blasi - Executive Search, Recruitment & Corporate Training",
       },
     ],
     type: "website",
@@ -59,7 +60,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "HireFound - You want a hire? We got you found.",
-    description: "Connecting the right people with where they belong.",
+    description:
+      "The Right People Change Everything. Executive search, recruitment, corporate training, and keynote speaking across MENA.",
     images: ["https://hirefound.com/assets/og-image.png"],
   },
 };

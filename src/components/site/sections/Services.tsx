@@ -7,6 +7,7 @@ import {
   SealExecutiveSearch,
   SealRecruitmentMatch,
   SealDiscProfiling,
+  SealTrainingSpeaking,
   SealDirectPartnership,
 } from "@/components/illustrations";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
@@ -21,6 +22,11 @@ const EMPLOYER_SERVICES = [
     title: "Recruitment & Job Matching",
     body: "From specialized individual contributors to department heads. I handle sourcing, rigorous screening, and culture matching, so you just meet the finalists.",
     Seal: SealRecruitmentMatch,
+  },
+  {
+    title: "Corporate Training & Speaking",
+    body: "Interactive leadership workshops, team-building sessions, and keynote speaking to empower in-house talent, build stronger teams, and make better hiring decisions.",
+    Seal: SealTrainingSpeaking,
   },
   {
     title: "DISC Assessments",
@@ -56,8 +62,8 @@ export function Services() {
             How I Help Companies Hire
           </h2>
           <p className="mt-4 max-w-[36rem] text-lg text-muted">
-            Boutique executive search, talent recruitment, and leadership
-            assessments across Jordan and the Gulf.
+            From end-to-end recruitment and executive search to training and career
+            development, we help businesses find the talent they need and build stronger teams.
           </p>
         </div>
 

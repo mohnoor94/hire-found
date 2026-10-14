@@ -9,6 +9,15 @@ import type { NextConfig } from "next";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/hire-found";
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: [
+    "192.168.1.*",
+    "192.168.*.*",
+    "10.*.*.*",
+    "172.16.*.*",
+    "*.local",
+    "localhost",
+    "127.0.0.1",
+  ],
   output: "export",
   trailingSlash: true,
   basePath,

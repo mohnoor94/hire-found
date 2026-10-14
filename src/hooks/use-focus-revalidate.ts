@@ -18,12 +18,18 @@ export function useFocusRevalidate(
   options: FocusRevalidateOptions = {},
 ): { recordRun: () => void } {
   const { cooldownMs = 60_000, enabled = true } = options;
-  const lastRunRef = useRef(Date.now());
+  const lastRunRef = useRef<number | null>(null);
   const callbackRef = useRef(callback);
 
   useEffect(() => {
     callbackRef.current = callback;
   }, [callback]);
+
+  useEffect(() => {
+    if (lastRunRef.current === null) {
+      lastRunRef.current = Date.now();
+    }
+  }, []);
 
   const recordRun = () => {
     lastRunRef.current = Date.now();
@@ -34,13 +40,18 @@ export function useFocusRevalidate(
       return;
     }
 
+    if (lastRunRef.current === null) {
+      lastRunRef.current = Date.now();
+    }
+
     function checkAndRun() {
       if (document.visibilityState === "hidden") {
         return;
       }
 
       const now = Date.now();
-      if (now - lastRunRef.current >= cooldownMs) {
+      const lastRun = lastRunRef.current ?? now;
+      if (now - lastRun >= cooldownMs) {
         lastRunRef.current = now;
         void callbackRef.current();
       }

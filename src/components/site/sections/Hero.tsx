@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { CalendarIcon, ArrowUpRightIcon } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
-import { ButterflyMicro } from "@/components/illustrations/butterfly-micro";
 
 const primaryCta =
   "group relative inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 overflow-hidden rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-primary-light hover:shadow-glow active:scale-[0.97] active:bg-primary-dark sm:w-auto shadow-warm ring-1 ring-primary/0 hover:ring-primary/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
@@ -188,7 +187,7 @@ export function Hero() {
               <span>10+ Years of Experience</span>
               <span>MENA Region</span>
               <span>Junior to C-Suite</span>
-              <span>TEDx Speaker</span>
+              <span>Speaker &amp; Trainer (TEDx)</span>
             </div>
           </div>
 
@@ -213,17 +212,21 @@ export function Hero() {
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-1.5">
                     <figcaption className="font-accent text-lg font-bold text-primary">
                       Yasmin Blasi
                     </figcaption>
                     <span className="rounded-full bg-secondary/20 px-2 py-0.5 text-[10px] font-bold tracking-wider text-primary uppercase">
                       Founder
                     </span>
+                    <span className="rounded-full border border-secondary/35 bg-warm/70 px-2 py-0.5 text-[10px] font-medium tracking-wide text-primary">
+                      Speaker &amp; Trainer
+                    </span>
                   </div>
                   <p className="mt-1.5 text-xs leading-relaxed text-muted italic">
-                    &ldquo;Fewer seats filled, more lasting matches, and a
-                    direct line to the person you actually book.&rdquo;
+                    &ldquo;The right people change everything. We bring people and
+                    opportunities together through a personal, practical, and
+                    transparent approach.&rdquo;
                   </p>
                 </div>
               </div>
@@ -249,7 +252,7 @@ export function Hero() {
                   </h2>
                   <p className="mt-1 text-xs leading-relaxed text-muted">
                     C-Suite &amp; Board Appointments, Headhunting &amp; Retained
-                    Search, and Behavioral Profiling for leadership teams.
+                    Search, Corporate Training, and Behavioral Profiling.
                   </p>
                 </div>
 
@@ -259,6 +262,9 @@ export function Hero() {
                   </span>
                   <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
                     C-Suite &amp; Board
+                  </span>
+                  <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
+                    Training &amp; Speaking
                   </span>
                   <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
                     DISC Profiling

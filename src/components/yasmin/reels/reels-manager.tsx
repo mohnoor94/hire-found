@@ -76,7 +76,11 @@ export function ReelsManager({
       </div>
 
       {/* Reel Cards Shelf */}
-      {reels.length === 0 ? (
+      {loading && reels.length === 0 ? (
+        <div className="mt-6 flex flex-col items-center justify-center rounded-3xl border border-dashed border-[#D4A574]/35 bg-white/40 p-12 text-center text-xs text-[#5E534C]/70">
+          Loading studio reels...
+        </div>
+      ) : reels.length === 0 ? (
         <div className="mt-6 flex flex-col items-center justify-center rounded-3xl border border-dashed border-[#D4A574]/35 bg-white/40 p-12 text-center">
           <div className="flex size-14 items-center justify-center rounded-full bg-warm/80 text-[#7A1E4A] ring-1 ring-[#D4A574]/30 shadow-xs mb-4">
             <Sparkles className="size-6 text-[#D4A574]" />

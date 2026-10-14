@@ -32,7 +32,7 @@ const NAV_ITEMS = [
   },
   {
     label: "Services",
-    descriptor: "Executive search and hiring solutions",
+    descriptor: "Executive search, training, and hiring solutions",
     homepageHref: "#services",
     otherHref: "/#services",
     sectionId: "services",

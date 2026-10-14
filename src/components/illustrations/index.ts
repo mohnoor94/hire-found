@@ -10,6 +10,7 @@ export * from "./marketing/vignette-flourishing-laurel";
 export * from "./marketing/seal-executive-search";
 export * from "./marketing/seal-recruitment-match";
 export * from "./marketing/seal-disc-profiling";
+export * from "./marketing/seal-training-speaking";
 export * from "./marketing/seal-direct-partnership";
 
 // About Pillar Emblems

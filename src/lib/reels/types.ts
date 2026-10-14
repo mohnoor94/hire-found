@@ -1,5 +1,3 @@
-import type { FirestoreTimestampLike } from "@/lib/jobs/types";
-
 export type ReelCategory =
   | "Executive Search"
   | "Culture & Match"

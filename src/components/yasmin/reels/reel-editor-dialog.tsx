@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -21,42 +21,27 @@ interface ReelEditorDialogProps {
   saving: boolean;
 }
 
-export function ReelEditorDialog({
-  open,
-  onOpenChange,
+function ReelEditorForm({
   reel,
   onSave,
+  onClose,
   saving,
-}: ReelEditorDialogProps) {
-  const [url, setUrl] = useState("");
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState<string>("Executive Search");
-  const [takeaway, setTakeaway] = useState("");
-  const [duration, setDuration] = useState("");
-  const [order, setOrder] = useState<number>(1);
-  const [isActive, setIsActive] = useState<boolean>(true);
+}: {
+  reel: Reel | null;
+  onSave: (data: ReelFormData) => Promise<void>;
+  onClose: () => void;
+  saving: boolean;
+}) {
+  const [url, setUrl] = useState(
+    () => reel?.instagramUrl || (reel?.shortcode ? `https://www.instagram.com/reel/${reel.shortcode}/` : "")
+  );
+  const [title, setTitle] = useState(() => reel?.title || "");
+  const [category, setCategory] = useState<string>(() => reel?.category || "Executive Search");
+  const [takeaway, setTakeaway] = useState(() => reel?.takeaway || "");
+  const [duration, setDuration] = useState(() => reel?.duration || (reel ? "" : "0:45"));
+  const [order, setOrder] = useState<number>(() => (typeof reel?.order === "number" ? reel.order : 1));
+  const [isActive, setIsActive] = useState<boolean>(() => reel?.isActive !== false);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (reel) {
-      setUrl(reel.instagramUrl || (reel.shortcode ? `https://www.instagram.com/reel/${reel.shortcode}/` : ""));
-      setTitle(reel.title || "");
-      setCategory(reel.category || "Executive Search");
-      setTakeaway(reel.takeaway || "");
-      setDuration(reel.duration || "");
-      setOrder(typeof reel.order === "number" ? reel.order : 1);
-      setIsActive(reel.isActive !== false);
-    } else {
-      setUrl("");
-      setTitle("");
-      setCategory("Executive Search");
-      setTakeaway("");
-      setDuration("0:45");
-      setOrder(1);
-      setIsActive(true);
-    }
-    setError(null);
-  }, [reel, open]);
 
   const extractedShortcode = extractInstagramShortcode(url);
 
@@ -86,7 +71,7 @@ export function ReelEditorDialog({
         order: Number(order) || 1,
         isActive,
       });
-      onOpenChange(false);
+      onClose();
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Failed to save reel";
       setError(msg);
@@ -94,36 +79,21 @@ export function ReelEditorDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className="max-w-2xl overflow-hidden rounded-3xl border border-[#D4A574]/30 bg-[#FCF9F5] p-6 shadow-2xl sm:p-8"
-        showCloseButton={true}
-      >
-        {/* Soft Ambient Radiance */}
-        <div
-          className="pointer-events-none absolute -top-20 -right-20 size-60 rounded-full bg-linear-to-br from-[#FDA4AF]/20 via-[#FCD34D]/10 to-transparent blur-3xl"
-          aria-hidden="true"
-        />
-        <div
-          className="pointer-events-none absolute -bottom-20 -left-20 size-60 rounded-full bg-linear-to-tr from-[#C4B5FD]/20 via-[#D4A574]/15 to-transparent blur-3xl"
-          aria-hidden="true"
-        />
-
-        <div className="relative z-10">
-          {/* Header */}
-          <div className="flex items-center gap-3 border-b border-[#D4A574]/15 pb-4">
-            <div className="flex size-10 items-center justify-center rounded-xl border border-[#D4A574]/30 bg-white/80 text-[#7A1E4A] shadow-xs">
-              <ButterflyMicro className="size-5" />
-            </div>
-            <div>
-              <DialogTitle className="font-accent text-2xl font-bold text-[#7A1E4A]">
-                {reel ? "Edit Featured Reel" : "Curate a New Reel"}
-              </DialogTitle>
-              <DialogDescription className="text-xs text-[#5E534C]/80">
-                Blend Yasmin&apos;s Instagram insight into HireFound&apos;s editorial voice.
-              </DialogDescription>
-            </div>
-          </div>
+    <div className="relative z-10">
+      {/* Header */}
+      <div className="flex items-center gap-3 border-b border-[#D4A574]/15 pb-4">
+        <div className="flex size-10 items-center justify-center rounded-xl border border-[#D4A574]/30 bg-white/80 text-[#7A1E4A] shadow-xs">
+          <ButterflyMicro className="size-5" />
+        </div>
+        <div>
+          <DialogTitle className="font-accent text-2xl font-bold text-[#7A1E4A]">
+            {reel ? "Edit Featured Reel" : "Curate a New Reel"}
+          </DialogTitle>
+          <DialogDescription className="text-xs text-[#5E534C]/80">
+            Blend Yasmin&apos;s Instagram insight into HireFound&apos;s editorial voice.
+          </DialogDescription>
+        </div>
+      </div>
 
           {error && (
             <div className="mt-4 rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-xs font-semibold text-destructive">
@@ -284,7 +254,7 @@ export function ReelEditorDialog({
             <div className="mt-4 flex items-center justify-end gap-3 border-t border-[#D4A574]/15 pt-4">
               <button
                 type="button"
-                onClick={() => onOpenChange(false)}
+                onClick={onClose}
                 className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#D4A574]/30 bg-white px-5 text-xs font-semibold text-[#5E534C] transition-colors hover:bg-[#FCF9F5]"
               >
                 Cancel
@@ -300,6 +270,41 @@ export function ReelEditorDialog({
             </div>
           </form>
         </div>
+  );
+}
+
+export function ReelEditorDialog({
+  open,
+  onOpenChange,
+  reel,
+  onSave,
+  saving,
+}: ReelEditorDialogProps) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        className="max-w-2xl overflow-hidden rounded-3xl border border-[#D4A574]/30 bg-[#FCF9F5] p-6 shadow-2xl sm:p-8"
+        showCloseButton={true}
+      >
+        {/* Soft Ambient Radiance */}
+        <div
+          className="pointer-events-none absolute -top-20 -right-20 size-60 rounded-full bg-linear-to-br from-[#FDA4AF]/20 via-[#FCD34D]/10 to-transparent blur-3xl"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -bottom-20 -left-20 size-60 rounded-full bg-linear-to-tr from-[#C4B5FD]/20 via-[#D4A574]/15 to-transparent blur-3xl"
+          aria-hidden="true"
+        />
+
+        {open ? (
+          <ReelEditorForm
+            key={reel?.id ?? "new"}
+            reel={reel}
+            onSave={onSave}
+            onClose={() => onOpenChange(false)}
+            saving={saving}
+          />
+        ) : null}
       </DialogContent>
     </Dialog>
   );

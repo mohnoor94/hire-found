@@ -80,6 +80,7 @@ describe("Homepage", () => {
     expect(container.textContent).toContain(
       "Executive search and culture-first hiring across Jordan and the Gulf.",
     );
+    expect(container.textContent).toContain("Speaker & Trainer");
     expect(container.querySelector("#hero-explore")?.getAttribute("href")).toBe(
       "#vacancies",
     );
@@ -116,6 +117,7 @@ describe("Homepage", () => {
 
     expect(container.textContent).toContain("Executive Search & Headhunting");
     expect(container.textContent).toContain("Recruitment & Job Matching");
+    expect(container.textContent).toContain("Corporate Training & Speaking");
     expect(container.textContent).toContain("DISC Assessments");
     expect(container.querySelector("#services-book-employer")).not.toBeNull();
     expect(container.querySelector("#services-whatsapp-employer")).not.toBeNull();
@@ -165,6 +167,8 @@ describe("Homepage", () => {
     expect(about?.textContent).toContain("And that's exactly the point.");
     expect(about?.textContent).toContain("Yasmin Blasi");
     expect(about?.textContent).toContain("Founder & Executive Matchmaker");
+    expect(about?.textContent).toContain("The Right People Change Everything.");
+    expect(about?.textContent).toContain("Speaker & Trainer");
     expect(about?.textContent).toContain("10+ years of experience");
     expect(about?.textContent).toContain("Matchmaking, Not Seat-Filling");
     expect(about?.textContent).toContain("Your Story, Not Just Keywords");
