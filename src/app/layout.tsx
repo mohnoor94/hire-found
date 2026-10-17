@@ -29,7 +29,6 @@ const dmSerif = DM_Serif_Display({
 
 const notoSansArabic = Noto_Sans_Arabic({
   subsets: ["arabic"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-noto-arabic",
   display: "swap",
 });
