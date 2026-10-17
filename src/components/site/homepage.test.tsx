@@ -95,10 +95,11 @@ describe("Homepage", () => {
       "Career matchmaking and coaching",
     );
     expect(container.querySelector("button[aria-pressed]")).toBeNull();
-    expect(
-      container.querySelector('img[src*="yasmin-blasi"]'),
-    ).not.toBeNull();
-    expect(container.querySelector(".hf-hero-portrait")).not.toBeNull();
+    expect(container.textContent).toContain(
+      "That's me, speaking at the Digital Graduates Industry Meetup.",
+    );
+    expect(container.querySelector(".hf-hero-portrait")).toBeNull();
+    expect(container.querySelector('img[src*="yasmin-blasi"]')).toBeNull();
     expect(container.querySelector(".rounded-2xl")).toBeNull();
 
     const book = container.querySelector("#hero-book") as HTMLButtonElement;

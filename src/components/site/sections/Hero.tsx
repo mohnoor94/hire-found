@@ -49,24 +49,8 @@ function CoverStill() {
         className="aspect-[4/3] w-full object-cover object-[center_20%] lg:aspect-auto lg:min-h-0 lg:flex-1"
         decoding="async"
       />
-      <figcaption className="flex items-center gap-3 border-t border-secondary/25 px-4 py-3.5 sm:px-5">
-        <img
-          src={withBasePath("/assets/yasmin-blasi.png")}
-          alt="Yasmin Blasi, founder of HireFound"
-          width={800}
-          height={800}
-          className="hf-hero-portrait size-12 shrink-0 rounded-md object-cover object-[center_12%] sm:size-14"
-          loading="eager"
-          fetchPriority="high"
-        />
-        <span className="min-w-0">
-          <span className="block font-accent text-lg leading-tight text-primary">
-            Yasmin Blasi
-          </span>
-          <span className="mt-0.5 block text-xs leading-snug text-muted">
-            Digital Graduates Industry Meetup
-          </span>
-        </span>
+      <figcaption className="border-t border-secondary/25 px-4 py-3.5 text-sm leading-snug text-text-main sm:px-5">
+        That&apos;s me, speaking at the Digital Graduates Industry Meetup.
       </figcaption>
     </figure>
   );
