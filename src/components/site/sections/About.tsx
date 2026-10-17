@@ -90,14 +90,24 @@ export function About() {
 
               <div className="mt-6 flex max-w-[65ch] flex-col gap-4 text-lg leading-relaxed text-text-main">
                 <p>
-                  Yasmin Blasi spent a decade in HR and recruitment: talent
-                  acquisition, senior leadership, coaching executives, and reading
-                  thousands of CVs across Jordan and the broader MENA region.
+                  I&apos;ve spent more than ten years in HR and recruitment,
+                  across Jordan and the wider region: talent acquisition, senior
+                  leadership, coaching executives, and more CVs than I can count.
                 </p>
                 <p>
-                  HireFound is the practice she built after leaving corporate HR:
-                  fewer seats filled, more lasting matches, and a direct line to
-                  the person you actually book.
+                  HireFound is the practice I built after I left corporate HR.
+                  Fewer seats filled, more matches that last, and a direct line
+                  to me.
+                </p>
+                <p>
+                  That same work is what I bring into{" "}
+                  <a
+                    href="#talks"
+                    className="font-semibold text-primary underline decoration-primary/35 underline-offset-4 hover:text-primary-light"
+                  >
+                    talks and workshops
+                  </a>
+                  , and into rooms full of people who are just starting out.
                 </p>
               </div>
 

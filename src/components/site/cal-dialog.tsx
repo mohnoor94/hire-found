@@ -100,10 +100,10 @@ export function CalDialog({
                 id="booking-modal-title"
                 className="font-accent text-base sm:text-lg leading-tight text-primary"
               >
-                Book an Executive Consultation
+                Book time with Yasmin
               </DialogPrimitive.Title>
               <p className="text-xs text-muted">
-                For founders, CEOs & hiring leaders
+                Hiring, speaking, or a workshop.
               </p>
             </div>
             <DialogPrimitive.Close asChild>
@@ -121,7 +121,7 @@ export function CalDialog({
             id="booking-modal-description"
             className="sr-only"
           >
-            Choose a time to talk with Yasmin about executive hiring.
+            Choose a time to talk with Yasmin about hiring, speaking, or a workshop.
           </DialogPrimitive.Description>
           <div className="relative min-h-0 flex-1">
             {status === "error" ? (

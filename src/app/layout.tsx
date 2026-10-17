@@ -29,38 +29,39 @@ const dmSerif = DM_Serif_Display({
 
 const notoSansArabic = Noto_Sans_Arabic({
   subsets: ["arabic"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-noto-arabic",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "HireFound - You want a hire? We got you found.",
+  title: "HireFound - The Right People Change Everything",
   description:
-    "HireFound by Yasmin Blasi - Connecting the right people with where they belong. Executive search, recruitment, and career matchmaking across MENA.",
+    "HireFound by Yasmin Blasi. Boutique recruitment, executive search, and people development across Jordan and the GCC. The right people change everything.",
   icons: {
     icon: withBasePath("/assets/hirefound-signature.svg"),
   },
   openGraph: {
-    title: "HireFound - You want a hire? We got you found.",
-    description: "Connecting the right people with where they belong.",
-    url: "https://hirefound.com/",
+    title: "HireFound - The Right People Change Everything",
+    description:
+      "Boutique recruitment, executive search, and people development across Jordan and the GCC.",
+    url: "https://mohnoor94.github.io/hire-found/",
     siteName: "HireFound",
     images: [
       {
-        url: "https://hirefound.com/assets/og-image.png",
+        url: "https://mohnoor94.github.io/hire-found/assets/og-image.png",
         width: 1200,
         height: 630,
-        alt: "HireFound by Yasmin Blasi - Executive Search & Recruitment",
+        alt: "HireFound by Yasmin Blasi - Boutique Search & Speaking",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "HireFound - You want a hire? We got you found.",
-    description: "Connecting the right people with where they belong.",
-    images: ["https://hirefound.com/assets/og-image.png"],
+    title: "HireFound - The Right People Change Everything",
+    description:
+      "Boutique recruitment, executive search, and people development across Jordan and the GCC.",
+    images: ["https://mohnoor94.github.io/hire-found/assets/og-image.png"],
   },
 };
 

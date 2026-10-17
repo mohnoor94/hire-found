@@ -223,22 +223,6 @@
 }
 
 /* Homepage: typography fold + atelier deck, then services panel. */
-@keyframes hf-hero-portrait-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.hf-hero-portrait {
-  filter: saturate(0.92) contrast(1.03);
-  animation: hf-hero-portrait-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
-}
-
 @keyframes hf-fold-in {
   from {
     opacity: 0;
@@ -287,16 +271,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hf-hero-portrait,
   .hf-fold,
   .hf-atelier-deck,
   .hf-panel[data-state="active"] {
     animation: none;
-  }
-
-  .hf-hero-portrait {
-    transform: none;
-    filter: saturate(0.92) contrast(1.03);
   }
 }
 

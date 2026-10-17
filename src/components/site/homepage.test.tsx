@@ -6,6 +6,7 @@ import { About } from "./sections/About";
 import { Services } from "./sections/Services";
 import { Trust } from "./sections/Trust";
 import { HowItWorks } from "./sections/HowItWorks";
+import { InTheRoom } from "./sections/InTheRoom";
 import { AmbientBackdrop } from "./ambient-backdrop";
 import { CalDialogProvider } from "./cal-dialog";
 
@@ -66,7 +67,7 @@ describe("Homepage", () => {
     container.remove();
   });
 
-  it("leads with HireFound employer focus and dual CTAs, without audience toggle or candidate coaching", async () => {
+  it("leads with HireFound employer focus and unified booking CTA, without audience toggle or candidate coaching", async () => {
     await act(async () => {
       root.render(
         <CalDialogProvider>
@@ -75,33 +76,49 @@ describe("Homepage", () => {
       );
     });
 
-    expect(container.querySelector("h1")?.textContent).toBe("HireFound");
-    expect(container.textContent).toContain("I'm Hiring Executive Talent");
-    expect(container.textContent).toContain(
-      "Executive search and culture-first hiring across Jordan and the Gulf.",
-    );
+    const h1 = container.querySelector("h1")?.textContent ?? "";
+    expect(h1).toContain("You want a hire?");
+    expect(h1).toContain("We got you found.");
+    expect(container.textContent).toContain("HireFound");
+    expect(container.textContent).toContain("by Yasmin Blasi");
+    expect(container.textContent).toContain("You want a hire?");
+    expect(container.textContent).toContain("We got you found.");
+    expect(container.textContent).toContain("I speak and teach.");
+    expect(container.textContent).toContain("People leave with a plan.");
+    expect(container.textContent).not.toContain("I'll move the chairs.");
+    expect(container.textContent).not.toContain("I come into the room.");
+    expect(container.textContent).toContain("Let's Talk");
+    expect(container.textContent).toContain("Hiring, speaking, or workshops.");
     expect(container.querySelector("#hero-explore")?.getAttribute("href")).toBe(
       "#vacancies",
     );
     expect(container.querySelector("#hero-chat")).toBeNull();
     expect(container.querySelector("#typing-text")).toBeNull();
     expect(container.querySelector("#hero-talk")).toBeNull();
+    expect(container.querySelector("#hero-book")).not.toBeNull();
     expect(container.textContent).not.toContain(
       "Career matchmaking and coaching",
     );
     expect(container.querySelector("button[aria-pressed]")).toBeNull();
-    expect(
-      container.querySelector('img[src*="yasmin-blasi"]'),
-    ).not.toBeNull();
-    expect(container.querySelector(".hf-hero-portrait")).not.toBeNull();
+    expect(container.textContent).toContain(
+      "That's me, speaking at the Digital Graduates Industry Meetup.",
+    );
+    expect(container.querySelector(".hf-hero-portrait")).toBeNull();
+    expect(container.querySelector('img[src*="yasmin-blasi"]')).toBeNull();
     expect(container.querySelector(".rounded-2xl")).toBeNull();
 
-    const hiring = container.querySelector("#hero-hiring") as HTMLButtonElement;
+    const book = container.querySelector("#hero-book") as HTMLButtonElement;
     await act(async () => {
-      hiring.click();
+      book.click();
     });
     expect(document.getElementById("booking-modal")?.getAttribute("data-state")).toBe(
       "open",
+    );
+    expect(document.getElementById("booking-modal")?.textContent).toContain(
+      "Book time with Yasmin",
+    );
+    expect(document.getElementById("booking-modal")?.textContent).toContain(
+      "Hiring, speaking, or a workshop.",
     );
   });
 
@@ -166,6 +183,10 @@ describe("Homepage", () => {
     expect(about?.textContent).toContain("Yasmin Blasi");
     expect(about?.textContent).toContain("Founder & Executive Matchmaker");
     expect(about?.textContent).toContain("10+ years of experience");
+    expect(about?.textContent).toContain("I've spent more than ten years");
+    expect(about?.textContent).toContain("the practice I built");
+    expect(about?.textContent).not.toContain("the practice she built");
+    expect(about?.querySelector('a[href="#talks"]')).not.toBeNull();
     expect(about?.textContent).toContain("Matchmaking, Not Seat-Filling");
     expect(about?.textContent).toContain("Your Story, Not Just Keywords");
     expect(about?.textContent).toContain("From First Call to First Day");
@@ -197,6 +218,48 @@ describe("Homepage", () => {
     expect(howItWorks?.textContent).toContain("Step 03");
     expect(container.querySelector(".section-divider")).not.toBeNull();
     expect(container.querySelectorAll(".reveal-on-scroll").length).toBeGreaterThan(0);
+  });
+
+  it("renders talks in Yasmin's voice, with the room photos and one calendar door", async () => {
+    await act(async () => {
+      root.render(
+        <CalDialogProvider>
+          <InTheRoom />
+        </CalDialogProvider>,
+      );
+    });
+
+    const talks = container.querySelector("section#talks");
+    expect(talks).not.toBeNull();
+    expect(talks?.textContent).toContain("In the room");
+    expect(talks?.textContent).toContain(
+      "The same work, with the chairs turned around.",
+    );
+    expect(talks?.textContent).toContain("Speaking");
+    expect(talks?.textContent).toContain("Workshops");
+    expect(talks?.textContent).toContain("Graduates");
+    expect(talks?.textContent).toContain("TEDx Zarqa University");
+    expect(talks?.textContent).toContain("Al Mamlaka TV");
+    expect(talks?.textContent).toContain("AI Expo, speaker");
+    expect(talks?.textContent).toContain("Impactful Minds Summit");
+    expect(talks?.textContent).not.toContain("award");
+
+    const sources = Array.from(talks?.querySelectorAll("img") ?? []).map((img) =>
+      img.getAttribute("src"),
+    );
+    expect(sources.some((src) => src?.includes("panel.webp"))).toBe(true);
+    expect(sources.some((src) => src?.includes("tedx.webp"))).toBe(true);
+    expect(sources.some((src) => src?.includes("mamlaka.webp"))).toBe(true);
+    expect(sources.some((src) => src?.includes("expo.webp"))).toBe(true);
+    expect(sources.some((src) => src?.includes("summit.webp"))).toBe(true);
+
+    const book = container.querySelector("#talks-book") as HTMLButtonElement;
+    await act(async () => {
+      book.click();
+    });
+    expect(document.getElementById("booking-modal")?.getAttribute("data-state")).toBe(
+      "open",
+    );
   });
 });
 

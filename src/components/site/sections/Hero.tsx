@@ -1,279 +1,135 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { CalendarIcon, ArrowUpRightIcon } from "lucide-react";
+import { ArrowRightIcon, CalendarIcon } from "lucide-react";
 import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
 
-const primaryCta =
-  "group relative inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2.5 overflow-hidden rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground select-none [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-primary-light hover:shadow-glow active:scale-[0.97] active:bg-primary-dark sm:w-auto shadow-warm ring-1 ring-primary/0 hover:ring-primary/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+const heroCta =
+  "inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-7 text-sm font-semibold text-primary-foreground select-none shadow-warm [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-primary-light hover:shadow-glow active:scale-[0.97] active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-auto";
 
-const secondaryCta =
-  "group inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full border border-primary/25 bg-card/70 px-6 text-base font-semibold text-primary select-none [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-card hover:border-primary/45 active:scale-[0.97] active:bg-card sm:w-auto";
+const PROOF = ["10+ years", "MENA", "Junior to C-suite", "TEDx speaker"] as const;
 
-function useHeroPointer(ref: React.RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")
-      .matches;
-    if (reduce) return;
-    if (window.matchMedia?.("(pointer: coarse)").matches) return;
-    let raf = 0;
-    const onMove = (e: MouseEvent) => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const rect = el.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        el.style.setProperty("--mx", `${x}%`);
-        el.style.setProperty("--my", `${y}%`);
-      });
-    };
-    el.addEventListener("mousemove", onMove);
-    return () => {
-      cancelAnimationFrame(raf);
-      el.removeEventListener("mousemove", onMove);
-    };
-  }, [ref]);
-}
-
-function RevealWords({ text }: { text: string }) {
-  const hostRef = useRef<HTMLParagraphElement>(null);
-  useEffect(() => {
-    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")
-      .matches;
-    if (reduce) {
-      hostRef.current?.querySelectorAll(".text-reveal").forEach((n) => {
-        n.classList.add("visible");
-      });
-      return;
-    }
-    if (typeof IntersectionObserver === "undefined") {
-      hostRef.current?.querySelectorAll(".text-reveal").forEach((n) => {
-        n.classList.add("visible");
-      });
-      return;
-    }
-    const target = hostRef.current;
-    if (!target) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (!entries[0]) return;
-        if (entries[0].isIntersecting) {
-          const words = target.querySelectorAll<HTMLElement>(".text-reveal");
-          words.forEach((el, i) => {
-            el.style.transitionDelay = `${Math.min(i * 70, 800)}ms`;
-            requestAnimationFrame(() => el.classList.add("visible"));
-          });
-          io.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -15% 0px", threshold: 0 },
-    );
-    io.observe(target);
-    return () => io.disconnect();
-  }, []);
-  const words = text.split(" ");
+function CoverPhoto() {
   return (
-    <p
-      ref={hostRef}
-      className="font-accent mt-6 max-w-[34rem] text-3xl leading-[1.12] tracking-[-0.02em] text-primary sm:text-4xl md:text-[2.75rem]"
-      aria-label={text}
-    >
-      {words.map((w, i) => (
-        <span key={`${w}-${i}`}>
-          <span className="text-reveal-wrap">
-            <span className="text-reveal">{w}</span>
+    <figure className="relative">
+      <div
+        className="absolute -inset-2 -rotate-1 rounded-[18px] border border-secondary/50 bg-warm-dark/60 sm:-inset-2.5"
+        aria-hidden="true"
+      />
+      <div className="relative overflow-hidden rounded-[16px] bg-card shadow-card">
+        <img
+          src={withBasePath("/assets/room/panel.webp")}
+          alt="Yasmin Blasi speaking on a panel at the Digital Graduates Industry Meetup"
+          width={1600}
+          height={1205}
+          className="aspect-[4/3] w-full object-cover object-[center_20%] lg:aspect-auto lg:h-[34rem] lg:min-h-[30rem]"
+          decoding="async"
+        />
+        <figcaption className="absolute inset-x-3 bottom-3 rounded-[12px] bg-primary px-4 py-3 text-primary-foreground sm:inset-x-4 sm:bottom-4 sm:px-5 sm:py-3.5">
+          <span className="font-accent block text-base leading-tight font-bold sm:text-lg">
+            Yasmin Blasi
           </span>
-          {i < words.length - 1 ? " " : ""}
-        </span>
-      ))}
-    </p>
+          <span className="mt-0.5 block text-[13px] leading-snug text-primary-foreground/85">
+            That&apos;s me, speaking at the Digital Graduates Industry Meetup.
+          </span>
+        </figcaption>
+      </div>
+    </figure>
   );
 }
 
 export function Hero() {
   const { open } = useBookingModal();
-  const heroRef = useRef<HTMLElement>(null);
-  useHeroPointer(heroRef);
 
   return (
     <section
       id="hero"
-      ref={heroRef}
-      className="relative isolate flex min-h-[min(100svh,54rem)] flex-col justify-center overflow-hidden bg-background pt-[calc(var(--site-nav-offset)+1.5rem)] pb-16 md:py-20 lg:py-24"
+      className="relative isolate overflow-hidden bg-background pt-[calc(var(--site-nav-offset)+2rem)] pb-14 sm:pb-16 lg:flex lg:min-h-[min(100svh,56rem)] lg:flex-col lg:justify-center lg:py-20"
     >
-      {/* Animated gradient mesh that softly follows the cursor (desktop only) */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.55] blur-2xl will-change-transform motion-safe:transition-[background-position] motion-safe:duration-200"
-        style={{
-          background:
-            "radial-gradient(720px circle at var(--mx,50%) var(--my,50%), color-mix(in oklch, var(--primary) 18%, transparent), transparent 60%), radial-gradient(560px circle at calc(100% - var(--mx,50%)) calc(100% - var(--my,50%)), color-mix(in oklch, var(--secondary) 12%, transparent), transparent 65%)",
-        }}
-        aria-hidden="true"
-      />
-      {/* Ambient background glow for warmth and depth */}
-      <div
-        className="pointer-events-none absolute -top-32 right-1/4 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(212,165,116,0.14)_0%,transparent_70%)] blur-3xl"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute bottom-4 left-6 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(122,30,74,0.06)_0%,transparent_70%)] blur-2xl"
-        aria-hidden="true"
-      />
-
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 lg:px-10">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-14 xl:gap-18">
-          {/* Left Column: Clean Brand & Her Exact Tagline */}
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-x-14 xl:gap-x-20">
           <div className="hf-fold">
-            {/* Brand Title */}
-            <h1 className="font-accent text-5xl leading-[1.02] tracking-[-0.03em] text-primary sm:text-6xl md:text-7xl">
-              HireFound
+            <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="font-accent text-[1.65rem] leading-none font-bold tracking-[-0.02em] text-primary">
+                HireFound
+              </span>
+              <span className="text-sm font-medium text-muted">
+                by Yasmin Blasi
+              </span>
+              <span
+                className="mb-1 hidden h-px flex-1 bg-secondary/60 sm:block"
+                aria-hidden="true"
+              />
+            </p>
+
+            <h1 className="font-accent mt-7 text-[2.95rem] leading-[1.02] font-bold tracking-[-0.03em] text-balance text-primary sm:mt-9 sm:text-6xl lg:text-[4.6rem] xl:text-[5.15rem]">
+              You want a hire?
+              <br />
+              We got you{" "}
+              <span className="underline decoration-secondary decoration-[0.09em] underline-offset-[0.14em]">
+                found.
+              </span>
             </h1>
 
-            <p className="mt-2 text-sm font-semibold tracking-[0.08em] text-muted uppercase">
-              by Yasmin Blasi
+            <p className="font-accent mt-7 text-[1.55rem] leading-[1.18] tracking-[-0.02em] text-text-main sm:text-[1.8rem]">
+              I speak and teach.
+              <br />
+              People leave with a plan.
             </p>
 
-            {/* Her Tagline with reveal */}
-            <RevealWords text="You want a hire? We got you found." />
-
-            {/* Supporting Note */}
-            <p className="mt-4 max-w-[32rem] text-base leading-relaxed text-muted sm:text-lg">
-              Executive search and culture-first hiring across Jordan and the Gulf.
+            <p className="mt-4 max-w-[34rem] text-base leading-relaxed text-muted sm:text-lg">
+              Talks, workshops, and time with people just starting out.
             </p>
 
-            <div
-              className="mt-6 h-px w-12 bg-secondary"
-              aria-hidden="true"
-            />
-
-            {/* Dual CTAs: Employer Consultation & Candidate Open Roles */}
-            <div className="mt-8 flex flex-col gap-3.5 sm:flex-row sm:items-center">
+            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
               <button
                 type="button"
-                id="hero-hiring"
+                id="hero-book"
                 onClick={(e) => open(e.currentTarget)}
-                className={primaryCta}
+                className={heroCta}
               >
-                <CalendarIcon className="size-5 shrink-0" aria-hidden="true" />
-                <span>I&apos;m Hiring Executive Talent</span>
-                <span
-                  className="ml-0.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-dark/40 text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  aria-hidden="true"
-                >
-                  <ArrowUpRightIcon className="size-3.5" />
-                </span>
+                <CalendarIcon className="size-4 shrink-0" aria-hidden="true" />
+                <span>Let&apos;s Talk</span>
               </button>
-              <a href="#vacancies" id="hero-explore" className={secondaryCta}>
-                <span>Explore Open Roles</span>
-                <span
-                  className="size-2 rounded-full bg-secondary transition-transform duration-200 group-hover:scale-125"
+              <a
+                id="hero-explore"
+                href="#vacancies"
+                className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-primary/25 px-6 text-sm font-semibold text-primary [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out,border-color_160ms_ease-out] hover:border-primary/45 hover:bg-primary/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:scale-[0.97] sm:w-auto"
+              >
+                <span>Explore open roles</span>
+                <ArrowRightIcon
+                  className="size-4 shrink-0 [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5"
                   aria-hidden="true"
                 />
               </a>
             </div>
 
-            {/* Authentic Facts (from About.tsx) with generous breathing room */}
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-t border-secondary/35 pt-6 text-xs text-muted">
-              <span className="flex items-center gap-1.5 font-semibold text-text-main">
-                <span
-                  className="size-1.5 rounded-full bg-success"
-                  aria-hidden="true"
-                />
-                Direct Founder Access
-              </span>
-              <span>10+ Years of Experience</span>
-              <span>MENA Region</span>
-              <span>Junior to C-Suite</span>
-              <span>TEDx Speaker</span>
-            </div>
+            <p className="mt-4 text-sm text-muted">
+              Hiring, speaking, or workshops. Looking for a role? The board is
+              just below.
+            </p>
           </div>
 
-          {/* Right Column: Spacious & Calm Atelier Cards (No giant photo, no cramped stats) */}
-          <div className="hf-atelier-deck hidden flex-col gap-5 md:flex">
-            {/* Atelier Card 1: Founder Cameo Seal */}
-            <figure className="card-interactive-sheen relative overflow-hidden rounded-xl border border-secondary/40 bg-card/90 p-6 shadow-card backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
-              <div className="flex items-center gap-4">
-                <div className="relative size-16 shrink-0 sm:size-20">
-                  <div
-                    className="absolute -inset-1 rounded-lg border border-secondary/60"
-                    aria-hidden="true"
-                  />
-                  <img
-                    src={withBasePath("/assets/yasmin-blasi.png")}
-                    alt="Yasmin Blasi, founder of HireFound"
-                    width={800}
-                    height={800}
-                    className="hf-hero-portrait size-full rounded-md object-cover object-[center_12%]"
-                    loading="eager"
-                    fetchPriority="high"
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <figcaption className="font-accent text-lg font-bold text-primary">
-                      Yasmin Blasi
-                    </figcaption>
-                    <span className="rounded-full bg-secondary/20 px-2 py-0.5 text-[10px] font-bold tracking-wider text-primary uppercase">
-                      Founder
-                    </span>
-                  </div>
-                  <p className="mt-1.5 text-xs leading-relaxed text-muted italic">
-                    &ldquo;Fewer seats filled, more lasting matches, and a
-                    direct line to the person you actually book.&rdquo;
-                  </p>
-                </div>
-              </div>
-            </figure>
-
-            {/* Atelier Card 2: Practice Areas & Executive Mandates */}
-            <div className="card-interactive-sheen rounded-xl border border-primary/15 bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover">
-              <div className="flex items-center justify-between border-b border-warm-dark pb-3.5">
-                <p className="text-[11px] font-bold tracking-[0.14em] text-muted uppercase">
-                  Executive Mandates
-                </p>
-                <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-semibold text-primary">
-                    Jordan &amp; The Gulf
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-4 space-y-3">
-                <div>
-                  <h2 className="font-accent text-xl text-primary">
-                    Practice Areas &amp; Executive Mandates
-                  </h2>
-                  <p className="mt-1 text-xs leading-relaxed text-muted">
-                    C-Suite &amp; Board Appointments, Headhunting &amp; Retained
-                    Search, and Behavioral Profiling for leadership teams.
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap gap-2 pt-1.5">
-                  <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
-                    Executive Retainers
-                  </span>
-                  <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
-                    C-Suite &amp; Board
-                  </span>
-                  <span className="rounded-md border border-primary/10 bg-warm px-3 py-1 text-xs font-medium text-text-main">
-                    DISC Profiling
-                  </span>
-                </div>
-              </div>
-            </div>
+          <div className="hf-atelier-deck">
+            <CoverPhoto />
           </div>
         </div>
-      </div>
 
-      {/* Subtle bottom gradient transition into canvas */}
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-warm"
-        aria-hidden="true"
-      />
+        <div className="mt-12 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-secondary/45 pt-5 text-sm text-muted lg:mt-16">
+          <span className="inline-flex items-center gap-2 font-semibold text-text-main">
+            <span className="size-1.5 rounded-full bg-secondary" aria-hidden="true" />
+            Direct founder access
+          </span>
+          {PROOF.map((item) => (
+            <span key={item} className="inline-flex items-center gap-3">
+              <span className="text-secondary" aria-hidden="true">
+                /
+              </span>
+              <span>{item}</span>
+            </span>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

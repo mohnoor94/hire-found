@@ -14,4 +14,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **NO EM DASHES**: Never use em dashes (`—` or `&mdash;`) in any copy, UI text, documentation, or code comments. Use standard hyphens (`-`), commas, colons, or clean sentence breaks instead.
 
 ## Reminders & Next Priorities
-- **REMIND USER AT START OF NEXT SESSION**: Review and refine the social media live preview cards (Open Graph and Twitter previews for homepage and jobs page).
+- **COMPLETED**: Social media preview cards (Open Graph and Twitter for homepage and jobs page) refined with Option 1 bold typography, Yasmin's portrait, feature pills, and updated metadata.
+- Audit remaining site sections (Services, HowItWorks, Trust) against docs/yasmin.md if further copy synchronization is needed.
