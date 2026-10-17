@@ -76,11 +76,16 @@ describe("Homepage", () => {
       );
     });
 
-    expect(container.querySelector("h1")?.textContent).toBe("HireFound");
+    const h1 = container.querySelector("h1")?.textContent ?? "";
+    expect(h1).toContain("You want a hire?");
+    expect(h1).toContain("We got you found.");
+    expect(container.textContent).toContain("HireFound");
+    expect(container.textContent).toContain("by Yasmin Blasi");
     expect(container.textContent).toContain("You want a hire?");
     expect(container.textContent).toContain("We got you found.");
     expect(container.textContent).toContain("I speak and teach.");
-    expect(container.textContent).toContain("I'll move the chairs.");
+    expect(container.textContent).toContain("People leave with a plan.");
+    expect(container.textContent).not.toContain("I'll move the chairs.");
     expect(container.textContent).not.toContain("I come into the room.");
     expect(container.textContent).toContain("Let's Talk");
     expect(container.textContent).toContain("Hiring, speaking, or workshops.");
