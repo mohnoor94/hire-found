@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import React, { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
+import type { User } from "firebase/auth";
 import { GreetingCard } from "./greeting-card";
 import { YasminOracleNote } from "./yasmin-oracle-note";
 
@@ -34,7 +35,7 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} />);
+      root.render(<GreetingCard user={user as unknown as User} />);
     });
 
     expect(container.textContent).toContain("Yasmin");
@@ -63,7 +64,7 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} />);
+      root.render(<GreetingCard user={user as unknown as User} />);
     });
 
     const img = container.querySelector("img");
@@ -97,7 +98,7 @@ describe("GreetingCard & YasminOracleNote", () => {
     };
 
     await act(async () => {
-      root.render(<GreetingCard user={user as any} activeJobsCount={3} />);
+      root.render(<GreetingCard user={user as unknown as User} activeJobsCount={3} />);
     });
 
     expect(container.textContent).toContain("3 roles active · In flow");
