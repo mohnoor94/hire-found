@@ -35,15 +35,16 @@ const notoSansArabic = Noto_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "HireFound - You want a hire? We got you found.",
+  title: "HireFound | Founded by Yasmin Blasi - The Right People Change Everything",
   description:
-    "HireFound by Yasmin Blasi - Connecting the right people with where they belong. Executive search, recruitment, and career matchmaking across MENA.",
+    "HireFound by Yasmin Blasi. Boutique recruitment, executive search, and people development across Jordan and the GCC. The right people change everything.",
   icons: {
     icon: withBasePath("/assets/hirefound-signature.svg"),
   },
   openGraph: {
-    title: "HireFound - You want a hire? We got you found.",
-    description: "Connecting the right people with where they belong.",
+    title: "HireFound | Founded by Yasmin Blasi - The Right People Change Everything",
+    description:
+      "Boutique recruitment, executive search, and people development across Jordan and the GCC.",
     url: "https://hirefound.com/",
     siteName: "HireFound",
     images: [
@@ -51,15 +52,16 @@ export const metadata: Metadata = {
         url: "https://hirefound.com/assets/og-image.png",
         width: 1200,
         height: 630,
-        alt: "HireFound by Yasmin Blasi - Executive Search & Recruitment",
+        alt: "HireFound by Yasmin Blasi - Boutique Search & Speaking",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "HireFound - You want a hire? We got you found.",
-    description: "Connecting the right people with where they belong.",
+    title: "HireFound | Founded by Yasmin Blasi - The Right People Change Everything",
+    description:
+      "Boutique recruitment, executive search, and people development across Jordan and the GCC.",
     images: ["https://hirefound.com/assets/og-image.png"],
   },
 };

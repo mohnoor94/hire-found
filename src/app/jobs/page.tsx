@@ -9,11 +9,11 @@ import { JobsSkeletons } from "@/components/jobs/jobs-states";
 export const metadata: Metadata = {
   title: "Find Your Match - Open Roles | HireFound",
   description:
-    "Browse open roles at HireFound. We match talented professionals with meaningful careers across hospitality, tech, F&B, aviation, and more.",
+    "Curated leadership, tech, and hospitality career opportunities across Jordan and the GCC with HireFound.",
   openGraph: {
     title: "Find Your Match - Open Roles | HireFound",
     description:
-      "Browse open roles and find your next career match with HireFound.",
+      "Curated leadership, tech, and hospitality career opportunities across Jordan and the GCC.",
     url: "https://hirefound.com/jobs/",
     siteName: "HireFound",
     images: [
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
         url: "https://hirefound.com/assets/og-jobs.png",
         width: 1200,
         height: 630,
-        alt: "HireFound - Open Roles & Career Matching",
+        alt: "HireFound - Curated Open Roles & Career Matching",
       },
     ],
     type: "website",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Find Your Match - Open Roles | HireFound",
     description:
-      "Browse open roles and find your next career match with HireFound.",
+      "Curated leadership, tech, and hospitality career opportunities across Jordan and the GCC.",
     images: ["https://hirefound.com/assets/og-jobs.png"],
   },
 };

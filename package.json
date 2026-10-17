@@ -9,6 +9,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "generate:og": "node scripts/generate-og.mjs",
     "firebase:deploy-rules": "firebase deploy --only firestore:rules"
   },
   "dependencies": {
