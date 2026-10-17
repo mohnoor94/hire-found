@@ -42,7 +42,7 @@ describe("SEO and Social Preview Cards", () => {
     expect(og).toBeDefined();
     expect(String(og?.title)).not.toContain("—");
     expect(String(og?.description)).not.toContain("—");
-    expect(og?.url).toBe("https://hirefound.com/");
+    expect(og?.url).toBe("https://mohnoor94.github.io/hire-found/");
 
     const ogImages = og?.images;
     expect(Array.isArray(ogImages)).toBe(true);
@@ -73,7 +73,7 @@ describe("SEO and Social Preview Cards", () => {
     expect(og).toBeDefined();
     expect(String(og?.title)).not.toContain("—");
     expect(String(og?.description)).not.toContain("—");
-    expect(og?.url).toBe("https://hirefound.com/jobs/");
+    expect(og?.url).toBe("https://mohnoor94.github.io/hire-found/jobs/");
 
     const ogImages = og?.images;
     expect(Array.isArray(ogImages)).toBe(true);

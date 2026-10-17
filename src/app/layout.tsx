@@ -44,11 +44,11 @@ export const metadata: Metadata = {
     title: "HireFound | Founded by Yasmin Blasi - The Right People Change Everything",
     description:
       "Boutique recruitment, executive search, and people development across Jordan and the GCC.",
-    url: "https://hirefound.com/",
+    url: "https://mohnoor94.github.io/hire-found/",
     siteName: "HireFound",
     images: [
       {
-        url: "https://hirefound.com/assets/og-image.png",
+        url: "https://mohnoor94.github.io/hire-found/assets/og-image.png",
         width: 1200,
         height: 630,
         alt: "HireFound by Yasmin Blasi - Boutique Search & Speaking",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     title: "HireFound | Founded by Yasmin Blasi - The Right People Change Everything",
     description:
       "Boutique recruitment, executive search, and people development across Jordan and the GCC.",
-    images: ["https://hirefound.com/assets/og-image.png"],
+    images: ["https://mohnoor94.github.io/hire-found/assets/og-image.png"],
   },
 };
 

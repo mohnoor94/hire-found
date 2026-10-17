@@ -14,11 +14,11 @@ export const metadata: Metadata = {
     title: "Find Your Match - Open Roles | HireFound",
     description:
       "Curated leadership, tech, and hospitality career opportunities across Jordan and the GCC.",
-    url: "https://hirefound.com/jobs/",
+    url: "https://mohnoor94.github.io/hire-found/jobs/",
     siteName: "HireFound",
     images: [
       {
-        url: "https://hirefound.com/assets/og-jobs.png",
+        url: "https://mohnoor94.github.io/hire-found/assets/og-jobs.png",
         width: 1200,
         height: 630,
         alt: "HireFound - Curated Open Roles & Career Matching",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     title: "Find Your Match - Open Roles | HireFound",
     description:
       "Curated leadership, tech, and hospitality career opportunities across Jordan and the GCC.",
-    images: ["https://hirefound.com/assets/og-jobs.png"],
+    images: ["https://mohnoor94.github.io/hire-found/assets/og-jobs.png"],
   },
 };
 
