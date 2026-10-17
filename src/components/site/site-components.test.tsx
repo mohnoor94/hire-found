@@ -121,6 +121,7 @@ describe("Phase 3 Site Components Parity", () => {
         "#vacancies",
         "#services",
         "#how-it-works",
+        "#talks",
       ]);
 
       const bookCall = container.querySelector("#nav-book-a-call-desktop");
@@ -164,8 +165,9 @@ describe("Phase 3 Site Components Parity", () => {
       });
 
       const drawer = document.getElementById("mobile-nav");
-      expect(drawer?.querySelectorAll(".nav-mobile-card").length).toBe(4);
+      expect(drawer?.querySelectorAll(".nav-mobile-card").length).toBe(5);
       expect(drawer?.textContent).toContain("From first call to first day");
+      expect(drawer?.textContent).toContain("Speaking, workshops, and rooms");
 
       const mobileBook = document.getElementById("nav-book-a-call-mobile");
       expect(mobileBook?.textContent?.trim()).toBe("Book a Call");
@@ -394,8 +396,8 @@ describe("Phase 3 Site Components Parity", () => {
       });
 
       const modal = document.getElementById("booking-modal");
-      expect(modal?.textContent).toContain("Book an Executive Consultation");
-      expect(modal?.textContent).toContain("For founders, CEOs & hiring leaders");
+      expect(modal?.textContent).toContain("Book time with Yasmin");
+      expect(modal?.textContent).toContain("Hiring, speaking, or a workshop.");
       expect(modal?.textContent).not.toContain("Job seeker?");
       expect(modal?.textContent).not.toContain("browse our open roles");
     });

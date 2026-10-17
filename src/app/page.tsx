@@ -6,6 +6,7 @@ import { Hero } from "@/components/site/sections/Hero";
 import { About } from "@/components/site/sections/About";
 import { Services } from "@/components/site/sections/Services";
 import { HowItWorks } from "@/components/site/sections/HowItWorks";
+import { InTheRoom } from "@/components/site/sections/InTheRoom";
 import { Trust } from "@/components/site/sections/Trust";
 import { WaveWarmToDark } from "@/components/site/sections/WaveWarmToDark";
 import { AmbientBackdrop } from "@/components/site/ambient-backdrop";
@@ -24,6 +25,7 @@ export default function HomePage() {
         <LiveVacancies />
         <Services />
         <HowItWorks />
+        <InTheRoom />
         <Trust />
       </main>
       <WaveWarmToDark from="warm" />

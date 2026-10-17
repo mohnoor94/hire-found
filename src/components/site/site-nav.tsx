@@ -44,6 +44,13 @@ const NAV_ITEMS = [
     otherHref: "/#how-it-works",
     sectionId: "how-it-works",
   },
+  {
+    label: "Talks",
+    descriptor: "Speaking, workshops, and rooms",
+    homepageHref: "#talks",
+    otherHref: "/#talks",
+    sectionId: "talks",
+  },
 ] as const;
 
 const WHATSAPP_URL = `https://wa.me/${DEFAULTS.whatsApp}?text=${encodeURIComponent(
@@ -103,7 +110,7 @@ function useActiveSection(onHomepage: boolean) {
 
 const desktopLinkClass = (active: boolean) =>
   cn(
-    "inline-flex min-h-10 touch-manipulation items-center rounded-full px-4 text-sm font-semibold [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] active:scale-[0.97] select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+    "inline-flex min-h-10 touch-manipulation items-center rounded-full px-3 text-sm font-semibold whitespace-nowrap xl:px-4 [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] active:scale-[0.97] select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
     active
       ? "bg-primary text-primary-foreground shadow-warm"
       : "text-muted hover:bg-primary/5 hover:text-primary",
@@ -157,7 +164,7 @@ export function SiteNav() {
             />
           </Link>
 
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             <div
               className="flex items-center gap-1 rounded-full bg-primary/[0.06] p-1"
               role="group"
@@ -192,7 +199,7 @@ export function SiteNav() {
               type="button"
               id="nav-book-a-call-desktop"
               className={desktopBookClass}
-              aria-label="Book an executive hiring consultation with Yasmin"
+              aria-label="Book time with Yasmin"
               onClick={(e) => open(e.currentTarget)}
             >
               <CalendarIcon className="size-4" aria-hidden="true" />
@@ -203,7 +210,7 @@ export function SiteNav() {
           <button
             ref={menuButtonRef}
             type="button"
-            className="inline-flex size-11 touch-manipulation items-center justify-center rounded-full border border-primary/15 bg-card/70 text-primary select-none transition-all duration-200 active:scale-[0.98] active:bg-primary/10 md:hidden"
+            className="inline-flex size-11 touch-manipulation items-center justify-center rounded-full border border-primary/15 bg-card/70 text-primary select-none transition-all duration-200 active:scale-[0.98] active:bg-primary/10 lg:hidden"
             aria-haspopup="dialog"
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
@@ -318,7 +325,7 @@ export function SiteNav() {
 
             <div className="shrink-0 border-t border-primary/10 bg-background/95 px-4 pt-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:px-5">
               <p className="mb-2.5 text-[11px] font-bold tracking-[0.14em] text-muted uppercase">
-                For Employers
+                Hiring or speaking
               </p>
               <button
                 type="button"
