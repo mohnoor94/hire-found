@@ -34,14 +34,14 @@ const notoSansArabic = Noto_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "HireFound | Founded by Yasmin Blasi - The Right People Change Everything",
+  title: "HireFound - The Right People Change Everything",
   description:
     "HireFound by Yasmin Blasi. Boutique recruitment, executive search, and people development across Jordan and the GCC. The right people change everything.",
   icons: {
     icon: withBasePath("/assets/hirefound-signature.svg"),
   },
   openGraph: {
-    title: "HireFound | Founded by Yasmin Blasi - The Right People Change Everything",
+    title: "HireFound - The Right People Change Everything",
     description:
       "Boutique recruitment, executive search, and people development across Jordan and the GCC.",
     url: "https://mohnoor94.github.io/hire-found/",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "HireFound | Founded by Yasmin Blasi - The Right People Change Everything",
+    title: "HireFound - The Right People Change Everything",
     description:
       "Boutique recruitment, executive search, and people development across Jordan and the GCC.",
     images: ["https://mohnoor94.github.io/hire-found/assets/og-image.png"],

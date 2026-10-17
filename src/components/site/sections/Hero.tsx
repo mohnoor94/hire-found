@@ -6,7 +6,7 @@ import { useBookingModal } from "@/components/site/cal-dialog";
 import { withBasePath } from "@/lib/base-path";
 
 const heroCta =
-  "inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground select-none shadow-warm [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-primary-light hover:shadow-glow active:scale-[0.97] active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:flex-1";
+  "inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground select-none shadow-warm [transition:transform_160ms_cubic-bezier(0.23,1,0.32,1),background-color_160ms_ease-out] hover:bg-primary-light hover:shadow-glow active:scale-[0.97] active:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-auto";
 
 const verseClass =
   "font-accent text-[1.7rem] leading-[1.14] tracking-[-0.03em] text-primary sm:text-4xl lg:text-[2.65rem]";
@@ -128,37 +128,28 @@ export function Hero() {
               Talks, workshops, and time with people just starting out.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col items-start gap-4">
               <button
                 type="button"
-                id="hero-hiring"
+                id="hero-book"
                 onClick={(e) => open(e.currentTarget)}
                 className={heroCta}
               >
                 <CalendarIcon className="size-4 shrink-0" aria-hidden="true" />
-                <span>Book a hiring conversation</span>
+                <span>Let&apos;s Talk</span>
               </button>
-              <button
-                type="button"
-                id="hero-speaking"
-                onClick={(e) => open(e.currentTarget)}
-                className={heroCta}
-              >
-                <CalendarIcon className="size-4 shrink-0" aria-hidden="true" />
-                <span>Book me to speak</span>
-              </button>
-            </div>
 
-            <p className="mt-5 text-sm text-muted">
-              Looking for a role?{" "}
-              <a
-                id="hero-explore"
-                href="#vacancies"
-                className="font-semibold text-primary underline decoration-primary/35 underline-offset-4 hover:text-primary-light"
-              >
-                Explore open roles
-              </a>
-            </p>
+              <p className="text-sm text-muted">
+                Hiring, speaking, or workshops. Looking for a role?{" "}
+                <a
+                  id="hero-explore"
+                  href="#vacancies"
+                  className="font-semibold text-primary underline decoration-primary/35 underline-offset-4 hover:text-primary-light"
+                >
+                  Explore open roles
+                </a>
+              </p>
+            </div>
           </div>
 
           <div className="hf-atelier-deck lg:col-start-2 lg:row-span-2 lg:row-start-1">

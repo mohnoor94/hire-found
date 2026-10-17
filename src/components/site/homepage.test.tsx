@@ -67,7 +67,7 @@ describe("Homepage", () => {
     container.remove();
   });
 
-  it("leads with HireFound employer focus and dual CTAs, without audience toggle or candidate coaching", async () => {
+  it("leads with HireFound employer focus and unified booking CTA, without audience toggle or candidate coaching", async () => {
     await act(async () => {
       root.render(
         <CalDialogProvider>
@@ -82,15 +82,15 @@ describe("Homepage", () => {
     expect(container.textContent).toContain("I speak and teach.");
     expect(container.textContent).toContain("I'll move the chairs.");
     expect(container.textContent).not.toContain("I come into the room.");
-    expect(container.textContent).toContain("Book a hiring conversation");
-    expect(container.textContent).toContain("Book me to speak");
+    expect(container.textContent).toContain("Let's Talk");
+    expect(container.textContent).toContain("Hiring, speaking, or workshops.");
     expect(container.querySelector("#hero-explore")?.getAttribute("href")).toBe(
       "#vacancies",
     );
     expect(container.querySelector("#hero-chat")).toBeNull();
     expect(container.querySelector("#typing-text")).toBeNull();
     expect(container.querySelector("#hero-talk")).toBeNull();
-    expect(container.querySelector("#hero-speaking")).not.toBeNull();
+    expect(container.querySelector("#hero-book")).not.toBeNull();
     expect(container.textContent).not.toContain(
       "Career matchmaking and coaching",
     );
@@ -101,28 +101,15 @@ describe("Homepage", () => {
     expect(container.querySelector(".hf-hero-portrait")).not.toBeNull();
     expect(container.querySelector(".rounded-2xl")).toBeNull();
 
-    const hiring = container.querySelector("#hero-hiring") as HTMLButtonElement;
+    const book = container.querySelector("#hero-book") as HTMLButtonElement;
     await act(async () => {
-      hiring.click();
+      book.click();
     });
     expect(document.getElementById("booking-modal")?.getAttribute("data-state")).toBe(
       "open",
     );
     expect(document.getElementById("booking-modal")?.textContent).toContain(
       "Book time with Yasmin",
-    );
-
-    const close = document.getElementById("booking-close-btn") as HTMLButtonElement;
-    await act(async () => {
-      close.click();
-    });
-
-    const speaking = container.querySelector("#hero-speaking") as HTMLButtonElement;
-    await act(async () => {
-      speaking.click();
-    });
-    expect(document.getElementById("booking-modal")?.getAttribute("data-state")).toBe(
-      "open",
     );
     expect(document.getElementById("booking-modal")?.textContent).toContain(
       "Hiring, speaking, or a workshop.",
